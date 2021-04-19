@@ -8,7 +8,7 @@ app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:pass@localhost:3306/attraction"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://debian-sys-maint:RYehHSofDgHpVGcY@localhost:3306/attraction"
 db = SQLAlchemy(app)
 
 @app.route("/test")
@@ -22,7 +22,7 @@ def resource_not_found(e):
 
 @app.route("/api/attractions")
 def attr():
-	page = str(request.args.get("page"))
+	page = int(request.args.get("page"))
 	sql_cmd = f"""
 		select * from attraction.attractions limit 12 offset {12*(max(page-1,0))}
 	"""
@@ -38,7 +38,7 @@ def attr():
 				ans.append(res.copy())
 	return json.dumps({"nextPage":page,"data":ans})
 
-@app.route("/api/attractions/<id>")
+@app.route("/api/attraction/<id>")
 def attr2(id):
 	sql_cmd = f"""
 		select * from attraction.attractions where id={id}
@@ -68,4 +68,4 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.run(port=3000)
+app.run(host="0.0.0.0",port=3000)

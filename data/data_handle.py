@@ -17,5 +17,5 @@ def handle(db,path):
         try:
             db.engine.execute(sql_cmd)
         except:
-            print(sql_cmd)
+            pass
     myfile.close()
