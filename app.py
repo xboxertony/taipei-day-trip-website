@@ -3,12 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 from data import data_handle
+from config import setapp
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://debian-sys-maint:RYehHSofDgHpVGcY@localhost:3306/attraction"
+setapp(app)
 db = SQLAlchemy(app)
 
 @app.route("/test")
