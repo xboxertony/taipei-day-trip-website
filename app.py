@@ -24,8 +24,10 @@ def resource_not_found(e):
 def attr():
 	page = int(request.args.get("page"))+1
 	sql_cmd = f"""
-		select * from attraction.attractions limit 12 offset {12*(max(page-1,0))}
+		select * from attraction.attractions limit 12 offset {12*(max(page,0))}
 	"""
+	if page>=26:
+		page=None
 	data = db.engine.execute(sql_cmd)
 	ans = []
 	res = {}
