@@ -24,9 +24,9 @@ def resource_not_found(e):
 def attr():
 	page = int(request.args.get("page"))+1
 	sql_cmd = f"""
-		select * from attraction.attractions limit 12 offset {12*(max(page,0))}
+		select * from attraction.attractions limit 12 offset {12*(max(page-1,0))}
 	"""
-	if page>=26:
+	if page>=27:
 		page=None
 	data = db.engine.execute(sql_cmd)
 	ans = []
@@ -71,4 +71,4 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.run(port=3000,debug=True)
+app.run(host="0.0.0.0",port=3000)
