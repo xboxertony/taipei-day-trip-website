@@ -22,7 +22,7 @@ def resource_not_found(e):
 
 @app.route("/api/attractions")
 def attr():
-	page = int(request.args.get("page"))
+	page = int(request.args.get("page"))+1
 	sql_cmd = f"""
 		select * from attraction.attractions limit 12 offset {12*(max(page-1,0))}
 	"""
