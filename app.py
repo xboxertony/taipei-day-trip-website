@@ -25,13 +25,20 @@ def attr():
 	page = int(request.args.get("page"))+1
 	name = request.args.get("keyword")
 	if name:
-		sql_cmd = f"select * from attraction.attractions where name like '%%"+str(name)+f"%%' and id<={12*(page)} and id>={12*(page-1)}"
+		sql_cmd = f"select * from attraction.attractions where name like '%%"+str(name)+f"%%'"
+		data = db.engine.execute(sql_cmd)
+		cnt = 0
+		for i in data:
+			cnt+=1
+		sql_cmd = f"select * from attraction.attractions where name like '%%"+str(name)+f"%%' limit 12 offset {12*(max(page-1,0))}"
+		if page*12>cnt:
+			page=None
 	else:
 		sql_cmd = f"""
 			select * from attraction.attractions limit 12 offset {12*(max(page-1,0))}
 		"""
-	if page>=27:
-		page=None
+		if page>=27:
+			page=None
 	data = db.engine.execute(sql_cmd)
 	ans = []
 	res = {}
