@@ -3,12 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 from data import data_handle
+from config import setapp
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://debian-sys-maint:RYehHSofDgHpVGcY@localhost:3306/attraction"
+setapp(app)
 db = SQLAlchemy(app)
 
 @app.route("/test")
@@ -22,7 +22,9 @@ def resource_not_found(e):
 
 @app.route("/api/attractions")
 def attr():
-	page = int(request.args.get("page"))
+	page = int(request.args.get("page")+1)
+	if page==27:
+		page = None
 	sql_cmd = f"""
 		select * from attraction.attractions limit 12 offset {12*(max(page-1,0))}
 	"""
@@ -50,9 +52,10 @@ def attr2(id):
 			if column=="images":
 				value = value.split(";")[:-1]
 			res[column]=value
+			print(value)
 	if not res:
 		abort(400,json.dumps({"error":True,"message":"景點編號錯誤"},ensure_ascii=False))
-	return json.dumps({"data":res})
+	return json.dumps({"data":res},ensure_ascii=False)
 
 # Pages
 @app.route("/")
@@ -68,4 +71,4 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.run(host="0.0.0.0",port=3000)
+app.run(port=3000,debug=True)
