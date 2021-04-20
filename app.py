@@ -23,9 +23,13 @@ def resource_not_found(e):
 @app.route("/api/attractions")
 def attr():
 	page = int(request.args.get("page"))+1
-	sql_cmd = f"""
-		select * from attraction.attractions limit 12 offset {12*(max(page-1,0))}
-	"""
+	name = request.args.get("keyword")
+	if name:
+		sql_cmd = f"select * from attraction.attractions where name like '%%"+str(name)+f"%%' and id<={12*(page)} and id>={12*(page-1)}"
+	else:
+		sql_cmd = f"""
+			select * from attraction.attractions limit 12 offset {12*(max(page-1,0))}
+		"""
 	if page>=27:
 		page=None
 	data = db.engine.execute(sql_cmd)
