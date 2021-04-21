@@ -16,60 +16,28 @@ db = SQLAlchemy(app)
 # 	data_handle.handle(db,"data/taipei-attractions.json")
 # 	return "True"
 
-@app.errorhandler(500)
-def resource_not_found(e):
-    return json.dumps({"error":True,"message":"伺服器內部錯誤"},ensure_ascii=False),500
-
 @app.route("/api/attractions")
 def attr():
 	try:
 		page = int(request.args.get("page"))+1
 		name = request.args.get("keyword")
 		if name:
-			sql_cmd = f"select count(*) from attraction.attractions where name like '%%"+str(name)+f"%%'"
-			data = db.engine.execute(sql_cmd)
-			cnt = 0
-			for i in data:
-				cnt = i[0]
-			sql_cmd = f"select * from attraction.attractions where name like '%%"+str(name)+f"%%' limit 12 offset {12*(max(page-1,0))}"
-			if page*12>cnt:
-				page=None
+			ans = data_handle.filter_by_keyword(db,page,name)
 		else:
-			sql_cmd = f"""
-				select * from attraction.attractions limit 12 offset {12*(max(page-1,0))}
-			"""
-			if page>=27:
-				page=None
-		data = db.engine.execute(sql_cmd)
-		ans = []
-		res = {}
-		for i in data:
-			for column,value in i.items():
-				if column=="images":
-					value = value.split(";")[:-1]
-				res[column]=value
-				if column=="images":
-					ans.append(res.copy())
-		return json.dumps({"nextPage":page,"data":ans},ensure_ascii=False)
+			ans = data_handle.filter_by_page(db,page)
+		return ans
 	except:
 		return json.dumps({"error":True,"message":"伺服器內部錯誤"},ensure_ascii=False),500
 
 @app.route("/api/attraction/<id>")
 def attr2(id):
-	sql_cmd = f"""
-		select * from attraction.attractions where id={id}
-	"""
-	data = db.engine.execute(sql_cmd)
-	res = dict()
-	for i in data:
-		for column,value in i.items():
-			if column=="images":
-				value = value.split(";")[:-1]
-			res[column]=value
-	if not res:
-		return json.dumps({"error":True,"message":"景點編號錯誤"},ensure_ascii=False),400
-		# return jsonify({"error":True,"message":"景點編號錯誤"}),400
-	return json.dumps({"data":res},ensure_ascii=False)
+	try:
+		res = data_handle.filter_by_id(db,id)
+		if not res:
+			return json.dumps({"error":True,"message":"景點編號錯誤"},ensure_ascii=False),400
+		return res
+	except:
+		return json.dumps({"error":True,"message":"伺服器內部錯誤"},ensure_ascii=False),500
 
 # Pages
 @app.route("/")
