@@ -436,8 +436,10 @@
     console.log(cur_id)
     if(document.body.scrollTop+window.outerHeight>document.body.offsetHeight){
       if(next_page!==null && !search_mode){
-        get_data_by_page(cur_id+1)
-        cur_id++
+        deb(()=>{
+          get_data_by_page(cur_id+1)
+          cur_id++
+        },1500)()
       }
       if(next_page!==null && search_mode){
         get_data_by_keyword(cur_id+1,key)
@@ -455,6 +457,18 @@
       }
     }
   });
+
+  function deb(func,delay){
+        let timeout = null;
+        return ()=>{
+            let context = null;
+            let args = arguments;
+            clearTimeout(timeout)
+            timeout = setTimeout(()=>{
+                func.apply(context,args)
+            },delay)
+        }
+    }
 
   get_data_by_page(cur_id);
 
