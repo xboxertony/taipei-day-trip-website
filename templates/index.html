@@ -399,6 +399,7 @@
   let cur_id = 0
   let next_page = 1
   let key = ""
+  let dont_stop=false
 
   login_btn.addEventListener("click", () => {
     login_board.classList.add("open");
@@ -409,9 +410,9 @@
 
   document.addEventListener("click", (e) => {
     if (
-      message != e.target &&
+      message !== e.target &&
       !message.contains(e.target) &&
-      e.target != login_btn
+      e.target !== login_btn
     ) {
       login_board.classList.remove("open");
     }
@@ -424,11 +425,13 @@
     search_mode=true
     console.log(key)
     get_data_by_keyword(cur_id,key)
+    dont_stop=false
   })
 
   
 
   window.addEventListener('scroll',()=>{
+    console.log(cur_id)
     if(document.body.scrollTop+window.outerHeight>document.body.offsetHeight){
       if(next_page!==null && !search_mode){
         get_data_by_page(cur_id+1)
@@ -460,12 +463,13 @@
         return res.json();
       })
       .then((res) => {
-        if(res.data.length==0){
+        if(res.data.length===0 && dont_stop===false){
           container.innerHTML="查無結果"
           return
         }
         next_page = res.nextPage
         render_data(res);
+        dont_stop=true
       });
   }
 
