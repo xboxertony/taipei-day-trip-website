@@ -400,6 +400,7 @@
   let next_page = 1
   let key = ""
   let dont_stop=false
+  let first_time = false
 
   login_btn.addEventListener("click", () => {
     login_board.classList.add("open");
@@ -426,6 +427,7 @@
     console.log(key)
     get_data_by_keyword(cur_id,key)
     dont_stop=false
+    first_time=false
   })
 
   
@@ -440,6 +442,16 @@
       if(next_page!==null && search_mode){
         get_data_by_keyword(cur_id+1,key)
         cur_id++
+      }
+      if(next_page===null && first_time){
+        if(search_mode){
+          get_data_by_keyword(cur_id+1,key)
+        }else{
+          get_data_by_page(cur_id+1)
+        }
+      }
+      if(next_page===null && first_time===false){
+        first_time=true
       }
     }
   });
