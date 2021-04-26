@@ -212,7 +212,7 @@
       nav ul,
       .container,
       .word {
-        width: 60%;
+        width: 90%;
       }
       #welcome {
         left: 40%;
@@ -221,28 +221,37 @@
         width: 33%;
       }
       .attraction {
-        width: 48%;
+        width: 322px;
         height: 280px;
       }
       .attraction img{
         height: 70%;
       }
+      .container{
+        justify-content: space-evenly;
+      }
     }
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 800px) {
+      .container{
+        width: 90%;
+      }
       #welcome {
         right: 0;
         bottom: 0;
         width: 80%;
       }
+      .input_text{
+        width: 70%;
+        margin: auto;
+      }
       .attraction {
-        width: 80%;
+        width: 322px;
         height: 280px;
       }
       .attraction img{
         height: 70%;
       }
-      nav ul,
-      .container {
+      nav ul{
         width: 90%;
       }
       .word {
@@ -252,10 +261,10 @@
       .container {
         justify-content: center;
       }
-      .input_text {
+      /* .input_text {
         width: 85%;
         margin: auto;
-      }
+      } */
     }
   </style>
   {% block style %}{% endblock %}
