@@ -395,6 +395,7 @@
   let search = document.getElementById("search")
   let search_input = document.getElementById("search_input")
   let search_mode = false
+  let copyright = document.getElementsByClassName("copyright")[0];
 
   let cur_id = 0
   let next_page = 1
@@ -433,13 +434,10 @@
   
 
   window.addEventListener('scroll',()=>{
-    console.log(cur_id)
     if(document.body.scrollTop+window.outerHeight>document.body.offsetHeight){
-      if(next_page!==null && !search_mode){
-        deb(()=>{
-          get_data_by_page(cur_id+1)
-          cur_id++
-        },1500)()
+      if(next_page!==null && !search_mode && cnt==(cur_id+1)*12){
+        get_data_by_page(cur_id+1)
+        cur_id++
       }
       if(next_page!==null && search_mode){
         get_data_by_keyword(cur_id+1,key)
@@ -499,12 +497,17 @@
       });
   }
 
+  let cnt = 0
+
   function render_data(res) {
     res.data.forEach((element) => {
       let attraction = document.createElement("div");
       attraction.classList.add("attraction");
 
-      let img = document.createElement("img");
+      let img = new Image();
+      img.onload = function(){
+        cnt++
+      }
       img.src = element.images[0];
 
       attraction.appendChild(img);
