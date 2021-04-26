@@ -429,6 +429,7 @@
     get_data_by_keyword(cur_id,key)
     dont_stop=false
     first_time=false
+    cnt=0
   })
 
   
@@ -439,7 +440,7 @@
         get_data_by_page(cur_id+1)
         cur_id++
       }
-      if(next_page!==null && search_mode){
+      if(next_page!==null && search_mode && cnt<=(cur_id+1)*12){
         get_data_by_keyword(cur_id+1,key)
         cur_id++
       }
