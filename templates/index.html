@@ -402,6 +402,7 @@
   let key = ""
   let dont_stop=false
   let first_time = false
+  let load_complete = false
 
   login_btn.addEventListener("click", () => {
     login_board.classList.add("open");
@@ -429,18 +430,20 @@
     get_data_by_keyword(cur_id,key)
     dont_stop=false
     first_time=false
-    cnt=0
+    load_complete=false
   })
 
   
 
   window.addEventListener('scroll',()=>{
     if(document.body.scrollTop+window.outerHeight>document.body.offsetHeight){
-      if(next_page!==null && !search_mode && cnt==(cur_id+1)*12){
+      if(next_page!==null && !search_mode && load_complete){
+        load_complete=false
         get_data_by_page(cur_id+1)
         cur_id++
       }
-      if(next_page!==null && search_mode && cnt<=(cur_id+1)*12){
+      if(next_page!==null && search_mode && load_complete){
+        load_complete=false
         get_data_by_keyword(cur_id+1,key)
         cur_id++
       }
@@ -486,9 +489,9 @@
       });
   }
 
-  let cnt = 0
-
+  
   function render_data(res) {
+    let cnt = 0
     res.data.forEach((element) => {
       let attraction = document.createElement("div");
       attraction.classList.add("attraction");
@@ -496,6 +499,10 @@
       let img = new Image();
       img.onload = function(){
         cnt++
+        if(cnt===res.data.length && load_complete===false){
+          console.log(cnt)
+          load_complete=true
+        }
       }
       img.src = element.images[0];
 
