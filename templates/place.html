@@ -1,0 +1,176 @@
+{% extends "test.html" %} {% block style%}
+<style>
+  .place_view{
+    width: 1200px;
+    display: flex;
+    justify-content:space-between;
+    align-items:flex-end;
+  }
+  .img_test {
+    position: relative;
+    width: 540px;
+    height: 406px;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .img_test .pic {
+    width: 100%;
+    height: 100%;
+  }
+  .button {
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    background-repeat: no-repeat;
+  }
+  .left {
+    left: 0;
+    top: 50%;
+    transform:translateY(-50%);
+  }
+  .right {
+    right: 0;
+    top: 50%;
+    transform:translateY(-50%);
+  }
+  .place_view{
+    width: 60%;
+    margin: auto;
+    padding: 20px 0;
+    border-bottom: 1px solid #E8E8E8;
+  }
+  .img_word{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+  }
+  .img_word p{
+    font-weight: 700;
+    color: #666666;
+  }
+  .img_word p:first-child{
+    font-size: 24px;
+  }
+  .order_panel{
+    background-color: #E8E8E8;
+    height: 300px;
+  }
+  .describe{
+    width: 1200px;
+    height: 50%;
+    margin: 20px auto;
+  }
+  @media screen and (max-width: 1200px){
+    .place_view{
+      width: 60%;
+      height: 50%;
+    }
+    .img_test{
+      width: 50%;
+      height: 100%;
+    }
+    .order_panel{
+      height: 75%;
+    }
+    .describe{
+      width: 60%;
+    }
+  }
+  @media screen and (max-width: 600px){
+    .place_view{
+      display: block;
+      width: 90%;
+      height: auto;
+    }
+    .img_test,.img_word{
+      width: 100%;
+    }
+    .img_test,.img_word{
+      height: 50%;
+    }
+    .img_word{
+      justify-content: space-evenly;
+    }
+    .img_word p{
+      width: 100%;
+    }
+    .order_panel{
+      height: 75%;
+      width: 100%;
+    }
+    .describe{
+      width: 90%;
+      height: auto;
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="place_view">
+  <div class="img_test">
+    <img src="../static/btn_rightArrow.png" alt="" class="button right" />
+    <img src="../static/btn_leftArrow.png" alt="" class="button left" />
+  </div>
+  <div class="img_word">
+    <p>平安鐘</p>
+    <p>平安鐘</p>
+    <div class="order_panel">
+    </div>
+  </div>
+</div>
+<div class="describe">
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat provident doloremque blanditiis, velit et, ad delectus repudiandae quasi aspernatur vel quisquam, voluptatum maxime hic eos odio illum repellendus neque esse.</p>
+</div>
+{% endblock %} {% block script %}
+<script>
+  let url = location.href;
+  let l = url.split("/");
+  let idx = l[l.length - 1];
+  let img_block = document.getElementsByClassName("img_test")[0];
+  let left_btn = document.getElementsByClassName("left")[0];
+  let right_btn = document.getElementsByClassName("right")[0];
+  let id = 0;
+  let imglist = [];
+
+  fetch("/api/attraction/" + `${idx}`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      handle_img(res.data.images);
+      show_img();
+      return res;
+    });
+
+  let handle_img = (img_list) => {
+    img_list.forEach((element) => {
+      let img = document.createElement("img");
+      img.src = element;
+      img.classList.add("pic");
+      imglist.push(element);
+    });
+  };
+
+  function show_img() {
+    img_block.style.backgroundImage = "url(" + `${imglist[id]}` + ")";
+  }
+
+  right_btn.addEventListener("click", () => {
+    id++;
+    if (id > imglist.length - 1) {
+      id = 0;
+    }
+    show_img();
+  });
+
+  left_btn.addEventListener("click", () => {
+    id--;
+    if (id < 0) {
+      id = imglist.length - 1;
+    }
+    show_img();
+  });
+
+</script>
+{% endblock %}
