@@ -1,10 +1,13 @@
-{% extends "test.html" %} {% block style%}
+{% extends "index.html" %} {% block style%}
 <style>
-  .place_view{
+  .place_view {
     width: 1200px;
     display: flex;
-    justify-content:space-between;
-    align-items:flex-end;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: auto;
+    padding: 20px 0;
+    border-bottom: 1px solid #e8e8e8;
   }
   .img_test {
     position: relative;
@@ -12,6 +15,7 @@
     height: 406px;
     background-repeat: no-repeat;
     background-size: cover;
+    text-align: center;
   }
   .img_test .pic {
     width: 100%;
@@ -26,83 +30,80 @@
   .left {
     left: 0;
     top: 50%;
-    transform:translateY(-50%);
+    transform: translateY(-50%);
   }
   .right {
     right: 0;
     top: 50%;
-    transform:translateY(-50%);
+    transform: translateY(-50%);
   }
-  .place_view{
-    width: 60%;
-    margin: auto;
-    padding: 20px 0;
-    border-bottom: 1px solid #E8E8E8;
-  }
-  .img_word{
-    width: 40%;
+  .img_word {
+    width: 50%;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 406px;
     justify-content: space-between;
   }
-  .img_word p{
+  .img_word p {
     font-weight: 700;
     color: #666666;
   }
-  .img_word p:first-child{
+  .img_word p:first-child {
     font-size: 24px;
   }
-  .order_panel{
-    background-color: #E8E8E8;
+  .order_panel {
+    background-color: #e8e8e8;
     height: 300px;
   }
-  .describe{
+  .describe {
     width: 1200px;
     height: 50%;
     margin: 20px auto;
+    word-wrap: break-word;
+    text-align: center;
   }
-  @media screen and (max-width: 1200px){
-    .place_view{
-      width: 60%;
-      height: 50%;
+  .point {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+  }
+  @media screen and (max-width: 1200px) {
+    .place_view {
+      width: 90%;
     }
-    .img_test{
-      width: 50%;
-      height: 100%;
+    .img_test {
+      width: 400px;
+      height: 300px;
+      margin-right: 30px;
     }
-    .order_panel{
-      height: 75%;
+    .img_word {
+      height: 300px;
     }
-    .describe{
-      width: 60%;
+    .describe {
+      width: 100%;
+    }
+    .order_panel {
+      height: 200px;
     }
   }
-  @media screen and (max-width: 600px){
-    .place_view{
+  @media screen and (max-width: 800px) {
+    .place_view {
       display: block;
-      width: 90%;
-      height: auto;
+      margin: auto;
     }
-    .img_test,.img_word{
-      width: 100%;
+    .img_test {
+      height: 350px;
     }
-    .img_test,.img_word{
-      height: 50%;
+    .describe,
+    .img_word,
+    .img_test,
+    .copyright {
+      width: 466px;
+      margin: auto;
     }
-    .img_word{
+    .img_word {
       justify-content: space-evenly;
-    }
-    .img_word p{
-      width: 100%;
-    }
-    .order_panel{
-      height: 75%;
-      width: 100%;
-    }
-    .describe{
-      width: 90%;
-      height: auto;
     }
   }
 </style>
@@ -111,16 +112,20 @@
   <div class="img_test">
     <img src="../static/btn_rightArrow.png" alt="" class="button right" />
     <img src="../static/btn_leftArrow.png" alt="" class="button left" />
+    <div class="point"></div>
   </div>
   <div class="img_word">
     <p>平安鐘</p>
     <p>平安鐘</p>
-    <div class="order_panel">
-    </div>
+    <div class="order_panel"></div>
   </div>
 </div>
 <div class="describe">
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat provident doloremque blanditiis, velit et, ad delectus repudiandae quasi aspernatur vel quisquam, voluptatum maxime hic eos odio illum repellendus neque esse.</p>
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat provident
+    doloremque blanditiis, velit et, ad delectus repudiandae quasi aspernatur
+    vel quisquam, voluptatum maxime hic eos odio illum repellendus neque esse.
+  </p>
 </div>
 {% endblock %} {% block script %}
 <script>
@@ -130,6 +135,7 @@
   let img_block = document.getElementsByClassName("img_test")[0];
   let left_btn = document.getElementsByClassName("left")[0];
   let right_btn = document.getElementsByClassName("right")[0];
+  let point_block = document.getElementsByClassName("point")[0];
   let id = 0;
   let imglist = [];
 
@@ -143,6 +149,22 @@
       return res;
     });
 
+  function add_point() {
+    for (let i = 0; i < imglist.length; i++) {
+      let point = document.createElement("img");
+      if (i === id) {
+        point.src = "../static/circle current_black.png";
+      } else {
+        point.src = "../static/circle current.png";
+      }
+      point_block.appendChild(point);
+    }
+  }
+
+  function clear_point() {
+    point_block.innerHTML = "";
+  }
+
   let handle_img = (img_list) => {
     img_list.forEach((element) => {
       let img = document.createElement("img");
@@ -153,7 +175,9 @@
   };
 
   function show_img() {
+    clear_point();
     img_block.style.backgroundImage = "url(" + `${imglist[id]}` + ")";
+    add_point();
   }
 
   right_btn.addEventListener("click", () => {
@@ -171,6 +195,5 @@
     }
     show_img();
   });
-
 </script>
 {% endblock %}
