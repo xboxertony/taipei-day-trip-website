@@ -456,18 +456,6 @@
     }
   });
 
-  function deb(func,delay){
-        let timeout = null;
-        return ()=>{
-            let context = null;
-            let args = arguments;
-            clearTimeout(timeout)
-            timeout = setTimeout(()=>{
-                func.apply(context,args)
-            },delay)
-        }
-    }
-
   get_data_by_page(cur_id);
 
   function get_data_by_page(page) {
