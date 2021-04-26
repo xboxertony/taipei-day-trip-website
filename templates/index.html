@@ -202,7 +202,8 @@
     .message p:first-of-type {
       font-size: 24px;
     }
-    .transport,.cat{
+    .transport,
+    .cat {
       font-weight: 400;
     }
     /* body::-webkit-scrollbar {
@@ -224,15 +225,15 @@
         width: 322px;
         height: 280px;
       }
-      .attraction img{
+      .attraction img {
         height: 70%;
       }
-      .container{
+      .container {
         justify-content: space-evenly;
       }
     }
     @media screen and (max-width: 800px) {
-      .container{
+      .container {
         width: 90%;
       }
       #welcome {
@@ -240,7 +241,7 @@
         bottom: 0;
         width: 80%;
       }
-      .input_text{
+      .input_text {
         width: 70%;
         margin: auto;
       }
@@ -248,10 +249,10 @@
         width: 322px;
         height: 280px;
       }
-      .attraction img{
+      .attraction img {
         height: 70%;
       }
-      nav ul{
+      nav ul {
         width: 90%;
       }
       .word {
@@ -295,7 +296,8 @@
     <div class="word word2"><p>探索每個角落，體驗城市的深度旅遊行程</p></div>
     <div class="word">
       <div class="input_text">
-        <input type="text" placeholder="輸入景點名稱查詢" id="search_input" /><a id="search"
+        <input type="text" placeholder="輸入景點名稱查詢" id="search_input" /><a
+          id="search"
           ><img src="/static/icon_search.png" alt=""
         /></a>
       </div>
@@ -312,94 +314,6 @@
           <a class="cat">公共藝術</a>
         </div>
       </div> -->
-      <!-- <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div> -->
     </div>
   </div>
   {% endblock %}
@@ -414,18 +328,18 @@
 
   let container = document.getElementsByClassName("container")[0];
 
-  let search = document.getElementById("search")
-  let search_input = document.getElementById("search_input")
-  let search_mode = false
+  let search = document.getElementById("search");
+  let search_input = document.getElementById("search_input");
+  let search_mode = false;
   let copyright = document.getElementsByClassName("copyright")[0];
 
-  let cur_id = 0
-  let pre_id = 0
-  let next_page = 1
-  let key = ""
-  let dont_stop=false
-  let first_time = false
-  let load_complete = false
+  let cur_id = 0;
+  let pre_id = 0;
+  let next_page = 1;
+  let key = "";
+  let dont_stop = false;
+  let first_time = false;
+  let load_complete = false;
 
   login_btn.addEventListener("click", () => {
     login_board.classList.add("open");
@@ -444,47 +358,37 @@
     }
   });
 
-  search.addEventListener("click",()=>{
-    container.innerHTML=""
-    cur_id=0
-    pre_id=0
-    key=search_input.value
-    search_mode=true
-    console.log(key)
-    get_data_by_keyword(cur_id,key)
-    dont_stop=false
-    first_time=false
-    load_complete=false
-  })
+  search.addEventListener("click", () => {
+    container.innerHTML = "";
+    cur_id = 0;
+    pre_id = 0;
+    key = search_input.value;
+    search_mode = true;
+    console.log(key);
+    get_data_by_keyword(cur_id, key);
+    dont_stop = false;
+    first_time = false;
+    load_complete = false;
+  });
 
-  
-
-  window.addEventListener('scroll',()=>{
-    if(document.body.scrollTop+window.outerHeight>document.body.offsetHeight){
-      if(next_page!==null && load_complete){
-        cur_id++
+  window.addEventListener("scroll", () => {
+    if (
+      document.body.scrollTop + window.outerHeight >
+      document.body.offsetHeight
+    ) {
+      if (next_page !== null && load_complete) {
+        cur_id++;
       }
-      if(!search_mode && load_complete && cur_id!==pre_id){
-        load_complete=false
-        get_data_by_page(cur_id)
-        pre_id=cur_id
+      if (!search_mode && load_complete && cur_id !== pre_id) {
+        load_complete = false;
+        get_data_by_page(cur_id);
+        pre_id = cur_id;
       }
-      if(search_mode && load_complete && cur_id!==pre_id){
-        load_complete=false
-        get_data_by_keyword(cur_id,key)
-        pre_id=cur_id
+      if (search_mode && load_complete && cur_id !== pre_id) {
+        load_complete = false;
+        get_data_by_keyword(cur_id, key);
+        pre_id = cur_id;
       }
-      // if(first_time && load_complete){
-      //   load_complete=false
-      //   if(search_mode){
-      //     get_data_by_keyword(cur_id+1,key)
-      //   }else{
-      //     get_data_by_page(cur_id+1)
-      //   }
-      // }
-      // if(next_page===null && first_time===false){
-      //   first_time=true
-      // }
     }
   });
 
@@ -496,42 +400,41 @@
         return res.json();
       })
       .then((res) => {
-        next_page = res.nextPage
+        next_page = res.nextPage;
         render_data(res);
       });
   }
 
-  function get_data_by_keyword(page,keyword) {
-    fetch("/api/attractions?page=" + `${page}`+"&keyword="+`${keyword}`)
+  function get_data_by_keyword(page, keyword) {
+    fetch("/api/attractions?page=" + `${page}` + "&keyword=" + `${keyword}`)
       .then((res) => {
         return res.json();
       })
       .then((res) => {
-        if(res.data.length===0 && dont_stop===false){
-          container.innerHTML="查無結果"
-          return
+        if (res.data.length === 0 && dont_stop === false) {
+          container.innerHTML = "查無結果";
+          return;
         }
-        next_page = res.nextPage
+        next_page = res.nextPage;
         render_data(res);
-        dont_stop=true
+        dont_stop = true;
       });
   }
 
-  
   function render_data(res) {
-    let cnt = 0
+    let cnt = 0;
     res.data.forEach((element) => {
       let attraction = document.createElement("div");
       attraction.classList.add("attraction");
 
       let img = new Image();
-      img.onload = function(){
-        cnt++
-        if(cnt===res.data.length && load_complete===false){
-          console.log(cnt)
-          load_complete=true
+      img.onload = function () {
+        cnt++;
+        if (cnt === res.data.length && load_complete === false) {
+          console.log(cnt);
+          load_complete = true;
         }
-      }
+      };
       img.src = element.images[0];
 
       attraction.appendChild(img);
