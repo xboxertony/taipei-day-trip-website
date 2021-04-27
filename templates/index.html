@@ -179,8 +179,11 @@
     }
     .message .close {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: 10px;
+      right: 10px;
+    }
+    .message.not_you {
+      display: none;
     }
     button {
       background-color: #448899;
@@ -272,14 +275,25 @@
 </head>
 <body>
   <div class="block_page">
-    <form class="message">
-      <p>登入會員帳號</p>
-      <input type="text" placeholder="輸入電子信箱" />
-      <input type="text" placeholder="輸入密碼" />
-      <button>登入帳戶</button>
-      <p>還沒有帳戶?<a href="">點此註冊</a></p>
-      <img src="../static/icon_close.png" alt="" class="close" />
-    </form>
+    <div id="login_create">
+      <form class="message login" id="login_board">
+        <p>登入會員帳號</p>
+        <input type="text" placeholder="輸入電子信箱" />
+        <input type="password" placeholder="輸入密碼" />
+        <button>登入帳戶</button>
+        <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
+        <img src="../static/icon_close.png" alt="" class="close" />
+      </form>
+      <form class="message create not_you" id="create_board">
+        <p>註冊會員帳號</p>
+        <input type="text" placeholder="輸入姓名" />
+        <input type="text" placeholder="輸入電子信箱" />
+        <input type="password" placeholder="輸入密碼" />
+        <button>註冊新帳戶</button>
+        <p>已經有帳戶了?<a id="login_account">點此登入</a></p>
+        <img src="../static/icon_close.png" alt="" class="close" />
+      </form>
+    </div>
   </div>
   <nav>
     <ul>
@@ -322,9 +336,9 @@
 <script>
   let login_btn = document.getElementById("login");
   let login_board = document.getElementsByClassName("block_page")[0];
-  let close_btn = document.getElementsByClassName("close")[0];
+  let close_btn = document.getElementsByClassName("close");
   let login_section = document;
-  let message = document.getElementsByClassName("message")[0];
+  let message = document.getElementsByClassName("message");
 
   let container = document.getElementsByClassName("container")[0];
 
@@ -341,17 +355,41 @@
   let first_time = false;
   let load_complete = false;
 
+  let login_btn_a = document.getElementById("login_account");
+  let create_btn_a = document.getElementById("create_account");
+
+  let login_board_b = document.getElementById("login_board");
+  let create_board_b = document.getElementById("create_board");
+
+  let login_create = document.getElementById("login_create");
+
+  create_btn_a.addEventListener("click", (e) => {
+    e.preventDefault();
+    login_board_b.classList.toggle("not_you");
+    create_board_b.classList.toggle("not_you");
+  });
+
+  login_btn_a.addEventListener("click", (e) => {
+    e.preventDefault();
+    login_board_b.classList.toggle("not_you");
+    create_board_b.classList.toggle("not_you");
+  });
+
   login_btn.addEventListener("click", () => {
     login_board.classList.add("open");
   });
-  close_btn.addEventListener("click", () => {
-    login_board.classList.toggle("open");
-  });
+
+  Array.from(close_btn).forEach((ele)=>{
+    ele.addEventListener("click", () => {
+      login_board.classList.toggle("open");
+    });
+  })
+
 
   document.addEventListener("click", (e) => {
     if (
-      message !== e.target &&
-      !message.contains(e.target) &&
+      login_create !== e.target &&
+      !login_create.contains(e.target) &&
       e.target !== login_btn
     ) {
       login_board.classList.remove("open");
@@ -376,7 +414,7 @@
       document.body.offsetHeight
     ) {
       if (next_page !== null) {
-        console.log(cur_id)
+        console.log(cur_id);
         cur_id++;
       }
       if (!search_mode && cur_id !== pre_id) {
