@@ -4,7 +4,7 @@
     width: 1200px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: stretch;
     margin: auto;
     padding: 20px 0;
     border-bottom: 1px solid #e8e8e8;
@@ -44,12 +44,13 @@
     height: 406px;
     justify-content: space-between;
   }
-  .img_word p {
-    font-weight: 700;
+  .img_word > p {
+    font-weight: 400;
     color: #666666;
   }
-  .img_word p:first-child {
+  .img_word > p:first-child {
     font-size: 24px;
+    font-weight: 700;
   }
   .order_panel {
     background-color: #e8e8e8;
@@ -60,7 +61,9 @@
     height: 50%;
     margin: 20px auto;
     word-wrap: break-word;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .point {
     position: absolute;
@@ -68,42 +71,63 @@
     left: 50%;
     transform: translate(-50%, -100%);
   }
+  .order_panel form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .order_panel form p,
+  label {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .order_panel button {
+    width: 154px;
+    height: 36px;
+  }
+  .order_panel .form_title,
+  .des_title {
+    font-weight: 900;
+    color: #111111;
+  }
   @media screen and (max-width: 1200px) {
     .place_view {
       width: 90%;
+      height: 400px;
     }
     .img_test {
-      width: 400px;
-      height: 300px;
       margin-right: 30px;
     }
-    .img_word {
-      height: 300px;
-    }
     .describe {
-      width: 100%;
-    }
-    .order_panel {
-      height: 200px;
+      width: 90%;
     }
   }
   @media screen and (max-width: 800px) {
     .place_view {
       display: block;
       margin: auto;
+      height: 800px;
     }
     .img_test {
       height: 350px;
     }
+    .place_view,
     .describe,
     .img_word,
-    .img_test,
-    .copyright {
+    .img_test {
       width: 466px;
       margin: auto;
     }
     .img_word {
       justify-content: space-evenly;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    .copyright {
+      width: 466px;
     }
   }
 </style>
@@ -115,17 +139,40 @@
     <div class="point"></div>
   </div>
   <div class="img_word">
-    <p>平安鐘</p>
-    <p>平安鐘</p>
-    <div class="order_panel"></div>
+    <p id="attraction_name"></p>
+    <p id="attraction_cat_and_mrt"></p>
+    <div class="order_panel">
+      <form action="">
+        <p class="form_title">訂購導覽行程</p>
+        <p>以此景點為中心的一日行程，帶你探索城市角落故事</p>
+        <div id="select_date">
+          <label for="date" class="form_title">選擇日期：</label
+          ><input type="date" id="date" name="date" />
+        </div>
+        <div id="select_time">
+          <label for="" class="form_title">選擇時間：</label><input type="radio"
+          id="date" / name="time">上半天<input
+            type="radio"
+            id="date"
+            name="time"
+          />下半天
+        </div>
+        <p class="form_title">導覽費用：2000</p>
+        <button>開始導覽行程</button>
+      </form>
+    </div>
   </div>
 </div>
 <div class="describe">
-  <p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat provident
-    doloremque blanditiis, velit et, ad delectus repudiandae quasi aspernatur
-    vel quisquam, voluptatum maxime hic eos odio illum repellendus neque esse.
-  </p>
+  <div class="describe_content"></div>
+  <div>
+    <p class="des_title">景點地址：</p>
+    <div class="address_place"></div>
+  </div>
+  <div>
+    <p class="des_title">交通方式：</p>
+    <div class="traffic"></div>
+  </div>
 </div>
 {% endblock %} {% block script %}
 <script>
@@ -139,6 +186,14 @@
   let id = 0;
   let imglist = [];
 
+  let attraction_name = document.getElementById("attraction_name"); //景點名稱
+  let attraction_cat_and_mrt = document.getElementById(
+    "attraction_cat_and_mrt"
+  ); //交通方式與捷運
+  let describe_content = document.getElementsByClassName("describe_content")[0]; //景點描述
+  let address_place = document.getElementsByClassName("address_place")[0]; //地址
+  let traffic = document.getElementsByClassName("traffic")[0]; //交通方式
+
   fetch("/api/attraction/" + `${idx}`)
     .then((res) => {
       return res.json();
@@ -146,7 +201,12 @@
     .then((res) => {
       handle_img(res.data.images);
       show_img();
-      return res;
+      attraction_name.innerHTML = res.data.name;
+      attraction_cat_and_mrt.innerHTML =
+        res.data.category + " at " + res.data.mrt;
+      describe_content.innerHTML = res.data.description;
+      address_place.innerHTML = res.data.address;
+      traffic.innerHTML = res.data.transport;
     });
 
   function add_point() {

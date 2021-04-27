@@ -364,7 +364,6 @@
     pre_id = 0;
     key = search_input.value;
     search_mode = true;
-    console.log(key);
     get_data_by_keyword(cur_id, key);
     dont_stop = false;
     first_time = false;
@@ -376,15 +375,15 @@
       document.body.scrollTop + window.outerHeight >
       document.body.offsetHeight
     ) {
-      if (next_page !== null && load_complete) {
+      if (next_page !== null) {
         cur_id++;
       }
-      if (!search_mode && load_complete && cur_id !== pre_id) {
+      if (!search_mode && cur_id !== pre_id) {
         load_complete = false;
         get_data_by_page(cur_id);
         pre_id = cur_id;
       }
-      if (search_mode && load_complete && cur_id !== pre_id) {
+      if (search_mode && cur_id !== pre_id) {
         load_complete = false;
         get_data_by_keyword(cur_id, key);
         pre_id = cur_id;
