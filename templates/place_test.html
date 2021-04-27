@@ -16,6 +16,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     text-align: center;
+    border-radius: 5%;
   }
   .img_test .pic {
     width: 100%;
@@ -58,12 +59,11 @@
   }
   .describe {
     width: 1200px;
-    height: 50%;
-    margin: 20px auto;
+    margin: 50px auto;
     word-wrap: break-word;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  }
+  .describe > div{
+    margin:20px 0;
   }
   .point {
     position: absolute;
@@ -121,8 +121,12 @@
       width: 466px;
       margin: auto;
     }
-    .img_word {
+    .img_word,
+    .describe {
       justify-content: space-evenly;
+    }
+    .describe {
+      margin: 50px auto;
     }
   }
   @media screen and (max-width: 450px) {
@@ -201,13 +205,17 @@
     .then((res) => {
       handle_img(res.data.images);
       show_img();
-      attraction_name.innerHTML = res.data.name;
-      attraction_cat_and_mrt.innerHTML =
-        res.data.category + " at " + res.data.mrt;
-      describe_content.innerHTML = res.data.description;
-      address_place.innerHTML = res.data.address;
-      traffic.innerHTML = res.data.transport;
+      handle_data(res);
     });
+
+  function handle_data(res) {
+    attraction_name.innerHTML = res.data.name;
+    attraction_cat_and_mrt.innerHTML =
+      res.data.category + " at " + res.data.mrt;
+    describe_content.innerHTML = res.data.description;
+    address_place.innerHTML = res.data.address;
+    traffic.innerHTML = res.data.transport;
+  }
 
   function add_point() {
     for (let i = 0; i < imglist.length; i++) {

@@ -1,0 +1,115 @@
+{% extends "index.html" %} {% block style%}
+<style>
+  .order_page > div:not(:last-of-type) {
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .schedule{
+      width: 60%;
+      margin: auto;
+      box-sizing: border-box;
+  }
+  .checkout{
+      display: flex;
+      width: 100%;
+      margin: 10px 0;
+  }
+  .checkout > div{
+      height: 200px;
+      background-color: burlywood;
+  }
+  .checkout > div{
+      width: 40%;
+  }
+  .form_div {
+    width: 60%;
+    margin: auto;
+    padding: 20px 0;
+    box-sizing: border-box;
+  }
+  .form_style {
+    display: flex;
+    flex-direction: column;
+  }
+  .form_style p {
+    color: #666666;
+    font-weight: 700;
+  }
+  .form_style input {
+    padding: 10px;
+  }
+  .form_style p, .form_style div{
+    margin: 10px 0;
+  }
+  .ready_to_paid .summary {
+    float: right;
+  }
+  .summary p,
+  button {
+    margin: 25px 0;
+  }
+  .summary p{
+      text-align: right;
+  }
+  .ready_to_paid .clear {
+    clear: both;
+  }
+  @media screen and (max-width:600px) {
+
+      .form_div,.schedule{
+          width: 90%;
+      }
+      .checkout{
+          flex-direction: column;
+      }
+      .checkout div{
+          width: 100%;
+      }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="order_page">
+  <div class="schedule">
+    <p>您好，Yahoo，你待確認的行程如下</p>
+    <div class="checkout">        
+        <div class="photo"></div>
+        <div class="word_to_paid"></div>
+    </div>
+  </div>
+  <div class="contact form_div">
+    <form action="" class="form_style">
+      <p>你的連絡資訊</p>
+      <div>
+        <label for="">聯絡姓名：</label
+        ><input type="text" placeholder="ex:Yakoo" />
+      </div>
+      <div>
+        <label for="">聯絡信箱：</label
+        ><input type="text" placeholder="imyeeee@gmail.com" />
+      </div>
+      <div><label for="">手機號碼：</label><input type="text" /></div>
+      <p>
+        請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式
+      </p>
+    </form>
+  </div>
+  <div class="paid form_div">
+    <form action="" class="form_style">
+      <p>信用卡付款資訊</p>
+      <div><label for="">卡片號碼：</label><input type="text" /></div>
+      <div><label for="">過期時間：</label><input type="text" /></div>
+      <div><label for="">驗證密碼：</label><input type="text" /></div>
+    </form>
+  </div>
+  <div class="ready_to_paid form_div">
+    <div class="summary">
+      <p>確認總價：新台幣2000元</p>
+      <form action="/">
+          <button>確認訂購並付款</button>
+      </form>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script></script>
+{% endblock %}
