@@ -44,7 +44,7 @@
     font-weight: 700;
   }
   .form_style input {
-    padding: 10px;
+    padding: 5px;
   }
   .form_style p,
   .form_style div {
@@ -68,6 +68,12 @@
     flex-direction: column;
     justify-content: space-between;
   }
+  .card {
+    width: calc(162px / 4);
+  }
+  .time{
+    width: calc(162px / 2);
+  }
   @media screen and (max-width: 600px) {
     .form_div,
     .schedule {
@@ -90,11 +96,11 @@
       height: 256px;
       margin: auto;
     }
-    .summary form{
-        text-align: right;
+    .summary form {
+      text-align: right;
     }
-    .form_style{
-        width: 340px;
+    .form_style {
+      width: 340px;
     }
   }
 </style>
@@ -122,7 +128,7 @@
       </div>
       <div>
         <label for="">聯絡信箱：</label
-        ><input type="text" placeholder="imyeeee@gmail.com" />
+        ><input type="text" placeholder="ex:imyeeee@gmail.com" />
       </div>
       <div><label for="">手機號碼：</label><input type="text" /></div>
       <p>
@@ -133,9 +139,50 @@
   <div class="paid form_div">
     <form action="" class="form_style">
       <p>信用卡付款資訊</p>
-      <div><label for="">卡片號碼：</label><input type="text" /></div>
-      <div><label for="">過期時間：</label><input type="text" /></div>
-      <div><label for="">驗證密碼：</label><input type="text" /></div>
+      <div>
+        <label for="">卡片號碼：</label>
+        <input
+          type="text"
+          class="card"
+          id="C1"
+          maxlength="4"
+          onKeyup="NextMove(this,'C2')"
+        />
+        -
+        <input
+          type="text"
+          class="card"
+          id="C2"
+          maxlength="4"
+          onKeyup="NextMove(this,'C3')"
+        />
+        -
+        <input
+          type="text"
+          class="card"
+          id="C3"
+          maxlength="4"
+          onKeyup="NextMove(this,'C4')"
+        />
+        -
+        <input type="text" class="card" id="C4" maxlength="4" />
+      </div>
+      <div>
+        <label for="">過期時間：</label>
+        <input
+          type="text"
+          maxlength="2"
+          id="T1"
+          class="time"
+          onKeyup="NextMove(this,'T2')"
+        />
+        /
+        <input type="text" maxlength="2" class="time" id="T2" />
+      </div>
+      <div>
+        <label for="">驗證密碼：</label>
+        <input type="text" />
+      </div>
     </form>
   </div>
   <div class="ready_to_paid form_div">
@@ -149,5 +196,23 @@
   </div>
 </div>
 {% endblock %} {% block script %}
-<script></script>
+<script>
+  // let set1 = new Set([4, 9, 14]);
+  // let card = document.getElementById("card");
+
+  // card.addEventListener("keyup",(e)=>{
+  //   if(set1.has(card.value.length) && e.key!=="Backspace"){
+  //     e.preventDefault()
+  //     card.value = card.value+" "
+  //   }
+  // })
+
+  function NextMove(obj, Nextone) {
+    let Next = document.getElementById(Nextone);
+    if (obj.value.length === parseInt(obj.getAttribute("maxlength"))) {
+      Next.focus();
+    }
+    return;
+  }
+</script>
 {% endblock %}
