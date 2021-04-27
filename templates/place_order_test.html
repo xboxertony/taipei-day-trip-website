@@ -12,9 +12,16 @@
     display: flex;
     width: 100%;
     margin: 10px 0;
+    position: relative;
   }
   .checkout > div {
     height: 200px;
+  }
+  .checkout > .delete{
+    position: absolute;
+    left: 100%;
+    transform: translateX(-100%);
+    cursor: pointer;
   }
   .photo {
     width: 266px;
@@ -74,7 +81,7 @@
   .time{
     width: calc(162px / 2);
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 800px) {
     .form_div,
     .schedule {
       width: 90%;
@@ -102,6 +109,10 @@
     .form_style {
       width: 340px;
     }
+    .checkout .delete{
+      top: 100%;
+      transform: translate(-100%,-100%);
+    }
   }
 </style>
 {% endblock %} {% block content %}
@@ -111,12 +122,35 @@
     <div class="checkout">
       <div class="photo"></div>
       <div class="word_to_paid">
-        <p class="title_word_to_paid">台北一日遊</p>
+        <p class="title_word_to_paid">台北一日遊1</p>
         <p class="information">日期：</p>
         <p class="information">時間：</p>
         <p class="information">費用：</p>
         <p class="information">地點：</p>
       </div>
+      <img src="../static/icon_delete.png" alt="" class="delete">
+    </div>
+    <div class="checkout">
+      <div class="photo"></div>
+      <div class="word_to_paid">
+        <p class="title_word_to_paid">台北一日遊2</p>
+        <p class="information">日期：</p>
+        <p class="information">時間：</p>
+        <p class="information">費用：</p>
+        <p class="information">地點：</p>
+      </div>
+      <img src="../static/icon_delete.png" alt="" class="delete">
+    </div>
+    <div class="checkout">
+      <div class="photo"></div>
+      <div class="word_to_paid">
+        <p class="title_word_to_paid">台北一日遊3</p>
+        <p class="information">日期：</p>
+        <p class="information">時間：</p>
+        <p class="information">費用：</p>
+        <p class="information">地點：</p>
+      </div>
+      <img src="../static/icon_delete.png" alt="" class="delete">
     </div>
   </div>
   <div class="contact form_div">
@@ -197,16 +231,6 @@
 </div>
 {% endblock %} {% block script %}
 <script>
-  // let set1 = new Set([4, 9, 14]);
-  // let card = document.getElementById("card");
-
-  // card.addEventListener("keyup",(e)=>{
-  //   if(set1.has(card.value.length) && e.key!=="Backspace"){
-  //     e.preventDefault()
-  //     card.value = card.value+" "
-  //   }
-  // })
-
   function NextMove(obj, Nextone) {
     let Next = document.getElementById(Nextone);
     if (obj.value.length === parseInt(obj.getAttribute("maxlength"))) {
@@ -214,5 +238,14 @@
     }
     return;
   }
+
+  let delete_fuc = document.getElementsByClassName("delete");
+
+  Array.from(delete_fuc).forEach(element => {
+    element.addEventListener("click",(e)=>{
+      e.target.parentNode.remove()
+    })
+  });
+
 </script>
 {% endblock %}

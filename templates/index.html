@@ -376,6 +376,7 @@
       document.body.offsetHeight
     ) {
       if (next_page !== null) {
+        console.log(cur_id)
         cur_id++;
       }
       if (!search_mode && cur_id !== pre_id) {
@@ -430,7 +431,6 @@
       img.onload = function () {
         cnt++;
         if (cnt === res.data.length && load_complete === false) {
-          console.log(cnt);
           load_complete = true;
         }
       };
