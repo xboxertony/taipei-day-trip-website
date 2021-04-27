@@ -379,12 +379,21 @@
     login_board.classList.add("open");
   });
 
-  Array.from(close_btn).forEach((ele)=>{
+  Array.from(close_btn).forEach((ele) => {
     ele.addEventListener("click", () => {
       login_board.classList.toggle("open");
+      default_setting();
     });
-  })
+  });
 
+  function default_setting() {
+    if (login_board_b.classList.contains("not_you")) {
+      login_board_b.classList.remove("not_you");
+    }
+    if (!create_board_b.classList.contains("not_you")) {
+      create_board_b.classList.add("not_you");
+    }
+  }
 
   document.addEventListener("click", (e) => {
     if (
@@ -393,6 +402,7 @@
       e.target !== login_btn
     ) {
       login_board.classList.remove("open");
+      default_setting();
     }
   });
 
