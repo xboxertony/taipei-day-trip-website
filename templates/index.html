@@ -1,11 +1,13 @@
-<head>
-  <meta
+{% extends "model.html" %}
+<!-- <head> -->
+  <!-- <meta
     name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1"
   />
-  <title>Document</title>
+  <title>Document</title> -->
+  {% block style %}
   <style>
-    * {
+    /* * {
       margin: 0;
       padding: 0;
       list-style: none;
@@ -46,7 +48,7 @@
     }
     .last-item a {
       color: #666666;
-    }
+    } */
     .banner {
       height: 320px;
       background: linear-gradient(135deg, #aaddee 0%, #66aabb 100%);
@@ -134,16 +136,16 @@
       z-index: 1;
       left: 50%;
     }
-    .copyright {
+    /* .copyright {
       text-align: center;
       padding: 45px 0;
       background-color: #757575;
       color: #fff;
-    }
+    } */
     .main {
       padding: 30px 0;
     }
-    :root {
+    /* :root {
       --wid: 310px;
     }
     .block_page {
@@ -204,7 +206,7 @@
     }
     .message p:first-of-type {
       font-size: 24px;
-    }
+    } */
     .transport,
     .cat {
       font-weight: 400;
@@ -271,10 +273,10 @@
       } */
     }
   </style>
-  {% block style %}{% endblock %}
-</head>
-<body>
-  <div class="block_page">
+  {% endblock %}
+<!-- </head> -->
+<!-- <body> -->
+  <!-- <div class="block_page">
     <div id="login_create">
       <form class="message login" id="login_board">
         <p>登入會員帳號</p>
@@ -303,7 +305,7 @@
         <a id="login">登入/註冊</a>
       </li>
     </ul>
-  </nav>
+  </nav> -->
   {% block content %}
   <div class="banner">
     <div class="word word1"><p>輕鬆享受台北一日悠閒</p></div>
@@ -331,14 +333,10 @@
     </div>
   </div>
   {% endblock %}
-  <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
-</body>
+  <!-- <div class="copyright">Copyright &copy; 2021 台北一日遊</div> -->
+<!-- </body> -->
+{% block script %}
 <script>
-  let login_btn = document.getElementById("login");
-  let login_board = document.getElementsByClassName("block_page")[0];
-  let close_btn = document.getElementsByClassName("close");
-  let login_section = document;
-  let message = document.getElementsByClassName("message");
 
   let container = document.getElementsByClassName("container")[0];
 
@@ -354,57 +352,6 @@
   let dont_stop = false;
   let first_time = false;
   let load_complete = false;
-
-  let login_btn_a = document.getElementById("login_account");
-  let create_btn_a = document.getElementById("create_account");
-
-  let login_board_b = document.getElementById("login_board");
-  let create_board_b = document.getElementById("create_board");
-
-  let login_create = document.getElementById("login_create");
-
-  create_btn_a.addEventListener("click", (e) => {
-    e.preventDefault();
-    login_board_b.classList.toggle("not_you");
-    create_board_b.classList.toggle("not_you");
-  });
-
-  login_btn_a.addEventListener("click", (e) => {
-    e.preventDefault();
-    login_board_b.classList.toggle("not_you");
-    create_board_b.classList.toggle("not_you");
-  });
-
-  login_btn.addEventListener("click", () => {
-    login_board.classList.add("open");
-  });
-
-  Array.from(close_btn).forEach((ele) => {
-    ele.addEventListener("click", () => {
-      login_board.classList.toggle("open");
-      default_setting();
-    });
-  });
-
-  function default_setting() {
-    if (login_board_b.classList.contains("not_you")) {
-      login_board_b.classList.remove("not_you");
-    }
-    if (!create_board_b.classList.contains("not_you")) {
-      create_board_b.classList.add("not_you");
-    }
-  }
-
-  document.addEventListener("click", (e) => {
-    if (
-      login_create !== e.target &&
-      !login_create.contains(e.target) &&
-      e.target !== login_btn
-    ) {
-      login_board.classList.remove("open");
-      default_setting();
-    }
-  });
 
   search.addEventListener("click", () => {
     container.innerHTML = "";
@@ -510,4 +457,4 @@
     });
   }
 </script>
-{% block script %}{% endblock %}
+{% endblock %}
