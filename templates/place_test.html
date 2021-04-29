@@ -62,8 +62,8 @@
     margin: 50px auto;
     word-wrap: break-word;
   }
-  .describe > div{
-    margin:20px 0;
+  .describe > div {
+    margin: 20px 0;
   }
   .point {
     position: absolute;
@@ -92,6 +92,28 @@
   .des_title {
     font-weight: 900;
     color: #111111;
+  }
+  input[type="radio"] {
+    display: none;
+  }
+  input[type="radio"] + span::before {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.3rem;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: gray;
+    vertical-align: bottom;
+  }
+  input[type="radio"]:checked + span::before {
+    background: radial-gradient(
+      #448899 0%,
+      #448899 40%,
+      transparent 50%
+    );
+    border-color: #448899;
   }
   @media screen and (max-width: 1200px) {
     .place_view {
@@ -154,12 +176,15 @@
           ><input type="date" id="date" name="date" />
         </div>
         <div id="select_time">
-          <label for="" class="form_title">選擇時間：</label><input type="radio"
-          id="date" / name="time">上半天<input
-            type="radio"
-            id="date"
-            name="time"
-          />下半天
+          <label for="" class="form_title">選擇時間：</label>
+          <label>
+            <input type="radio" id="up_time" name="time" checked/>
+            <span>上半天</span>
+          </label>
+          <label>
+            <input type="radio" id="down_time" name="time" />
+            <span>下半天</span>
+          </label>
         </div>
         <p class="form_title">導覽費用：2000</p>
         <button>開始導覽行程</button>
