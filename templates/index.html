@@ -370,25 +370,29 @@
     if (
       document.body.scrollTop + window.outerHeight >
       document.body.offsetHeight
-    ) {
+      ) {
       clearTimeout(time_machine);
       time_machine = setTimeout(() => {
-        if (next_page !== null) {
-          cur_id++;
-        }
-        if (!search_mode && cur_id !== pre_id) {
-          load_complete = false;
-          get_data_by_page(cur_id);
-          pre_id = cur_id;
-        }
-        if (search_mode && cur_id !== pre_id) {
-          load_complete = false;
-          get_data_by_keyword(cur_id, key);
-          pre_id = cur_id;
-        }
-      }, 500);
+        do_this()
+      },500)
     }
   });
+  
+  async function do_this(){
+    if (next_page !== null) {
+      cur_id++;
+    }
+    if (!search_mode && cur_id !== pre_id) {
+      load_complete = false;
+      await get_data_by_page(cur_id);
+      pre_id = cur_id;
+    }
+    if (search_mode && cur_id !== pre_id) {
+      load_complete = false;
+      await get_data_by_keyword(cur_id, key);
+      pre_id = cur_id;
+    }
+  }
 
   get_data_by_page(cur_id);
 
