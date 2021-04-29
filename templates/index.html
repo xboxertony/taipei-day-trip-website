@@ -431,7 +431,12 @@
       };
       img.src = element.images[0];
 
-      attraction.appendChild(img);
+      let link = document.createElement("a")
+      link.href=`/test/${element.id}`
+
+      link.appendChild(img)
+
+      attraction.appendChild(link);
 
       let description = document.createElement("div");
       description.classList.add("description");
