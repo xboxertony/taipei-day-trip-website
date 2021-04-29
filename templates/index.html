@@ -370,16 +370,16 @@
       document.body.scrollTop + window.outerHeight >
       document.body.offsetHeight
     ) {
-      if (next_page !== null) {
+      if (next_page !== null && load_complete) {
         console.log(cur_id);
         cur_id++;
       }
-      if (!search_mode && cur_id !== pre_id) {
+      if (!search_mode && load_complete && cur_id !== pre_id) {
         load_complete = false;
         get_data_by_page(cur_id);
         pre_id = cur_id;
       }
-      if (search_mode && cur_id !== pre_id) {
+      if (search_mode && load_complete && cur_id !== pre_id) {
         load_complete = false;
         get_data_by_keyword(cur_id, key);
         pre_id = cur_id;
