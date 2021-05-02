@@ -39,9 +39,9 @@ def attr2(id):
 	except:
 		return json.dumps({"error":True,"message":"伺服器內部錯誤"},ensure_ascii=False),500
 
-@app.route("/test/<id>")
-def testtest(id):
-	return render_template("place_test.html")
+# @app.route("/test/<id>")
+# def testtest(id):
+# 	return render_template("place_test.html")
 
 @app.route("/test/order")
 def test_order():
