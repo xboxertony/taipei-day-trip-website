@@ -1,0 +1,218 @@
+<head>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1"
+  />
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-decoration: none;
+    }
+    a {
+      cursor: pointer;
+    }
+    ::placeholder {
+      font-weight: 700;
+      color: #757575;
+    }
+    :root {
+      --wid: 310px;
+    }
+    nav {
+      height: 54px;
+      width: 100%;
+      position: fixed;
+      z-index: 4;
+      background-color: #fff;
+    }
+    nav ~ div {
+      top: 54px;
+      position: relative;
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      width: 1200px;
+      margin: auto;
+      justify-content: space-between;
+    }
+    .title {
+      color: #448899;
+      font-size: 30px;
+      padding: 10px 0px;
+      font-weight: bold;
+    }
+    .last-item {
+    }
+    .last-item a {
+      color: #666666;
+    }
+    .block_page {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      position: fixed;
+      display: none;
+      z-index: 100;
+    }
+    .block_page.open {
+      display: block;
+    }
+    .message {
+      background-color: #fff;
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      width: 340px;
+      height: 275px;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+    .message input {
+      width: var(--wid);
+      height: 47px;
+      border: 1px solid #cccccc;
+      padding: 15px;
+      box-sizing: border-box;
+    }
+    .message .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .message.not_you {
+      display: none;
+    }
+    button {
+      background-color: #448899;
+      font-size: 19px;
+      color: #fff;
+      font-weight: 400;
+      line-height: 19px;
+      width: var(--wid);
+      border: none;
+      height: 47px;
+    }
+    .message p {
+      width: var(--wid);
+      text-align: center;
+      color: #666666;
+      font-weight: 700;
+      text-align: center;
+    }
+    .message p:first-of-type {
+      font-size: 24px;
+    }
+    .copyright {
+      text-align: center;
+      padding: 45px 0;
+      background-color: #757575;
+      color: #fff;
+    }
+    @media screen and (max-width: 1200px) {
+      nav ul {
+        width: 90%;
+      }
+    }
+  </style>
+  {% block style %}{% endblock %}
+</head>
+<body>
+    <div class="block_page">
+      <div id="login_create">
+        <form class="message login" id="login_board">
+          <p>登入會員帳號</p>
+          <input type="text" placeholder="輸入電子信箱" />
+          <input type="password" placeholder="輸入密碼" />
+          <button>登入帳戶</button>
+          <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
+          <img src="../static/icon_close.png" alt="" class="close" />
+        </form>
+        <form class="message create not_you" id="create_board">
+          <p>註冊會員帳號</p>
+          <input type="text" placeholder="輸入姓名" />
+          <input type="text" placeholder="輸入電子信箱" />
+          <input type="password" placeholder="輸入密碼" />
+          <button>註冊新帳戶</button>
+          <p>已經有帳戶了?<a id="login_account">點此登入</a></p>
+          <img src="../static/icon_close.png" alt="" class="close" />
+        </form>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <a href="" class="title">台北一日遊</a>
+        <li class="last-item">
+          <a>預定行程</a>
+          <a id="login">登入/註冊</a>
+        </li>
+      </ul>
+    </nav>
+    {% block content %}{% endblock %}
+    <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
+</body>
+<script>
+  let login_btn = document.getElementById("login");
+  let login_board = document.getElementsByClassName("block_page")[0];
+  let close_btn = document.getElementsByClassName("close");
+  let login_section = document;
+  let message = document.getElementsByClassName("message");
+
+  let login_btn_a = document.getElementById("login_account");
+  let create_btn_a = document.getElementById("create_account");
+
+  let login_board_b = document.getElementById("login_board");
+  let create_board_b = document.getElementById("create_board");
+
+  let login_create = document.getElementById("login_create");
+
+  create_btn_a.addEventListener("click", (e) => {
+    e.preventDefault();
+    login_board_b.classList.toggle("not_you");
+    create_board_b.classList.toggle("not_you");
+  });
+
+  login_btn_a.addEventListener("click", (e) => {
+    e.preventDefault();
+    login_board_b.classList.toggle("not_you");
+    create_board_b.classList.toggle("not_you");
+  });
+
+  login_btn.addEventListener("click", () => {
+    login_board.classList.add("open");
+  });
+
+  Array.from(close_btn).forEach((ele) => {
+    ele.addEventListener("click", () => {
+      login_board.classList.toggle("open");
+      default_setting();
+    });
+  });
+
+  function default_setting() {
+    if (login_board_b.classList.contains("not_you")) {
+      login_board_b.classList.remove("not_you");
+    }
+    if (!create_board_b.classList.contains("not_you")) {
+      create_board_b.classList.add("not_you");
+    }
+  }
+
+  document.addEventListener("click", (e) => {
+    if (
+      login_create !== e.target &&
+      !login_create.contains(e.target) &&
+      e.target !== login_btn
+    ) {
+      login_board.classList.remove("open");
+      default_setting();
+    }
+  });
+</script>
+{% block script %}{% endblock %}

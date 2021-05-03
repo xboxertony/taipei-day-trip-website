@@ -1,11 +1,13 @@
-<head>
-  <meta
+{% extends "model.html" %}
+<!-- <head> -->
+<!-- <meta
     name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1"
   />
-  <title>Document</title>
-  <style>
-    * {
+  <title>Document</title> -->
+{% block style %}
+<style>
+  /* * {
       margin: 0;
       padding: 0;
       list-style: none;
@@ -46,104 +48,104 @@
     }
     .last-item a {
       color: #666666;
-    }
-    .banner {
-      height: 320px;
-      background: linear-gradient(135deg, #aaddee 0%, #66aabb 100%);
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .container {
-      width: 1200px;
-      margin: 30px auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-    }
-    .attraction {
-      width: 23%;
-      border: 1px solid #e8e8e8;
-      margin-bottom: 30px;
-      height: 280px;
-      border-radius: 5%;
-    }
-    .attraction img {
-      width: 100%;
-      height: 70%;
-      border-radius: 5% 5% 0 0;
-    }
-    .description {
-      padding: 0 10px;
-      box-sizing: border-box;
-      line-height: 2;
-    }
-    .description p,
-    a {
-      color: #757575;
-      font-weight: 700;
-    }
-    .cat {
-      float: right;
-    }
-    .word {
-      width: 1200px;
-      margin: 10px 0;
-      z-index: 2;
-      color: #fff;
-    }
-    .word1 {
-      font-weight: 700;
-      font-size: 28px;
-    }
-    .word2 {
-      font-weight: 400;
-    }
-    .input_text {
-      width: 460px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-    }
-    .input_text > input {
-      width: 400px;
-      height: 100%;
-      border-radius: 5px 0 0 5px;
-      padding: 10px;
-      border: 0;
-    }
-    input:focus {
-      outline: none;
-    }
-    .input_text a {
-      height: 100%;
-      background-color: #448899;
-      border-radius: 0 5px 5px 0;
-      padding: 10px;
-      box-sizing: border-box;
-    }
-    .input_text a > img {
-      height: 100%;
-    }
-    #welcome {
-      position: absolute;
-      z-index: 1;
-      left: 50%;
-    }
-    .copyright {
+    } */
+  .banner {
+    height: 320px;
+    background: linear-gradient(135deg, #aaddee 0%, #66aabb 100%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .container {
+    width: 1200px;
+    margin: 30px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .attraction {
+    width: 23%;
+    border: 1px solid #e8e8e8;
+    margin-bottom: 30px;
+    height: 280px;
+    border-radius: 5%;
+  }
+  .attraction img {
+    width: 100%;
+    height: 70%;
+    border-radius: 5% 5% 0 0;
+  }
+  .description {
+    padding: 0 10px;
+    box-sizing: border-box;
+    line-height: 2;
+  }
+  .description p,
+  a {
+    color: #757575;
+    font-weight: 700;
+  }
+  .cat {
+    float: right;
+  }
+  .word {
+    width: 1200px;
+    margin: 10px 0;
+    z-index: 2;
+    color: #fff;
+  }
+  .word1 {
+    font-weight: 700;
+    font-size: 28px;
+  }
+  .word2 {
+    font-weight: 400;
+  }
+  .input_text {
+    width: 460px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+  }
+  .input_text > input {
+    width: 400px;
+    height: 100%;
+    border-radius: 5px 0 0 5px;
+    padding: 10px;
+    border: 0;
+  }
+  input:focus {
+    outline: none;
+  }
+  .input_text a {
+    height: 100%;
+    background-color: #448899;
+    border-radius: 0 5px 5px 0;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  .input_text a > img {
+    height: 100%;
+  }
+  #welcome {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+  }
+  /* .copyright {
       text-align: center;
       padding: 45px 0;
       background-color: #757575;
       color: #fff;
-    }
-    .main {
-      padding: 30px 0;
-    }
-    :root {
+    } */
+  .main {
+    padding: 30px 0;
+  }
+  /* :root {
       --wid: 310px;
     }
     .block_page {
@@ -179,8 +181,11 @@
     }
     .message .close {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: 10px;
+      right: 10px;
+    }
+    .message.not_you {
+      display: none;
     }
     button {
       background-color: #448899;
@@ -201,84 +206,96 @@
     }
     .message p:first-of-type {
       font-size: 24px;
-    }
-    .transport,.cat{
-      font-weight: 400;
-    }
-    /* body::-webkit-scrollbar {
+    } */
+  .transport,
+  .cat {
+    font-weight: 400;
+  }
+  /* body::-webkit-scrollbar {
       display: none;
     } */
-    @media screen and (max-width: 1200px) {
-      nav ul,
-      .container,
-      .word {
-        width: 90%;
-      }
-      #welcome {
-        left: 40%;
-      }
-      .input_text {
-        width: 33%;
-      }
-      .attraction {
-        width: 322px;
-        height: 280px;
-      }
-      .attraction img{
-        height: 70%;
-      }
-      .container{
-        justify-content: space-evenly;
-      }
+  @media screen and (max-width: 1200px) {
+    nav ul,
+    .container,
+    .word {
+      width: 90%;
     }
-    @media screen and (max-width: 800px) {
-      .container{
-        width: 90%;
-      }
-      #welcome {
-        right: 0;
-        bottom: 0;
-        width: 80%;
-      }
-      .input_text{
-        width: 70%;
-        margin: auto;
-      }
-      .attraction {
-        width: 322px;
-        height: 280px;
-      }
-      .attraction img{
-        height: 70%;
-      }
-      nav ul{
-        width: 90%;
-      }
-      .word {
-        width: 90%;
-        text-align: center;
-      }
-      .container {
-        justify-content: center;
-      }
-      /* .input_text {
+    #welcome {
+      left: 40%;
+    }
+    .input_text {
+      width: 33%;
+    }
+    .attraction {
+      width: 322px;
+      height: 280px;
+    }
+    .attraction img {
+      height: 70%;
+    }
+    .container {
+      justify-content: space-evenly;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .container {
+      width: 90%;
+    }
+    #welcome {
+      right: 0;
+      bottom: 0;
+      width: 80%;
+    }
+    .input_text {
+      width: 322px;
+      margin: auto;
+    }
+    .attraction {
+      width: 322px;
+      height: 280px;
+    }
+    .attraction img {
+      height: 70%;
+    }
+    nav ul {
+      width: 90%;
+    }
+    .word {
+      width: 90%;
+      text-align: center;
+    }
+    .container {
+      justify-content: center;
+    }
+    /* .input_text {
         width: 85%;
         margin: auto;
       } */
-    }
-  </style>
-  {% block style %}{% endblock %}
-</head>
-<body>
-  <div class="block_page">
-    <form class="message">
-      <p>登入會員帳號</p>
-      <input type="text" placeholder="輸入電子信箱" />
-      <input type="text" placeholder="輸入密碼" />
-      <button>登入帳戶</button>
-      <p>還沒有帳戶?<a href="">點此註冊</a></p>
-      <img src="../static/icon_close.png" alt="" class="close" />
-    </form>
+  }
+</style>
+{% endblock %}
+<!-- </head> -->
+<!-- <body> -->
+<!-- <div class="block_page">
+    <div id="login_create">
+      <form class="message login" id="login_board">
+        <p>登入會員帳號</p>
+        <input type="text" placeholder="輸入電子信箱" />
+        <input type="password" placeholder="輸入密碼" />
+        <button>登入帳戶</button>
+        <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
+        <img src="../static/icon_close.png" alt="" class="close" />
+      </form>
+      <form class="message create not_you" id="create_board">
+        <p>註冊會員帳號</p>
+        <input type="text" placeholder="輸入姓名" />
+        <input type="text" placeholder="輸入電子信箱" />
+        <input type="password" placeholder="輸入密碼" />
+        <button>註冊新帳戶</button>
+        <p>已經有帳戶了?<a id="login_account">點此登入</a></p>
+        <img src="../static/icon_close.png" alt="" class="close" />
+      </form>
+    </div>
   </div>
   <nav>
     <ul>
@@ -288,23 +305,24 @@
         <a id="login">登入/註冊</a>
       </li>
     </ul>
-  </nav>
-  {% block content %}
-  <div class="banner">
-    <div class="word word1"><p>輕鬆享受台北一日悠閒</p></div>
-    <div class="word word2"><p>探索每個角落，體驗城市的深度旅遊行程</p></div>
-    <div class="word">
-      <div class="input_text">
-        <input type="text" placeholder="輸入景點名稱查詢" id="search_input" /><a id="search"
-          ><img src="/static/icon_search.png" alt=""
-        /></a>
-      </div>
+  </nav> -->
+{% block content %}
+<div class="banner">
+  <div class="word word1"><p>輕鬆享受台北一日悠閒</p></div>
+  <div class="word word2"><p>探索每個角落，體驗城市的深度旅遊行程</p></div>
+  <div class="word">
+    <div class="input_text">
+      <input type="text" placeholder="輸入景點名稱查詢" id="search_input" /><a
+        id="search"
+        ><img src="/static/icon_search.png" alt=""
+      /></a>
     </div>
-    <img src="/static/welcome 1.png" alt="" id="welcome" />
   </div>
-  <div class="main">
-    <div class="container">
-      <!-- <div class="attraction">
+  <img src="/static/welcome 1.png" alt="" id="welcome" />
+</div>
+<div class="main">
+  <div class="container">
+    <!-- <div class="attraction">
         <img src="http://picsum.photos/300/300?random=10" />
         <div class="description">
           <p>平安鐘</p>
@@ -312,181 +330,69 @@
           <a class="cat">公共藝術</a>
         </div>
       </div> -->
-      <!-- <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div>
-      <div class="attraction">
-        <img src="http://picsum.photos/300/300?random=10" />
-        <div class="description">
-          <p>平安鐘</p>
-          <a href="" class="transport">忠孝復興</a>
-          <a href="" class="cat">公共藝術</a>
-        </div>
-      </div> -->
-    </div>
   </div>
-  {% endblock %}
-  <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
-</body>
+</div>
+{% endblock %}
+<!-- <div class="copyright">Copyright &copy; 2021 台北一日遊</div> -->
+<!-- </body> -->
+{% block script %}
 <script>
-  let login_btn = document.getElementById("login");
-  let login_board = document.getElementsByClassName("block_page")[0];
-  let close_btn = document.getElementsByClassName("close")[0];
-  let login_section = document;
-  let message = document.getElementsByClassName("message")[0];
-
   let container = document.getElementsByClassName("container")[0];
 
-  let search = document.getElementById("search")
-  let search_input = document.getElementById("search_input")
-  let search_mode = false
+  let search = document.getElementById("search");
+  let search_input = document.getElementById("search_input");
+  let search_mode = false;
   let copyright = document.getElementsByClassName("copyright")[0];
 
-  let cur_id = 0
-  let pre_id = 0
-  let next_page = 1
-  let key = ""
-  let dont_stop=false
-  let first_time = false
-  let load_complete = false
+  let cur_id = 0;
+  let pre_id = 0;
+  let next_page = 1;
+  let key = "";
+  let dont_stop = false;
+  let first_time = false;
+  let load_complete = false;
+  let time_machine = null;
 
-  login_btn.addEventListener("click", () => {
-    login_board.classList.add("open");
-  });
-  close_btn.addEventListener("click", () => {
-    login_board.classList.toggle("open");
+  search.addEventListener("click", () => {
+    container.innerHTML = "";
+    cur_id = 0;
+    pre_id = 0;
+    key = search_input.value;
+    search_mode = true;
+    get_data_by_keyword(cur_id, key);
+    dont_stop = false;
+    first_time = false;
+    load_complete = false;
+    time_machine = null;
   });
 
-  document.addEventListener("click", (e) => {
+  window.addEventListener("scroll", () => {
     if (
-      message !== e.target &&
-      !message.contains(e.target) &&
-      e.target !== login_btn
-    ) {
-      login_board.classList.remove("open");
+      document.body.scrollTop + window.outerHeight >
+      document.body.offsetHeight
+      ) {
+      clearTimeout(time_machine);
+      time_machine = setTimeout(() => {
+        do_this()
+      },500)
     }
   });
-
-  search.addEventListener("click",()=>{
-    container.innerHTML=""
-    cur_id=0
-    pre_id=0
-    key=search_input.value
-    search_mode=true
-    console.log(key)
-    get_data_by_keyword(cur_id,key)
-    dont_stop=false
-    first_time=false
-    load_complete=false
-  })
-
   
-
-  window.addEventListener('scroll',()=>{
-    if(document.body.scrollTop+window.outerHeight>document.body.offsetHeight){
-      if(next_page!==null && load_complete){
-        cur_id++
-      }
-      if(!search_mode && load_complete && cur_id!==pre_id){
-        load_complete=false
-        get_data_by_page(cur_id)
-        pre_id=cur_id
-      }
-      if(search_mode && load_complete && cur_id!==pre_id){
-        load_complete=false
-        get_data_by_keyword(cur_id,key)
-        pre_id=cur_id
-      }
-      // if(first_time && load_complete){
-      //   load_complete=false
-      //   if(search_mode){
-      //     get_data_by_keyword(cur_id+1,key)
-      //   }else{
-      //     get_data_by_page(cur_id+1)
-      //   }
-      // }
-      // if(next_page===null && first_time===false){
-      //   first_time=true
-      // }
+  async function do_this(){
+    if (next_page !== null) {
+      cur_id++;
     }
-  });
+    if (!search_mode && cur_id !== pre_id) {
+      load_complete = false;
+      await get_data_by_page(cur_id);
+      pre_id = cur_id;
+    }
+    if (search_mode && cur_id !== pre_id) {
+      load_complete = false;
+      await get_data_by_keyword(cur_id, key);
+      pre_id = cur_id;
+    }
+  }
 
   get_data_by_page(cur_id);
 
@@ -496,45 +402,48 @@
         return res.json();
       })
       .then((res) => {
-        next_page = res.nextPage
+        next_page = res.nextPage;
         render_data(res);
       });
   }
 
-  function get_data_by_keyword(page,keyword) {
-    fetch("/api/attractions?page=" + `${page}`+"&keyword="+`${keyword}`)
+  function get_data_by_keyword(page, keyword) {
+    fetch("/api/attractions?page=" + `${page}` + "&keyword=" + `${keyword}`)
       .then((res) => {
         return res.json();
       })
       .then((res) => {
-        if(res.data.length===0 && dont_stop===false){
-          container.innerHTML="查無結果"
-          return
+        if (res.data.length === 0 && dont_stop === false) {
+          container.innerHTML = "查無結果";
+          return;
         }
-        next_page = res.nextPage
+        next_page = res.nextPage;
         render_data(res);
-        dont_stop=true
+        dont_stop = true;
       });
   }
 
-  
   function render_data(res) {
-    let cnt = 0
+    let cnt = 0;
     res.data.forEach((element) => {
       let attraction = document.createElement("div");
       attraction.classList.add("attraction");
 
       let img = new Image();
-      img.onload = function(){
-        cnt++
-        if(cnt===res.data.length && load_complete===false){
-          console.log(cnt)
-          load_complete=true
+      img.onload = function () {
+        cnt++;
+        if (cnt === res.data.length && load_complete === false) {
+          load_complete = true;
         }
-      }
+      };
       img.src = element.images[0];
 
-      attraction.appendChild(img);
+      let link = document.createElement("a");
+      link.href = `/attraction/${element.id}`;
+
+      link.appendChild(img);
+
+      attraction.appendChild(link);
 
       let description = document.createElement("div");
       description.classList.add("description");
@@ -560,4 +469,4 @@
     });
   }
 </script>
-{% block script %}{% endblock %}
+{% endblock %}

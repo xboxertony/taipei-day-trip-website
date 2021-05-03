@@ -1,0 +1,314 @@
+{% extends "model.html" %} {% block style%}
+<style>
+  .place_view {
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    margin: auto;
+    padding: 20px 0;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .img_test {
+    position: relative;
+    width: 540px;
+    height: 406px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    border-radius: 5%;
+  }
+  .img_test .pic {
+    width: 100%;
+    height: 100%;
+  }
+  .button {
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    background-repeat: no-repeat;
+  }
+  .left {
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .right {
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .img_word {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    height: 406px;
+    justify-content: space-between;
+  }
+  .img_word > p {
+    font-weight: 400;
+    color: #666666;
+  }
+  .img_word > p:first-child {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .order_panel {
+    background-color: #e8e8e8;
+    height: 300px;
+  }
+  .describe {
+    width: 1200px;
+    margin: 50px auto;
+    word-wrap: break-word;
+  }
+  .describe > div {
+    margin: 20px 0;
+  }
+  .point {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -150%);
+  }
+  .point img{
+    margin-left: 5px;
+  }
+  .order_panel form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .order_panel form p,
+  label {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .order_panel button {
+    width: 154px;
+    height: 36px;
+    border-radius: 10px;
+  }
+  .order_panel .form_title,
+  .des_title {
+    font-weight: 900;
+    color: #111111;
+  }
+  input[type="radio"] {
+    display: none;
+  }
+  input[type="radio"] + span::before {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.3rem;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: gray;
+    vertical-align: bottom;
+  }
+  input[type="radio"]:checked + span::before {
+    background: radial-gradient(
+      #448899 0%,
+      #448899 40%,
+      transparent 50%
+    );
+    border-color: #448899;
+  }
+  .describe_content,.address_place,.traffic{
+    line-height: 2;
+  }
+  #date{
+    padding: 6px;
+  }
+  @media screen and (max-width: 1200px) {
+    .place_view {
+      width: 90%;
+      height: 400px;
+    }
+    .img_test {
+      margin-right: 30px;
+    }
+    .describe {
+      width: 90%;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .place_view {
+      display: block;
+      margin: auto;
+      height: 800px;
+    }
+    .img_test {
+      height: 350px;
+    }
+    .place_view,
+    .describe,
+    .img_word,
+    .img_test {
+      width: 340px;
+      margin: auto;
+    }
+    .img_word,
+    .describe {
+      justify-content: space-evenly;
+    }
+    .describe {
+      margin: 50px auto;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    .copyright {
+      width: 100%;
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="place_view">
+  <div class="img_test">
+    <img src="../static/btn_rightArrow.png" alt="" class="button right" />
+    <img src="../static/btn_leftArrow.png" alt="" class="button left" />
+    <div class="point"></div>
+  </div>
+  <div class="img_word">
+    <p id="attraction_name"></p>
+    <p id="attraction_cat_and_mrt"></p>
+    <div class="order_panel">
+      <form action="">
+        <p class="form_title">訂購導覽行程</p>
+        <p>以此景點為中心的一日行程，帶你探索城市角落故事</p>
+        <div id="select_date">
+          <label for="date" class="form_title">選擇日期：</label
+          ><input type="date" id="date" name="date" />
+        </div>
+        <div id="select_time">
+          <label for="" class="form_title">選擇時間：</label>
+          <label>
+            <input type="radio" id="up_time" name="time" checked/>
+            <span>上半天</span>
+          </label>
+          <label>
+            <input type="radio" id="down_time" name="time" />
+            <span>下半天</span>
+          </label>
+        </div>
+        <p class="form_title" id="price">導覽費用：新台幣2000元</p>
+        <button>開始導覽行程</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="describe">
+  <div class="describe_content"></div>
+  <div>
+    <p class="des_title">景點地址：</p>
+    <div class="address_place"></div>
+  </div>
+  <div>
+    <p class="des_title">交通方式：</p>
+    <div class="traffic"></div>
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+  let url = location.href;
+  let l = url.split("/");
+  let idx = l[l.length - 1];
+  let img_block = document.getElementsByClassName("img_test")[0];
+  let left_btn = document.getElementsByClassName("left")[0];
+  let right_btn = document.getElementsByClassName("right")[0];
+  let point_block = document.getElementsByClassName("point")[0];
+  let id = 0;
+  let imglist = [];
+
+  let attraction_name = document.getElementById("attraction_name"); //景點名稱
+  let attraction_cat_and_mrt = document.getElementById(
+    "attraction_cat_and_mrt"
+  ); //交通方式與捷運
+  let describe_content = document.getElementsByClassName("describe_content")[0]; //景點描述
+  let address_place = document.getElementsByClassName("address_place")[0]; //地址
+  let traffic = document.getElementsByClassName("traffic")[0]; //交通方式
+
+  let up_time = document.getElementById("up_time")
+  let doen_time = document.getElementById("down_time")
+  let price = document.getElementById("price")
+
+  up_time.addEventListener("click",()=>{
+    price.innerHTML = "導覽費用：新台幣2000元"
+  })
+
+  down_time.addEventListener("click",()=>{
+    price.innerHTML = "導覽費用：新台幣2500元"
+  })
+
+  fetch("/api/attraction/" + `${idx}`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      handle_img(res.data.images);
+      show_img();
+      handle_data(res);
+    });
+
+  function handle_data(res) {
+    attraction_name.innerHTML = res.data.name;
+    attraction_cat_and_mrt.innerHTML =
+      res.data.category + " at " + res.data.mrt;
+    describe_content.innerHTML = res.data.description;
+    address_place.innerHTML = res.data.address;
+    traffic.innerHTML = res.data.transport;
+  }
+
+  function add_point() {
+    for (let i = 0; i < imglist.length; i++) {
+      let point = document.createElement("img");
+      if (i === id) {
+        point.src = "../static/circle current_black.png";
+      } else {
+        point.src = "../static/circle current.png";
+      }
+      point_block.appendChild(point);
+    }
+  }
+
+  function clear_point() {
+    point_block.innerHTML = "";
+  }
+
+  let handle_img = (img_list) => {
+    img_list.forEach((element) => {
+      let img = document.createElement("img");
+      img.src = element;
+      img.classList.add("pic");
+      imglist.push(element);
+    });
+  };
+
+  function show_img() {
+    clear_point();
+    img_block.style.backgroundImage = "url(" + `${imglist[id]}` + ")";
+    add_point();
+  }
+
+  right_btn.addEventListener("click", () => {
+    id++;
+    if (id > imglist.length - 1) {
+      id = 0;
+    }
+    show_img();
+  });
+
+  left_btn.addEventListener("click", () => {
+    id--;
+    if (id < 0) {
+      id = imglist.length - 1;
+    }
+    show_img();
+  });
+</script>
+{% endblock %}

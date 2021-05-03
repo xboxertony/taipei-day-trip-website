@@ -1,0 +1,255 @@
+{% extends "model.html" %} {% block style%}
+<style>
+  .order_page > div:not(:last-of-type) {
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .schedule {
+    width: 60%;
+    margin: auto;
+    box-sizing: border-box;
+  }
+  .schedule > p{
+    padding: 20px 0;
+    box-sizing: border-box;
+  }
+  .checkout {
+    display: flex;
+    width: 100%;
+    margin: 10px 0;
+    position: relative;
+  }
+  .checkout > div {
+    height: 200px;
+  }
+  .checkout > .delete{
+    position: absolute;
+    left: 100%;
+    transform: translateX(-100%);
+    cursor: pointer;
+  }
+  .photo {
+    width: 266px;
+    background-color: cornsilk;
+    margin-right: 22px;
+  }
+  .title_word_to_paid {
+    color: #448899;
+    font-weight: 700;
+  }
+  .information {
+    color: #666666;
+    font-weight: 700;
+  }
+  .form_div {
+    width: 60%;
+    margin: auto;
+    padding: 20px 0;
+    box-sizing: border-box;
+  }
+  .form_style {
+    display: flex;
+    flex-direction: column;
+  }
+  .form_style p {
+    color: #666666;
+    font-weight: 700;
+  }
+  .form_style input {
+    padding: 5px;
+  }
+  .form_style p,
+  .form_style div {
+    margin: 10px 0;
+  }
+  .ready_to_paid .summary {
+    float: right;
+  }
+  .summary p,
+  .summary button {
+    margin: 25px 0;
+  }
+  .summary p {
+    text-align: right;
+  }
+  .ready_to_paid .clear {
+    clear: both;
+  }
+  .word_to_paid {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card {
+    width: calc(162px / 4);
+  }
+  .time{
+    width: calc(162px / 2);
+  }
+  @media screen and (max-width: 800px) {
+    .form_div,
+    .schedule {
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+      align-items: center;
+    }
+    .checkout {
+      width: 340px;
+      flex-direction: column;
+    }
+    .word_to_paid {
+      width: 100%;
+      justify-content: space-evenly;
+    }
+    .photo {
+      width: 100%;
+      height: 256px;
+      margin: auto;
+    }
+    .summary form {
+      text-align: right;
+    }
+    .form_style {
+      width: 340px;
+    }
+    .checkout .delete{
+      top: 100%;
+      transform: translate(-100%,-100%);
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="order_page">
+  <div class="schedule">
+    <p>您好，Yahoo，你待確認的行程如下</p>
+    <div class="checkout">
+      <div class="photo"></div>
+      <div class="word_to_paid">
+        <p class="title_word_to_paid">台北一日遊1</p>
+        <p class="information">日期：</p>
+        <p class="information">時間：</p>
+        <p class="information">費用：</p>
+        <p class="information">地點：</p>
+      </div>
+      <img src="../static/icon_delete.png" alt="" class="delete">
+    </div>
+    <div class="checkout">
+      <div class="photo"></div>
+      <div class="word_to_paid">
+        <p class="title_word_to_paid">台北一日遊2</p>
+        <p class="information">日期：</p>
+        <p class="information">時間：</p>
+        <p class="information">費用：</p>
+        <p class="information">地點：</p>
+      </div>
+      <img src="../static/icon_delete.png" alt="" class="delete">
+    </div>
+    <div class="checkout">
+      <div class="photo"></div>
+      <div class="word_to_paid">
+        <p class="title_word_to_paid">台北一日遊3</p>
+        <p class="information">日期：</p>
+        <p class="information">時間：</p>
+        <p class="information">費用：</p>
+        <p class="information">地點：</p>
+      </div>
+      <img src="../static/icon_delete.png" alt="" class="delete">
+    </div>
+  </div>
+  <div class="contact form_div">
+    <form action="" class="form_style">
+      <p>你的連絡資訊</p>
+      <div>
+        <label for="">聯絡姓名：</label
+        ><input type="text" placeholder="ex:Yakoo" />
+      </div>
+      <div>
+        <label for="">聯絡信箱：</label
+        ><input type="text" placeholder="ex:imyeeee@gmail.com" />
+      </div>
+      <div><label for="">手機號碼：</label><input type="text" /></div>
+      <p>
+        請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式
+      </p>
+    </form>
+  </div>
+  <div class="paid form_div">
+    <form action="" class="form_style">
+      <p>信用卡付款資訊</p>
+      <div>
+        <label for="">卡片號碼：</label>
+        <input
+          type="text"
+          class="card"
+          id="C1"
+          maxlength="4"
+          onKeyup="NextMove(this,'C2')"
+        />
+        -
+        <input
+          type="text"
+          class="card"
+          id="C2"
+          maxlength="4"
+          onKeyup="NextMove(this,'C3')"
+        />
+        -
+        <input
+          type="text"
+          class="card"
+          id="C3"
+          maxlength="4"
+          onKeyup="NextMove(this,'C4')"
+        />
+        -
+        <input type="text" class="card" id="C4" maxlength="4" />
+      </div>
+      <div>
+        <label for="">過期時間：</label>
+        <input
+          type="text"
+          maxlength="2"
+          id="T1"
+          class="time"
+          onKeyup="NextMove(this,'T2')"
+        />
+        /
+        <input type="text" maxlength="2" class="time" id="T2" />
+      </div>
+      <div>
+        <label for="">驗證密碼：</label>
+        <input type="text" />
+      </div>
+    </form>
+  </div>
+  <div class="ready_to_paid form_div">
+    <div class="summary">
+      <p>確認總價：新台幣2000元</p>
+      <form action="/">
+        <button>確認訂購並付款</button>
+      </form>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+  function NextMove(obj, Nextone) {
+    let Next = document.getElementById(Nextone);
+    if (obj.value.length === parseInt(obj.getAttribute("maxlength"))) {
+      Next.focus();
+    }
+    return;
+  }
+
+  let delete_fuc = document.getElementsByClassName("delete");
+
+  Array.from(delete_fuc).forEach(element => {
+    element.addEventListener("click",(e)=>{
+      e.target.parentNode.remove()
+    })
+  });
+
+</script>
+{% endblock %}
