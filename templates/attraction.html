@@ -17,6 +17,7 @@
     background-size: cover;
     text-align: center;
     border-radius: 5%;
+    transition: background 0.5s;
   }
   .img_test .pic {
     width: 100%;
@@ -71,7 +72,7 @@
     left: 50%;
     transform: translate(-50%, -150%);
   }
-  .point img{
+  .point img {
     margin-left: 5px;
   }
   .order_panel form {
@@ -112,17 +113,15 @@
     vertical-align: bottom;
   }
   input[type="radio"]:checked + span::before {
-    background: radial-gradient(
-      #448899 0%,
-      #448899 40%,
-      transparent 50%
-    );
+    background: radial-gradient(#448899 0%, #448899 40%, transparent 50%);
     border-color: #448899;
   }
-  .describe_content,.address_place,.traffic{
+  .describe_content,
+  .address_place,
+  .traffic {
     line-height: 2;
   }
-  #date{
+  #date {
     padding: 6px;
   }
   @media screen and (max-width: 1200px) {
@@ -188,7 +187,7 @@
         <div id="select_time">
           <label for="" class="form_title">選擇時間：</label>
           <label>
-            <input type="radio" id="up_time" name="time" checked/>
+            <input type="radio" id="up_time" name="time" checked />
             <span>上半天</span>
           </label>
           <label>
@@ -233,17 +232,17 @@
   let address_place = document.getElementsByClassName("address_place")[0]; //地址
   let traffic = document.getElementsByClassName("traffic")[0]; //交通方式
 
-  let up_time = document.getElementById("up_time")
-  let doen_time = document.getElementById("down_time")
-  let price = document.getElementById("price")
+  let up_time = document.getElementById("up_time");
+  let doen_time = document.getElementById("down_time");
+  let price = document.getElementById("price");
 
-  up_time.addEventListener("click",()=>{
-    price.innerHTML = "導覽費用：新台幣2000元"
-  })
+  up_time.addEventListener("click", () => {
+    price.innerHTML = "導覽費用：新台幣2000元";
+  });
 
-  down_time.addEventListener("click",()=>{
-    price.innerHTML = "導覽費用：新台幣2500元"
-  })
+  down_time.addEventListener("click", () => {
+    price.innerHTML = "導覽費用：新台幣2500元";
+  });
 
   fetch("/api/attraction/" + `${idx}`)
     .then((res) => {
@@ -282,16 +281,28 @@
 
   let handle_img = (img_list) => {
     img_list.forEach((element) => {
-      let img = document.createElement("img");
-      img.src = element;
-      img.classList.add("pic");
+      // let img = document.createElement("img");
+      // img.src = element;
+      // img.classList.add("pic");
       imglist.push(element);
     });
   };
 
   function show_img() {
     clear_point();
-    img_block.style.backgroundImage = "url(" + `${imglist[id]}` + ")";
+    // img_block.style.backgroundImage = "url(" + `${imglist[id]}` + ")";
+    img_block.childNodes.forEach((ele) => {
+      if (ele.classList && ele.classList.contains("pic")) {
+        ele.remove();
+      }
+    });
+    let img = new Image();
+    img.classList.add("pic");
+    img_block.appendChild(img);
+    img.onload = ()=>{
+      img.src = imglist[id];
+    }
+    img.src = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
     add_point();
   }
 
