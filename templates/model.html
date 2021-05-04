@@ -72,7 +72,10 @@
       width: 340px;
       height: 275px;
       align-items: center;
-      justify-content: space-evenly;
+      justify-content: space-between;
+      padding: 0 10px 10px 10px;
+      box-sizing: border-box;
+      border-radius: 0 0 5px 5px;
     }
     .message input {
       width: var(--wid);
@@ -84,7 +87,7 @@
     .message .close {
       position: absolute;
       top: 10px;
-      right: 10px;
+      right: 15px;
     }
     .message.not_you {
       display: none;
@@ -118,6 +121,14 @@
     .message input[type="text"],.message button,.message input[type="password"]{
       border-radius: 10px;
     }
+    .upper_bar{
+      background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+      width: 100%;
+      height: 10px;
+      position: absolute;
+      top: -10px;
+      border-radius: 5px 5px 0 0;
+    }
     @media screen and (max-width: 1200px) {
       nav ul {
         width: 90%;
@@ -130,6 +141,7 @@
     <div class="block_page">
       <div id="login_create">
         <form class="message login" id="login_board">
+          <div class="upper_bar"></div>
           <p>登入會員帳號</p>
           <input type="text" placeholder="輸入電子信箱" />
           <input type="password" placeholder="輸入密碼" />
@@ -138,6 +150,7 @@
           <img src="../static/icon_close.png" alt="" class="close" />
         </form>
         <form class="message create not_you" id="create_board">
+          <div class="upper_bar"></div>
           <p>註冊會員帳號</p>
           <input type="text" placeholder="輸入姓名" />
           <input type="text" placeholder="輸入電子信箱" />
