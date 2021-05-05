@@ -124,6 +124,12 @@
   #date {
     padding: 6px;
   }
+  .rect_close {
+    display: inline;
+  }
+  .rect_open {
+    display: none;
+  }
   @media screen and (max-width: 1200px) {
     .place_view {
       width: 90%;
@@ -159,6 +165,12 @@
     .describe {
       margin: 50px auto;
     }
+    .rect_close {
+      display: none;
+    }
+    .rect_open {
+      display: inline;
+    }
   }
   @media screen and (max-width: 450px) {
     .copyright {
@@ -172,6 +184,23 @@
     <img src="../static/btn_rightArrow.png" alt="" class="button right" />
     <img src="../static/btn_leftArrow.png" alt="" class="button left" />
     <div class="point"></div>
+    <map name="control_pic">
+      <area shape="rect" coords="0,0,100,406" href="#" alt="" />
+      <area
+        shape="rect"
+        coords="440,0,540,406"
+        href="#"
+        alt=""
+        class="rect_close"
+      />
+      <area
+        shape="rect"
+        coords="240,0,340,350"
+        href="#"
+        alt=""
+        class="rect_open"
+      />
+    </map>
   </div>
   <div class="img_word">
     <p id="attraction_name"></p>
@@ -298,28 +327,56 @@
     });
     let img = new Image();
     img.classList.add("pic");
+    img.useMap = "#control_pic";
     img_block.appendChild(img);
-    img.onload = ()=>{
+    img.onload = (e) => {
       img.src = imglist[id];
-    }
-    img.src = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+    };
+    img.src = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
     add_point();
   }
 
-  right_btn.addEventListener("click", () => {
+  let left_area = document.getElementsByTagName("area")[0];
+  let right_area = document.getElementsByTagName("area")[1];
+  let right_area2 = document.getElementsByTagName("area")[2];
+
+  left_area.addEventListener("click", (e) => {
+    e.preventDefault();
+    left_hand();
+  });
+
+  right_area.addEventListener("click", (e) => {
+    e.preventDefault();
+    right_hand();
+  });
+
+  right_area2.addEventListener("click", (e) => {
+    e.preventDefault();
+    right_hand();
+  });
+
+  function right_hand() {
     id++;
     if (id > imglist.length - 1) {
       id = 0;
     }
     show_img();
-  });
+  }
 
-  left_btn.addEventListener("click", () => {
+  function left_hand() {
     id--;
     if (id < 0) {
       id = imglist.length - 1;
     }
     show_img();
+  }
+
+  right_btn.addEventListener("click", () => {
+    right_hand();
+  });
+
+  left_btn.addEventListener("click", () => {
+    left_hand();
   });
 </script>
 {% endblock %}
