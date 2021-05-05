@@ -22,6 +22,7 @@
   .img_test .pic {
     width: 100%;
     height: 100%;
+    border-radius: 5%;
   }
   .button {
     width: 36px;
@@ -124,12 +125,6 @@
   #date {
     padding: 6px;
   }
-  .rect_close {
-    display: inline;
-  }
-  .rect_open {
-    display: none;
-  }
   @media screen and (max-width: 1200px) {
     .place_view {
       width: 90%;
@@ -165,12 +160,6 @@
     .describe {
       margin: 50px auto;
     }
-    .rect_close {
-      display: none;
-    }
-    .rect_open {
-      display: inline;
-    }
   }
   @media screen and (max-width: 450px) {
     .copyright {
@@ -193,6 +182,9 @@
         alt=""
         class="rect_close"
       />
+    </map>
+    <map name="control_RWD">
+      <area shape="rect" coords="0,0,100,406" href="#" alt="" />
       <area
         shape="rect"
         coords="240,0,340,350"
@@ -265,6 +257,8 @@
   let doen_time = document.getElementById("down_time");
   let price = document.getElementById("price");
 
+  let controler = "#control_pic"
+
   up_time.addEventListener("click", () => {
     price.innerHTML = "導覽費用：新台幣2000元";
   });
@@ -327,7 +321,7 @@
     });
     let img = new Image();
     img.classList.add("pic");
-    img.useMap = "#control_pic";
+    img.useMap = controler;
     img_block.appendChild(img);
     img.onload = (e) => {
       img.src = imglist[id];
@@ -338,7 +332,8 @@
 
   let left_area = document.getElementsByTagName("area")[0];
   let right_area = document.getElementsByTagName("area")[1];
-  let right_area2 = document.getElementsByTagName("area")[2];
+  let left_area2 = document.getElementsByTagName("area")[2];
+  let right_area2 = document.getElementsByTagName("area")[3];
 
   left_area.addEventListener("click", (e) => {
     e.preventDefault();
@@ -348,6 +343,11 @@
   right_area.addEventListener("click", (e) => {
     e.preventDefault();
     right_hand();
+  });
+
+  left_area2.addEventListener("click", (e) => {
+    e.preventDefault();
+    left_hand();
   });
 
   right_area2.addEventListener("click", (e) => {
@@ -378,5 +378,15 @@
   left_btn.addEventListener("click", () => {
     left_hand();
   });
+
+  window.onresize = ()=>{
+    if(document.body.offsetWidth<800){
+      controler = "#control_RWD"
+    }
+    else{
+      controler = "#control_pic"
+    }
+    show_img()
+  }
 </script>
 {% endblock %}
