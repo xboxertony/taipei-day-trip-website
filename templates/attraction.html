@@ -273,6 +273,7 @@
     })
     .then((res) => {
       handle_img(res.data.images);
+      judge_width();
       show_img();
       handle_data(res);
     });
@@ -379,13 +380,18 @@
     left_hand();
   });
 
-  window.onresize = ()=>{
+
+  function judge_width(){
     if(document.body.offsetWidth<800){
       controler = "#control_RWD"
     }
     else{
       controler = "#control_pic"
     }
+  }
+
+  window.onresize = ()=>{
+    judge_width()
     show_img()
   }
 </script>
