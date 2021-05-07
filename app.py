@@ -8,6 +8,7 @@ from config import setapp
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
+app.secret_key="abc"
 setapp(app)
 db = SQLAlchemy(app)
 
@@ -38,6 +39,56 @@ def attr2(id):
 		return res
 	except:
 		return json.dumps({"error":True,"message":"伺服器內部錯誤"},ensure_ascii=False),500
+
+@app.route("/api/user",methods=["GET","POST","PATCH","DELETE"])
+def user():
+	if request.method=="POST":
+		try:
+			data = request.get_json()
+			name = data["name"]
+			email = data["email"]
+			password = data["password"]
+			sql = f"select email from user where email='{email}'"
+			replicate = db.engine.execute(sql)
+			for i in replicate:
+				return jsonify({"error":True,"message":"註冊失敗，重複的email"}),400
+			sql = f"insert into user (name,email,password) values ('{name}','{email}','{password}')"
+			db.engine.execute(sql)
+			return jsonify({"ok":True})
+		except:
+			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
+	if request.method=="PATCH":
+		try:
+			data = request.get_json()
+			email = data["email"]
+			password = data["password"]
+			sql = f"select id,name,email from user where email='{email}' and password='{password}'"
+			result = db.engine.execute(sql)
+			for i in result:
+				print(i)
+				session["id"]=i[0]
+				session["name"]=i[1]
+				session["email"]=i[2]
+				return jsonify({"ok":True})
+			return jsonify({"error":True,"message":"登入失敗，帳號或密碼錯誤"}),400
+		except:
+			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
+	if request.method=="DELETE":
+		print(session)
+		session.pop("id")
+		session.pop("name")
+		session.pop("email")
+		return jsonify({"ok":True})
+	if request.method=="GET":
+		if "name" in session:
+			return jsonify({"data":{
+				"id":session["id"],
+				"name":session["name"],
+				"email":session["email"]
+				}
+			})
+		else:
+			return jsonify({"data":None}) 
 
 # @app.route("/test/<id>")
 # def testtest(id):

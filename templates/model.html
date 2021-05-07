@@ -3,7 +3,11 @@
     name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1"
   />
-  <link rel='shortcut icon' type='image/x-icon' href='../static/taipei-102.ico'/>
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="../static/taipei-102.ico"
+  />
   <title>台北一日遊</title>
   <style>
     * {
@@ -40,7 +44,7 @@
       margin: auto;
       justify-content: space-between;
     }
-    #login{
+    #login {
       font-weight: 700;
     }
     .title {
@@ -95,7 +99,7 @@
     .message.not_you {
       display: none;
     }
-    .message p{
+    .message p {
       padding: 10px 0;
     }
     button {
@@ -125,11 +129,13 @@
       background-color: #757575;
       color: #fff;
     }
-    .message input[type="text"],.message button,.message input[type="password"]{
+    .message input[type="text"],
+    .message button,
+    .message input[type="password"] {
       border-radius: 10px;
     }
-    .upper_bar{
-      background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+    .upper_bar {
+      background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
       width: 100%;
       height: 10px;
       position: absolute;
@@ -145,40 +151,40 @@
   {% block style %}{% endblock %}
 </head>
 <body>
-    <div class="block_page">
-      <div id="login_create">
-        <form class="message login" id="login_board">
-          <div class="upper_bar"></div>
-          <p>登入會員帳號</p>
-          <input type="text" placeholder="輸入電子信箱" />
-          <input type="password" placeholder="輸入密碼" />
-          <button>登入帳戶</button>
-          <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
-          <img src="../static/icon_close.png" alt="" class="close" />
-        </form>
-        <form class="message create not_you" id="create_board">
-          <div class="upper_bar"></div>
-          <p>註冊會員帳號</p>
-          <input type="text" placeholder="輸入姓名" />
-          <input type="text" placeholder="輸入電子信箱" />
-          <input type="password" placeholder="輸入密碼" />
-          <button>註冊新帳戶</button>
-          <p>已經有帳戶了?<a id="login_account">點此登入</a></p>
-          <img src="../static/icon_close.png" alt="" class="close" />
-        </form>
-      </div>
+  <div class="block_page">
+    <div id="login_create">
+      <form class="message login" id="login_board">
+        <div class="upper_bar"></div>
+        <p>登入會員帳號</p>
+        <input type="text" placeholder="輸入電子信箱" id="login_email" />
+        <input type="password" placeholder="輸入密碼" id="login_password" />
+        <button id="login_btn">登入帳戶</button>
+        <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
+        <img src="../static/icon_close.png" alt="" class="close" />
+      </form>
+      <form class="message create not_you" id="create_board">
+        <div class="upper_bar"></div>
+        <p>註冊會員帳號</p>
+        <input type="text" placeholder="輸入姓名" id="create_name" />
+        <input type="text" placeholder="輸入電子信箱" id="create_email" />
+        <input type="password" placeholder="輸入密碼" id="create_password" />
+        <button id="create_account_btn">註冊新帳戶</button>
+        <p>已經有帳戶了?<a id="login_account">點此登入</a></p>
+        <img src="../static/icon_close.png" alt="" class="close" />
+      </form>
     </div>
-    <nav>
-      <ul>
-        <a href="/" class="title">台北一日遊</a>
-        <li class="last-item">
-          <a>預定行程</a>
-          <a id="login">登入/註冊</a>
-        </li>
-      </ul>
-    </nav>
-    {% block content %}{% endblock %}
-    <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
+  </div>
+  <nav>
+    <ul>
+      <a href="/" class="title">台北一日遊</a>
+      <li class="last-item">
+        <a>預定行程</a>
+        <a id="login">登入/註冊</a>
+      </li>
+    </ul>
+  </nav>
+  {% block content %}{% endblock %}
+  <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
 </body>
 <script>
   let login_btn = document.getElementById("login");
@@ -195,6 +201,80 @@
 
   let login_create = document.getElementById("login_create");
 
+  let create_act_btn = document.getElementById("create_account_btn");
+  let create_name = document.getElementById("create_name");
+  let create_password = document.getElementById("create_password");
+  let create_email = document.getElementById("create_email");
+
+  let login_act_btn = document.getElementById("login_btn");
+  let login_email = document.getElementById("login_email");
+  let login_password = document.getElementById("login_password");
+
+  let local = window.location.href.split("/")[2]
+
+  console.log(local)
+
+  fetch("/api/user",{
+    method:"GET"
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      if (res["data"]) {
+        login_btn.innerHTML = "登出";
+        console.log(res);
+      } else {
+        console.log(res);
+      }
+    });
+
+  login_act_btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    let data = {
+      email: document.getElementById("login_email").value,
+      password: document.getElementById("login_password").value,
+    };
+    fetch("/api/user", {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((d) => {
+        if (d["ok"]) {
+          login_btn.innerHTML = "登出";
+          login_board.classList.remove("open");
+        }
+      });
+  });
+
+  create_act_btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    let data = {
+      name: create_name.value,
+      email: create_email.value,
+      password: create_password.value,
+    };
+    fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  });
+
   create_btn_a.addEventListener("click", (e) => {
     e.preventDefault();
     login_board_b.classList.toggle("not_you");
@@ -208,7 +288,22 @@
   });
 
   login_btn.addEventListener("click", () => {
-    login_board.classList.add("open");
+    if (login_btn.innerHTML == "登出") {
+      fetch("/api/user", {
+        method: "DELETE",
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          if (data["ok"]) {
+            login_btn.innerHTML = "登入/註冊";
+          }
+        });
+    } else {
+      login_board.classList.add("open");
+    }
   });
 
   Array.from(close_btn).forEach((ele) => {
