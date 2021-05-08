@@ -98,6 +98,51 @@ def user():
 def test_order():
 	return render_template("place_order_test.html")
 
+
+@app.route("/api/booking",methods=["GET","POST","DELETE"])
+def api_book():
+	if "name" not in session:
+		return jsonify({"error":True,"message":"未登入系統"}),403
+	if request.method=="POST":
+		try:
+			data = request.get_json()
+			attractionid = data.get("attractionId")
+			date = data.get("date")
+			time = data.get("time")
+			price = data.get("price")
+			if not date or not time or not price:
+				return jsonify({"error":True,"message":"有資料未輸入"}),400
+			sql = f"insert into booking (attractionId,date,time,price) values ('{attractionid}','{date}','{time}','{price}')"
+			db.engine.execute(sql)
+			return jsonify({"ok":True})
+		except:
+			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
+	if request.method=="GET":
+		sql = "SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id"
+		sql_exe = db.engine.execute(sql)
+		res = {"data":None}
+		for i in sql_exe:
+			res = {
+				"data":{
+					"attraction":{
+						"id":i[0],
+						"name":i[1],
+						"address":i[2],
+						"image":i[3].split(";")[0]
+						},
+				"date":i[4],
+				"time":i[5],
+				"price":i[6]
+				}
+			}
+		return jsonify(res)
+	if request.method=="DELETE":
+		sql = "truncate table booking"
+		db.engine.execute(sql)
+		return jsonify({"ok":True})
+
+
+
 # Pages
 @app.route("/")
 def index():

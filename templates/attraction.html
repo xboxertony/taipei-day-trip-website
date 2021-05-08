@@ -217,7 +217,7 @@
           </label>
         </div>
         <p class="form_title" id="price">導覽費用：新台幣2000元</p>
-        <button>開始導覽行程</button>
+        <button id="submit_booking">開始導覽行程</button>
       </form>
     </div>
   </div>
@@ -257,14 +257,23 @@
   let doen_time = document.getElementById("down_time");
   let price = document.getElementById("price");
 
-  let controler = "#control_pic"
+  let send_booking_btn = document.getElementById("submit_booking");
+
+  let controler = "#control_pic";
+
+  let order_price = 2000;
+  let order_time = "morning";
 
   up_time.addEventListener("click", () => {
     price.innerHTML = "導覽費用：新台幣2000元";
+    order_time = "morning";
+    order_price = 2000;
   });
 
   down_time.addEventListener("click", () => {
     price.innerHTML = "導覽費用：新台幣2500元";
+    order_time = "afternoon";
+    order_price = 2500;
   });
 
   fetch("/api/attraction/" + `${idx}`)
@@ -277,6 +286,29 @@
       show_img();
       handle_data(res);
     });
+
+  send_booking_btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    let booking_info = {
+      attractionId: parseInt(idx),
+      date: document.getElementById("date").value,
+      time: order_time,
+      price: order_price,
+    };
+    fetch("/api/booking", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(booking_info),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        console.log(result);
+      });
+  });
 
   function handle_data(res) {
     attraction_name.innerHTML = res.data.name;
@@ -380,19 +412,17 @@
     left_hand();
   });
 
-
-  function judge_width(){
-    if(document.body.offsetWidth<800){
-      controler = "#control_RWD"
-    }
-    else{
-      controler = "#control_pic"
+  function judge_width() {
+    if (document.body.offsetWidth < 800) {
+      controler = "#control_RWD";
+    } else {
+      controler = "#control_pic";
     }
   }
 
-  window.onresize = ()=>{
-    judge_width()
-    show_img()
-  }
+  window.onresize = () => {
+    judge_width();
+    show_img();
+  };
 </script>
 {% endblock %}
