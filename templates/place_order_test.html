@@ -300,11 +300,15 @@
     order_date.classList.add("information");
 
     let order_time = document.createElement("p");
-    order_time.innerHTML = `時間：${d.data.time}`;
+    if(d.data.time==="morning"){
+      order_time.innerHTML = `時間：早上9點到下午4點`;
+    }else{
+      order_time.innerHTML = `時間：下午4點到早上9點`;
+    }
     order_time.classList.add("information");
 
     let order_price = document.createElement("p");
-    order_price.innerHTML = `費用：${d.data.price}`;
+    order_price.innerHTML = `費用：新台幣${d.data.price}元`;
     order_price.classList.add("information");
 
     let order_name_attraction = document.createElement("p");
