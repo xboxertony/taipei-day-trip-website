@@ -165,6 +165,7 @@
         <input type="text" placeholder="輸入電子信箱" id="login_email" />
         <input type="password" placeholder="輸入密碼" id="login_password" />
         <button id="login_btn">登入帳戶</button>
+        <p id="message_for_error_login"></p>
         <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
         <img src="../static/icon_close.png" alt="" class="close" />
       </form>
@@ -175,6 +176,7 @@
         <input type="text" placeholder="輸入電子信箱" id="create_email" />
         <input type="password" placeholder="輸入密碼" id="create_password" />
         <button id="create_account_btn">註冊新帳戶</button>
+        <p id="message_for_error_create"></p>
         <p>已經有帳戶了?<a id="login_account">點此登入</a></p>
         <img src="../static/icon_close.png" alt="" class="close" />
       </form>
@@ -253,12 +255,13 @@
         if (d["ok"]) {
           login_btn.innerHTML = "登出";
           login_board.classList.remove("open");
+          document.getElementById("message_for_error_login").innerHTML = ""
           let rr = window.location.href.split("/");
           if (rr[rr.length - 1] !== "") {
             window.location.href = "/";
           }
         } else {
-          alert(d["message"]);
+          document.getElementById("message_for_error_login").innerHTML = d["message"]
         }
       });
   });
@@ -282,9 +285,9 @@
       })
       .then((data) => {
         if (data["ok"]) {
-          alert("註冊成功!!!");
+          document.getElementById("message_for_error_create").innerHTML = "註冊成功!!!"
         } else {
-          alert(data["message"]);
+          document.getElementById("message_for_error_create").innerHTML = data["message"];
         }
       });
   });
@@ -293,12 +296,14 @@
     e.preventDefault();
     login_board_b.classList.toggle("not_you");
     create_board_b.classList.toggle("not_you");
+    document.getElementById("message_for_error_create").innerHTML = ""
   });
 
   login_btn_a.addEventListener("click", (e) => {
     e.preventDefault();
     login_board_b.classList.toggle("not_you");
     create_board_b.classList.toggle("not_you");
+    document.getElementById("message_for_error_create").innerHTML = ""
   });
 
   login_btn.addEventListener("click", () => {
