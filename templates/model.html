@@ -16,7 +16,7 @@
       list-style: none;
       text-decoration: none;
     }
-    body{
+    body {
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -216,12 +216,10 @@
   let login_email = document.getElementById("login_email");
   let login_password = document.getElementById("login_password");
 
-  let local = window.location.href.split("/")[2]
+  let local = window.location.href.split("/")[2];
 
-  console.log(local)
-
-  fetch("/api/user",{
-    method:"GET"
+  fetch("/api/user", {
+    method: "GET",
   })
     .then((res) => {
       return res.json();
@@ -255,9 +253,12 @@
         if (d["ok"]) {
           login_btn.innerHTML = "登出";
           login_board.classList.remove("open");
-          window.location.href = "/"
-        }else{
-          alert(d["message"])
+          let rr = window.location.href.split("/");
+          if (rr[rr.length - 1] !== "") {
+            window.location.href = "/";
+          }
+        } else {
+          alert(d["message"]);
         }
       });
   });
@@ -280,10 +281,10 @@
         return res.json();
       })
       .then((data) => {
-        if(data["ok"]){
-          alert("註冊成功!!!")
-        }else{
-          alert(data["message"])
+        if (data["ok"]) {
+          alert("註冊成功!!!");
+        } else {
+          alert(data["message"]);
         }
       });
   });
@@ -312,7 +313,10 @@
           console.log(data);
           if (data["ok"]) {
             login_btn.innerHTML = "登入/註冊";
-            window.location.href="/"
+            let rr = window.location.href.split("/");
+            if (rr[rr.length - 1] !== "") {
+              window.location.href = "/";
+            }
           }
         });
     } else {
