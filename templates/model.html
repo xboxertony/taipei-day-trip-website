@@ -255,6 +255,9 @@
         if (d["ok"]) {
           login_btn.innerHTML = "登出";
           login_board.classList.remove("open");
+          window.location.href = "/"
+        }else{
+          alert(d["message"])
         }
       });
   });
@@ -277,7 +280,11 @@
         return res.json();
       })
       .then((data) => {
-        console.log(data);
+        if(data["ok"]){
+          alert("註冊成功!!!")
+        }else{
+          alert(data["message"])
+        }
       });
   });
 
