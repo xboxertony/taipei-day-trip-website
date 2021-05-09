@@ -257,9 +257,10 @@
           login_board.classList.remove("open");
           document.getElementById("message_for_error_login").innerHTML = ""
           let rr = window.location.href.split("/");
-          if (rr[rr.length - 1] !== "") {
-            window.location.href = "/";
-          }
+          window.location.reload()
+          // if (rr[rr.length - 1] !== "") {
+          //   window.location.href = "/";
+          // }
         } else {
           document.getElementById("message_for_error_login").innerHTML = d["message"]
         }
@@ -319,9 +320,10 @@
           if (data["ok"]) {
             login_btn.innerHTML = "登入/註冊";
             let rr = window.location.href.split("/");
-            if (rr[rr.length - 1] !== "") {
-              window.location.href = "/";
-            }
+            window.location.reload()
+            // if (rr[rr.length - 1] !== "") {
+            //   window.location.href = "/";
+            // }
           }
         });
     } else {
