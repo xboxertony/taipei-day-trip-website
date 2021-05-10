@@ -154,7 +154,7 @@ def order():
 			"partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
 			"prime": request.get_json()["prime"],
 			"amount": "1",
-			"merchant_id": "tonyny58_CTBC   ",
+			"merchant_id": "tonyny58_CTBC",
 			"details": "Some item",
 			"cardholder": {
 				"phone_number": "+886923456789",
@@ -175,22 +175,22 @@ def order():
 		return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 
 
-# @app.route("/pay_load",methods=["GET"])
-# def pay_search():
-#     url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
-#     payload = {
-#         "partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
-#         "filters":{
-#             "bank_transaction_id":"TP20210507Gnw3qF"
-#         }
-#     }
-#     headers = {
-#         'content-type': 'application/json',
-#         'x-api-key': 'partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy'
-#     }
+@app.route("/pay_load",methods=["GET"])
+def pay_search():
+    url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
+    payload = {
+        "partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
+        # "filters":{
+        #     "bank_transaction_id":"TP20210507Gnw3qF"
+        # }
+    }
+    headers = {
+        'content-type': 'application/json',
+        'x-api-key': 'partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy'
+    }
 
-#     r = requests.post(url,data=json.dumps(payload),headers=headers)
-#     return json.loads(r.text)
+    r = req.post(url,data=json.dumps(payload),headers=headers)
+    return json.loads(r.text)
 
 # Pages
 @app.route("/")
