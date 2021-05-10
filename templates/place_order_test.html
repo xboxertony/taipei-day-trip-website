@@ -1,4 +1,5 @@
 {% extends "model.html" %} {% block style%}
+<script src="https://js.tappaysdk.com/tpdirect/v5.5.0"></script>
 <style>
   .order_page > div:not(:last-of-type) {
     border-bottom: 1px solid #e8e8e8;
@@ -21,7 +22,8 @@
     margin: 10px 0;
     position: relative;
   }
-  .photo,.word_to_paid {
+  .photo,
+  .word_to_paid {
     height: 200px;
   }
   .checkout > .delete {
@@ -90,6 +92,35 @@
   .time {
     width: calc(162px / 2);
   }
+  #total_sum {
+    font-weight: 900;
+  }
+  .credit_card_panel{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 340px;
+  }
+  .credit_card_panel p:first-child{
+    color: #666666;
+    font-weight: 700;
+  }
+  /* .credit_card_panel button{
+    width: auto;
+    height: auto;
+  } */
+  .tpfield {
+    width: 200px;
+    height: 25px;
+    border: 1px solid gray;
+    margin: 5px 0;
+    padding: 5px;
+  }
+  .order_credit_card{
+    display: flex;
+    margin: 10px 0;
+    align-items: center;
+  }
   @media screen and (max-width: 800px) {
     .form_div,
     .schedule {
@@ -145,11 +176,15 @@
       <p>你的連絡資訊</p>
       <div>
         <label for="">聯絡姓名：</label
-        ><input type="text" placeholder="ex:Yakoo" />
+        ><input type="text" placeholder="ex:Yakoo" id="order_name" />
       </div>
       <div>
         <label for="">聯絡信箱：</label
-        ><input type="text" placeholder="ex:imyeeee@gmail.com" />
+        ><input
+          type="text"
+          placeholder="ex:imyeeee@gmail.com"
+          id="order_email"
+        />
       </div>
       <div><label for="">手機號碼：</label><input type="text" /></div>
       <p>
@@ -158,7 +193,24 @@
     </form>
   </div>
   <div class="paid form_div">
-    <form action="" class="form_style">
+    <div class="credit_card_panel">
+      <p>信用卡付款資訊</p>
+      <div class="order_credit_card">
+        <label for="card-number">卡片號碼：</label>
+        <div class="tpfield" id="card-number"></div>
+      </div>
+      <div class="order_credit_card">
+        <label for="card-expiration-date">過期時間：</label>
+        <div class="tpfield" id="card-expiration-date"></div>
+      </div>
+      <div class="order_credit_card">
+        <label for="card-ccv">驗證密碼：</label>
+        <div class="tpfield" id="card-ccv"></div>
+      </div>
+      <!-- <button id="submit-button" onclick="onClick()">Get Prime</button>
+      <button id="xxx" onclick="search()">search</button> -->
+    </div>
+    <!-- <form action="" class="form_style">
       <p>信用卡付款資訊</p>
       <div>
         <label for="">卡片號碼：</label>
@@ -204,20 +256,21 @@
         <label for="">驗證密碼：</label>
         <input type="text" />
       </div>
-    </form>
+    </form> -->
   </div>
   <div class="ready_to_paid form_div">
     <div class="summary">
-      <p>確認總價：新台幣2000元</p>
-      <form action="/">
-        <button>確認訂購並付款</button>
-      </form>
+      <p id="total_sum">確認總價：新台幣2000元</p>
+      <button id="confirm_order_btn" onclick="onClick()">確認訂購並付款</button>
     </div>
     <div class="clear"></div>
   </div>
 </div>
 {% endblock %} {% block script %}
 <script>
+
+  let confirm_btn = document.getElementById("confirm_order_btn");
+
   function NextMove(obj, Nextone) {
     let Next = document.getElementById(Nextone);
     if (obj.value.length === parseInt(obj.getAttribute("maxlength"))) {
@@ -257,15 +310,18 @@
       append_attraction(d);
       evoke_delete_fcn();
     });
-  
 
-    fetch("/api/user",{
-      method:"GET"
-    }).then((res)=>{
-      return res.json()
-    }).then((data)=>{
-      document.getElementById("howareyou").innerHTML = `您好，${data.data.name}，您待預定的行程如下`
+  fetch("/api/user", {
+    method: "GET",
+  })
+    .then((res) => {
+      return res.json();
     })
+    .then((data) => {
+      document.getElementById(
+        "howareyou"
+      ).innerHTML = `您好，${data.data.name}，您待預定的行程如下`;
+    });
 
   function delete_below() {
     let text = document.createElement("p");
@@ -278,7 +334,7 @@
   function append_attraction(d) {
     if (!d.data) {
       delete_below();
-      return
+      return;
     }
     let order_image = document.createElement("div");
     order_image.classList.add("photo");
@@ -300,9 +356,9 @@
     order_date.classList.add("information");
 
     let order_time = document.createElement("p");
-    if(d.data.time==="morning"){
+    if (d.data.time === "morning") {
       order_time.innerHTML = `時間：早上9點到下午4點`;
-    }else{
+    } else {
       order_time.innerHTML = `時間：下午4點到早上9點`;
     }
     order_time.classList.add("information");
@@ -333,6 +389,10 @@
     checkout.appendChild(delete_action_btn);
 
     schedule.appendChild(checkout);
+
+    document.getElementById(
+      "total_sum"
+    ).innerHTML = `確認總價：新台幣${d.data.price}元`;
   }
 
   // <!-- <div class="checkout">
@@ -346,5 +406,108 @@
   //     </div>
   //     <img src="../static/icon_delete.png" alt="" class="delete">
   //   </div> -->
+
+  TPDirect.setupSDK(
+    20216,
+    "app_9TqLsD0qcuIVWst39YRyC9Aud7VxBnGfeYQL0NZ8JMJuYs7CJwWxEbwmITCL",
+    "sandbox"
+  );
+  // 以下提供必填 CCV 以及選填 CCV 的 Example
+  // 必填 CCV Example
+  var fields = {
+    number: {
+      // css selector
+      element: "#card-number",
+      placeholder: "**** **** **** ****",
+    },
+    expirationDate: {
+      // DOM object
+      element: document.getElementById("card-expiration-date"),
+      placeholder: "MM / YY",
+    },
+    ccv: {
+      element: "#card-ccv",
+      placeholder: "後三碼",
+    },
+  };
+  // 選填 CCV Example
+  // var fields = {
+  //   number: {
+  //     // css selector
+  //     element: "#card-number",
+  //     placeholder: "**** **** **** ****",
+  //   },
+  //   expirationDate: {
+  //     // DOM object
+  //     element: document.getElementById("card-expiration-date"),
+  //     placeholder: "MM / YY",
+  //   },
+  // };
+  TPDirect.card.setup({
+    fields: fields,
+    styles: {
+      // Style all elements
+      input: {
+        color: "gray",
+      },
+      // Styling ccv field
+      "input.cvc": {
+        // 'font-size': '16px'
+      },
+      // Styling expiration-date field
+      "input.expiration-date": {
+        // 'font-size': '16px'
+      },
+      // Styling card-number field
+      "input.card-number": {
+        // 'font-size': '16px'
+      },
+      // style focus state
+      ":focus": {
+        // 'color': 'black'
+      },
+      // style valid state
+      ".valid": {
+        color: "green",
+      },
+      // style invalid state
+      ".invalid": {
+        color: "red",
+      },
+      // Media queries
+      // Note that these apply to the iframe, not the root window.
+      "@media screen and (max-width: 400px)": {
+        input: {
+          color: "orange",
+        },
+      },
+    },
+  });
+
+
+  function onClick() {
+      TPDirect.card.getPrime(function (result) {
+        if (result.status !== 0) {
+          console.error("getPrime error");
+        }
+        let prime = result.card.prime;
+        let data = {
+          prime: prime,
+        };
+        fetch("/api/orders", {
+          body: JSON.stringify(data),
+          headers: {
+            "content-type": "application/json",
+          },
+          method: "POST",
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            console.log(data);
+          });
+      });
+    }
 </script>
 {% endblock %}

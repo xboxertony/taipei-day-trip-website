@@ -5,6 +5,8 @@ import json
 from data import data_handle
 from config import setapp
 
+import requests as req
+
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
@@ -142,6 +144,53 @@ def api_book():
 		return jsonify({"ok":True})
 
 
+@app.route("/api/orders",methods=["POST"])
+def order():
+	if "name" not in session:
+		return jsonify({"error":True,"message":"未登入系統"}),403
+	try:
+		url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+		payload = {
+			"partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
+			"prime": request.get_json()["prime"],
+			"amount": "1",
+			"merchant_id": "tonyny58_CTBC   ",
+			"details": "Some item",
+			"cardholder": {
+				"phone_number": "+886923456789",
+				"name": "不一樣",
+				"email": "LittleMing@Wang.com",
+				"zip_code": "100",
+				"address": "台北市天龍區芝麻街1號1樓",
+				"national_id": "A123456789"
+				}
+		}
+		headers = {
+			'content-type': 'application/json',
+			'x-api-key': 'partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy'
+		}
+		r = req.post(url,data=json.dumps(payload),headers=headers)
+		return jsonify(r.text)
+	except:
+		return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
+
+
+# @app.route("/pay_load",methods=["GET"])
+# def pay_search():
+#     url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
+#     payload = {
+#         "partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
+#         "filters":{
+#             "bank_transaction_id":"TP20210507Gnw3qF"
+#         }
+#     }
+#     headers = {
+#         'content-type': 'application/json',
+#         'x-api-key': 'partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy'
+#     }
+
+#     r = requests.post(url,data=json.dumps(payload),headers=headers)
+#     return json.loads(r.text)
 
 # Pages
 @app.route("/")

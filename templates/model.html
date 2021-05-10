@@ -148,6 +148,9 @@
       top: -10px;
       border-radius: 5px 5px 0 0;
     }
+    #message_for_error_create,#message_for_error_login{
+      color: red;
+    }
     @media screen and (max-width: 1200px) {
       nav ul {
         width: 90%;
@@ -229,9 +232,11 @@
     .then((res) => {
       if (res["data"]) {
         login_btn.innerHTML = "登出";
-        console.log(res);
+        if(window.location.href.split("/").includes("order")){
+          document.getElementById("order_name").value = res.data.name
+          document.getElementById("order_email").value = res.data.email
+        }
       } else {
-        console.log(res);
       }
     });
 
