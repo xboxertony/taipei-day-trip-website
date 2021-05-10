@@ -8,6 +8,7 @@ from config import setapp
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
+app.secret_key="abc"
 setapp(app)
 db = SQLAlchemy(app)
 
@@ -39,6 +40,56 @@ def attr2(id):
 	except:
 		return json.dumps({"error":True,"message":"伺服器內部錯誤"},ensure_ascii=False),500
 
+@app.route("/api/user",methods=["GET","POST","PATCH","DELETE"])
+def user():
+	if request.method=="POST":
+		try:
+			data = request.get_json()
+			name = data["name"]
+			email = data["email"]
+			password = data["password"]
+			sql = f"select email from user where email='{email}'"
+			replicate = db.engine.execute(sql)
+			for i in replicate:
+				return jsonify({"error":True,"message":"註冊失敗，重複的email"}),400
+			sql = f"insert into user (name,email,password) values ('{name}','{email}','{password}')"
+			db.engine.execute(sql)
+			return jsonify({"ok":True})
+		except:
+			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
+	if request.method=="PATCH":
+		try:
+			data = request.get_json()
+			email = data["email"]
+			password = data["password"]
+			sql = f"select id,name,email from user where email='{email}' and password='{password}'"
+			result = db.engine.execute(sql)
+			for i in result:
+				print(i)
+				session["id"]=i[0]
+				session["name"]=i[1]
+				session["email"]=i[2]
+				return jsonify({"ok":True})
+			return jsonify({"error":True,"message":"登入失敗，帳號或密碼錯誤"}),400
+		except:
+			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
+	if request.method=="DELETE":
+		print(session)
+		session.pop("id")
+		session.pop("name")
+		session.pop("email")
+		return jsonify({"ok":True})
+	if request.method=="GET":
+		if "name" in session:
+			return jsonify({"data":{
+				"id":session["id"],
+				"name":session["name"],
+				"email":session["email"]
+				}
+			})
+		else:
+			return jsonify({"data":None}) 
+
 # @app.route("/test/<id>")
 # def testtest(id):
 # 	return render_template("place_test.html")
@@ -46,6 +97,51 @@ def attr2(id):
 @app.route("/test/order")
 def test_order():
 	return render_template("place_order_test.html")
+
+
+@app.route("/api/booking",methods=["GET","POST","DELETE"])
+def api_book():
+	if "name" not in session:
+		return jsonify({"error":True,"message":"未登入系統"}),403
+	if request.method=="POST":
+		try:
+			data = request.get_json()
+			attractionid = data.get("attractionId")
+			date = data.get("date")
+			time = data.get("time")
+			price = data.get("price")
+			if not date or not time or not price:
+				return jsonify({"error":True,"message":"有資料未輸入"}),400
+			sql = f"insert into booking (attractionId,date,time,price) values ('{attractionid}','{date}','{time}','{price}')"
+			db.engine.execute(sql)
+			return jsonify({"ok":True})
+		except:
+			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
+	if request.method=="GET":
+		sql = "SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id"
+		sql_exe = db.engine.execute(sql)
+		res = {"data":None}
+		for i in sql_exe:
+			res = {
+				"data":{
+					"attraction":{
+						"id":i[0],
+						"name":i[1],
+						"address":i[2],
+						"image":i[3].split(";")[0]
+						},
+				"date":i[4],
+				"time":i[5],
+				"price":i[6]
+				}
+			}
+		return jsonify(res)
+	if request.method=="DELETE":
+		sql = "truncate table booking"
+		db.engine.execute(sql)
+		return jsonify({"ok":True})
+
+
 
 # Pages
 @app.route("/")

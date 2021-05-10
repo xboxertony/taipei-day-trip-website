@@ -8,7 +8,10 @@
     margin: auto;
     box-sizing: border-box;
   }
-  .schedule > p{
+  .schedule.close ~ div {
+    display: none;
+  }
+  .schedule > p {
     padding: 20px 0;
     box-sizing: border-box;
   }
@@ -18,10 +21,10 @@
     margin: 10px 0;
     position: relative;
   }
-  .checkout > div {
+  .photo,.word_to_paid {
     height: 200px;
   }
-  .checkout > .delete{
+  .checkout > .delete {
     position: absolute;
     left: 100%;
     transform: translateX(-100%);
@@ -29,8 +32,10 @@
   }
   .photo {
     width: 266px;
-    background-color: cornsilk;
     margin-right: 22px;
+  }
+  .photo img {
+    width: 100%;
   }
   .title_word_to_paid {
     color: #448899;
@@ -82,7 +87,7 @@
   .card {
     width: calc(162px / 4);
   }
-  .time{
+  .time {
     width: calc(162px / 2);
   }
   @media screen and (max-width: 800px) {
@@ -104,7 +109,7 @@
     }
     .photo {
       width: 100%;
-      height: 256px;
+      height: auto;
       margin: auto;
     }
     .summary form {
@@ -113,17 +118,17 @@
     .form_style {
       width: 340px;
     }
-    .checkout .delete{
+    .checkout .delete {
       top: 100%;
-      transform: translate(-100%,-100%);
+      transform: translate(-100%, -100%);
     }
   }
 </style>
 {% endblock %} {% block content %}
 <div class="order_page">
   <div class="schedule">
-    <p>您好，Yahoo，你待確認的行程如下</p>
-    <div class="checkout">
+    <p id="howareyou">您好，Yahoo，你待確認的行程如下</p>
+    <!-- <div class="checkout">
       <div class="photo"></div>
       <div class="word_to_paid">
         <p class="title_word_to_paid">台北一日遊1</p>
@@ -133,29 +138,7 @@
         <p class="information">地點：</p>
       </div>
       <img src="../static/icon_delete.png" alt="" class="delete">
-    </div>
-    <div class="checkout">
-      <div class="photo"></div>
-      <div class="word_to_paid">
-        <p class="title_word_to_paid">台北一日遊2</p>
-        <p class="information">日期：</p>
-        <p class="information">時間：</p>
-        <p class="information">費用：</p>
-        <p class="information">地點：</p>
-      </div>
-      <img src="../static/icon_delete.png" alt="" class="delete">
-    </div>
-    <div class="checkout">
-      <div class="photo"></div>
-      <div class="word_to_paid">
-        <p class="title_word_to_paid">台北一日遊3</p>
-        <p class="information">日期：</p>
-        <p class="information">時間：</p>
-        <p class="information">費用：</p>
-        <p class="information">地點：</p>
-      </div>
-      <img src="../static/icon_delete.png" alt="" class="delete">
-    </div>
+    </div> -->
   </div>
   <div class="contact form_div">
     <form action="" class="form_style">
@@ -243,13 +226,125 @@
     return;
   }
 
-  let delete_fuc = document.getElementsByClassName("delete");
+  function evoke_delete_fcn() {
+    let delete_fuc = document.getElementsByClassName("delete");
 
-  Array.from(delete_fuc).forEach(element => {
-    element.addEventListener("click",(e)=>{
-      e.target.parentNode.remove()
+    Array.from(delete_fuc).forEach((element) => {
+      element.addEventListener("click", (e) => {
+        e.target.parentNode.remove();
+        fetch("/api/booking", {
+          method: "DELETE",
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((d) => {
+            delete_below();
+          });
+      });
+    });
+  }
+
+  let schedule = document.getElementsByClassName("schedule")[0];
+
+  fetch("/api/booking", {
+    method: "GET",
+  })
+    .then((res) => {
+      return res.json();
     })
-  });
+    .then((d) => {
+      append_attraction(d);
+      evoke_delete_fcn();
+    });
+  
 
+    fetch("/api/user",{
+      method:"GET"
+    }).then((res)=>{
+      return res.json()
+    }).then((data)=>{
+      document.getElementById("howareyou").innerHTML = `您好，${data.data.name}，您待預定的行程如下`
+    })
+
+  function delete_below() {
+    let text = document.createElement("p");
+    text.innerHTML = "目前沒有任何待預定的行程";
+    schedule.appendChild(text);
+
+    schedule.classList.add("close");
+  }
+
+  function append_attraction(d) {
+    if (!d.data) {
+      delete_below();
+      return
+    }
+    let order_image = document.createElement("div");
+    order_image.classList.add("photo");
+    let image_inside = new Image();
+    image_inside.src = d.data.attraction.image;
+    order_image.appendChild(image_inside);
+
+    console.log(`"url('${d.data.attraction.image}')"`);
+
+    let word_to_paid = document.createElement("div");
+    word_to_paid.classList.add("word_to_paid");
+
+    let title_word_to_paid = document.createElement("p");
+    title_word_to_paid.innerHTML = "台北一日遊";
+    title_word_to_paid.classList.add("title_word_to_paid");
+
+    let order_date = document.createElement("p");
+    order_date.innerHTML = `日期：${d.data.date}`;
+    order_date.classList.add("information");
+
+    let order_time = document.createElement("p");
+    if(d.data.time==="morning"){
+      order_time.innerHTML = `時間：早上9點到下午4點`;
+    }else{
+      order_time.innerHTML = `時間：下午4點到早上9點`;
+    }
+    order_time.classList.add("information");
+
+    let order_price = document.createElement("p");
+    order_price.innerHTML = `費用：新台幣${d.data.price}元`;
+    order_price.classList.add("information");
+
+    let order_name_attraction = document.createElement("p");
+    order_name_attraction.innerHTML = `地點：${d.data.attraction.name}`;
+    order_name_attraction.classList.add("information");
+
+    word_to_paid.appendChild(order_date);
+    word_to_paid.appendChild(order_time);
+    word_to_paid.appendChild(order_price);
+    word_to_paid.appendChild(order_name_attraction);
+
+    let checkout = document.createElement("div");
+    checkout.classList.add("checkout");
+    checkout.appendChild(order_image);
+    console.log(order_image);
+    checkout.appendChild(word_to_paid);
+
+    let delete_action_btn = document.createElement("img");
+    delete_action_btn.src = "../static/icon_delete.png";
+    delete_action_btn.classList.add("delete");
+
+    checkout.appendChild(delete_action_btn);
+
+    schedule.appendChild(checkout);
+  }
+
+  // <!-- <div class="checkout">
+  //     <div class="photo"></div>
+  //     <div class="word_to_paid">
+  //       <p class="title_word_to_paid">台北一日遊1</p>
+  //       <p class="information">日期：</p>
+  //       <p class="information">時間：</p>
+  //       <p class="information">費用：</p>
+  //       <p class="information">地點：</p>
+  //     </div>
+  //     <img src="../static/icon_delete.png" alt="" class="delete">
+  //   </div> -->
 </script>
 {% endblock %}

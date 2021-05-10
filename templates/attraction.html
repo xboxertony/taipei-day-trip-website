@@ -17,10 +17,12 @@
     background-size: cover;
     text-align: center;
     border-radius: 5%;
+    transition: background 0.5s;
   }
   .img_test .pic {
     width: 100%;
     height: 100%;
+    border-radius: 5%;
   }
   .button {
     width: 36px;
@@ -71,7 +73,7 @@
     left: 50%;
     transform: translate(-50%, -150%);
   }
-  .point img{
+  .point img {
     margin-left: 5px;
   }
   .order_panel form {
@@ -112,17 +114,15 @@
     vertical-align: bottom;
   }
   input[type="radio"]:checked + span::before {
-    background: radial-gradient(
-      #448899 0%,
-      #448899 40%,
-      transparent 50%
-    );
+    background: radial-gradient(#448899 0%, #448899 40%, transparent 50%);
     border-color: #448899;
   }
-  .describe_content,.address_place,.traffic{
+  .describe_content,
+  .address_place,
+  .traffic {
     line-height: 2;
   }
-  #date{
+  #date {
     padding: 6px;
   }
   @media screen and (max-width: 1200px) {
@@ -173,6 +173,26 @@
     <img src="../static/btn_rightArrow.png" alt="" class="button right" />
     <img src="../static/btn_leftArrow.png" alt="" class="button left" />
     <div class="point"></div>
+    <map name="control_pic">
+      <area shape="rect" coords="0,0,100,406" href="#" alt="" />
+      <area
+        shape="rect"
+        coords="440,0,540,406"
+        href="#"
+        alt=""
+        class="rect_close"
+      />
+    </map>
+    <map name="control_RWD">
+      <area shape="rect" coords="0,0,100,406" href="#" alt="" />
+      <area
+        shape="rect"
+        coords="240,0,340,350"
+        href="#"
+        alt=""
+        class="rect_open"
+      />
+    </map>
   </div>
   <div class="img_word">
     <p id="attraction_name"></p>
@@ -188,7 +208,7 @@
         <div id="select_time">
           <label for="" class="form_title">選擇時間：</label>
           <label>
-            <input type="radio" id="up_time" name="time" checked/>
+            <input type="radio" id="up_time" name="time" checked />
             <span>上半天</span>
           </label>
           <label>
@@ -197,7 +217,7 @@
           </label>
         </div>
         <p class="form_title" id="price">導覽費用：新台幣2000元</p>
-        <button>開始導覽行程</button>
+        <button id="submit_booking">開始導覽行程</button>
       </form>
     </div>
   </div>
@@ -233,17 +253,28 @@
   let address_place = document.getElementsByClassName("address_place")[0]; //地址
   let traffic = document.getElementsByClassName("traffic")[0]; //交通方式
 
-  let up_time = document.getElementById("up_time")
-  let doen_time = document.getElementById("down_time")
-  let price = document.getElementById("price")
+  let up_time = document.getElementById("up_time");
+  let doen_time = document.getElementById("down_time");
+  let price = document.getElementById("price");
 
-  up_time.addEventListener("click",()=>{
-    price.innerHTML = "導覽費用：新台幣2000元"
-  })
+  let send_booking_btn = document.getElementById("submit_booking");
 
-  down_time.addEventListener("click",()=>{
-    price.innerHTML = "導覽費用：新台幣2500元"
-  })
+  let controler = "#control_pic";
+
+  let order_price = 2000;
+  let order_time = "morning";
+
+  up_time.addEventListener("click", () => {
+    price.innerHTML = "導覽費用：新台幣2000元";
+    order_time = "morning";
+    order_price = 2000;
+  });
+
+  down_time.addEventListener("click", () => {
+    price.innerHTML = "導覽費用：新台幣2500元";
+    order_time = "afternoon";
+    order_price = 2500;
+  });
 
   fetch("/api/attraction/" + `${idx}`)
     .then((res) => {
@@ -251,9 +282,34 @@
     })
     .then((res) => {
       handle_img(res.data.images);
+      judge_width();
       show_img();
       handle_data(res);
     });
+
+  send_booking_btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    let booking_info = {
+      attractionId: parseInt(idx),
+      date: document.getElementById("date").value,
+      time: order_time,
+      price: order_price,
+    };
+    fetch("/api/booking", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(booking_info),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        console.log(result);
+        window.location.href="/test/order"
+      });
+  });
 
   function handle_data(res) {
     attraction_name.innerHTML = res.data.name;
@@ -282,33 +338,92 @@
 
   let handle_img = (img_list) => {
     img_list.forEach((element) => {
-      let img = document.createElement("img");
-      img.src = element;
-      img.classList.add("pic");
+      // let img = document.createElement("img");
+      // img.src = element;
+      // img.classList.add("pic");
       imglist.push(element);
     });
   };
 
   function show_img() {
     clear_point();
-    img_block.style.backgroundImage = "url(" + `${imglist[id]}` + ")";
+    // img_block.style.backgroundImage = "url(" + `${imglist[id]}` + ")";
+    img_block.childNodes.forEach((ele) => {
+      if (ele.classList && ele.classList.contains("pic")) {
+        ele.remove();
+      }
+    });
+    let img = new Image();
+    img.classList.add("pic");
+    img.useMap = controler;
+    img_block.appendChild(img);
+    img.onload = (e) => {
+      img.src = imglist[id];
+    };
+    img.src = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
     add_point();
   }
 
-  right_btn.addEventListener("click", () => {
+  let left_area = document.getElementsByTagName("area")[0];
+  let right_area = document.getElementsByTagName("area")[1];
+  let left_area2 = document.getElementsByTagName("area")[2];
+  let right_area2 = document.getElementsByTagName("area")[3];
+
+  left_area.addEventListener("click", (e) => {
+    e.preventDefault();
+    left_hand();
+  });
+
+  right_area.addEventListener("click", (e) => {
+    e.preventDefault();
+    right_hand();
+  });
+
+  left_area2.addEventListener("click", (e) => {
+    e.preventDefault();
+    left_hand();
+  });
+
+  right_area2.addEventListener("click", (e) => {
+    e.preventDefault();
+    right_hand();
+  });
+
+  function right_hand() {
     id++;
     if (id > imglist.length - 1) {
       id = 0;
     }
     show_img();
-  });
+  }
 
-  left_btn.addEventListener("click", () => {
+  function left_hand() {
     id--;
     if (id < 0) {
       id = imglist.length - 1;
     }
     show_img();
+  }
+
+  right_btn.addEventListener("click", () => {
+    right_hand();
   });
+
+  left_btn.addEventListener("click", () => {
+    left_hand();
+  });
+
+  function judge_width() {
+    if (document.body.offsetWidth < 800) {
+      controler = "#control_RWD";
+    } else {
+      controler = "#control_pic";
+    }
+  }
+
+  window.onresize = () => {
+    judge_width();
+    show_img();
+  };
 </script>
 {% endblock %}
