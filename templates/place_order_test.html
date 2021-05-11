@@ -95,13 +95,13 @@
   #total_sum {
     font-weight: 900;
   }
-  .credit_card_panel{
+  .credit_card_panel {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 340px;
   }
-  .credit_card_panel p:first-child{
+  .credit_card_panel p:first-child {
     color: #666666;
     font-weight: 700;
   }
@@ -116,7 +116,7 @@
     margin: 5px 0;
     padding: 5px;
   }
-  .order_credit_card{
+  .order_credit_card {
     display: flex;
     margin: 10px 0;
     align-items: center;
@@ -186,7 +186,9 @@
           id="order_email"
         />
       </div>
-      <div><label for="">手機號碼：</label><input type="text" /></div>
+      <div>
+        <label for="">手機號碼：</label><input type="text" id="order_phone" />
+      </div>
       <p>
         請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式
       </p>
@@ -262,22 +264,23 @@
     <div class="summary">
       <p id="total_sum">確認總價：新台幣2000元</p>
       <button id="confirm_order_btn" onclick="onClick()">確認訂購並付款</button>
+      <p id="status_code"></p>
     </div>
     <div class="clear"></div>
   </div>
 </div>
 {% endblock %} {% block script %}
 <script>
-
   let confirm_btn = document.getElementById("confirm_order_btn");
+  let attraction_order = {};
 
-  function NextMove(obj, Nextone) {
-    let Next = document.getElementById(Nextone);
-    if (obj.value.length === parseInt(obj.getAttribute("maxlength"))) {
-      Next.focus();
-    }
-    return;
-  }
+  // function NextMove(obj, Nextone) {
+  //   let Next = document.getElementById(Nextone);
+  //   if (obj.value.length === parseInt(obj.getAttribute("maxlength"))) {
+  //     Next.focus();
+  //   }
+  //   return;
+  // }
 
   function evoke_delete_fcn() {
     let delete_fuc = document.getElementsByClassName("delete");
@@ -393,6 +396,15 @@
     document.getElementById(
       "total_sum"
     ).innerHTML = `確認總價：新台幣${d.data.price}元`;
+
+    attraction_order = {
+      price: d.data.price,
+      trip: {
+        attraction: d.data.attraction,
+        date: d.data.date,
+        time: d.data.time,
+      },
+    };
   }
 
   // <!-- <div class="checkout">
@@ -484,30 +496,38 @@
     },
   });
 
-
   function onClick() {
-      TPDirect.card.getPrime(function (result) {
-        if (result.status !== 0) {
-          console.error("getPrime error");
-        }
-        let prime = result.card.prime;
-        let data = {
-          prime: prime,
-        };
-        fetch("/api/orders", {
-          body: JSON.stringify(data),
-          headers: {
-            "content-type": "application/json",
+    TPDirect.card.getPrime(function (result) {
+      if (result.status !== 0) {
+        console.error("getPrime error");
+      }
+      let prime = result.card.prime;
+      let data = {
+        prime: prime,
+        order: {
+          price:attraction_order.price,
+          trip:attraction_order.trip,
+          contact: {
+            name: document.getElementById("order_name").value,
+            email: document.getElementById("order_email").value,
+            phone: document.getElementById("order_phone").value,
           },
-          method: "POST",
+        },
+      };
+      fetch("/api/orders", {
+        body: JSON.stringify(data),
+        headers: {
+          "content-type": "application/json",
+        },
+        method: "POST",
+      })
+        .then((res) => {
+          return res.json();
         })
-          .then((res) => {
-            return res.json();
-          })
-          .then((data) => {
-            console.log(data);
-          });
-      });
-    }
+        .then((data) => {
+          document.getElementById("status_code").innerHTML = data.data.number
+        });
+    });
+  }
 </script>
 {% endblock %}
