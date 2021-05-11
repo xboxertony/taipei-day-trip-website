@@ -160,7 +160,7 @@ def order():
 		"prime": request.get_json()["prime"],
 		"amount": request.get_json()["order"]["price"],
 		"merchant_id": "tonyny58_CTBC",
-		"details": "its ok",
+		"details": f'{request.get_json()["order"]["trip"]["attraction"]["id"]};{request.get_json()["order"]["trip"]["date"]};{request.get_json()["order"]["trip"]["time"]}',
 		"cardholder": {
 			"phone_number": request.get_json()["order"]["contact"]["phone"],
 			"name": request.get_json()["order"]["contact"]["name"],
@@ -207,10 +207,25 @@ def pay_search(orderNumber):
     }
 	r = req.post(url,data=json.dumps(payload),headers=headers)
 	data = json.loads(r.text)
+	trip = data["trade_records"][0]["details"].split(";")
+	sql = f"select id,name,address,images from attractions where id='{trip[0]}'"
+	attr = {}
+	d = db.engine.execute(sql)
+	for i in d:
+		attr = {
+			"id":i[0],
+			"name":i[1],
+			"address":i[2],
+			"image":i[3].split(";")[0]
+		}
 	return jsonify({
 		"data":{
 			"number":data["trade_records"][0]["bank_transaction_id"],
-			"trip":data["trade_records"][0]["details"],
+			"trip":{
+				"attraction":attr,
+				"date":trip[1],
+				"time":trip[2]
+			},
 			"price":data["trade_records"][0]["amount"],
 			"contact":{
 				"name":data["trade_records"][0]["cardholder"]["name"],
