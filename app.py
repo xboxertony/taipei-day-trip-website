@@ -246,6 +246,8 @@ def attraction(id):
 	return render_template("attraction.html")
 @app.route("/booking")
 def booking():
+	if "name" not in session:
+		return redirect(url_for("index"))
 	return render_template("booking.html")
 @app.route("/thankyou")
 def thankyou():
