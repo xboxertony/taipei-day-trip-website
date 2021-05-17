@@ -148,6 +148,9 @@
       top: -10px;
       border-radius: 5px 5px 0 0;
     }
+    #message_for_error_create,#message_for_error_login{
+      color: red;
+    }
     @media screen and (max-width: 1200px) {
       nav ul {
         width: 90%;
@@ -186,7 +189,7 @@
     <ul>
       <a href="/" class="title">台北一日遊</a>
       <li class="last-item">
-        <a href="/test/order">預定行程</a>
+        <a id="booking">預定行程</a>
         <a id="login">登入/註冊</a>
       </li>
     </ul>
@@ -195,6 +198,7 @@
   <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
 </body>
 <script>
+  let booking_btn = document.getElementById("booking")
   let login_btn = document.getElementById("login");
   let login_board = document.getElementsByClassName("block_page")[0];
   let close_btn = document.getElementsByClassName("close");
@@ -220,6 +224,22 @@
 
   let local = window.location.href.split("/")[2];
 
+  booking_btn.addEventListener("click",function(e){
+    e.preventDefault()
+
+    fetch("/api/user",{
+      method:"GET"
+    }).then((res)=>{
+      return res.json()
+    }).then((data)=>{
+      if(data["data"]){
+        window.location.href="/booking"
+      }else{
+        login_board.classList.add("open");
+      }
+    })
+  })
+
   fetch("/api/user", {
     method: "GET",
   })
@@ -229,9 +249,11 @@
     .then((res) => {
       if (res["data"]) {
         login_btn.innerHTML = "登出";
-        console.log(res);
+        if(window.location.href.split("/").includes("order")){
+          document.getElementById("order_name").value = res.data.name
+          document.getElementById("order_email").value = res.data.email
+        }
       } else {
-        console.log(res);
       }
     });
 
@@ -295,17 +317,19 @@
 
   create_btn_a.addEventListener("click", (e) => {
     e.preventDefault();
-    login_board_b.classList.toggle("not_you");
-    create_board_b.classList.toggle("not_you");
-    document.getElementById("message_for_error_create").innerHTML = ""
+    login_process()
   });
 
   login_btn_a.addEventListener("click", (e) => {
     e.preventDefault();
+    login_process()
+  });
+
+  function login_process(){
     login_board_b.classList.toggle("not_you");
     create_board_b.classList.toggle("not_you");
     document.getElementById("message_for_error_create").innerHTML = ""
-  });
+  }
 
   login_btn.addEventListener("click", () => {
     if (login_btn.innerHTML === "登出") {

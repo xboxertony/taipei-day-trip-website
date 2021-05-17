@@ -5,6 +5,8 @@ import json
 from data import data_handle
 from config import setapp
 
+import requests as req
+
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
@@ -142,6 +144,98 @@ def api_book():
 		return jsonify({"ok":True})
 
 
+@app.route("/api/orders",methods=["POST"])
+def order():
+	if "name" not in session:
+		return jsonify({"error":True,"message":"未登入系統"}),403
+	if not request.get_json()["order"]["contact"]["name"] or not request.get_json()["order"]["contact"]["email"] or not request.get_json()["order"]["contact"]["phone"]:
+		return jsonify({
+			"error":True,
+			"message":"輸入不可為空白"
+		}),400
+	# try:
+	url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+	payload = {
+		"partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
+		"prime": request.get_json()["prime"],
+		"amount": request.get_json()["order"]["price"],
+		"merchant_id": "tonyny58_CTBC",
+		"details": f'{request.get_json()["order"]["trip"]["attraction"]["id"]};{request.get_json()["order"]["trip"]["date"]};{request.get_json()["order"]["trip"]["time"]}',
+		"cardholder": {
+			"phone_number": request.get_json()["order"]["contact"]["phone"],
+			"name": request.get_json()["order"]["contact"]["name"],
+			"email": request.get_json()["order"]["contact"]["email"],
+			"zip_code": "100",
+			"address": "台北市天龍區芝麻街1號1樓",
+			"national_id": "A123456789"
+			}
+	}
+	headers = {
+		'content-type': 'application/json',
+		'x-api-key': 'partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy'
+	}
+	r = req.post(url,data=json.dumps(payload),headers=headers)
+	data = json.loads(r.text)
+	print(data)
+	return jsonify({
+		"data":{
+			"number":data["bank_transaction_id"],
+			"payment":{
+				"status":data["status"],
+				"message":"付款成功",
+			}
+		}
+	})
+	# except:
+	# 	return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
+
+
+@app.route("/api/order/<orderNumber>")
+def pay_search(orderNumber):
+	if "name" not in session:
+		return jsonify({"error":True,"message":"未登入系統"}),403
+	url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
+	payload = {
+        "partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
+        "filters":{
+            "bank_transaction_id":orderNumber
+        }
+    }
+	headers = {
+        'content-type': 'application/json',
+        'x-api-key': 'partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy'
+    }
+	r = req.post(url,data=json.dumps(payload),headers=headers)
+	data = json.loads(r.text)
+	trip = data["trade_records"][0]["details"].split(";")
+	sql = f"select id,name,address,images from attractions where id='{trip[0]}'"
+	attr = {}
+	d = db.engine.execute(sql)
+	for i in d:
+		attr = {
+			"id":i[0],
+			"name":i[1],
+			"address":i[2],
+			"image":i[3].split(";")[0]
+		}
+	return jsonify({
+		"data":{
+			"number":data["trade_records"][0]["bank_transaction_id"],
+			"trip":{
+				"attraction":attr,
+				"date":trip[1],
+				"time":trip[2]
+			},
+			"price":data["trade_records"][0]["amount"],
+			"contact":{
+				"name":data["trade_records"][0]["cardholder"]["name"],
+				"email":data["trade_records"][0]["cardholder"]["email"],
+				"phone":data["trade_records"][0]["cardholder"]["phone_number"],
+			},
+			"status":data["status"]
+		}
+	})
+
 
 # Pages
 @app.route("/")
@@ -152,6 +246,8 @@ def attraction(id):
 	return render_template("attraction.html")
 @app.route("/booking")
 def booking():
+	if "name" not in session:
+		return redirect(url_for("index"))
 	return render_template("booking.html")
 @app.route("/thankyou")
 def thankyou():

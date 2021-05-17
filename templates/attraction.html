@@ -125,6 +125,10 @@
   #date {
     padding: 6px;
   }
+  #error_message_show{
+    color: red;
+    font-size: 20px;
+  }
   @media screen and (max-width: 1200px) {
     .place_view {
       width: 90%;
@@ -218,6 +222,7 @@
         </div>
         <p class="form_title" id="price">導覽費用：新台幣2000元</p>
         <button id="submit_booking">開始導覽行程</button>
+        <p id="error_message_show"></p>
       </form>
     </div>
   </div>
@@ -244,6 +249,7 @@
   let point_block = document.getElementsByClassName("point")[0];
   let id = 0;
   let imglist = [];
+  let error_message_show = document.getElementById("error_message_show");
 
   let attraction_name = document.getElementById("attraction_name"); //景點名稱
   let attraction_cat_and_mrt = document.getElementById(
@@ -289,6 +295,21 @@
 
   send_booking_btn.addEventListener("click", (e) => {
     e.preventDefault();
+    fetch("/api/user",{
+      method:"GET"
+    }).then((res)=>{
+      return res.json()
+    }).then((data)=>{
+      if(data["data"]){
+        post_booking_information()
+      }else{
+        login_board.classList.add("open");
+      }
+    })
+  });
+  
+  
+  function post_booking_information(){
     let booking_info = {
       attractionId: parseInt(idx),
       date: document.getElementById("date").value,
@@ -306,10 +327,13 @@
         return res.json();
       })
       .then((result) => {
-        console.log(result);
-        window.location.href="/test/order"
+        if(result["ok"]){
+          window.location.href="/booking"
+        }else{
+          error_message_show.innerHTML = result["message"]
+        }
       });
-  });
+  }
 
   function handle_data(res) {
     attraction_name.innerHTML = res.data.name;
