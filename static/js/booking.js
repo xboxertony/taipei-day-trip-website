@@ -22,6 +22,7 @@ function evoke_delete_fcn() {
                     return res.json();
                 })
                 .then((d) => {
+                    localStorage.removeItem("booking")
                     delete_below();
                 });
         });
@@ -30,35 +31,38 @@ function evoke_delete_fcn() {
 
 let schedule = document.getElementsByClassName("schedule")[0];
 
-fetch("/api/booking", {
-    method: "GET",
-})
-    .then((res) => {
-        return res.json();
+if (localStorage.getItem("booking") === "ok") {
+    fetch("/api/booking", {
+        method: "GET",
     })
-    .then((d) => {
-        append_attraction(d);
-        evoke_delete_fcn();
-    });
+        .then((res) => {
+            return res.json();
+        })
+        .then((d) => {
+            append_attraction(d);
+            evoke_delete_fcn();
+        });
+} else {
+    delete_below();
+    // document.getElementById(
+    //     "howareyou"
+    // ).innerHTML = `您好，{}，您待預定的行程如下`;
+}
 
-fetch("/api/user", {
-    method: "GET",
-})
-    .then((res) => {
-        return res.json();
-    })
-    .then((data) => {
-        document.getElementById(
-            "howareyou"
-        ).innerHTML = `您好，${data.data.name}，您待預定的行程如下`;
-    });
+// fetch("/api/user", {
+//     method: "GET",
+// })
+//     .then((res) => {
+//         return res.json();
+//     })
+//     .then((data) => {
+//     });
 
 function delete_below() {
+    schedule.classList.add("close");
     let text = document.createElement("p");
     text.innerHTML = "目前沒有任何待預定的行程";
     schedule.appendChild(text);
-
-    schedule.classList.add("close");
 }
 
 function append_attraction(d) {

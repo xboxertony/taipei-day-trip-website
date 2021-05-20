@@ -86,6 +86,7 @@ function post_booking_information() {
         })
         .then((result) => {
             if (result["ok"]) {
+                localStorage.setItem("booking","ok")
                 window.location.href = "/booking"
             } else {
                 error_message_show.innerHTML = result["message"]
