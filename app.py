@@ -176,16 +176,26 @@ def order():
 	}
 	r = req.post(url,data=json.dumps(payload),headers=headers)
 	data = json.loads(r.text)
-	print(data)
-	return jsonify({
-		"data":{
-			"number":data["bank_transaction_id"],
-			"payment":{
-				"status":data["status"],
-				"message":"付款成功",
+	if data["status"]==0:
+		return jsonify({
+			"data":{
+				"number":data["bank_transaction_id"],
+				"payment":{
+					"status":"已付款",
+					"message":"付款成功",
+				}
 			}
-		}
-	})
+		})
+	else:
+		return jsonify({
+			"data":{
+				"number":data["bank_transaction_id"],
+				"payment":{
+					"status":"未付款",
+					"message":"付款失敗",
+				}
+			}
+		})
 	# except:
 	# 	return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 
@@ -218,6 +228,11 @@ def pay_search(orderNumber):
 			"address":i[2],
 			"image":i[3].split(";")[0]
 		}
+	print(data)
+	if data["trade_records"][0]["record_status"] in [0,1]:
+		status = 0
+	else:
+		status = 1
 	return jsonify({
 		"data":{
 			"number":data["trade_records"][0]["bank_transaction_id"],
@@ -232,7 +247,7 @@ def pay_search(orderNumber):
 				"email":data["trade_records"][0]["cardholder"]["email"],
 				"phone":data["trade_records"][0]["cardholder"]["phone_number"],
 			},
-			"status":data["status"]
+			"status":status
 		}
 	})
 

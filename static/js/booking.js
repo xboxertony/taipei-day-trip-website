@@ -259,7 +259,11 @@ function onClick() {
                 return res.json();
             })
             .then((data) => {
-                document.getElementById("status_code").innerHTML = data.data.number
+                if(data["error"]){
+                    document.getElementById("status_code").innerHTML = data["message"]
+                    return
+                }
+                window.location.href = `/thankyou?number=${data.data.number}`
             });
     });
 }
