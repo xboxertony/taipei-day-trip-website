@@ -82,7 +82,7 @@ function append_attraction(d) {
     word_to_paid.classList.add("word_to_paid");
 
     let title_word_to_paid = document.createElement("p");
-    title_word_to_paid.innerHTML = "台北一日遊";
+    title_word_to_paid.innerHTML = `台北一日遊：${d.data.attraction.name}`;
     title_word_to_paid.classList.add("title_word_to_paid");
 
     let order_date = document.createElement("p");
@@ -102,9 +102,10 @@ function append_attraction(d) {
     order_price.classList.add("information");
 
     let order_name_attraction = document.createElement("p");
-    order_name_attraction.innerHTML = `地點：${d.data.attraction.name}`;
+    order_name_attraction.innerHTML = `地點：${d.data.attraction.address}`;
     order_name_attraction.classList.add("information");
 
+    word_to_paid.appendChild(title_word_to_paid);
     word_to_paid.appendChild(order_date);
     word_to_paid.appendChild(order_time);
     word_to_paid.appendChild(order_price);
@@ -231,6 +232,8 @@ function onClick() {
     TPDirect.card.getPrime(function (result) {
         if (result.status !== 0) {
             console.error("getPrime error");
+            document.getElementById("status_code").innerHTML = "請輸入正確信用卡號碼"
+            return
         }
         let prime = result.card.prime;
         let data = {

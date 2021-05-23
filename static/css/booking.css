@@ -118,6 +118,13 @@
   margin: 10px 0;
   align-items: center;
 }
+#status_code{
+  color: red;
+  font-weight: 900;
+}
+#howareyou{
+  font-weight: 900;
+}
 @media screen and (max-width: 800px) {
   .form_div,
   .schedule {
