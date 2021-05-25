@@ -55,6 +55,8 @@ def filter_by_page(db,page):
         for column,value in i.items():
             if column=="images":
                 value = value.split(";")[:-1]
+                for i in range(len(value)):
+                    value[i] = value[i].replace("http","https")
             res[column]=value
             if column=="images":
                 ans.append(res.copy())
@@ -71,5 +73,7 @@ def filter_by_id(db,id):
         for column,value in i.items():
             if column=="images":
                 value = value.split(";")[:-1]
+                for i in range(len(value)):
+                    value[i] = value[i].replace("http","https")
             res[column]=value
     return json.dumps({"data":res},ensure_ascii=False)
