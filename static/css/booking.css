@@ -1,0 +1,160 @@
+.order_page > div:not(:last-of-type) {
+  border-bottom: 1px solid #e8e8e8;
+}
+.schedule {
+  width: 60%;
+  margin: auto;
+  box-sizing: border-box;
+}
+.schedule.close ~ div {
+  display: none;
+}
+.schedule > p {
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+.checkout {
+  display: flex;
+  width: 100%;
+  margin: 10px 0;
+  position: relative;
+}
+.photo,
+.word_to_paid {
+  height: 200px;
+}
+.checkout > .delete {
+  position: absolute;
+  left: 100%;
+  transform: translateX(-100%);
+  cursor: pointer;
+}
+.photo {
+  width: 266px;
+  margin-right: 22px;
+}
+.photo img {
+  width: 100%;
+}
+.title_word_to_paid {
+  color: #448899;
+  font-weight: 700;
+}
+.information {
+  color: #666666;
+  font-weight: 700;
+}
+.form_div {
+  width: 60%;
+  margin: auto;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+.form_style {
+  display: flex;
+  flex-direction: column;
+}
+.form_style p {
+  color: #666666;
+  font-weight: 700;
+}
+.form_style input {
+  padding: 5px;
+}
+.form_style p,
+.form_style div {
+  margin: 10px 0;
+}
+.ready_to_paid .summary {
+  float: right;
+}
+.summary p,
+.summary button {
+  margin: 25px 0;
+}
+.summary p {
+  text-align: right;
+}
+.ready_to_paid .clear {
+  clear: both;
+}
+.word_to_paid {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card {
+  width: calc(162px / 4);
+}
+.time {
+  width: calc(162px / 2);
+}
+#total_sum {
+  font-weight: 900;
+}
+.credit_card_panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 340px;
+}
+.credit_card_panel p:first-child {
+  color: #666666;
+  font-weight: 700;
+}
+/* .credit_card_panel button{
+    width: auto;
+    height: auto;
+  } */
+.tpfield {
+  width: 200px;
+  height: 25px;
+  border: 1px solid gray;
+  margin: 5px 0;
+  padding: 5px;
+}
+.order_credit_card {
+  display: flex;
+  margin: 10px 0;
+  align-items: center;
+}
+#status_code{
+  color: red;
+  font-weight: 900;
+}
+#howareyou{
+  font-weight: 900;
+}
+@media screen and (max-width: 800px) {
+  .form_div,
+  .schedule {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+  }
+  .checkout {
+    width: 340px;
+    flex-direction: column;
+  }
+  .word_to_paid {
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  .photo {
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+  .summary form {
+    text-align: right;
+  }
+  .form_style {
+    width: 340px;
+  }
+  .checkout .delete {
+    top: 100%;
+    transform: translate(-100%, -100%);
+  }
+}

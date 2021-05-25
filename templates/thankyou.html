@@ -1,0 +1,57 @@
+{% extends "model.html" %} {% block style %}
+<style>
+  #the_order_guy,
+  .bold {
+    font-weight: 900;
+  }
+  #order_result {
+    padding: 10px;
+    text-align: center;
+  }
+  #order_result p {
+    margin-bottom: 10px;
+  }
+  #status {
+    color: green;
+    font-weight: 900;
+  }
+  #remind {
+    color: red;
+    font-weight: 900;
+  }
+</style>
+{% endblock %} {% block content %}
+<div id="order_result">
+  <p id="the_order_guy">{{ session.name }}您好，您的訂單資訊如下：</p>
+  <br />
+  <p class="bold">訂單編號：</p>
+  <p id="order_id"></p>
+  <br />
+  <p class="bold">付款狀態：</p>
+  <p id="status"></p>
+  <br />
+  <p id="remind">請妥善保存你的訂單編號資訊，以利後續查詢</p>
+  <br />
+</div>
+{% endblock %} {% block script %}
+<script>
+  let href = window.location.href;
+  let order_numbr = href.split("=")[1];
+  fetch(`/api/order/${order_numbr}`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      if(data["error"]){
+        window.location.href = "/"
+        return
+      }
+      document.getElementById("order_id").innerHTML = order_numbr;
+      if (data.data["status"] === 0) {
+        document.getElementById("status").innerHTML = "付款成功!!!!";
+      }else{
+        document.getElementById("status").innerHTML = "付款失敗";
+      }
+    });
+</script>
+{% endblock %}
