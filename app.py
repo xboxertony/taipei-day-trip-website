@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 from data import data_handle
-from config import setapp
+from config import setapp,get_key
 
 import requests as req
 
@@ -71,6 +71,7 @@ def user():
 				session["id"]=i[0]
 				session["name"]=i[1]
 				session["email"]=i[2]
+				session.permanent = True
 				return jsonify({"ok":True})
 			return jsonify({"error":True,"message":"登入失敗，帳號或密碼錯誤"}),400
 		except:
@@ -114,13 +115,15 @@ def api_book():
 			price = data.get("price")
 			if not date or not time or not price:
 				return jsonify({"error":True,"message":"有資料未輸入"}),400
-			sql = f"insert into booking (attractionId,date,time,price) values ('{attractionid}','{date}','{time}','{price}')"
+			idx = session["id"]
+			sql = f"insert into booking (attractionId,date,time,price,userid) values ('{attractionid}','{date}','{time}','{price}','{idx}')"
 			db.engine.execute(sql)
 			return jsonify({"ok":True})
 		except:
 			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 	if request.method=="GET":
-		sql = "SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id"
+		idx = session["id"]
+		sql = f"SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}'"
 		sql_exe = db.engine.execute(sql)
 		res = {"data":None}
 		for i in sql_exe:
@@ -139,7 +142,8 @@ def api_book():
 			}
 		return jsonify(res)
 	if request.method=="DELETE":
-		sql = "truncate table booking"
+		idx = session["id"]
+		sql = f"delete from booking where userid = '{idx}'"
 		db.engine.execute(sql)
 		return jsonify({"ok":True})
 
@@ -156,7 +160,7 @@ def order():
 	# try:
 	url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
 	payload = {
-		"partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
+		"partner_key": get_key(),
 		"prime": request.get_json()["prime"],
 		"amount": request.get_json()["order"]["price"],
 		"merchant_id": "tonyny58_CTBC",
@@ -172,7 +176,7 @@ def order():
 	}
 	headers = {
 		'content-type': 'application/json',
-		'x-api-key': 'partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy'
+		'x-api-key': get_key()
 	}
 	r = req.post(url,data=json.dumps(payload),headers=headers)
 	data = json.loads(r.text)
@@ -206,14 +210,14 @@ def pay_search(orderNumber):
 		return jsonify({"error":True,"message":"未登入系統"}),403
 	url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
 	payload = {
-        "partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
+        "partner_key": get_key(),
         "filters":{
             "bank_transaction_id":orderNumber
         }
     }
 	headers = {
         'content-type': 'application/json',
-        'x-api-key': 'partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy'
+        'x-api-key': get_key()
     }
 	r = req.post(url,data=json.dumps(payload),headers=headers)
 	data = json.loads(r.text)

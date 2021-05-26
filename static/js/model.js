@@ -2,7 +2,6 @@ let booking_btn = document.getElementById("booking")
 let login_btn = document.getElementById("login");
 let login_board = document.getElementsByClassName("block_page")[0];
 let close_btn = document.getElementsByClassName("close");
-let login_section = document;
 let message = document.getElementsByClassName("message");
 
 let login_btn_a = document.getElementById("login_account");
@@ -23,6 +22,7 @@ let login_email = document.getElementById("login_email");
 let login_password = document.getElementById("login_password");
 
 let local = window.location.href.split("/")[2];
+let logout = document.getElementById("logout");
 
 booking_btn.addEventListener("click", function (e) {
     e.preventDefault()
@@ -40,14 +40,17 @@ booking_btn.addEventListener("click", function (e) {
     })
 })
 
-if(localStorage.getItem('login')==="ok"){
-    login_btn.innerHTML = "登出";
-}
+// if(localStorage.getItem('login')==="ok"){
+//     login_btn.innerHTML = "登出";
+// }
 
 // if(document.cookie){
 //     console.log(document.cookie,1)
 //     login_btn.innerHTML = "登出";
 // }
+
+
+let order_problem = null;
 
 fetch("/api/user", {
     method: "GET",
@@ -56,14 +59,32 @@ fetch("/api/user", {
         return res.json();
     })
     .then((res) => {
+        document.getElementById("booking").style.display = "inline";
         if (res["data"]) {
-            // login_btn.innerHTML = "登出";
-            if (window.location.href.split("/").includes("order")) {
-                document.getElementById("order_name").value = res.data.name
-                document.getElementById("order_email").value = res.data.email
+            document.getElementById("logout").style.display = "inline";
+            document.getElementById("login").style.display = "none";
+            order_problem = ()=>{
+                let name = res.data.name
+                let email = res.data.email
+                return {
+                    "name":name,
+                    "email":email
+                }
             }
+        }else{
+            console.log("ok")
+            document.getElementById("login").style.display = "inline";
+            document.getElementById("logout").style.display = "none";
         }
     });
+    
+    
+    // function order_problem(){
+    //     if (window.location.href.split("/").includes("order")) {
+    //         document.getElementById("order_name").value = res.data.name
+    //         document.getElementById("order_email").value = res.data.email
+    //     }
+    // }
 
 login_act_btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -83,11 +104,11 @@ login_act_btn.addEventListener("click", (e) => {
         })
         .then((d) => {
             if (d["ok"]) {
-                login_btn.innerHTML = "登出";
+                // login_btn.innerHTML = "登出";
                 login_board.classList.remove("open");
                 document.getElementById("message_for_error_login").innerHTML = ""
                 let rr = window.location.href.split("/");
-                localStorage.setItem("login","ok")
+                // localStorage.setItem("login","ok")
                 window.location.reload()
                 // if (rr[rr.length - 1] !== "") {
                 //   window.location.href = "/";
@@ -141,31 +162,40 @@ function login_process() {
     document.getElementById("message_for_error_create").innerHTML = ""
 }
 
-login_btn.addEventListener("click", () => {
-    if (login_btn.innerHTML === "登出") {
-        fetch("/api/user", {
-            method: "DELETE",
+
+function login_procedure(){
+    login_board.classList.add("open");
+}
+
+function logout_procedure(){
+    fetch("/api/user", {
+        method: "DELETE",
+    })
+        .then((res) => {
+            return res.json();
         })
-            .then((res) => {
-                return res.json();
-            })
-            .then((data) => {
-                console.log(data);
-                if (data["ok"]) {
-                    login_btn.innerHTML = "登入/註冊";
-                    localStorage.removeItem("login")
-                    let rr = window.location.href.split("/");
-                    // document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
-                    window.location.reload()
-                    // if (rr[rr.length - 1] !== "") {
-                    //   window.location.href = "/";
-                    // }
-                }
-            });
-    } else {
-        login_board.classList.add("open");
-    }
+        .then((data) => {
+            console.log(data);
+            if (data["ok"]) {
+                // login_btn.innerHTML = "登入/註冊";
+                // localStorage.removeItem("login")
+                let rr = window.location.href.split("/");
+                // document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
+                window.location.reload()
+                // if (rr[rr.length - 1] !== "") {
+                //   window.location.href = "/";
+                // }
+            }
+        });
+}
+
+login_btn.addEventListener("click", () => {
+    login_procedure()
 });
+
+logout.addEventListener("click",function(){
+    logout_procedure()
+})
 
 Array.from(close_btn).forEach((ele) => {
     ele.addEventListener("click", () => {
