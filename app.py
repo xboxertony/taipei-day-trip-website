@@ -114,13 +114,15 @@ def api_book():
 			price = data.get("price")
 			if not date or not time or not price:
 				return jsonify({"error":True,"message":"有資料未輸入"}),400
-			sql = f"insert into booking (attractionId,date,time,price) values ('{attractionid}','{date}','{time}','{price}')"
+			idx = session["id"]
+			sql = f"insert into booking (attractionId,date,time,price,userid) values ('{attractionid}','{date}','{time}','{price}','{idx}')"
 			db.engine.execute(sql)
 			return jsonify({"ok":True})
 		except:
 			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 	if request.method=="GET":
-		sql = "SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id"
+		idx = session["id"]
+		sql = f"SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}'"
 		sql_exe = db.engine.execute(sql)
 		res = {"data":None}
 		for i in sql_exe:
