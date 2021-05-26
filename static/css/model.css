@@ -38,7 +38,15 @@ nav ul {
   justify-content: space-between;
 }
 #login {
+  display: none;
   font-weight: 700;
+}
+#logout {
+  display: none;
+  font-weight: 700;
+}
+#booking{
+  display: none;
 }
 .title {
   color: #448899;
