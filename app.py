@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 from data import data_handle
-from config import setapp
+from config import setapp,get_key
 
 import requests as req
 
@@ -158,7 +158,7 @@ def order():
 	# try:
 	url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
 	payload = {
-		"partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
+		"partner_key": get_key(),
 		"prime": request.get_json()["prime"],
 		"amount": request.get_json()["order"]["price"],
 		"merchant_id": "tonyny58_CTBC",
@@ -174,7 +174,7 @@ def order():
 	}
 	headers = {
 		'content-type': 'application/json',
-		'x-api-key': 'partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy'
+		'x-api-key': get_key()
 	}
 	r = req.post(url,data=json.dumps(payload),headers=headers)
 	data = json.loads(r.text)
@@ -208,14 +208,14 @@ def pay_search(orderNumber):
 		return jsonify({"error":True,"message":"未登入系統"}),403
 	url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
 	payload = {
-        "partner_key": "partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy",
+        "partner_key": get_key(),
         "filters":{
             "bank_transaction_id":orderNumber
         }
     }
 	headers = {
         'content-type': 'application/json',
-        'x-api-key': 'partner_WzjWhTGrD8q1kO71lar9OPR5MpdoKdp67EKkkQxrDcY7KVLyhkCKDVGy'
+        'x-api-key': get_key()
     }
 	r = req.post(url,data=json.dumps(payload),headers=headers)
 	data = json.loads(r.text)
