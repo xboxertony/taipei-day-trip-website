@@ -6,9 +6,6 @@
   margin: auto;
   box-sizing: border-box;
 }
-.schedule.close ~ div {
-  display: none;
-}
 .schedule > p {
   padding: 20px 0;
   box-sizing: border-box;
@@ -65,8 +62,8 @@
 .form_style div {
   margin: 10px 0;
 }
-.ready_to_paid .summary {
-  float: right;
+.ready_to_paid{
+  justify-content: flex-end;
 }
 .summary p,
 .summary button {
@@ -125,6 +122,18 @@
 #howareyou{
   font-weight: 900;
 }
+.form_div {
+  display: none;
+}
+.form_div.open {
+  display: flex;
+}
+#messgae_for_null{
+  display: none;
+}
+#messgae_for_null.open{
+  display: block;
+}
 @media screen and (max-width: 800px) {
   .form_div,
   .schedule {
@@ -156,5 +165,14 @@
   .checkout .delete {
     top: 100%;
     transform: translate(-100%, -100%);
+  }
+  .form_div {
+    display: none;
+  }
+  .form_div.open {
+    display: flex;
+  }
+  .summary p{
+    text-align: center;
   }
 }

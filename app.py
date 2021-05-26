@@ -71,6 +71,7 @@ def user():
 				session["id"]=i[0]
 				session["name"]=i[1]
 				session["email"]=i[2]
+				session.permanent = True
 				return jsonify({"ok":True})
 			return jsonify({"error":True,"message":"登入失敗，帳號或密碼錯誤"}),400
 		except:
@@ -141,7 +142,8 @@ def api_book():
 			}
 		return jsonify(res)
 	if request.method=="DELETE":
-		sql = "truncate table booking"
+		idx = session["id"]
+		sql = f"delete from booking where userid = '{idx}'"
 		db.engine.execute(sql)
 		return jsonify({"ok":True})
 

@@ -22,7 +22,6 @@ function evoke_delete_fcn() {
                     return res.json();
                 })
                 .then((d) => {
-                    localStorage.removeItem("booking")
                     delete_below();
                 });
         });
@@ -31,23 +30,24 @@ function evoke_delete_fcn() {
 
 let schedule = document.getElementsByClassName("schedule")[0];
 
-if (localStorage.getItem("booking") === "ok") {
-    fetch("/api/booking", {
-        method: "GET",
+fetch("/api/booking", {
+    method: "GET",
+})
+    .then((res) => {
+        return res.json();
     })
-        .then((res) => {
-            return res.json();
-        })
-        .then((d) => {
-            append_attraction(d);
-            evoke_delete_fcn();
-        });
-} else {
-    delete_below();
-    // document.getElementById(
-    //     "howareyou"
-    // ).innerHTML = `您好，{}，您待預定的行程如下`;
-}
+    .then((d) => {
+        append_attraction(d);
+        evoke_delete_fcn();
+    });
+
+// if (localStorage.getItem("booking") === "ok") {
+// } else {
+//     delete_below();
+//     // document.getElementById(
+//     //     "howareyou"
+//     // ).innerHTML = `您好，{}，您待預定的行程如下`;
+// }
 
 // fetch("/api/user", {
 //     method: "GET",
@@ -59,17 +59,27 @@ if (localStorage.getItem("booking") === "ok") {
 //     });
 
 function delete_below() {
-    schedule.classList.add("close");
-    let text = document.createElement("p");
-    text.innerHTML = "目前沒有任何待預定的行程";
-    schedule.appendChild(text);
+    // schedule.classList.remove("close");
+    document.getElementById("messgae_for_null").classList.add("open");
+    Array.from(dommi).forEach(item=>{
+        item.classList.remove("open")
+    })
+    // let text = document.createElement("p");
+    // text.innerHTML = "目前沒有任何待預定的行程";
+    // schedule.appendChild(text);
 }
+
+let dommi = document.getElementsByClassName("form_div")
 
 function append_attraction(d) {
     if (!d.data) {
         delete_below();
         return;
     }
+    document.getElementById("messgae_for_null").classList.remove("open");
+    Array.from(dommi).forEach(item=>{
+        item.classList.add("open")
+    })
     let order_image = document.createElement("div");
     order_image.classList.add("photo");
     let image_inside = new Image();
@@ -137,6 +147,9 @@ function append_attraction(d) {
             time: d.data.time,
         },
     };
+
+    document.getElementById("order_name").value = order_problem().name
+    document.getElementById("order_email").value = order_problem().email
 }
 
 // <!-- <div class="checkout">
@@ -259,7 +272,7 @@ function onClick() {
                 return res.json();
             })
             .then((data) => {
-                if(data["error"]){
+                if (data["error"]) {
                     document.getElementById("status_code").innerHTML = data["message"]
                     return
                 }

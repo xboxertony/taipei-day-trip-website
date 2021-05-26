@@ -40,14 +40,17 @@ booking_btn.addEventListener("click", function (e) {
     })
 })
 
-if(localStorage.getItem('login')==="ok"){
-    login_btn.innerHTML = "登出";
-}
+// if(localStorage.getItem('login')==="ok"){
+//     login_btn.innerHTML = "登出";
+// }
 
 // if(document.cookie){
 //     console.log(document.cookie,1)
 //     login_btn.innerHTML = "登出";
 // }
+
+
+let order_problem = null;
 
 fetch("/api/user", {
     method: "GET",
@@ -57,13 +60,25 @@ fetch("/api/user", {
     })
     .then((res) => {
         if (res["data"]) {
-            // login_btn.innerHTML = "登出";
-            if (window.location.href.split("/").includes("order")) {
-                document.getElementById("order_name").value = res.data.name
-                document.getElementById("order_email").value = res.data.email
+            login_btn.innerHTML = "登出";
+            order_problem = ()=>{
+                let name = res.data.name
+                let email = res.data.email
+                return {
+                    "name":name,
+                    "email":email
+                }
             }
         }
     });
+    
+    
+    // function order_problem(){
+    //     if (window.location.href.split("/").includes("order")) {
+    //         document.getElementById("order_name").value = res.data.name
+    //         document.getElementById("order_email").value = res.data.email
+    //     }
+    // }
 
 login_act_btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -87,7 +102,7 @@ login_act_btn.addEventListener("click", (e) => {
                 login_board.classList.remove("open");
                 document.getElementById("message_for_error_login").innerHTML = ""
                 let rr = window.location.href.split("/");
-                localStorage.setItem("login","ok")
+                // localStorage.setItem("login","ok")
                 window.location.reload()
                 // if (rr[rr.length - 1] !== "") {
                 //   window.location.href = "/";
@@ -153,7 +168,7 @@ login_btn.addEventListener("click", () => {
                 console.log(data);
                 if (data["ok"]) {
                     login_btn.innerHTML = "登入/註冊";
-                    localStorage.removeItem("login")
+                    // localStorage.removeItem("login")
                     let rr = window.location.href.split("/");
                     // document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
                     window.location.reload()
