@@ -129,7 +129,7 @@ let handle_img = (img_list) => {
 
 function show_img() {
     clear_point();
-    // img_block.style.backgroundImage = "url(" + `${imglist[id]}` + ")";
+    img_block.style.backgroundImage = "url('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif')";
     img_block.childNodes.forEach((ele) => {
         if (ele.classList && ele.classList.contains("pic")) {
             ele.remove();
@@ -140,9 +140,11 @@ function show_img() {
     img.useMap = controler;
     img_block.appendChild(img);
     img.onload = (e) => {
-        img.src = imglist[id];
+        // img.src = imglist[id];
+        console.log("load_complete")
     };
-    img.src = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
+    // img.src = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
+    img.src = imglist[id]
     add_point();
 }
 
