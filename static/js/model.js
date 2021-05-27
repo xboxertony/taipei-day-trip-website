@@ -49,42 +49,83 @@ booking_btn.addEventListener("click", function (e) {
 //     login_btn.innerHTML = "登出";
 // }
 
+function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    // console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log("Name: " + profile.getName());
+    // console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+    // after_login()
+    fetch("/api/google/user",{
+        method:"PATCH",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            "name":profile.getName(),
+            "email":profile.getEmail()
+        })
+    }).then((res)=>{
+        return res.json()
+    }).then((data)=>{
+        if(data["ok"]){
+            login_board.classList.remove("open");
+            document.getElementById("message_for_error_login").innerHTML = ""
+            get_user()
+            // after_login()
+        }
+    })
+}
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log("User signed out.");
+    });
+}
+
+// signOut()
 
 let order_problem = null;
 
-fetch("/api/user", {
-    method: "GET",
-})
-    .then((res) => {
-        return res.json();
+
+function get_user(){
+    fetch("/api/user", {
+        method: "GET",
     })
-    .then((res) => {
-        document.getElementById("booking").style.display = "inline";
-        if (res["data"]) {
-            document.getElementById("logout").style.display = "inline";
-            document.getElementById("login").style.display = "none";
-            order_problem = ()=>{
-                let name = res.data.name
-                let email = res.data.email
-                return {
-                    "name":name,
-                    "email":email
+        .then((res) => {
+            return res.json();
+        })
+        .then((res) => {
+            document.getElementById("booking").style.display = "inline";
+            if (res["data"]) {
+                document.getElementById("logout").style.display = "inline";
+                document.getElementById("login").style.display = "none";
+                order_problem = () => {
+                    let name = res.data.name
+                    let email = res.data.email
+                    return {
+                        "name": name,
+                        "email": email
+                    }
                 }
+            } else {
+                console.log("ok")
+                document.getElementById("login").style.display = "inline";
+                document.getElementById("logout").style.display = "none";
             }
-        }else{
-            console.log("ok")
-            document.getElementById("login").style.display = "inline";
-            document.getElementById("logout").style.display = "none";
-        }
-    });
-    
-    
-    // function order_problem(){
-    //     if (window.location.href.split("/").includes("order")) {
-    //         document.getElementById("order_name").value = res.data.name
-    //         document.getElementById("order_email").value = res.data.email
-    //     }
-    // }
+        });
+}
+
+get_user()
+
+
+
+// function order_problem(){
+//     if (window.location.href.split("/").includes("order")) {
+//         document.getElementById("order_name").value = res.data.name
+//         document.getElementById("order_email").value = res.data.email
+//     }
+// }
 
 login_act_btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -104,12 +145,13 @@ login_act_btn.addEventListener("click", (e) => {
         })
         .then((d) => {
             if (d["ok"]) {
+                after_login()
                 // login_btn.innerHTML = "登出";
-                login_board.classList.remove("open");
-                document.getElementById("message_for_error_login").innerHTML = ""
-                let rr = window.location.href.split("/");
-                // localStorage.setItem("login","ok")
-                window.location.reload()
+                // login_board.classList.remove("open");
+                // document.getElementById("message_for_error_login").innerHTML = ""
+                // let rr = window.location.href.split("/");
+                // // localStorage.setItem("login","ok")
+                // window.location.reload()
                 // if (rr[rr.length - 1] !== "") {
                 //   window.location.href = "/";
                 // }
@@ -119,6 +161,14 @@ login_act_btn.addEventListener("click", (e) => {
             }
         });
 });
+
+function after_login(){
+    login_board.classList.remove("open");
+    document.getElementById("message_for_error_login").innerHTML = ""
+    let rr = window.location.href.split("/");
+    // localStorage.setItem("login","ok")
+    window.location.reload()
+}
 
 create_act_btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -163,11 +213,11 @@ function login_process() {
 }
 
 
-function login_procedure(){
+function login_procedure() {
     login_board.classList.add("open");
 }
 
-function logout_procedure(){
+function logout_procedure() {
     fetch("/api/user", {
         method: "DELETE",
     })
@@ -177,6 +227,7 @@ function logout_procedure(){
         .then((data) => {
             console.log(data);
             if (data["ok"]) {
+                signOut()
                 // login_btn.innerHTML = "登入/註冊";
                 // localStorage.removeItem("login")
                 let rr = window.location.href.split("/");
@@ -193,7 +244,7 @@ login_btn.addEventListener("click", () => {
     login_procedure()
 });
 
-logout.addEventListener("click",function(){
+logout.addEventListener("click", function () {
     logout_procedure()
 })
 

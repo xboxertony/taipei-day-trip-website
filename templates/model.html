@@ -3,6 +3,10 @@
     name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1"
   />
+  <meta
+    name="google-signin-client_id"
+    content="731192245120-c6pofopqhql356ft91tfleobqnkrg5pa.apps.googleusercontent.com"
+  />
   <link
     rel="shortcut icon"
     type="image/x-icon"
@@ -21,6 +25,7 @@
         <input type="text" placeholder="輸入電子信箱" id="login_email" />
         <input type="password" placeholder="輸入密碼" id="login_password" />
         <button id="login_btn">登入帳戶</button>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <p id="message_for_error_login"></p>
         <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
         <img src="../static/icon_close.png" alt="" class="close" />
@@ -51,5 +56,6 @@
   {% block content %}{% endblock %}
   <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
 </body>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="../static/js/model.js"></script>
 {% block script %}{% endblock %}

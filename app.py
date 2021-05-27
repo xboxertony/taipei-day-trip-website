@@ -78,20 +78,38 @@ def user():
 			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 	if request.method=="DELETE":
 		print(session)
-		session.pop("id")
+		if "id" in session:
+			session.pop("id")
 		session.pop("name")
 		session.pop("email")
+		if "google" in session:
+			session.pop("google")
 		return jsonify({"ok":True})
 	if request.method=="GET":
 		if "name" in session:
 			return jsonify({"data":{
-				"id":session["id"],
-				"name":session["name"],
-				"email":session["email"]
+				"id":session.get("id"),
+				"name":session.get("name"),
+				"email":session.get("email")
 				}
 			})
 		else:
 			return jsonify({"data":None}) 
+
+
+@app.route("/api/google/user",methods=["PATCH"])
+def google():
+	if request.method == "PATCH":
+		session["google"]="google"
+		session["name"]=request.get_json()["name"]
+		session["email"]=request.get_json()["email"]
+		session.permanent = True
+		return jsonify({"ok":True})
+	# if request.method == "DELETE":
+	# 	session.pop("google")
+	# 	session.pop("name")
+	# 	session.pop("email")
+	# 	return jsonify({"ok":True})
 
 # @app.route("/test/<id>")
 # def testtest(id):
@@ -115,15 +133,20 @@ def api_book():
 			price = data.get("price")
 			if not date or not time or not price:
 				return jsonify({"error":True,"message":"有資料未輸入"}),400
-			idx = session["id"]
-			sql = f"insert into booking (attractionId,date,time,price,userid) values ('{attractionid}','{date}','{time}','{price}','{idx}')"
+			if not session.get("google"):
+				idx = session["id"]
+				sql = f"insert into booking (attractionId,date,time,price,userid) values ('{attractionid}','{date}','{time}','{price}','{idx}')"
+			else:
+				email = session["email"]
+				sql = f"insert into booking (attractionId,date,time,price,email) values ('{attractionid}','{date}','{time}','{price}','{email}')"
 			db.engine.execute(sql)
 			return jsonify({"ok":True})
 		except:
 			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 	if request.method=="GET":
-		idx = session["id"]
-		sql = f"SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}'"
+		idx = session.get("id")
+		email = session.get("email")
+		sql = f"SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}' or email = '{email}'"
 		sql_exe = db.engine.execute(sql)
 		res = {"data":None}
 		for i in sql_exe:
@@ -142,8 +165,12 @@ def api_book():
 			}
 		return jsonify(res)
 	if request.method=="DELETE":
-		idx = session["id"]
-		sql = f"delete from booking where userid = '{idx}'"
+		idx = session.get("id")
+		email = session.get("email")
+		if session.get("google"):
+			sql = f"delete from booking where email='{email}'"
+		else:
+			sql = f"delete from booking where userid='{idx}'"
 		db.engine.execute(sql)
 		return jsonify({"ok":True})
 
