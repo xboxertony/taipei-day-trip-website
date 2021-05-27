@@ -261,6 +261,7 @@ function onClick() {
                 },
             },
         };
+        document.getElementById("status_code").innerHTML = "執行中..."
         fetch("/api/orders", {
             body: JSON.stringify(data),
             headers: {
