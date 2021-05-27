@@ -148,8 +148,8 @@ function append_attraction(d) {
         },
     };
 
-    document.getElementById("order_name").value = order_problem().name
-    document.getElementById("order_email").value = order_problem().email
+    document.getElementById("order_name").value = booking_name
+    document.getElementById("order_email").value = booking_email
 }
 
 // <!-- <div class="checkout">

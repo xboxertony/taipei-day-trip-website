@@ -71,5 +71,9 @@
 </div>
 {% endblock %} 
 {% block script %} 
+<script>
+  let booking_name = "{{session.name}}"
+  let booking_email = "{{session.email}}"
+</script>
 <script src="../static/js/booking.js"></script>
 {% endblock %}
