@@ -16,6 +16,7 @@
   text-align: center;
   border-radius: 5%;
   transition: background 0.5s;
+  background-position: center center;
 }
 .img_test .pic {
   width: 100%;
