@@ -4,6 +4,9 @@
   .bold {
     font-weight: 900;
   }
+  .bold:nth-of-type(2n){
+    margin-left: 10px;
+  }
   #order_result {
     padding: 10px;
     text-align: center;
@@ -19,16 +22,45 @@
     color: red;
     font-weight: 900;
   }
+  .info {
+    display: flex;
+    align-items: center;
+  }
+  .order_mention {
+    margin: auto;
+    width: 250px;
+  }
+  #order_id{
+    color: indianred;
+  }
 </style>
 {% endblock %} {% block content %}
 <div id="order_result">
-  <p id="the_order_guy">{{ session.name }}您好，您的訂單資訊如下：</p>
-  <br />
-  <p class="bold">訂單編號：</p>
-  <p id="order_id"></p>
-  <br />
-  <p class="bold">付款狀態：</p>
-  <p id="status"></p>
+  <div class="order_mention">
+    <div class="info">
+      <p id="the_order_guy">{{ session.name }}您好，您的訂單資訊如下：</p>
+    </div>
+    <div class="info">
+      <p class="bold">訂單編號 :</p>
+      <p id="order_id" class="bold"></p>
+    </div>
+    <div class="info">
+      <p class="bold">景點名稱 :</p>
+      <p id="attr_id" class="bold"></p>
+    </div>
+    <div class="info">
+      <p class="bold">參觀日期 :</p>
+      <p id="date_id" class="bold"></p>
+    </div>
+    <div class="info">
+      <p class="bold">參觀時間 :</p>
+      <p id="time_id" class="bold"></p>
+    </div>
+    <div class="info">
+      <p class="bold">付款狀態 :</p>
+      <p id="status" class="bold"></p>
+    </div>
+  </div>
   <br />
   <p id="remind">請妥善保存你的訂單編號資訊，以利後續查詢</p>
   <br />
@@ -42,14 +74,21 @@
       return res.json();
     })
     .then((data) => {
-      if(data["error"]){
-        window.location.href = "/"
-        return
+      if (data["error"]) {
+        window.location.href = "/";
+        return;
       }
+      console.log(data);
       document.getElementById("order_id").innerHTML = order_numbr;
+      document.getElementById("attr_id").innerHTML =
+        data["data"]["trip"]["attraction"]["name"];
+      document.getElementById("date_id").innerHTML =
+        data["data"]["trip"]["date"];
+      document.getElementById("time_id").innerHTML =
+        data["data"]["trip"]["time"];
       if (data.data["status"] === 0) {
         document.getElementById("status").innerHTML = "付款成功!!!!";
-      }else{
+      } else {
         document.getElementById("status").innerHTML = "付款失敗";
       }
     });
