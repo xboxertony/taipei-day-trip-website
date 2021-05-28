@@ -19,6 +19,14 @@ a {
 :root {
   --wid: 310px;
 }
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: coral;
+}
 nav {
   height: 54px;
   width: 100%;
@@ -45,7 +53,7 @@ nav ul {
   display: none;
   font-weight: 700;
 }
-#booking{
+#booking {
   display: none;
 }
 .title {
@@ -57,6 +65,26 @@ nav ul {
 .last-item a {
   color: #666666;
   font-weight: 700;
+  position: relative;
+  margin-left: 10px;
+}
+.last-item a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 5px;
+  background-color: #ff7700;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 0.8s;
+  /* display: none; */
+}
+.last-item a:hover::after {
+  width: 120%;
+}
+.last-item a:hover {
+  color: #ff7700;
 }
 .block_page {
   width: 100%;
@@ -148,10 +176,10 @@ button {
 #message_for_error_login {
   color: red;
 }
-.abcRioButton{
+.abcRioButton {
   margin-top: 10px;
 }
-.abcRioButton span{
+.abcRioButton span {
   font-weight: 900;
 }
 @media screen and (max-width: 1200px) {
