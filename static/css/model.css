@@ -179,9 +179,9 @@ button {
 .abcRioButton {
   margin-top: 10px;
 }
-.abcRioButton span {
+/* .abcRioButton span {
   font-weight: 900;
-}
+} */
 @media screen and (max-width: 1200px) {
   nav ul {
     width: 90%;

@@ -24,6 +24,22 @@ let login_password = document.getElementById("login_password");
 let local = window.location.href.split("/")[2];
 let logout = document.getElementById("logout");
 
+function onFailure(error) {
+    console.log(error);
+}
+
+function renderButton() {
+    gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSignIn,
+        'onfailure': onFailure
+    });
+}
+
 booking_btn.addEventListener("click", function (e) {
     e.preventDefault()
 
@@ -56,19 +72,19 @@ function onSignIn(googleUser) {
     // console.log("Image URL: " + profile.getImageUrl());
     console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
     // after_login()
-    fetch("/api/google/user",{
-        method:"PATCH",
-        headers:{
-            "Content-Type":"application/json"
+    fetch("/api/google/user", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify({
-            "name":profile.getName(),
-            "email":profile.getEmail()
+        body: JSON.stringify({
+            "name": profile.getName(),
+            "email": profile.getEmail()
         })
-    }).then((res)=>{
+    }).then((res) => {
         return res.json()
-    }).then((data)=>{
-        if(data["ok"]){
+    }).then((data) => {
+        if (data["ok"]) {
             login_board.classList.remove("open");
             document.getElementById("message_for_error_login").innerHTML = ""
             get_user()
@@ -88,7 +104,7 @@ function signOut() {
 let order_problem = null;
 
 
-function get_user(){
+function get_user() {
     fetch("/api/user", {
         method: "GET",
     })
@@ -162,7 +178,7 @@ login_act_btn.addEventListener("click", (e) => {
         });
 });
 
-function after_login(){
+function after_login() {
     login_board.classList.remove("open");
     document.getElementById("message_for_error_login").innerHTML = ""
     let rr = window.location.href.split("/");
