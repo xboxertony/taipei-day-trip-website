@@ -3,14 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 from data import data_handle
-from config import setapp,get_key
+from config import setapp,get_key,get_session_key
 
 import requests as req
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
-app.secret_key="abc"
+app.secret_key=get_session_key()
 setapp(app)
 db = SQLAlchemy(app)
 
