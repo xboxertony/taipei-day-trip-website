@@ -26,7 +26,10 @@
         <input type="password" placeholder="輸入密碼" id="login_password" />
         <button id="login_btn">登入帳戶</button>
         <p>or</p>
-        <div id="my-signin2" data-onsuccess="onSignIn"></div>
+        <div id="my-signin2"></div>
+        <p>or</p>
+        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div>
+        <div id="fb-root"></div>
         <p id="message_for_error_login"></p>
         <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
         <img src="../static/icon_close.png" alt="" class="close" />
@@ -59,4 +62,5 @@
 </body>
 <script src="../static/js/model.js"></script>
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=361104395011889&autoLogAppEvents=1" nonce="4SMMZnj8"></script>
 {% block script %}{% endblock %}

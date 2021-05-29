@@ -77,15 +77,19 @@ def user():
 		except:
 			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 	if request.method=="DELETE":
-		print(session)
 		if "id" in session:
 			session.pop("id")
+		if "FB" in session:
+			session.pop("FB")
+			session.pop("FB_ID")
 		session.pop("name")
-		session.pop("email")
+		if "email" in session:
+			session.pop("email")
 		if "google" in session:
 			session.pop("google")
 		return jsonify({"ok":True})
 	if request.method=="GET":
+		print(session)
 		if "name" in session:
 			return jsonify({"data":{
 				"id":session.get("id"),
@@ -103,6 +107,15 @@ def google():
 		session["google"]="google"
 		session["name"]=request.get_json()["name"]
 		session["email"]=request.get_json()["email"]
+		session.permanent = True
+		return jsonify({"ok":True})
+
+@app.route("/api/FB/user",methods=["PATCH"])
+def FB():
+	if request.method == "PATCH":
+		session["FB"]="FB"
+		session["name"]=request.get_json()["name"]
+		session["FB_ID"]=request.get_json()["FB_ID"]
 		session.permanent = True
 		return jsonify({"ok":True})
 	# if request.method == "DELETE":
@@ -133,12 +146,15 @@ def api_book():
 			price = data.get("price")
 			if not date or not time or not price:
 				return jsonify({"error":True,"message":"有資料未輸入"}),400
-			if not session.get("google"):
+			if not session.get("google") and not session.get("FB"):
 				idx = session["id"]
 				sql = f"insert into booking (attractionId,date,time,price,userid) values ('{attractionid}','{date}','{time}','{price}','{idx}')"
-			else:
+			if session.get("google"):
 				email = session["email"]
 				sql = f"insert into booking (attractionId,date,time,price,email) values ('{attractionid}','{date}','{time}','{price}','{email}')"
+			if session.get("FB"):
+				idx = session["FB_ID"]
+				sql = f"insert into booking (attractionId,date,time,price,FB_ID) values ('{attractionid}','{date}','{time}','{price}','{idx}')"
 			db.engine.execute(sql)
 			return jsonify({"ok":True})
 		except:
@@ -146,7 +162,8 @@ def api_book():
 	if request.method=="GET":
 		idx = session.get("id")
 		email = session.get("email")
-		sql = f"SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}' or email = '{email}'"
+		fb_id = session.get("FB_ID")
+		sql = f"SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}' or email = '{email}' or FB_ID = '{fb_id}'"
 		sql_exe = db.engine.execute(sql)
 		res = {"data":None}
 		for i in sql_exe:
@@ -167,8 +184,11 @@ def api_book():
 	if request.method=="DELETE":
 		idx = session.get("id")
 		email = session.get("email")
+		fb_id = session.get("FB_ID")
 		if session.get("google"):
 			sql = f"delete from booking where email='{email}'"
+		if session.get("FB"):
+			sql = f"delete from booking where FB_ID='{fb_id}'"
 		else:
 			sql = f"delete from booking where userid='{idx}'"
 		db.engine.execute(sql)
@@ -300,3 +320,4 @@ def thankyou():
 	return render_template("thankyou.html")
 
 app.run(host="0.0.0.0",port=3000,debug=True)
+# app.run(host="localhost",port=8080,ssl_context=('adhoc'),debug=True)

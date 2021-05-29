@@ -24,6 +24,82 @@ let login_password = document.getElementById("login_password");
 let local = window.location.href.split("/")[2];
 let logout = document.getElementById("logout");
 
+// FB登入
+
+function statusChangeCallback(response) {
+    // Called with the results from FB.getLoginStatus().
+    // console.log("statusChangeCallback");
+    // console.log(response); // The current login status of the person.
+    if (response.status === "connected") {
+        // Logged into your webpage and Facebook.
+        testAPI();
+    } else {
+        // Not logged into your webpage or we are unable to tell.
+        // document.getElementById("status").innerHTML =
+        //     "Please log " + "into this webpage.";
+    }
+}
+
+function checkLoginState() {
+    // Called when a person is finished with the Login Button.
+    FB.getLoginStatus(function (response) {
+        // See the onlogin handler
+        statusChangeCallback(response);
+    });
+}
+
+window.fbAsyncInit = function () {
+    FB.init({
+        appId: "361104395011889",
+        cookie: true, // Enable cookies to allow the server to access the session.
+        xfbml: true, // Parse social plugins on this webpage.
+        version: "v10.0", // Use this Graph API version for this call.
+    });
+
+    FB.getLoginStatus(function (response) {
+        // Called after the JS SDK has been initialized.
+        statusChangeCallback(response); // Returns the login status.
+    });
+};
+
+function testAPI() {
+    // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+    console.log("Welcome!  Fetching your information.... ");
+    FB.api("/me",function (response) {
+        console.log(response)
+            // Logged into your webpage and Facebook.
+            fetch("/api/FB/user", {
+                headers: { "Content-Type": "application/json" },
+                method: "PATCH",
+                body: JSON.stringify({
+                    "name": response.name,
+                    "FB_ID": response.id
+                })
+            }).then((res) => {
+                return res.json()
+            }).then((data) => {
+                if (data["ok"]) {
+                    login_board.classList.remove("open");
+                    document.getElementById("message_for_error_login").innerHTML = ""
+                    get_user()
+                    // after_login()
+                }
+            })
+        // console.log("Successful login for: " + response.name);
+        // document.getElementById("status").innerHTML =
+        //     "Thanks for logging in, " + response.name + "!";
+    });
+}
+
+function FB_logout() {
+    FB.logout(function (response) {
+        // Person is now logged out
+        console.log("logout!!!!");
+    });
+}
+
+// google登入
+
 function onFailure(error) {
     console.log(error);
 }
@@ -35,7 +111,7 @@ function renderButton() {
         'height': 50,
         'longtitle': true,
         'theme': 'dark',
-        'onsuccess': onSignIn,
+        'onsuccess': google_onSignIn,
         'onfailure': onFailure
     });
 }
@@ -65,7 +141,7 @@ booking_btn.addEventListener("click", function (e) {
 //     login_btn.innerHTML = "登出";
 // }
 
-function onSignIn(googleUser) {
+function google_onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     // console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log("Name: " + profile.getName());
@@ -241,9 +317,9 @@ function logout_procedure() {
             return res.json();
         })
         .then((data) => {
-            console.log(data);
             if (data["ok"]) {
                 signOut()
+                FB_logout()
                 // login_btn.innerHTML = "登入/註冊";
                 // localStorage.removeItem("login")
                 let rr = window.location.href.split("/");
