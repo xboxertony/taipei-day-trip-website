@@ -112,5 +112,12 @@
         document.getElementById("status").innerHTML = "付款失敗";
       }
     });
+  fetch("/api/booking",{
+    method:"DELETE"
+  }).then((res)=>{
+    return res.json()
+  }).then((data)=>{
+    console.log(data)
+  })
 </script>
 {% endblock %}
