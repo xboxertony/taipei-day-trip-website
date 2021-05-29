@@ -187,7 +187,7 @@ def api_book():
 		fb_id = session.get("FB_ID")
 		if session.get("google"):
 			sql = f"delete from booking where email='{email}'"
-		if session.get("FB"):
+		elif session.get("FB"):
 			sql = f"delete from booking where FB_ID='{fb_id}'"
 		else:
 			sql = f"delete from booking where userid='{idx}'"
