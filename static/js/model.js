@@ -24,6 +24,9 @@ let login_password = document.getElementById("login_password");
 let local = window.location.href.split("/")[2];
 let logout = document.getElementById("logout");
 
+let pro = document.getElementById("profile")
+let FB_BTN = document.getElementById("FB_BTN")
+
 // FB登入
 
 function statusChangeCallback(response) {
@@ -32,13 +35,20 @@ function statusChangeCallback(response) {
     // console.log(response); // The current login status of the person.
     if (response.status === "connected") {
         // Logged into your webpage and Facebook.
-        testAPI();
     } else {
+        testAPI();
         // Not logged into your webpage or we are unable to tell.
         // document.getElementById("status").innerHTML =
         //     "Please log " + "into this webpage.";
     }
 }
+
+FB_BTN.addEventListener("click",function(e){
+    e.preventDefault()
+    checkLoginState()
+})
+
+
 
 function checkLoginState() {
     // Called when a person is finished with the Login Button.
@@ -50,51 +60,101 @@ function checkLoginState() {
 
 window.fbAsyncInit = function () {
     FB.init({
-        appId: "361104395011889",
-        cookie: true, // Enable cookies to allow the server to access the session.
-        xfbml: true, // Parse social plugins on this webpage.
-        version: "v10.0", // Use this Graph API version for this call.
+      appId: "234985047958856",
+      cookie: true, // Enable cookies to allow the server to access the session.
+      xfbml: true, // Parse social plugins on this webpage.
+      version: "v10.0", // Use this Graph API version for this call.
     });
-
     FB.getLoginStatus(function (response) {
-        // Called after the JS SDK has been initialized.
-        statusChangeCallback(response); // Returns the login status.
+      console.log(response);
     });
-};
+    // FB_logout()
+  };
+
+// window.fbAsyncInit = function () {
+//     FB.init({
+//         // appId: "361104395011889",
+//         appId:"234985047958856",
+//         cookie: true, // Enable cookies to allow the server to access the session.
+//         xfbml: true, // Parse social plugins on this webpage.
+//         version: "v10.0", // Use this Graph API version for this call.
+//     });
+
+//     FB.getLoginStatus(function (response) {
+//         // Called after the JS SDK has been initialized.
+//         statusChangeCallback(response); // Returns the login status.
+//     });
+// };
 
 function testAPI() {
     // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
     console.log("Welcome!  Fetching your information.... ");
-    FB.api("/me",function (response) {
-        console.log(response)
-            // Logged into your webpage and Facebook.
-            fetch("/api/FB/user", {
-                headers: { "Content-Type": "application/json" },
-                method: "PATCH",
-                body: JSON.stringify({
-                    "name": response.name,
-                    "FB_ID": response.id
+    FB.login(
+        function (response) {
+          console.log(response);
+          FB.api("/me","GET", {fields:"name,id,email,picture"},
+            function (user) {
+              //user物件的欄位：https://developers.facebook.com/docs/graph-api/reference/user
+              if (user.error) {
+              } else {
+                pro.src = user.picture.data.url
+                window.localStorage["url"] = user.picture.data.url
+                fetch("/api/FB/user", {
+                    headers: { "Content-Type": "application/json" },
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        "name": user.name,
+                        "FB_ID": user.id,
+                        "email":user.email,
+                        "url":user.picture.data.url
+                    })
+                }).then((res) => {
+                    return res.json()
+                }).then((data) => {
+                    if (data["ok"]) {
+                        login_board.classList.remove("open");
+                        document.getElementById("message_for_error_login").innerHTML = ""
+                        get_user()
+                        // after_login()
+                    }
                 })
-            }).then((res) => {
-                return res.json()
-            }).then((data) => {
-                if (data["ok"]) {
-                    login_board.classList.remove("open");
-                    document.getElementById("message_for_error_login").innerHTML = ""
-                    get_user()
-                    // after_login()
-                }
-            })
-        // console.log("Successful login for: " + response.name);
-        // document.getElementById("status").innerHTML =
-        //     "Thanks for logging in, " + response.name + "!";
-    });
+              }
+            }
+          );
+        },
+        { scope: "public_profile,email" }
+      );
+    // FB.api("/me",function (response) {
+    //     console.log(response)
+    //         // Logged into your webpage and Facebook.
+    //         fetch("/api/FB/user", {
+    //             headers: { "Content-Type": "application/json" },
+    //             method: "PATCH",
+    //             body: JSON.stringify({
+    //                 "name": response.name,
+    //                 "FB_ID": response.id
+    //             })
+    //         }).then((res) => {
+    //             return res.json()
+    //         }).then((data) => {
+    //             if (data["ok"]) {
+    //                 login_board.classList.remove("open");
+    //                 document.getElementById("message_for_error_login").innerHTML = ""
+    //                 get_user()
+    //                 // after_login()
+    //             }
+    //         })
+    //     // console.log("Successful login for: " + response.name);
+    //     // document.getElementById("status").innerHTML =
+    //     //     "Thanks for logging in, " + response.name + "!";
+    // });
 }
 
 function FB_logout() {
     FB.logout(function (response) {
         // Person is now logged out
         console.log("logout!!!!");
+        window.localStorage.removeItem("url");
     });
 }
 
@@ -148,6 +208,7 @@ function google_onSignIn(googleUser) {
     // console.log("Image URL: " + profile.getImageUrl());
     console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
     // after_login()
+    window.localStorage["url"] = profile.getImageUrl();
     fetch("/api/google/user", {
         method: "PATCH",
         headers: {
@@ -169,6 +230,7 @@ function google_onSignIn(googleUser) {
     })
 }
 function signOut() {
+    window.localStorage.removeItem("url");
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         console.log("User signed out.");
@@ -190,6 +252,10 @@ function get_user() {
         .then((res) => {
             document.getElementById("booking").style.display = "inline";
             if (res["data"]) {
+                pro.src = window.localStorage["url"]
+                if(!window.localStorage["url"]){
+                    pro.src = "../static/unknow.png"
+                }
                 document.getElementById("logout").style.display = "inline";
                 document.getElementById("login").style.display = "none";
                 order_problem = () => {
@@ -209,6 +275,11 @@ function get_user() {
 }
 
 get_user()
+
+pro.onerror = function (obj){
+    console.log(obj.target)
+    obj.target.style.display = "none";
+}
 
 
 

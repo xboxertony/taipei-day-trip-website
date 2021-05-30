@@ -28,7 +28,8 @@
         <p>or</p>
         <div id="my-signin2"></div>
         <p>or</p>
-        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div>
+        <button id="FB_BTN">使用Facebook登入</button>
+        <!-- <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div> -->
         <div id="fb-root"></div>
         <p id="message_for_error_login"></p>
         <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
@@ -53,14 +54,26 @@
       <li class="last-item">
         <a id="booking">預定行程</a>
         <a id="login">註冊/登入</a>
-        <a id="logout">登出</a>
+        <a id="logout">
+          <img src="" alt="" id="profile">
+          登出</a>
       </li>
     </ul>
   </nav>
   {% block content %}{% endblock %}
   <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
 </body>
+<script>
+  let src = '{{session.get("url")}}'
+</script>
 <script src="../static/js/model.js"></script>
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=361104395011889&autoLogAppEvents=1" nonce="4SMMZnj8"></script>
+<!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=361104395011889&autoLogAppEvents=1" nonce="4SMMZnj8"></script> -->
+<script
+async
+defer
+crossorigin="anonymous"
+src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=361104395011889&autoLogAppEvents=1"
+nonce="RkBQBAP8"
+></script>
 {% block script %}{% endblock %}

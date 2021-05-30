@@ -116,6 +116,8 @@ def FB():
 		session["FB"]="FB"
 		session["name"]=request.get_json()["name"]
 		session["FB_ID"]=request.get_json()["FB_ID"]
+		session["email"]=request.get_json()["email"]
+		session["url"]=request.get_json()["url"]
 		session.permanent = True
 		return jsonify({"ok":True})
 	# if request.method == "DELETE":
@@ -319,5 +321,5 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.run(host="0.0.0.0",port=3000,debug=True)
-# app.run(host="localhost",port=8080,ssl_context=('adhoc'),debug=True)
+# app.run(host="0.0.0.0",port=3000,debug=True)
+app.run(host="localhost",port=8080,ssl_context=('adhoc'),debug=True)
