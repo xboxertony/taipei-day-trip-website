@@ -82,6 +82,7 @@ def user():
 		if "FB" in session:
 			session.pop("FB")
 			session.pop("FB_ID")
+			session.pop("url")
 		session.pop("name")
 		if "email" in session:
 			session.pop("email")
@@ -321,5 +322,5 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.run(host="0.0.0.0",port=3000,debug=True)
-# app.run(host="localhost",port=8080,ssl_context=('adhoc'),debug=True)
+## app.run(host="0.0.0.0",port=3000,debug=True)
+app.run(host="localhost",port=8080,ssl_context=('adhoc'),debug=True)

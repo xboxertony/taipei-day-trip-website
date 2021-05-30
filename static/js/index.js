@@ -90,6 +90,8 @@ function render_data(res) {
         let attraction = document.createElement("div");
         attraction.classList.add("attraction");
 
+        attraction.style.backgroundImage = "url('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif')";
+
         let img = new Image();
         img.onload = function () {
             cnt++;
