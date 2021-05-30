@@ -276,10 +276,10 @@ function get_user() {
 
 get_user()
 
-pro.onerror = function (obj){
-    console.log(obj.target)
-    obj.target.style.display = "none";
-}
+// pro.onerror = function (obj){
+//     console.log(obj.target)
+//     obj.target.style.display = "none";
+// }
 
 
 
