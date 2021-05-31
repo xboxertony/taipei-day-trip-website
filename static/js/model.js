@@ -33,6 +33,7 @@ let regex = /.+@.+/g
 let error_name = document.getElementById("error_name")
 let error_email = document.getElementById("error_email")
 let error_password = document.getElementById("error_password")
+let error_input = document.getElementsByClassName("error")
 
 function add_event(item,act,f){
     item.addEventListener(act,f)
@@ -47,6 +48,7 @@ function email_check(){
     }else{
         error_email.classList.remove("open")
     }
+    check_all_input()
 }
 function password_check(){
     let em = this.value
@@ -56,6 +58,7 @@ function password_check(){
     }else{
         error_password.classList.remove("open")
     }
+    check_all_input()
 }
 function name_check(){
     let em = this.value
@@ -65,11 +68,26 @@ function name_check(){
     }else{
         error_name.classList.remove("open")
     }
+    check_all_input()
 }
 
 add_event(create_email,"blur",email_check)
 add_event(create_password,"blur",password_check)
 add_event(create_name,"blur",name_check)
+
+function check_all_input(){
+    let a = Array.from(error_input).every((item)=>{
+        if(!item.classList.contains("open")){
+            return true
+        }
+        return false
+    })
+    if(a){
+        create_act_btn.disabled=false
+    }else{
+        create_act_btn.disabled=true
+    }
+}
 
 
 
@@ -383,6 +401,7 @@ function after_login() {
 
 create_act_btn.addEventListener("click", (e) => {
     e.preventDefault();
+    check_all_input()
     let data = {
         name: create_name.value,
         email: create_email.value,
