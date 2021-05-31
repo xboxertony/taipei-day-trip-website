@@ -134,6 +134,12 @@
 #messgae_for_null.open{
   display: block;
 }
+.error{
+  display: none;
+}
+#error_order_phone.open{
+  display: block;
+}
 @media screen and (max-width: 800px) {
   .form_div,
   .schedule {

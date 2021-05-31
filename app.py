@@ -6,6 +6,8 @@ from data import data_handle
 from config import setapp,get_key,get_session_key
 
 import requests as req
+import re
+from datetime import datetime
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
@@ -46,6 +48,7 @@ def attr2(id):
 def user():
 	if request.method=="POST":
 		try:
+			regex = r".+@.+"
 			data = request.get_json()
 			name = data["name"]
 			email = data["email"]
@@ -56,6 +59,8 @@ def user():
 				return jsonify({"error":True,"message":"註冊失敗，重複的email"}),400
 			if not name or not email or not password:
 				return jsonify({"error":True,"message":"註冊失敗，欄位不可以為空"}),400
+			if not re.findall(regex,email) or not re.findall(regex,email)[0]==email:
+				return jsonify({"error":True,"message":"註冊失敗，email格式錯誤"}),400
 			sql = f"insert into user (name,email,password) values ('{name}','{email}','{password}')"
 			db.engine.execute(sql)
 			return jsonify({"ok":True})
@@ -144,9 +149,14 @@ def api_book():
 		return jsonify({"error":True,"message":"未登入系統"}),403
 	if request.method=="POST":
 		try:
+			import time
 			data = request.get_json()
 			attractionid = data.get("attractionId")
 			date = data.get("date")
+			now = time.strftime("%Y-%m-%d",time.localtime())
+			gap = datetime.strptime(date,"%Y-%m-%d")-datetime.strptime(now,"%Y-%m-%d")
+			if gap.days<=0:
+				return jsonify({"error":True,"message":"請勿選擇過去時間"}),400
 			time = data.get("time")
 			price = data.get("price")
 			if not date or not time or not price:
@@ -202,6 +212,8 @@ def api_book():
 
 @app.route("/api/orders",methods=["POST"])
 def order():
+	regex = r".+@.+"
+	phone = r'09\d{8}'
 	if "name" not in session:
 		return jsonify({"error":True,"message":"未登入系統"}),403
 	if not request.get_json()["order"]["contact"]["name"] or not request.get_json()["order"]["contact"]["email"] or not request.get_json()["order"]["contact"]["phone"]:
@@ -209,6 +221,12 @@ def order():
 			"error":True,
 			"message":"輸入不可為空白"
 		}),400
+	email = request.get_json()["order"]["contact"]["email"]
+	phone_order = request.get_json()["order"]["contact"]["phone"]
+	if not re.findall(regex,email) or not re.findall(regex,email)[0]==email:
+		return jsonify({"error":True,"message":"email輸入格式錯誤"}),400
+	if not re.findall(phone,phone_order) or not re.findall(phone,phone_order)[0]==phone_order:
+		return jsonify({"error":True,"message":"電話輸入格式錯誤"}),400
 	# try:
 	url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
 	payload = {

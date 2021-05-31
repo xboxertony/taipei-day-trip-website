@@ -164,6 +164,37 @@ function append_attraction(d) {
 //     <img src="../static/icon_delete.png" alt="" class="delete">
 //   </div> -->
 
+order_email = document.getElementById("order_email")
+order_phone = document.getElementById("order_phone")
+
+error_order_email = document.getElementById("error_order_email")
+error_order_phone = document.getElementById("error_order_phone")
+
+add_event(order_email,"blur",check_order_email)
+add_event(order_phone,"blur",check_order_phone)
+
+function check_order_phone(){
+    let reg = /09\d{8}/g
+    let phone = order_phone.value
+    if(!(phone.match(reg) && phone.match(reg)[0]===phone)){
+        error_order_phone.classList.add("open")
+        error_order_phone.innerHTML = "手機號碼格式錯誤，ex:09xxxxxxxxx"
+    }else{
+        error_order_phone.classList.remove("open")
+    }
+}
+
+function check_order_email(){
+    let em = this.value
+    let ma = em.match(regex)
+    if(!(ma && em===ma[0])){
+        error_order_email.classList.add("open")
+        error_order_email.innerHTML = "請輸入正確的email格式，例：xxx@xxx.com"
+    }else{
+        error_order_email.classList.remove("open")
+    }
+}
+
 TPDirect.setupSDK(
     20216,
     "app_9TqLsD0qcuIVWst39YRyC9Aud7VxBnGfeYQL0NZ8JMJuYs7CJwWxEbwmITCL",
