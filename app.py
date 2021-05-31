@@ -54,6 +54,8 @@ def user():
 			replicate = db.engine.execute(sql)
 			for i in replicate:
 				return jsonify({"error":True,"message":"註冊失敗，重複的email"}),400
+			if not name or not email or not password:
+				return jsonify({"error":True,"message":"註冊失敗，欄位不可以為空"}),400
 			sql = f"insert into user (name,email,password) values ('{name}','{email}','{password}')"
 			db.engine.execute(sql)
 			return jsonify({"ok":True})
@@ -322,5 +324,5 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.run(host="0.0.0.0",port=3000,debug=True)
-## app.run(host="localhost",port=8080,ssl_context=('adhoc'),debug=True)
+## app.run(host="0.0.0.0",port=3000,debug=True)
+app.run(host="localhost",port=8080,ssl_context=('adhoc'),debug=True)

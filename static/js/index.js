@@ -103,16 +103,17 @@ function render_data(res) {
 
         let link = document.createElement("a");
         link.href = `/attraction/${element.id}`;
+        
+        link.appendChild(attraction);
+        attraction.appendChild(img);
 
-        link.appendChild(img);
-
-        attraction.appendChild(link);
 
         let description = document.createElement("div");
         description.classList.add("description");
 
         let p = document.createElement("p");
         p.innerHTML = element.name;
+        attraction.setAttribute("data-content",element.name)
 
         let transport = document.createElement("a");
         transport.classList.add("transport");
@@ -128,6 +129,6 @@ function render_data(res) {
 
         attraction.appendChild(description);
 
-        container.appendChild(attraction);
+        container.appendChild(link);
     });
 }

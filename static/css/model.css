@@ -48,6 +48,7 @@ nav ul {
 #login {
   display: none;
   font-weight: 700;
+  margin-left: 10px;
 }
 #logout {
   display: none;
@@ -201,6 +202,13 @@ button {
   left:-35px;
   top:-13px;
   border-radius: 10px;
+}
+.error{
+  display: none;
+}
+.error.open{
+  display: block;
+  color: red;
 }
 @media screen and (max-width: 1200px) {
   nav ul {

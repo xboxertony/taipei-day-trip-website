@@ -27,6 +27,54 @@ let logout = document.getElementById("logout");
 let pro = document.getElementById("profile")
 let FB_BTN = document.getElementById("FB_BTN")
 
+// 前端驗證
+
+let regex = /.+@.+/g
+let error_name = document.getElementById("error_name")
+let error_email = document.getElementById("error_email")
+let error_password = document.getElementById("error_password")
+
+function add_event(item,act,f){
+    item.addEventListener(act,f)
+}
+
+function email_check(){
+    let em = this.value
+    let ma = em.match(regex)
+    if(!(ma && em===ma[0])){
+        error_email.classList.add("open")
+        error_email.innerHTML = "請輸入正確的email格式，例：xxx@xxx.com"
+    }else{
+        error_email.classList.remove("open")
+    }
+}
+function password_check(){
+    let em = this.value
+    if(!em){
+        error_password.classList.add("open")
+        error_password.innerHTML = "密碼不可為空"
+    }else{
+        error_password.classList.remove("open")
+    }
+}
+function name_check(){
+    let em = this.value
+    if(!em){
+        error_name.classList.add("open")
+        error_name.innerHTML = "姓名不可為空"
+    }else{
+        error_name.classList.remove("open")
+    }
+}
+
+add_event(create_email,"blur",email_check)
+add_event(create_password,"blur",password_check)
+add_event(create_name,"blur",name_check)
+
+
+
+
+
 // FB登入
 
 function statusChangeCallback(response) {
