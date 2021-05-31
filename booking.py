@@ -12,16 +12,16 @@ def api_book():
 		try:
 			import time
 			data = request.get_json()
-			attractionid = data.get("attractionId")
+			time = data.get("time")
+			price = data.get("price")
 			date = data.get("date")
+			attractionid = data.get("attractionId")
+			if not date or not time or not price:
+				return jsonify({"error":True,"message":"有資料未輸入"}),400
 			now = time.strftime("%Y-%m-%d",time.localtime())
 			gap = datetime.strptime(date,"%Y-%m-%d")-datetime.strptime(now,"%Y-%m-%d")
 			if gap.days<=0:
 				return jsonify({"error":True,"message":"請勿選擇過去時間"}),400
-			time = data.get("time")
-			price = data.get("price")
-			if not date or not time or not price:
-				return jsonify({"error":True,"message":"有資料未輸入"}),400
 			if not session.get("google") and not session.get("FB"):
 				idx = session["id"]
 				sql = f"insert into booking (attractionId,date,time,price,userid) values ('{attractionid}','{date}','{time}','{price}','{idx}')"
