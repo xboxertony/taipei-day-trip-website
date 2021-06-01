@@ -4,6 +4,9 @@
   list-style: none;
   text-decoration: none;
 }
+html{
+  scroll-behavior: smooth;
+}
 body {
   display: flex;
   flex-direction: column;
@@ -48,6 +51,7 @@ nav ul {
 #login {
   display: none;
   font-weight: 700;
+  margin-left: 10px;
 }
 #logout {
   display: none;
@@ -62,11 +66,13 @@ nav ul {
   padding: 10px 0px;
   font-weight: bold;
 }
-.last-item a {
+.last-item a{
   color: #666666;
   font-weight: 700;
   position: relative;
-  margin-left: 10px;
+}
+.last-item a:last-of-type{
+  margin-left: 45px;
 }
 .last-item a::after {
   content: "";
@@ -100,7 +106,7 @@ nav ul {
 .message {
   background-color: #fff;
   position: absolute;
-  top: 20%;
+  top: 10%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -179,8 +185,42 @@ button {
 .abcRioButton {
   margin-top: 10px;
 }
-.abcRioButton span {
+/* .abcRioButton span {
   font-weight: 900;
+} */
+#FB_BTN{
+  background-color:#1877F2;
+  color: white;
+  font-weight: 700;
+  width: 200px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 16px;
+}
+#profile{
+  position: absolute;
+  width: 30px;
+  left:-35px;
+  top:-13px;
+  border-radius: 10px;
+}
+.error{
+  display: none;
+}
+.error.open{
+  display: block;
+  color: red;
+}
+#up_page{
+  position:fixed;
+  right: 20px;
+  bottom: 20px;
+  font-size: 50px;
+  cursor: pointer;
+  z-index: 100;
+  color: black;
 }
 @media screen and (max-width: 1200px) {
   nav ul {

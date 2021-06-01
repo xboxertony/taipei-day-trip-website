@@ -24,6 +24,226 @@ let login_password = document.getElementById("login_password");
 let local = window.location.href.split("/")[2];
 let logout = document.getElementById("logout");
 
+let pro = document.getElementById("profile")
+let FB_BTN = document.getElementById("FB_BTN")
+
+let up_page = document.getElementById("up_page")
+
+// 前端驗證
+
+let regex = /.+@.+/g
+let error_name = document.getElementById("error_name")
+let error_email = document.getElementById("error_email")
+let error_password = document.getElementById("error_password")
+let error_input = document.getElementsByClassName("error")
+
+function add_event(item,act,f){
+    item.addEventListener(act,f)
+}
+
+function email_check(){
+    let em = this.value
+    let ma = em.match(regex)
+    if(!(ma && em===ma[0])){
+        error_email.classList.add("open")
+        error_email.innerHTML = "請輸入正確的email格式，例：xxx@xxx.com"
+    }else{
+        error_email.classList.remove("open")
+    }
+    check_all_input()
+}
+function password_check(){
+    let em = this.value
+    if(!em){
+        error_password.classList.add("open")
+        error_password.innerHTML = "密碼不可為空"
+    }else{
+        error_password.classList.remove("open")
+    }
+    check_all_input()
+}
+function name_check(){
+    let em = this.value
+    if(!em){
+        error_name.classList.add("open")
+        error_name.innerHTML = "姓名不可為空"
+    }else{
+        error_name.classList.remove("open")
+    }
+    check_all_input()
+}
+
+add_event(create_email,"blur",email_check)
+add_event(create_password,"blur",password_check)
+add_event(create_name,"blur",name_check)
+
+function check_all_input(){
+    let a = Array.from(error_input).every((item)=>{
+        if(!item.classList.contains("open")){
+            return true
+        }
+        return false
+    })
+    if(a){
+        create_act_btn.disabled=false
+    }else{
+        create_act_btn.disabled=true
+    }
+}
+
+
+
+
+
+// FB登入
+
+function statusChangeCallback(response) {
+    // Called with the results from FB.getLoginStatus().
+    // console.log("statusChangeCallback");
+    // console.log(response); // The current login status of the person.
+    if (response.status === "connected") {
+        // Logged into your webpage and Facebook.
+    } else {
+        testAPI();
+        // Not logged into your webpage or we are unable to tell.
+        // document.getElementById("status").innerHTML =
+        //     "Please log " + "into this webpage.";
+    }
+}
+
+FB_BTN.addEventListener("click",function(e){
+    e.preventDefault()
+    checkLoginState()
+})
+
+
+
+function checkLoginState() {
+    // Called when a person is finished with the Login Button.
+    FB.getLoginStatus(function (response) {
+        // See the onlogin handler
+        statusChangeCallback(response);
+    });
+}
+
+window.fbAsyncInit = function () {
+    FB.init({
+      appId: "234985047958856",
+      cookie: true, // Enable cookies to allow the server to access the session.
+      xfbml: true, // Parse social plugins on this webpage.
+      version: "v10.0", // Use this Graph API version for this call.
+    });
+    FB.getLoginStatus(function (response) {
+      console.log(response);
+    });
+    // FB_logout()
+  };
+
+// window.fbAsyncInit = function () {
+//     FB.init({
+//         // appId: "361104395011889",
+//         appId:"234985047958856",
+//         cookie: true, // Enable cookies to allow the server to access the session.
+//         xfbml: true, // Parse social plugins on this webpage.
+//         version: "v10.0", // Use this Graph API version for this call.
+//     });
+
+//     FB.getLoginStatus(function (response) {
+//         // Called after the JS SDK has been initialized.
+//         statusChangeCallback(response); // Returns the login status.
+//     });
+// };
+
+function testAPI() {
+    // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+    console.log("Welcome!  Fetching your information.... ");
+    FB.login(
+        function (response) {
+          console.log(response);
+          FB.api("/me","GET", {fields:"name,id,email,picture"},
+            function (user) {
+              //user物件的欄位：https://developers.facebook.com/docs/graph-api/reference/user
+              if (user.error) {
+              } else {
+                pro.src = user.picture.data.url
+                window.localStorage["url"] = user.picture.data.url
+                fetch("/api/FB/user", {
+                    headers: { "Content-Type": "application/json" },
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        "name": user.name,
+                        "FB_ID": user.id,
+                        "email":user.email,
+                        "url":user.picture.data.url
+                    })
+                }).then((res) => {
+                    return res.json()
+                }).then((data) => {
+                    if (data["ok"]) {
+                        login_board.classList.remove("open");
+                        document.getElementById("message_for_error_login").innerHTML = ""
+                        get_user()
+                        // after_login()
+                    }
+                })
+              }
+            }
+          );
+        },
+        { scope: "public_profile,email" }
+      );
+    // FB.api("/me",function (response) {
+    //     console.log(response)
+    //         // Logged into your webpage and Facebook.
+    //         fetch("/api/FB/user", {
+    //             headers: { "Content-Type": "application/json" },
+    //             method: "PATCH",
+    //             body: JSON.stringify({
+    //                 "name": response.name,
+    //                 "FB_ID": response.id
+    //             })
+    //         }).then((res) => {
+    //             return res.json()
+    //         }).then((data) => {
+    //             if (data["ok"]) {
+    //                 login_board.classList.remove("open");
+    //                 document.getElementById("message_for_error_login").innerHTML = ""
+    //                 get_user()
+    //                 // after_login()
+    //             }
+    //         })
+    //     // console.log("Successful login for: " + response.name);
+    //     // document.getElementById("status").innerHTML =
+    //     //     "Thanks for logging in, " + response.name + "!";
+    // });
+}
+
+function FB_logout() {
+    FB.logout(function (response) {
+        // Person is now logged out
+        console.log("logout!!!!");
+        window.localStorage.removeItem("url");
+    });
+}
+
+// google登入
+
+function onFailure(error) {
+    console.log(error);
+}
+
+function renderButton() {
+    gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': google_onSignIn,
+        'onfailure': onFailure
+    });
+}
+
 booking_btn.addEventListener("click", function (e) {
     e.preventDefault()
 
@@ -49,26 +269,27 @@ booking_btn.addEventListener("click", function (e) {
 //     login_btn.innerHTML = "登出";
 // }
 
-function onSignIn(googleUser) {
+function google_onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     // console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log("Name: " + profile.getName());
     // console.log("Image URL: " + profile.getImageUrl());
     console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
     // after_login()
-    fetch("/api/google/user",{
-        method:"PATCH",
-        headers:{
-            "Content-Type":"application/json"
+    window.localStorage["url"] = profile.getImageUrl();
+    fetch("/api/google/user", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify({
-            "name":profile.getName(),
-            "email":profile.getEmail()
+        body: JSON.stringify({
+            "name": profile.getName(),
+            "email": profile.getEmail()
         })
-    }).then((res)=>{
+    }).then((res) => {
         return res.json()
-    }).then((data)=>{
-        if(data["ok"]){
+    }).then((data) => {
+        if (data["ok"]) {
             login_board.classList.remove("open");
             document.getElementById("message_for_error_login").innerHTML = ""
             get_user()
@@ -77,6 +298,7 @@ function onSignIn(googleUser) {
     })
 }
 function signOut() {
+    window.localStorage.removeItem("url");
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         console.log("User signed out.");
@@ -88,7 +310,7 @@ function signOut() {
 let order_problem = null;
 
 
-function get_user(){
+function get_user() {
     fetch("/api/user", {
         method: "GET",
     })
@@ -98,6 +320,10 @@ function get_user(){
         .then((res) => {
             document.getElementById("booking").style.display = "inline";
             if (res["data"]) {
+                pro.src = window.localStorage["url"]
+                if(!window.localStorage["url"]){
+                    pro.src = "../static/unknow.png"
+                }
                 document.getElementById("logout").style.display = "inline";
                 document.getElementById("login").style.display = "none";
                 order_problem = () => {
@@ -117,6 +343,11 @@ function get_user(){
 }
 
 get_user()
+
+// pro.onerror = function (obj){
+//     console.log(obj.target)
+//     obj.target.style.display = "none";
+// }
 
 
 
@@ -162,7 +393,7 @@ login_act_btn.addEventListener("click", (e) => {
         });
 });
 
-function after_login(){
+function after_login() {
     login_board.classList.remove("open");
     document.getElementById("message_for_error_login").innerHTML = ""
     let rr = window.location.href.split("/");
@@ -172,6 +403,7 @@ function after_login(){
 
 create_act_btn.addEventListener("click", (e) => {
     e.preventDefault();
+    check_all_input()
     let data = {
         name: create_name.value,
         email: create_email.value,
@@ -225,9 +457,9 @@ function logout_procedure() {
             return res.json();
         })
         .then((data) => {
-            console.log(data);
             if (data["ok"]) {
                 signOut()
+                FB_logout()
                 // login_btn.innerHTML = "登入/註冊";
                 // localStorage.removeItem("login")
                 let rr = window.location.href.split("/");
@@ -274,3 +506,9 @@ document.addEventListener("click", (e) => {
         default_setting();
     }
 });
+
+
+
+up_page.addEventListener("click",function(){
+    document.body.scrollTop=0;
+})

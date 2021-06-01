@@ -51,8 +51,28 @@ fetch("/api/attraction/" + `${idx}`)
         handle_data(res);
     });
 
+let calendar = document.getElementById("date")
+let error_date = document.getElementById("error_date")
+
+calendar.addEventListener("change",function(){
+    let select_date = this.value.split("-")
+    let select_date_date = new Date(select_date[0],select_date[1]-1,select_date[2])
+    let da = new Date()
+    let now = new Date(da.getFullYear(),da.getMonth(),da.getDate())
+    if(now>=select_date_date){
+        error_date.classList.add("open")
+        error_date.innerHTML = "不可選擇過去的日期"
+    }else{
+        error_date.classList.remove("open")
+    }
+})
+
 send_booking_btn.addEventListener("click", (e) => {
     e.preventDefault();
+    if(error_date.classList.contains("open")){
+        error_message_show.innerHTML = "請選擇正確的日期"
+        return
+    }
     fetch("/api/user", {
         method: "GET"
     }).then((res) => {

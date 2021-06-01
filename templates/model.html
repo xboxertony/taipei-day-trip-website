@@ -7,6 +7,7 @@
     name="google-signin-client_id"
     content="731192245120-c6pofopqhql356ft91tfleobqnkrg5pa.apps.googleusercontent.com"
   />
+  <script src="https://kit.fontawesome.com/b3d0241009.js" crossorigin="anonymous"></script>
   <link
     rel="shortcut icon"
     type="image/x-icon"
@@ -26,7 +27,11 @@
         <input type="password" placeholder="輸入密碼" id="login_password" />
         <button id="login_btn">登入帳戶</button>
         <p>or</p>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <div id="my-signin2"></div>
+        <p>or</p>
+        <button id="FB_BTN">使用Facebook登入</button>
+        <!-- <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div> -->
+        <div id="fb-root"></div>
         <p id="message_for_error_login"></p>
         <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
         <img src="../static/icon_close.png" alt="" class="close" />
@@ -35,8 +40,11 @@
         <div class="upper_bar"></div>
         <p>註冊會員帳號</p>
         <input type="text" placeholder="輸入姓名" id="create_name" />
+        <p id="error_name" class="error"></p>
         <input type="text" placeholder="輸入電子信箱" id="create_email" />
+        <p id="error_email" class="error"></p>
         <input type="password" placeholder="輸入密碼" id="create_password" />
+        <p id="error_password" class="error"></p>
         <button id="create_account_btn">註冊新帳戶</button>
         <p id="message_for_error_create"></p>
         <p>已經有帳戶了?<a id="login_account">點此登入</a></p>
@@ -50,13 +58,27 @@
       <li class="last-item">
         <a id="booking">預定行程</a>
         <a id="login">註冊/登入</a>
-        <a id="logout">登出</a>
+        <a id="logout">
+          <img src="" alt="" id="profile">
+          登出</a>
       </li>
     </ul>
   </nav>
   {% block content %}{% endblock %}
   <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
+  <i class="fas fa-chevron-circle-up" id="up_page"></i>
 </body>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+  let src = '{{session.get("url")}}'
+</script>
 <script src="../static/js/model.js"></script>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=361104395011889&autoLogAppEvents=1" nonce="4SMMZnj8"></script> -->
+<script
+async
+defer
+crossorigin="anonymous"
+src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=361104395011889&autoLogAppEvents=1"
+nonce="RkBQBAP8"
+></script>
 {% block script %}{% endblock %}
