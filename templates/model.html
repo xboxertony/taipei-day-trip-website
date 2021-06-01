@@ -7,6 +7,7 @@
     name="google-signin-client_id"
     content="731192245120-c6pofopqhql356ft91tfleobqnkrg5pa.apps.googleusercontent.com"
   />
+  <script src="https://kit.fontawesome.com/b3d0241009.js" crossorigin="anonymous"></script>
   <link
     rel="shortcut icon"
     type="image/x-icon"
@@ -65,6 +66,7 @@
   </nav>
   {% block content %}{% endblock %}
   <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
+  <i class="fas fa-chevron-circle-up" id="up_page"></i>
 </body>
 <script>
   let src = '{{session.get("url")}}'

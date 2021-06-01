@@ -27,6 +27,8 @@ let logout = document.getElementById("logout");
 let pro = document.getElementById("profile")
 let FB_BTN = document.getElementById("FB_BTN")
 
+let up_page = document.getElementById("up_page")
+
 // 前端驗證
 
 let regex = /.+@.+/g
@@ -504,3 +506,9 @@ document.addEventListener("click", (e) => {
         default_setting();
     }
 });
+
+
+
+up_page.addEventListener("click",function(){
+    document.body.scrollTop=0;
+})
