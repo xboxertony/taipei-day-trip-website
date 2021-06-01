@@ -25,7 +25,7 @@
   }
   .info {
     display: flex;
-    align-items: center;
+    align-items:flex-end;
   }
   .order_mention {
     margin: auto;
@@ -51,6 +51,32 @@
     opacity: .2;
     z-index: -1;
   }
+  #copy{
+    margin-left: 10px;
+    transform: translateY(-75%);
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    background-color: transparent;
+    display: block;
+    color: #aaa;
+    border-left: 2px solid #ddd;
+    padding-left: 5px;
+  }
+  /* #copy::after{
+    content: "";
+    height: 100%;
+    width: 1px;
+    background-color: #ddd;
+    position: absolute;
+    left: -5px;
+    top: 0;
+  } */
+  .info{
+    background-color: rgba(227,233,237,.3);
+    padding: 10px;
+  }
 </style>
 {% endblock %} {% block content %}
 <div id="order_result">
@@ -61,6 +87,7 @@
     <div class="info">
       <p class="bold">訂單編號 :</p>
       <p id="order_id" class="bold"></p>
+      <input type="button" id="copy" value="copy">
     </div>
     <div class="info">
       <p class="bold">景點名稱 :</p>
@@ -119,6 +146,24 @@
     return res.json()
   }).then((data)=>{
     console.log(data)
+  })
+
+  let copy = document.getElementById("copy")
+  copy.addEventListener("click",function(){
+    let order_id = document.getElementById("order_id")
+    let range = document.createRange()
+    range.selectNode(order_id)
+    window.getSelection().addRange(range)
+    console.log(range)
+    try{
+      if(document.execCommand("Copy","false",null)){
+        alert("複製成功")
+      }else{
+        alert("複製失敗")
+      }
+    }catch{
+      alert("複製錯誤")
+    }
   })
 </script>
 {% endblock %}
