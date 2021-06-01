@@ -4,6 +4,7 @@ let search = document.getElementById("search");
 let search_input = document.getElementById("search_input");
 let search_mode = false;
 let copyright = document.getElementsByClassName("copyright")[0];
+let mrt_select = document.getElementById("mrt_select")
 
 let cur_id = 0;
 let pre_id = 0;
@@ -13,23 +14,62 @@ let key = "";
 let first_time = false;
 let load_complete = false;
 let time_machine = null;
+let mrt = null;
+let mrt_mode=false;
+
+fetch("/api/mrt").then((res) => {
+    return res.json()
+}).then((data) => {
+    data.data.forEach((item) => {
+        let option = document.createElement("option")
+        option.value = item
+        option.innerHTML = item
+        mrt_select.appendChild(option)
+    })
+})
+
+mrt_select.addEventListener("change", function () {
+    init()
+    mrt_mode=true
+    mrt = mrt_select.value
+    get_data_by_mrt(0,mrt);
+})
+
+function get_data_by_mrt(page,keyword) {
+    fetch("/api/attractions?page=" + `${page}` + "&mrt=" + `${keyword}`)
+        .then((res) => {
+            return res.json();
+        })
+        .then((res) => {
+            // next_page = res.nextPage;
+            render_data(res);
+            next_page = res.nextPage
+        });
+}
 
 search.addEventListener("click", () => {
-    container.innerHTML = "";
-    cur_id = 0;
-    pre_id = 0;
+    init()
     key = search_input.value;
     search_mode = true;
     get_data_by_keyword(cur_id, key);
+});
+
+
+function init() {
+    container.innerHTML = "";
+    cur_id = 0;
+    pre_id = 0;
     dont_stop = false;
     first_time = false;
     load_complete = false;
     time_machine = null;
-});
+    mrt_mode=false
+    search_mode=false
+}
 
 window.addEventListener("scroll", () => {
     if (
-        document.body.scrollTop+document.body.offsetHeight>
+        document.body.scrollTop + document.body.offsetHeight >
         document.documentElement.scrollHeight
     ) {
         do_this()
@@ -42,15 +82,19 @@ window.addEventListener("scroll", () => {
 
 function do_this() {
 
-    console.log(load_complete,next_page)
+    console.log(load_complete, next_page)
 
-    if(load_complete && next_page){
+    if (load_complete && next_page) {
         load_complete = false
-        if(!search_mode){
+        if (!search_mode && !mrt_mode) {
             get_data_by_page(next_page)
             return
         }
-        get_data_by_keyword(next_page,key)
+        if(mrt_mode){
+            get_data_by_mrt(next_page,mrt)
+            return
+        }
+        get_data_by_keyword(next_page, key)
     }
     // if (next_page !== null) {
     //     cur_id++;
@@ -91,7 +135,7 @@ function get_data_by_keyword(page, keyword) {
             //     container.innerHTML = "查無結果";
             //     return;
             // }
-            if(res.data.length===0){
+            if (res.data.length === 0) {
                 container.innerHTML = "查無結果";
                 return;
             }
@@ -121,7 +165,7 @@ function render_data(res) {
 
         let link = document.createElement("a");
         link.href = `/attraction/${element.id}`;
-        
+
         link.appendChild(attraction);
         attraction.appendChild(img);
 
@@ -131,7 +175,7 @@ function render_data(res) {
 
         let p = document.createElement("p");
         p.innerHTML = element.name;
-        attraction.setAttribute("data-content",element.name)
+        attraction.setAttribute("data-content", element.name)
 
         let transport = document.createElement("a");
         transport.classList.add("transport");
@@ -149,8 +193,8 @@ function render_data(res) {
 
         container.appendChild(link);
         cnt++
-        if(cnt===res.data.length){
-            load_complete=true
+        if (cnt === res.data.length) {
+            load_complete = true
         }
     });
 }

@@ -236,13 +236,28 @@ input:focus {
 .cat {
   font-weight: 400;
 }
+.div_for_mrt{
+  width: 1200px;
+  margin: auto;
+}
+.div_for_mrt label{
+  font-weight: 700;
+}
+.div_for_mrt select{
+  border:1px solid #ddd;
+  width: 150px;
+  padding: 5px;
+  vertical-align:baseline;
+  border-radius: 5px;
+  background: linear-gradient(180deg,#fff 15%,#eee 50%,#fff 85%);
+}
 /* body::-webkit-scrollbar {
           display: none;
         } */
 @media screen and (max-width: 1200px) {
   nav ul,
   .container,
-  .word {
+  .word,.div_for_mrt {
     width: 90%;
   }
   #welcome {
@@ -265,6 +280,9 @@ input:focus {
 @media screen and (max-width: 800px) {
   .container {
     width: 90%;
+  }
+  .div_for_mrt{
+    text-align: center;
   }
   #welcome {
     right: 0;
