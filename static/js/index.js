@@ -9,7 +9,7 @@ let cur_id = 0;
 let pre_id = 0;
 let next_page = 1;
 let key = "";
-let dont_stop = false;
+// let dont_stop = false;
 let first_time = false;
 let load_complete = false;
 let time_machine = null;
@@ -29,30 +29,42 @@ search.addEventListener("click", () => {
 
 window.addEventListener("scroll", () => {
     if (
-        document.body.scrollTop + window.outerHeight >
-        document.body.offsetHeight
+        document.body.scrollTop+document.body.offsetHeight>
+        document.documentElement.scrollHeight
     ) {
-        clearTimeout(time_machine);
-        time_machine = setTimeout(() => {
-            do_this()
-        }, 500)
+        do_this()
+        // clearTimeout(time_machine);
+        // time_machine = setTimeout(() => {
+        //     do_this()
+        // }, 500)
     }
 });
 
-async function do_this() {
-    if (next_page !== null) {
-        cur_id++;
+function do_this() {
+
+    console.log(load_complete,next_page)
+
+    if(load_complete && next_page){
+        load_complete = false
+        if(!search_mode){
+            get_data_by_page(next_page)
+            return
+        }
+        get_data_by_keyword(next_page,key)
     }
-    if (!search_mode && cur_id !== pre_id) {
-        load_complete = false;
-        await get_data_by_page(cur_id);
-        pre_id = cur_id;
-    }
-    if (search_mode && cur_id !== pre_id) {
-        load_complete = false;
-        await get_data_by_keyword(cur_id, key);
-        pre_id = cur_id;
-    }
+    // if (next_page !== null) {
+    //     cur_id++;
+    // }
+    // if (!search_mode && cur_id !== pre_id) {
+    //     load_complete = false;
+    //     await get_data_by_page(cur_id);
+    //     pre_id = cur_id;
+    // }
+    // if (search_mode && cur_id !== pre_id) {
+    //     load_complete = false;
+    //     await get_data_by_keyword(cur_id, key);
+    //     pre_id = cur_id;
+    // }
 }
 
 get_data_by_page(cur_id);
@@ -63,8 +75,9 @@ function get_data_by_page(page) {
             return res.json();
         })
         .then((res) => {
-            next_page = res.nextPage;
+            // next_page = res.nextPage;
             render_data(res);
+            next_page = res.nextPage
         });
 }
 
@@ -74,13 +87,18 @@ function get_data_by_keyword(page, keyword) {
             return res.json();
         })
         .then((res) => {
-            if (res.data.length === 0 && dont_stop === false) {
+            // if (res.data.length === 0 && dont_stop === false) {
+            //     container.innerHTML = "查無結果";
+            //     return;
+            // }
+            if(res.data.length===0){
                 container.innerHTML = "查無結果";
                 return;
             }
-            next_page = res.nextPage;
+            // next_page = res.nextPage;
             render_data(res);
-            dont_stop = true;
+            next_page = res.nextPage
+            // dont_stop = true;
         });
 }
 
@@ -93,12 +111,12 @@ function render_data(res) {
         attraction.style.backgroundImage = "url('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif')";
 
         let img = new Image();
-        img.onload = function () {
-            cnt++;
-            if (cnt === res.data.length && load_complete === false) {
-                load_complete = true;
-            }
-        };
+        // img.onload = function () {
+        //     cnt++;
+        //     if (cnt === res.data.length && load_complete === false) {
+        //         load_complete = true;
+        //     }
+        // };
         img.src = element.images[0];
 
         let link = document.createElement("a");
@@ -130,5 +148,9 @@ function render_data(res) {
         attraction.appendChild(description);
 
         container.appendChild(link);
+        cnt++
+        if(cnt===res.data.length){
+            load_complete=true
+        }
     });
 }
