@@ -37,57 +37,57 @@ let error_email = document.getElementById("error_email")
 let error_password = document.getElementById("error_password")
 let error_input = document.getElementsByClassName("error")
 
-function add_event(item,act,f){
-    item.addEventListener(act,f)
+function add_event(item, act, f) {
+    item.addEventListener(act, f)
 }
 
-function email_check(){
+function email_check() {
     let em = this.value
     let ma = em.match(regex)
-    if(!(ma && em===ma[0])){
+    if (!(ma && em === ma[0])) {
         error_email.classList.add("open")
         error_email.innerHTML = "請輸入正確的email格式，例：xxx@xxx.com"
-    }else{
+    } else {
         error_email.classList.remove("open")
     }
     check_all_input()
 }
-function password_check(){
+function password_check() {
     let em = this.value
-    if(!em){
+    if (!em) {
         error_password.classList.add("open")
         error_password.innerHTML = "密碼不可為空"
-    }else{
+    } else {
         error_password.classList.remove("open")
     }
     check_all_input()
 }
-function name_check(){
+function name_check() {
     let em = this.value
-    if(!em){
+    if (!em) {
         error_name.classList.add("open")
         error_name.innerHTML = "姓名不可為空"
-    }else{
+    } else {
         error_name.classList.remove("open")
     }
     check_all_input()
 }
 
-add_event(create_email,"blur",email_check)
-add_event(create_password,"blur",password_check)
-add_event(create_name,"blur",name_check)
+add_event(create_email, "blur", email_check)
+add_event(create_password, "blur", password_check)
+add_event(create_name, "blur", name_check)
 
-function check_all_input(){
-    let a = Array.from(error_input).every((item)=>{
-        if(!item.classList.contains("open")){
+function check_all_input() {
+    let a = Array.from(error_input).every((item) => {
+        if (!item.classList.contains("open")) {
             return true
         }
         return false
     })
-    if(a){
-        create_act_btn.disabled=false
-    }else{
-        create_act_btn.disabled=true
+    if (a) {
+        create_act_btn.disabled = false
+    } else {
+        create_act_btn.disabled = true
     }
 }
 
@@ -111,7 +111,7 @@ function statusChangeCallback(response) {
     }
 }
 
-FB_BTN.addEventListener("click",function(e){
+FB_BTN.addEventListener("click", function (e) {
     e.preventDefault()
     checkLoginState()
 })
@@ -128,16 +128,16 @@ function checkLoginState() {
 
 window.fbAsyncInit = function () {
     FB.init({
-      appId: "234985047958856",
-      cookie: true, // Enable cookies to allow the server to access the session.
-      xfbml: true, // Parse social plugins on this webpage.
-      version: "v10.0", // Use this Graph API version for this call.
+        appId: "234985047958856",
+        cookie: true, // Enable cookies to allow the server to access the session.
+        xfbml: true, // Parse social plugins on this webpage.
+        version: "v10.0", // Use this Graph API version for this call.
     });
     FB.getLoginStatus(function (response) {
-      console.log(response);
+        console.log(response);
     });
     // FB_logout()
-  };
+};
 
 // window.fbAsyncInit = function () {
 //     FB.init({
@@ -159,39 +159,39 @@ function testAPI() {
     console.log("Welcome!  Fetching your information.... ");
     FB.login(
         function (response) {
-          console.log(response);
-          FB.api("/me","GET", {fields:"name,id,email,picture"},
-            function (user) {
-              //user物件的欄位：https://developers.facebook.com/docs/graph-api/reference/user
-              if (user.error) {
-              } else {
-                pro.src = user.picture.data.url
-                window.localStorage["url"] = user.picture.data.url
-                fetch("/api/FB/user", {
-                    headers: { "Content-Type": "application/json" },
-                    method: "PATCH",
-                    body: JSON.stringify({
-                        "name": user.name,
-                        "FB_ID": user.id,
-                        "email":user.email,
-                        "url":user.picture.data.url
-                    })
-                }).then((res) => {
-                    return res.json()
-                }).then((data) => {
-                    if (data["ok"]) {
-                        login_board.classList.remove("open");
-                        document.getElementById("message_for_error_login").innerHTML = ""
-                        get_user()
-                        // after_login()
+            console.log(response);
+            FB.api("/me", "GET", { fields: "name,id,email,picture" },
+                function (user) {
+                    //user物件的欄位：https://developers.facebook.com/docs/graph-api/reference/user
+                    if (user.error) {
+                    } else {
+                        pro.src = user.picture.data.url
+                        window.localStorage["url"] = user.picture.data.url
+                        fetch("/api/FB/user", {
+                            headers: { "Content-Type": "application/json" },
+                            method: "PATCH",
+                            body: JSON.stringify({
+                                "name": user.name,
+                                "FB_ID": user.id,
+                                "email": user.email,
+                                "url": user.picture.data.url
+                            })
+                        }).then((res) => {
+                            return res.json()
+                        }).then((data) => {
+                            if (data["ok"]) {
+                                login_board.classList.remove("open");
+                                document.getElementById("message_for_error_login").innerHTML = ""
+                                get_user()
+                                // after_login()
+                            }
+                        })
                     }
-                })
-              }
-            }
-          );
+                }
+            );
         },
         { scope: "public_profile,email" }
-      );
+    );
     // FB.api("/me",function (response) {
     //     console.log(response)
     //         // Logged into your webpage and Facebook.
@@ -228,21 +228,21 @@ function FB_logout() {
 
 // google登入
 
-function onFailure(error) {
-    console.log(error);
-}
+// function onFailure(error) {
+//     console.log(error);
+// }
 
-function renderButton() {
-    gapi.signin2.render('my-signin2', {
-        'scope': 'profile email',
-        'width': 240,
-        'height': 50,
-        'longtitle': true,
-        'theme': 'dark',
-        'onsuccess': google_onSignIn,
-        'onfailure': onFailure
-    });
-}
+// function renderButton() {
+//     gapi.signin2.render('my-signin2', {
+//         'scope': 'profile email',
+//         'width': 240,
+//         'height': 50,
+//         'longtitle': true,
+//         'theme': 'dark',
+//         'onsuccess': google_onSignIn,
+//         'onfailure': onFailure
+//     });
+// }
 
 booking_btn.addEventListener("click", function (e) {
     e.preventDefault()
@@ -269,34 +269,70 @@ booking_btn.addEventListener("click", function (e) {
 //     login_btn.innerHTML = "登出";
 // }
 
-function google_onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    // console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log("Name: " + profile.getName());
-    // console.log("Image URL: " + profile.getImageUrl());
-    console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
-    // after_login()
-    window.localStorage["url"] = profile.getImageUrl();
-    fetch("/api/google/user", {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json"
+var googleUser = {};
+var startApp = function () {
+    gapi.load("auth2", function () {
+        // Retrieve the singleton for the GoogleAuth library and set up the client.
+        auth2 = gapi.auth2.init({
+            client_id:
+                "731192245120-c6pofopqhql356ft91tfleobqnkrg5pa.apps.googleusercontent.com",
+            cookiepolicy: "single_host_origin",
+            'scope': 'profile email'
+            // Request scopes in addition to 'profile' and 'email'
+            //scope: 'additional_scope'
+        });
+        attachSignin(document.getElementById("customBtn"));
+    });
+};
+
+document.getElementById("customBtn").addEventListener("click",function(e){
+    e.preventDefault()
+})
+
+function attachSignin(element) {
+    auth2.attachClickHandler(
+        element,
+        {},
+        function (googleUser) {
+            var profile = googleUser.getBasicProfile();
+            // document.getElementById("name").innerText =
+            //     "Signed in: " + googleUser.getBasicProfile().getName();
+            window.localStorage["url"] = profile.getImageUrl();
+            fetch("/api/google/user", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "name": profile.getName(),
+                    "email": profile.getEmail()
+                })
+            }).then((res) => {
+                return res.json()
+            }).then((data) => {
+                if (data["ok"]) {
+                    login_board.classList.remove("open");
+                    document.getElementById("message_for_error_login").innerHTML = ""
+                    get_user()
+                    // after_login()
+                }
+            })
         },
-        body: JSON.stringify({
-            "name": profile.getName(),
-            "email": profile.getEmail()
-        })
-    }).then((res) => {
-        return res.json()
-    }).then((data) => {
-        if (data["ok"]) {
-            login_board.classList.remove("open");
-            document.getElementById("message_for_error_login").innerHTML = ""
-            get_user()
-            // after_login()
+        function (error) {
+            alert(JSON.stringify(error, undefined, 2));
         }
-    })
+    );
 }
+startApp();
+
+// function google_onSignIn(googleUser) {
+//     var profile = googleUser.getBasicProfile();
+//     // console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+//     console.log("Name: " + profile.getName());
+//     // console.log("Image URL: " + profile.getImageUrl());
+//     console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+//     // after_login()
+// }
 function signOut() {
     window.localStorage.removeItem("url");
     var auth2 = gapi.auth2.getAuthInstance();
@@ -321,7 +357,7 @@ function get_user() {
             document.getElementById("booking").style.display = "inline";
             if (res["data"]) {
                 pro.src = window.localStorage["url"]
-                if(!window.localStorage["url"]){
+                if (!window.localStorage["url"]) {
                     pro.src = "../static/unknow.png"
                 }
                 document.getElementById("logout").style.display = "inline";
@@ -509,6 +545,6 @@ document.addEventListener("click", (e) => {
 
 
 
-up_page.addEventListener("click",function(){
-    document.body.scrollTop=0;
+up_page.addEventListener("click", function () {
+    document.body.scrollTop = 0;
 })
