@@ -172,6 +172,9 @@ input[type="radio"]:checked + span::before {
   .describe {
     margin: 50px auto;
   }
+  #yt_video{
+    width: 340px;
+  }
 }
 @media screen and (max-width: 450px) {
   .copyright {
