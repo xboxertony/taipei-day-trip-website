@@ -68,8 +68,9 @@ function init() {
 }
 
 window.addEventListener("scroll", () => {
+    console.log(document.body.scrollTop,document.body.offsetHeight,document.documentElement.scrollHeight)
     if (
-        document.body.scrollTop + document.body.offsetHeight >=
+        document.body.scrollTop + document.body.offsetHeight+150 >=
         document.documentElement.scrollHeight
     ) {
         do_this()
