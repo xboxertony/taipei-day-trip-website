@@ -3,11 +3,16 @@
     name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1"
   />
-  <meta
-    name="google-signin-client_id"
-    content="731192245120-c6pofopqhql356ft91tfleobqnkrg5pa.apps.googleusercontent.com"
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto"
+    rel="stylesheet"
+    type="text/css"
   />
-  <script src="https://kit.fontawesome.com/b3d0241009.js" crossorigin="anonymous"></script>
+  <script src="https://apis.google.com/js/api:client.js"></script>
+  <script
+    src="https://kit.fontawesome.com/b3d0241009.js"
+    crossorigin="anonymous"
+  ></script>
   <link
     rel="shortcut icon"
     type="image/x-icon"
@@ -27,8 +32,12 @@
         <input type="password" placeholder="輸入密碼" id="login_password" />
         <button id="login_btn">登入帳戶</button>
         <p>or</p>
-        <div id="my-signin2"></div>
-        <p>or</p>
+        <div id="gSignInWrapper">
+          <div id="customBtn" class="customGPlusSignIn">
+            <button class="buttonText">使用<span class="blue">G</span><span class="red">o</span><span class="yellow">o</span><span class="blue">g</span><span class="green">l</span><span class="red">e</span>登入</button>
+          </div>
+        </div>
+        <br>
         <button id="FB_BTN">使用Facebook登入</button>
         <!-- <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div> -->
         <div id="fb-root"></div>
@@ -59,8 +68,9 @@
         <a id="booking">預定行程</a>
         <a id="login">註冊/登入</a>
         <a id="logout">
-          <img src="" alt="" id="profile">
-          登出</a>
+          <img src="" alt="" id="profile" />
+          登出</a
+        >
       </li>
     </ul>
   </nav>
@@ -69,16 +79,16 @@
   <i class="fas fa-chevron-circle-up" id="up_page"></i>
 </body>
 <script>
-  let src = '{{session.get("url")}}'
+  let src = '{{session.get("url")}}';
 </script>
 <script src="../static/js/model.js"></script>
-<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<!-- <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script> -->
 <!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=361104395011889&autoLogAppEvents=1" nonce="4SMMZnj8"></script> -->
 <script
-async
-defer
-crossorigin="anonymous"
-src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=361104395011889&autoLogAppEvents=1"
-nonce="RkBQBAP8"
+  async
+  defer
+  crossorigin="anonymous"
+  src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=361104395011889&autoLogAppEvents=1"
+  nonce="RkBQBAP8"
 ></script>
 {% block script %}{% endblock %}

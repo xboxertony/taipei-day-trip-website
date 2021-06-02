@@ -28,6 +28,24 @@ let controler = "#control_pic";
 let order_price = 2000;
 let order_time = "morning";
 
+
+function get_yt_video(word){
+    fetch("/api/youtube",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            "search_word":word
+        })
+    }).then((res)=>{
+        return res.json()
+    }).then((data)=>{
+        let src = "https://www.youtube.com/embed/"+`${data.items[0].id.videoId}`
+        document.getElementById("yt_video").setAttribute("src",src)
+    })
+}
+
 up_time.addEventListener("click", () => {
     price.innerHTML = "導覽費用：新台幣2000元";
     order_time = "morning";
@@ -120,6 +138,7 @@ function handle_data(res) {
     describe_content.innerHTML = res.data.description;
     address_place.innerHTML = res.data.address;
     traffic.innerHTML = res.data.transport;
+    get_yt_video(res.data.name)
 }
 
 function add_point() {

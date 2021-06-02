@@ -2,6 +2,8 @@ from flask import Blueprint,request
 from data import data_handle
 import json
 from main import db
+import requests as req
+from config import ytb_key
 
 attraction_app = Blueprint("attraction_app",__name__)
 
@@ -58,3 +60,9 @@ def mrt():
 	for i in data:
 		ans.append(i[0])
 	return json.dumps({"data":ans})
+
+@attraction_app.route("/api/youtube",methods=["POST"])
+def ytb():
+	search_word = request.get_json()["search_word"]
+	data = req.get(f"https://www.googleapis.com/youtube/v3/search?part=snippet&q={search_word}&type=video&maxResults=1&key={ytb_key}")
+	return json.loads(data.text)
