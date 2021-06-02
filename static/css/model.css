@@ -236,7 +236,7 @@ button {
   color: #34A853;
 }
 .buttonText {
-  background-color: #eeeeee;
+  background:radial-gradient(#fff 40%,#aaa 100%);
   color: #000000;
   font-weight: 700;
   width: 200px;
