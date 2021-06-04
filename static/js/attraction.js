@@ -351,7 +351,7 @@ function toggle_icon(){
     right_i.classList.toggle("close")
 }
 
-let pre_time = null
+// let pre_time = null
 
 function get_weather_data(data){
     weather_tool.innerHTML=""
@@ -361,7 +361,7 @@ function get_weather_data(data){
         // end_time = document.createElement("p")
         des = document.createElement("div")
         line = null;
-        if(!pre_time || pre_time===item.startTime.split(" ")[0]){
+        if(item.startTime.split(" ")[1]==="18:00:00"){
             line = document.createElement("hr")
         }
         if(item.startTime.split(" ")[1]==="18:00:00"){
@@ -371,7 +371,7 @@ function get_weather_data(data){
         }else{
             start_time.innerHTML = item.startTime.split(" ")[0]+" 凌晨"
         }
-        pre_time = item.startTime.split(" ")[0]
+        // pre_time = item.startTime.split(" ")[0]
         if(item.elementValue[0].value.includes("雨")){
             des.innerHTML = '<i class="fas fa-cloud-showers-heavy"></i>'
         }else if(item.elementValue[0].value.includes("雲")){
