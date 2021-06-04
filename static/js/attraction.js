@@ -334,6 +334,7 @@ fetch("/api/weather").then((res)=>{
 let w_region = document.getElementById("weather_forcast_region")
 let left_i = document.getElementById("left_icon")
 let right_i = document.getElementById("right_icon")
+let weather_tool = document.getElementById("weather_tool")
 
 left_i.addEventListener("click",function(){
     w_region.classList.toggle("open")
@@ -353,6 +354,7 @@ function toggle_icon(){
 let pre_time = null
 
 function get_weather_data(data){
+    weather_tool.innerHTML=""
     data.forEach((item)=>{
         weather_block = document.createElement("div")
         start_time = document.createElement("p")
@@ -364,11 +366,12 @@ function get_weather_data(data){
         }
         if(item.startTime.split(" ")[1]==="18:00:00"){
             start_time.innerHTML = item.startTime.split(" ")[0]+" 下午"
-        }else{
+        }else if((item.startTime.split(" ")[1]==="06:00:00")){
             start_time.innerHTML = item.startTime.split(" ")[0]+" 上午"
+        }else{
+            start_time.innerHTML = item.startTime.split(" ")[0]+" 凌晨"
         }
         pre_time = item.startTime.split(" ")[0]
-        console.log(pre_time)
         if(item.elementValue[0].value.includes("雨")){
             des.innerHTML = '<i class="fas fa-cloud-showers-heavy"></i>'
         }else if(item.elementValue[0].value.includes("雲")){
@@ -382,7 +385,7 @@ function get_weather_data(data){
 
         
         weather_block.classList.add("weather_block")
-        w_region.appendChild(weather_block)
-        if(line){w_region.appendChild(line)}
+        weather_tool.appendChild(weather_block)
+        if(line){weather_tool.appendChild(line)}
     })
 }
