@@ -322,3 +322,67 @@ function create_msg(msg){
 
     msg_history.appendChild(msg_below)
 }
+
+fetch("/api/weather").then((res)=>{
+    return res.json()
+}).then((data)=>{
+    weather_forcast = data.records.locations[0].location[0].weatherElement[6].time
+    // .locations[0].location[0].weatherElement
+    get_weather_data(weather_forcast)
+})
+
+let w_region = document.getElementById("weather_forcast_region")
+let left_i = document.getElementById("left_icon")
+let right_i = document.getElementById("right_icon")
+
+left_i.addEventListener("click",function(){
+    w_region.classList.toggle("open")
+    toggle_icon()
+})
+
+right_i.addEventListener("click",function(){
+    w_region.classList.toggle("open")
+    toggle_icon()
+})
+
+function toggle_icon(){
+    left_i.classList.toggle("close")
+    right_i.classList.toggle("close")
+}
+
+let pre_time = null
+
+function get_weather_data(data){
+    data.forEach((item)=>{
+        weather_block = document.createElement("div")
+        start_time = document.createElement("p")
+        // end_time = document.createElement("p")
+        des = document.createElement("div")
+        line = null;
+        if(!pre_time || pre_time===item.startTime.split(" ")[0]){
+            line = document.createElement("hr")
+        }
+        if(item.startTime.split(" ")[1]==="18:00:00"){
+            start_time.innerHTML = item.startTime.split(" ")[0]+" 下午"
+        }else{
+            start_time.innerHTML = item.startTime.split(" ")[0]+" 上午"
+        }
+        pre_time = item.startTime.split(" ")[0]
+        console.log(pre_time)
+        if(item.elementValue[0].value.includes("雨")){
+            des.innerHTML = '<i class="fas fa-cloud-showers-heavy"></i>'
+        }else if(item.elementValue[0].value.includes("雲")){
+            des.innerHTML = '<i class="fas fa-cloud"></i>'
+        }else{
+            des.innerHTML = '<i class="fas fa-sun"></i>'
+        }
+        weather_block.appendChild(start_time)
+        // weather_block.appendChild(end_time)
+        weather_block.appendChild(des)
+
+        
+        weather_block.classList.add("weather_block")
+        w_region.appendChild(weather_block)
+        if(line){w_region.appendChild(line)}
+    })
+}

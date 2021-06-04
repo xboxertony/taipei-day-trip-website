@@ -6,12 +6,14 @@ from user import user_app
 from booking import booking_app
 from order import order_app
 from message import message_app
+from weather import weather_app
 
 app.register_blueprint(attraction_app)
 app.register_blueprint(user_app)
 app.register_blueprint(booking_app)
 app.register_blueprint(order_app)
 app.register_blueprint(message_app)
+app.register_blueprint(weather_app)
 
 # Pages
 @app.route("/")

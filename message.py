@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify
 from flask.globals import session
 from main import db
-from datetime import datetime
+from datetime import datetime, timedelta
 
 message_app = Blueprint("message_app",__name__)
 
@@ -40,7 +40,7 @@ def mes():
         for item in data:
             for key,value in item.items():
                 if key=="time":
-                    value = str(value)
+                    value = str(value+timedelta(hours=8))
                     res["time"]=value
                     continue
                 res[key]=value
