@@ -183,7 +183,7 @@ function show_img() {
     img_block.appendChild(img);
     img.onload = (e) => {
         // img.src = imglist[id];
-        console.log("load_complete")
+        // console.log("load_complete")
     };
     // img.src = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
     img.src = imglist[id]
@@ -285,7 +285,7 @@ function get_msg(page){
     fetch(`/api/message?attid=${idx}&page=${page}`).then((res)=>{
         return res.json()
     }).then((data)=>{
-        console.log(data)
+        // console.log(data)
         Array.from(data.data).forEach((item)=>{
             create_msg(item)
         })
@@ -329,6 +329,7 @@ fetch("/api/weather").then((res)=>{
     weather_forcast = data.records.locations[0].location[0].weatherElement[6].time
     // .locations[0].location[0].weatherElement
     get_weather_data(weather_forcast)
+    // console.log(weather_forcast)
 })
 
 let w_region = document.getElementById("weather_forcast_region")
@@ -361,6 +362,7 @@ function get_weather_data(data){
         // end_time = document.createElement("p")
         des = document.createElement("div")
         line = null;
+        let regex = /[陰|雲]/g
         if(item.startTime.split(" ")[1]==="18:00:00"){
             line = document.createElement("hr")
         }
@@ -374,7 +376,7 @@ function get_weather_data(data){
         // pre_time = item.startTime.split(" ")[0]
         if(item.elementValue[0].value.includes("雨")){
             des.innerHTML = '<i class="fas fa-cloud-showers-heavy"></i>'
-        }else if(item.elementValue[0].value.includes("雲")){
+        }else if(item.elementValue[0].value.match(regex)){
             des.innerHTML = '<i class="fas fa-cloud"></i>'
         }else{
             des.innerHTML = '<i class="fas fa-sun"></i>'

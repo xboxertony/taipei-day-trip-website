@@ -86,7 +86,7 @@ function append_attraction(d) {
     image_inside.src = d.data.attraction.image;
     order_image.appendChild(image_inside);
 
-    console.log(`"url('${d.data.attraction.image}')"`);
+    // console.log(`"url('${d.data.attraction.image}')"`);
 
     let word_to_paid = document.createElement("div");
     word_to_paid.classList.add("word_to_paid");
@@ -124,7 +124,7 @@ function append_attraction(d) {
     let checkout = document.createElement("div");
     checkout.classList.add("checkout");
     checkout.appendChild(order_image);
-    console.log(order_image);
+    // console.log(order_image);
     checkout.appendChild(word_to_paid);
 
     let delete_action_btn = document.createElement("img");
@@ -275,7 +275,7 @@ TPDirect.card.setup({
 function onClick() {
     TPDirect.card.getPrime(function (result) {
         if (result.status !== 0) {
-            console.error("getPrime error");
+            // console.error("getPrime error");
             document.getElementById("status_code").innerHTML = "請輸入正確信用卡號碼"
             return
         }

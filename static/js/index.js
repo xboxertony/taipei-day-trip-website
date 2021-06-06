@@ -68,7 +68,7 @@ function init() {
 }
 
 window.addEventListener("scroll", () => {
-    console.log(document.body.scrollTop,document.body.offsetHeight,document.documentElement.scrollHeight)
+    // e.log(document.consolbody.scrollTop,document.body.offsetHeight,document.documentElement.scrollHeight)
     if (
         document.body.scrollTop + document.body.offsetHeight+150 >=
         document.documentElement.scrollHeight
@@ -82,8 +82,6 @@ window.addEventListener("scroll", () => {
 });
 
 function do_this() {
-
-    console.log(load_complete, next_page)
 
     if (load_complete && next_page) {
         load_complete = false

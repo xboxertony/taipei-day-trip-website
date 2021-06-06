@@ -134,7 +134,7 @@ window.fbAsyncInit = function () {
         version: "v10.0", // Use this Graph API version for this call.
     });
     FB.getLoginStatus(function (response) {
-        console.log(response);
+        // console.log(response);
     });
     // FB_logout()
 };
@@ -156,10 +156,10 @@ window.fbAsyncInit = function () {
 
 function testAPI() {
     // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
-    console.log("Welcome!  Fetching your information.... ");
+    // console.log("Welcome!  Fetching your information.... ");
     FB.login(
         function (response) {
-            console.log(response);
+            // console.log(response);
             FB.api("/me", "GET", { fields: "name,id,email,picture" },
                 function (user) {
                     //user物件的欄位：https://developers.facebook.com/docs/graph-api/reference/user
@@ -221,7 +221,7 @@ function testAPI() {
 function FB_logout() {
     FB.logout(function (response) {
         // Person is now logged out
-        console.log("logout!!!!");
+        // console.log("logout!!!!");
         window.localStorage.removeItem("url");
     });
 }
@@ -337,7 +337,7 @@ function signOut() {
     window.localStorage.removeItem("url");
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-        console.log("User signed out.");
+        // console.log("User signed out.");
     });
 }
 
@@ -371,7 +371,7 @@ function get_user() {
                     }
                 }
             } else {
-                console.log("ok")
+                // console.log("ok")
                 document.getElementById("login").style.display = "inline";
                 document.getElementById("logout").style.display = "none";
             }
