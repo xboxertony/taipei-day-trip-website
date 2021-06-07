@@ -433,6 +433,9 @@ function after_login() {
     login_board.classList.remove("open");
     document.getElementById("message_for_error_login").innerHTML = ""
     let rr = window.location.href.split("/");
+    if(window.location.href.includes("reset_password")){
+        window.location.href="/"
+    }
     // localStorage.setItem("login","ok")
     window.location.reload()
 }
