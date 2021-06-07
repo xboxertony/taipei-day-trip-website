@@ -435,6 +435,7 @@ function after_login() {
     let rr = window.location.href.split("/");
     if(window.location.href.includes("reset_password")){
         window.location.href="/"
+        return
     }
     // localStorage.setItem("login","ok")
     window.location.reload()
