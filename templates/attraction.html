@@ -1,8 +1,6 @@
-{% extends "model.html" %}
-{% block style%}
-<link rel="stylesheet" href="../static/css/attraction.css">
-{% endblock %} 
-{% block content %}
+{% extends "model.html" %} {% block style%}
+<link rel="stylesheet" href="../static/css/attraction.css" />
+{% endblock %} {% block content %}
 <div class="place_view">
   <div class="img_test">
     <img src="../static/btn_rightArrow.png" alt="" class="button right" />
@@ -71,8 +69,46 @@
   </div>
   <div class="video">
     <p class="des_title">Youtube相關影片</p>
-    <br>
-    <iframe id="yt_video" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <br />
+    <iframe
+      id="yt_video"
+      width="560"
+      height="315"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+</div>
+<div class="message_block">
+  <p class="des_title">留言區</p>
+  <br />
+  <div class="message_content">
+    <textarea name="" id="leave_msg_textarea" cols="50" rows="10"></textarea>
+    <button id="btn_msg">送出</button>
+  </div>
+  <br>
+  <div id="msg_history">
+    
+  </div>
+  <!-- <div class="msg_below">
+    <p id="msg_name">蔡承翰</p>
+    <p id="msg_time">2021-06-03</p>
+    <p id="msg_context">
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo culpa
+      recusandae nesciunt consectetur nemo iure dignissimos consequuntur ea,
+      vero possimus, officia ipsa ipsum minus quae modi aspernatur adipisci?
+      Amet, pariatur?
+    </p>
+  </div> -->
+  <button id="btn_more_msg">載入更多</button>
+</div>
+<div id="weather_forcast_region">
+  <i class="fas fa-caret-square-left" id="left_icon"></i>
+  <i class="fas fa-caret-square-right close" id="right_icon"></i>
+  <div id="weather_tool">
+    
   </div>
 </div>
 {% endblock %} {% block script %}

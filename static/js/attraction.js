@@ -28,6 +28,8 @@ let controler = "#control_pic";
 let order_price = 2000;
 let order_time = "morning";
 
+let page = 0;
+
 
 function get_yt_video(word){
     fetch("/api/youtube",{
@@ -139,6 +141,7 @@ function handle_data(res) {
     address_place.innerHTML = res.data.address;
     traffic.innerHTML = res.data.transport;
     get_yt_video(res.data.name)
+    get_msg(page)
 }
 
 function add_point() {
@@ -180,7 +183,7 @@ function show_img() {
     img_block.appendChild(img);
     img.onload = (e) => {
         // img.src = imglist[id];
-        console.log("load_complete")
+        // console.log("load_complete")
     };
     // img.src = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
     img.src = imglist[id]
@@ -248,3 +251,143 @@ window.onresize = () => {
     judge_width();
     show_img();
 };
+
+let msg_history = document.getElementById("msg_history")
+let btn_msg = document.getElementById("btn_msg")
+let textarea_msg = document.getElementById("leave_msg_textarea")
+let btn_more_his = document.getElementById("btn_more_msg")
+
+btn_msg.addEventListener("click",add_msg)
+
+function add_msg(){
+    fetch("/api/message",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            "attid":idx,
+            "message":textarea_msg.value
+        })
+    }).then((res)=>{
+        return res.json()
+    }).then((data)=>{
+        if(data["error"]){
+            alert("請先登入會員!!")
+        }
+        else{
+            window.location.reload()
+        }
+    })
+}
+
+function get_msg(page){
+    fetch(`/api/message?attid=${idx}&page=${page}`).then((res)=>{
+        return res.json()
+    }).then((data)=>{
+        // console.log(data)
+        Array.from(data.data).forEach((item)=>{
+            create_msg(item)
+        })
+        if(!data["nextpage"]){
+            btn_more_his.classList.add("close")
+        }
+    })
+}
+
+btn_more_his.addEventListener("click",function(){
+    page++
+    get_msg(page)
+})
+
+
+function create_msg(msg){
+    let msg_below = document.createElement("div")
+    let msg_name = document.createElement("p")
+    let msg_time = document.createElement("p")
+    let msg_context = document.createElement("p")
+
+    msg_below.classList.add("msg_below")
+    msg_name.id = "msg_name"
+    msg_time.id = "msg_time"
+    msg_context.id = "msg_context"
+
+    msg_name.innerHTML = msg.name
+    msg_time.innerHTML = msg.time
+    msg_context.innerHTML = msg.message
+
+    msg_below.appendChild(msg_name)
+    msg_below.appendChild(msg_time)
+    msg_below.appendChild(msg_context)
+
+    msg_history.appendChild(msg_below)
+}
+
+fetch("/api/weather").then((res)=>{
+    return res.json()
+}).then((data)=>{
+    weather_forcast = data.records.locations[0].location[0].weatherElement[6].time
+    // .locations[0].location[0].weatherElement
+    get_weather_data(weather_forcast)
+    // console.log(weather_forcast)
+})
+
+let w_region = document.getElementById("weather_forcast_region")
+let left_i = document.getElementById("left_icon")
+let right_i = document.getElementById("right_icon")
+let weather_tool = document.getElementById("weather_tool")
+
+left_i.addEventListener("click",function(){
+    w_region.classList.toggle("open")
+    toggle_icon()
+})
+
+right_i.addEventListener("click",function(){
+    w_region.classList.toggle("open")
+    toggle_icon()
+})
+
+function toggle_icon(){
+    left_i.classList.toggle("close")
+    right_i.classList.toggle("close")
+}
+
+// let pre_time = null
+
+function get_weather_data(data){
+    weather_tool.innerHTML=""
+    data.forEach((item)=>{
+        weather_block = document.createElement("div")
+        start_time = document.createElement("p")
+        // end_time = document.createElement("p")
+        des = document.createElement("div")
+        line = null;
+        let regex = /[陰|雲]/g
+        if(item.startTime.split(" ")[1]==="18:00:00"){
+            line = document.createElement("hr")
+        }
+        if(item.startTime.split(" ")[1]==="18:00:00"){
+            start_time.innerHTML = item.startTime.split(" ")[0]+" 下午"
+        }else if((item.startTime.split(" ")[1]==="06:00:00")){
+            start_time.innerHTML = item.startTime.split(" ")[0]+" 上午"
+        }else{
+            start_time.innerHTML = item.startTime.split(" ")[0]+" 凌晨"
+        }
+        // pre_time = item.startTime.split(" ")[0]
+        if(item.elementValue[0].value.includes("雨")){
+            des.innerHTML = '<i class="fas fa-cloud-showers-heavy"></i>'
+        }else if(item.elementValue[0].value.match(regex)){
+            des.innerHTML = '<i class="fas fa-cloud"></i>'
+        }else{
+            des.innerHTML = '<i class="fas fa-sun"></i>'
+        }
+        weather_block.appendChild(start_time)
+        // weather_block.appendChild(end_time)
+        weather_block.appendChild(des)
+
+        
+        weather_block.classList.add("weather_block")
+        weather_tool.appendChild(weather_block)
+        if(line){weather_tool.appendChild(line)}
+    })
+}

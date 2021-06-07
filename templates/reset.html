@@ -1,0 +1,67 @@
+{% extends "model.html" %} {% block style%}
+<style>
+  .reset_board {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 200px;
+    margin: auto;
+    align-items: center;
+    justify-content: space-around;
+  }
+  #forget_password {
+    padding: 10px;
+    width: 200px;
+  }
+  #reset_message {
+    color: red;
+    font-weight: 700;
+  }
+  @media screen and (max-width: 800px) {
+    .reset_board {
+      width: fit-content;
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="reset_board">
+  <div class="email_input">
+    <br />
+    <p>{{user}}您好，請於此重設你的密碼</p>
+    <br />
+    <label for="forget_password">請輸入新密碼：</label>
+    <input type="password" name="" id="forget_password" />
+  </div>
+  <button id="send_password">重設密碼</button>
+  <p id="reset_message"></p>
+</div>
+{% endblock %} {% block script %}
+<script>
+  let user = "{{user}}";
+  let email = "{{email}}";
+  let reset_message = document.getElementById("reset_message");
+  document
+    .getElementById("send_password")
+    .addEventListener("click", function () {
+      fetch("/api/reset_password", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: document.getElementById("forget_password").value,
+          user: user,
+          email: email,
+        }),
+        method: "POST",
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          if (data["ok"]) {
+            reset_message.innerHTML = "修改成功!!!!!";
+          }
+        });
+    });
+</script>
+{% endblock %}
