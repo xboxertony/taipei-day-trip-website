@@ -1,8 +1,55 @@
-from flask import Blueprint,request,jsonify,session
-from main import db
+import email
+from operator import truth
+from flask import Blueprint,request,jsonify,session,render_template
+from flask.helpers import url_for
+from werkzeug.utils import redirect
+from main import db,mail,s
 import re
+from flask_mail import Message
+from config import mail_username
 
 user_app = Blueprint("user_app",__name__)
+
+@user_app.route("/api/reset_password",methods=["POST"])
+def reset_password():
+	data = request.get_json()
+	password = data["password"]
+	email = data['email']
+	sql = f"UPDATE user SET password = '{password}' WHERE (email = '{email}');"
+	db.engine.execute(sql)
+	return jsonify({"ok":True})
+
+@user_app.route("/reset_password")
+def reset():
+	token_get = s.loads(request.args.get("token"))
+	user = token_get.get("user")
+	email = token_get.get("email")
+	return render_template("reset.html",user=user,email=email)
+
+@user_app.route("/forget")
+def forget_password():
+	return render_template("forget_password.html")
+
+@user_app.route("/api/forget",methods=["POST"])
+def forget():
+	data = request.get_json()
+	req_mail = data["mail"]
+	msg = Message(subject="This is your Reset Password Mail",sender=mail_username,recipients=[req_mail])
+	sql = f"select * from user where email='{req_mail}'"
+	conclusion = db.engine.execute(sql)
+	for i in conclusion:
+		token = s.dumps({"user":i[1],"email":req_mail}).decode("utf8")
+		msg.html = render_template("mail.html",user = i[1],token=token)
+		mail.send(msg)
+		return jsonify({"ok":True})
+	return jsonify({"error":True})
+
+@user_app.route("/confirm/<token>")
+def user_confirm(token):
+	if s.loads(token)['user'] and s.loads(token)['email']:
+		return redirect(f"/reset_password?token={token}")
+	else:
+		return "Not Permission"
 
 @user_app.route("/api/user",methods=["GET","POST","PATCH","DELETE"])
 def user():
