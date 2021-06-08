@@ -42,10 +42,9 @@ def api_book():
 		fb_id = session.get("FB_ID")
 		sql = f"SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}' or email = '{email}' or FB_ID = '{fb_id}'"
 		sql_exe = db.engine.execute(sql)
-		res = {"data":None}
+		res = {"data":[]}
 		for i in sql_exe:
-			res = {
-				"data":{
+			attr = {
 					"attraction":{
 						"id":i[0],
 						"name":i[1],
@@ -56,7 +55,20 @@ def api_book():
 				"time":i[5],
 				"price":i[6]
 				}
-			}
+			res["data"].append(attr)
+			# res = {
+			# 	"data":{
+			# 		"attraction":{
+			# 			"id":i[0],
+			# 			"name":i[1],
+			# 			"address":i[2],
+			# 			"image":i[3].split(";")[0]
+			# 			},
+			# 	"date":i[4],
+			# 	"time":i[5],
+			# 	"price":i[6]
+			# 	}
+			# }
 		return jsonify(res)
 	if request.method=="DELETE":
 		idx = session.get("id")
@@ -70,3 +82,18 @@ def api_book():
 			sql = f"delete from booking where userid='{idx}'"
 		db.engine.execute(sql)
 		return jsonify({"ok":True})
+
+
+@booking_app.route("/api/booking/<id>",methods=["DELETE"])
+def delete_id(id):
+	idx = session.get("id")
+	email = session.get("email")
+	fb_id = session.get("FB_ID")
+	if session.get("google"):
+		sql = f"delete from booking where email='{email}' and attractionId='{id}'"
+	elif session.get("FB"):
+		sql = f"delete from booking where FB_ID='{fb_id}' and attractionId='{id}'"
+	else:
+		sql = f"delete from booking where userid='{idx}' and attractionId='{id}'"
+	db.engine.execute(sql)
+	return jsonify({"ok":True})
