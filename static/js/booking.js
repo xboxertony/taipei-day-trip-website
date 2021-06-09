@@ -1,5 +1,6 @@
 let confirm_btn = document.getElementById("confirm_order_btn");
 let attraction_order = {};
+let total_sum_of_attr = 0;
 
 // function NextMove(obj, Nextone) {
 //   let Next = document.getElementById(Nextone);
@@ -14,8 +15,10 @@ function evoke_delete_fcn() {
 
     Array.from(delete_fuc).forEach((element) => {
         element.addEventListener("click", (e) => {
+            let idx = e.target.parentNode.dataset.id
+            total_sum_of_attr = total_sum_of_attr-parseInt(e.target.parentNode.dataset.price)
             e.target.parentNode.remove();
-            fetch("/api/booking", {
+            fetch(`/api/booking/${idx}`, {
                 method: "DELETE",
             })
                 .then((res) => {
@@ -37,7 +40,7 @@ fetch("/api/booking", {
         return res.json();
     })
     .then((d) => {
-        append_attraction(d);
+        handle_attraction_list(d)
         evoke_delete_fcn();
     });
 
@@ -60,10 +63,18 @@ fetch("/api/booking", {
 
 function delete_below() {
     // schedule.classList.remove("close");
-    document.getElementById("messgae_for_null").classList.add("open");
-    Array.from(dommi).forEach(item=>{
-        item.classList.remove("open")
-    })
+    let check_cnt = document.getElementsByClassName("checkout").length
+    if(check_cnt===0){
+        document.getElementById("messgae_for_null").classList.add("open");
+        Array.from(dommi).forEach(item=>{
+            item.classList.remove("open")
+        })
+    }
+
+    document.getElementById(
+        "total_sum"
+    ).innerHTML = `確認總價：新台幣${total_sum_of_attr}元`;
+
     // let text = document.createElement("p");
     // text.innerHTML = "目前沒有任何待預定的行程";
     // schedule.appendChild(text);
@@ -71,11 +82,18 @@ function delete_below() {
 
 let dommi = document.getElementsByClassName("form_div")
 
-function append_attraction(d) {
-    if (!d.data) {
-        delete_below();
-        return;
+function handle_attraction_list(d){
+    if(d.data.length===0){
+        delete_below()
+        return
     }
+    d.data.forEach((item)=>{
+        append_attraction(item)
+    })
+
+}
+
+function append_attraction(d) {
     document.getElementById("messgae_for_null").classList.remove("open");
     Array.from(dommi).forEach(item=>{
         item.classList.add("open")
@@ -83,7 +101,8 @@ function append_attraction(d) {
     let order_image = document.createElement("div");
     order_image.classList.add("photo");
     let image_inside = new Image();
-    image_inside.src = d.data.attraction.image;
+    // image_inside.src = d.data.attraction.image;
+    image_inside.src = d.attraction.image;
     order_image.appendChild(image_inside);
 
     // console.log(`"url('${d.data.attraction.image}')"`);
@@ -92,15 +111,22 @@ function append_attraction(d) {
     word_to_paid.classList.add("word_to_paid");
 
     let title_word_to_paid = document.createElement("p");
-    title_word_to_paid.innerHTML = `台北一日遊：${d.data.attraction.name}`;
+    // title_word_to_paid.innerHTML = `台北一日遊：${d.data.attraction.name}`;
+    title_word_to_paid.innerHTML = `台北一日遊：${d.attraction.name}`;
     title_word_to_paid.classList.add("title_word_to_paid");
 
     let order_date = document.createElement("p");
-    order_date.innerHTML = `日期：${d.data.date}`;
+    // order_date.innerHTML = `日期：${d.data.date}`;
+    order_date.innerHTML = `日期：${d.date}`;
     order_date.classList.add("information");
 
     let order_time = document.createElement("p");
-    if (d.data.time === "morning") {
+    // if (d.data.time === "morning") {
+    //     order_time.innerHTML = `時間：早上9點到下午4點`;
+    // } else {
+    //     order_time.innerHTML = `時間：下午4點到早上9點`;
+    // }
+    if (d.time === "morning") {
         order_time.innerHTML = `時間：早上9點到下午4點`;
     } else {
         order_time.innerHTML = `時間：下午4點到早上9點`;
@@ -108,11 +134,13 @@ function append_attraction(d) {
     order_time.classList.add("information");
 
     let order_price = document.createElement("p");
-    order_price.innerHTML = `費用：新台幣${d.data.price}元`;
+    // order_price.innerHTML = `費用：新台幣${d.data.price}元`;
+    order_price.innerHTML = `費用：新台幣${d.price}元`;
     order_price.classList.add("information");
 
     let order_name_attraction = document.createElement("p");
-    order_name_attraction.innerHTML = `地點：${d.data.attraction.address}`;
+    // order_name_attraction.innerHTML = `地點：${d.data.attraction.address}`;
+    order_name_attraction.innerHTML = `地點：${d.attraction.address}`;
     order_name_attraction.classList.add("information");
 
     word_to_paid.appendChild(title_word_to_paid);
@@ -133,18 +161,32 @@ function append_attraction(d) {
 
     checkout.appendChild(delete_action_btn);
 
+    checkout.dataset.id = d.attraction.id
+    checkout.dataset.price = d.price
+
     schedule.appendChild(checkout);
+
+    total_sum_of_attr = total_sum_of_attr+d.price
 
     document.getElementById(
         "total_sum"
-    ).innerHTML = `確認總價：新台幣${d.data.price}元`;
+    ).innerHTML = `確認總價：新台幣${total_sum_of_attr}元`;
+
+    // attraction_order = {
+    //     price: d.data.price,
+    //     trip: {
+    //         attraction: d.data.attraction,
+    //         date: d.data.date,
+    //         time: d.data.time,
+    //     },
+    // };
 
     attraction_order = {
-        price: d.data.price,
+        price: d.price,
         trip: {
-            attraction: d.data.attraction,
-            date: d.data.date,
-            time: d.data.time,
+            attraction: d.attraction,
+            date: d.date,
+            time: d.time,
         },
     };
 
