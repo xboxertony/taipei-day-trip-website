@@ -1,5 +1,6 @@
 let confirm_btn = document.getElementById("confirm_order_btn");
 let attraction_order = {};
+let total_sum_of_attr = 0;
 
 // function NextMove(obj, Nextone) {
 //   let Next = document.getElementById(Nextone);
@@ -15,6 +16,7 @@ function evoke_delete_fcn() {
     Array.from(delete_fuc).forEach((element) => {
         element.addEventListener("click", (e) => {
             let idx = e.target.parentNode.dataset.id
+            total_sum_of_attr = total_sum_of_attr-parseInt(e.target.parentNode.dataset.price)
             e.target.parentNode.remove();
             fetch(`/api/booking/${idx}`, {
                 method: "DELETE",
@@ -68,6 +70,11 @@ function delete_below() {
             item.classList.remove("open")
         })
     }
+
+    document.getElementById(
+        "total_sum"
+    ).innerHTML = `確認總價：新台幣${total_sum_of_attr}元`;
+
     // let text = document.createElement("p");
     // text.innerHTML = "目前沒有任何待預定的行程";
     // schedule.appendChild(text);
@@ -76,6 +83,10 @@ function delete_below() {
 let dommi = document.getElementsByClassName("form_div")
 
 function handle_attraction_list(d){
+    if(d.data.length===0){
+        delete_below()
+        return
+    }
     d.data.forEach((item)=>{
         append_attraction(item)
     })
@@ -83,10 +94,6 @@ function handle_attraction_list(d){
 }
 
 function append_attraction(d) {
-    if (!d) {
-        delete_below();
-        return;
-    }
     document.getElementById("messgae_for_null").classList.remove("open");
     Array.from(dommi).forEach(item=>{
         item.classList.add("open")
@@ -154,15 +161,16 @@ function append_attraction(d) {
 
     checkout.appendChild(delete_action_btn);
 
-    console.log(d)
-
     checkout.dataset.id = d.attraction.id
+    checkout.dataset.price = d.price
 
     schedule.appendChild(checkout);
 
+    total_sum_of_attr = total_sum_of_attr+d.price
+
     document.getElementById(
         "total_sum"
-    ).innerHTML = `確認總價：新台幣${d.price}元`;
+    ).innerHTML = `確認總價：新台幣${total_sum_of_attr}元`;
 
     // attraction_order = {
     //     price: d.data.price,
