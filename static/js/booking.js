@@ -1,6 +1,7 @@
 let confirm_btn = document.getElementById("confirm_order_btn");
 let attraction_order = {};
 let total_sum_of_attr = 0;
+let trip_list = []
 
 // function NextMove(obj, Nextone) {
 //   let Next = document.getElementById(Nextone);
@@ -181,19 +182,22 @@ function append_attraction(d) {
     //     },
     // };
 
+    trip_list.push({
+        attraction: d.attraction.id,
+        date: d.date,
+        time: d.time,
+        price:d.price
+    })
+
     attraction_order = {
-        price: d.price,
-        trip: {
-            attraction: d.attraction,
-            date: d.date,
-            time: d.time,
-        },
+        price: total_sum_of_attr,
+        trip: trip_list,
     };
 
-    document.getElementById("order_name").value = booking_name
-    document.getElementById("order_email").value = booking_email
 }
 
+document.getElementById("order_name").value = booking_name
+document.getElementById("order_email").value = booking_email
 // <!-- <div class="checkout">
 //     <div class="photo"></div>
 //     <div class="word_to_paid">
@@ -346,11 +350,12 @@ function onClick() {
                 return res.json();
             })
             .then((data) => {
+                console.log(data)
                 if (data["error"]) {
                     document.getElementById("status_code").innerHTML = data["message"]
                     return
                 }
-                window.location.href = `/thankyou?number=${data.data.number}`
+                // window.location.href = `/thankyou?number=${data.data.number}`
             });
     });
 }
