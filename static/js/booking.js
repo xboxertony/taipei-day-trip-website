@@ -355,7 +355,7 @@ function onClick() {
                     document.getElementById("status_code").innerHTML = data["message"]
                     return
                 }
-                // window.location.href = `/thankyou?number=${data.data.number}`
+                window.location.href = `/thankyou?number=${data.data.number}`
             });
     });
 }
