@@ -31,7 +31,8 @@ def order():
 		"prime": request.get_json()["prime"],
 		"amount": request.get_json()["order"]["price"],
 		"merchant_id": "tonyny58_CTBC",
-		"details": f'{request.get_json()["order"]["trip"]["attraction"]["id"]};{request.get_json()["order"]["trip"]["date"]};{request.get_json()["order"]["trip"]["time"]}',
+		"details":"1",
+		# "details": f'{request.get_json()["order"]["trip"]["attraction"]["id"]};{request.get_json()["order"]["trip"]["date"]};{request.get_json()["order"]["trip"]["time"]}',
 		"cardholder": {
 			"phone_number": request.get_json()["order"]["contact"]["phone"],
 			"name": request.get_json()["order"]["contact"]["name"],
@@ -47,6 +48,16 @@ def order():
 	}
 	r = req.post(url,data=json.dumps(payload),headers=headers)
 	data = json.loads(r.text)
+	idx = data["bank_transaction_id"]
+	trip = request.get_json()["order"]["trip"]
+	for item in trip:
+		attid = item['attraction']
+		date = item['date']
+		time = item['time']
+		email = session['email']
+		price = item['price']
+		sql = f"insert into attraction.order (orderid,attid,date,time,email,price) values ('{idx}','{attid}','{date}','{time}','{email}','{price}')"
+		db.engine.execute(sql)
 	if data["status"]==0:
 		return jsonify({
 			"data":{
@@ -88,36 +99,61 @@ def pay_search(orderNumber):
     }
 	r = req.post(url,data=json.dumps(payload),headers=headers)
 	data = json.loads(r.text)
-	trip = data["trade_records"][0]["details"].split(";")
-	sql = f"select id,name,address,images from attractions where id='{trip[0]}'"
-	attr = {}
-	d = db.engine.execute(sql)
-	for i in d:
-		attr = {
-			"id":i[0],
-			"name":i[1],
-			"address":i[2],
-			"image":i[3].split(";")[0]
-		}
-	print(data)
+	# trip = data["trade_records"][0]["details"].split(";")
 	if data["trade_records"][0]["record_status"] in [0,1]:
-		status = 0
-	else:
-		status = 1
-	return jsonify({
-		"data":{
-			"number":data["trade_records"][0]["bank_transaction_id"],
-			"trip":{
-				"attraction":attr,
-				"date":trip[1],
-				"time":trip[2]
-			},
-			"price":data["trade_records"][0]["amount"],
+		sql = f"SELECT attid,date,name,images,time,email,price FROM attraction.order left join attractions on order.attid=attractions.id where orderid='{orderNumber}'"
+		d = db.engine.execute(sql)
+		trip = []
+		for i in d:
+			attr = {
+				"attraction":{
+					"id":i[0],
+					"name":i[2],
+					"image":"https"+i[3].split(";")[0].split("http")[1]
+				},
+				"date":i[1],
+				"time":i[4],
+				"price":i[6]
+			}
+			trip.append(attr)
+		return jsonify({"data":{
+			"order_id":orderNumber,
+			"summary":data["trade_records"][0]["amount"],
 			"contact":{
 				"name":data["trade_records"][0]["cardholder"]["name"],
 				"email":data["trade_records"][0]["cardholder"]["email"],
 				"phone":data["trade_records"][0]["cardholder"]["phone_number"],
 			},
-			"status":status
-		}
-	})
+			"trip":trip
+		}})
+	else:
+		return jsonify({"data":None})
+	# for i in d:
+	# 	attr = {
+	# 		"id":i[0],
+	# 		"name":i[1],
+	# 		"address":i[2],
+	# 		"image":i[3].split(";")[0]
+	# 	}
+	# print(data)
+	# if data["trade_records"][0]["record_status"] in [0,1]:
+	# 	status = 0
+	# else:
+	# 	status = 1
+	# return jsonify({
+	# 	"data":{
+	# 		"number":data["trade_records"][0]["bank_transaction_id"],
+	# 		"trip":{
+	# 			"attraction":attr,
+	# 			"date":trip[1],
+	# 			"time":trip[2]
+	# 		},
+	# 		"price":data["trade_records"][0]["amount"],
+	# 		"contact":{
+	# 			"name":data["trade_records"][0]["cardholder"]["name"],
+	# 			"email":data["trade_records"][0]["cardholder"]["email"],
+	# 			"phone":data["trade_records"][0]["cardholder"]["phone_number"],
+	# 		},
+	# 		"status":status
+	# 	}
+	# })

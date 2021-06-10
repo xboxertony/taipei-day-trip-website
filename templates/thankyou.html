@@ -5,7 +5,7 @@
     font-weight: 900;
     font-size: 20px;
   }
-  .bold:nth-of-type(2n){
+  .bold:nth-of-type(2n) {
     margin-left: 10px;
   }
   #order_result {
@@ -25,33 +25,33 @@
   }
   .info {
     display: flex;
-    align-items:flex-end;
+    align-items: flex-end;
   }
   .order_mention {
     margin: auto;
     width: fit-content;
     position: relative;
   }
-  .order_mention p{
+  .order_mention p {
     color: black;
   }
-  #order_id{
+  #order_id {
     color: indianred;
   }
-  #block_tick{
+  #block_tick {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    background:url("../static/icon_tick.png");
+    background: url("../static/icon_tick.png");
     background-size: 50%;
-    background-position:center center;
+    background-position: center center;
     background-repeat: no-repeat;
-    opacity: .2;
+    opacity: 0.2;
     z-index: -1;
   }
-  #copy{
+  #copy {
     margin-left: 10px;
     transform: translateY(-75%);
     border: none;
@@ -73,8 +73,8 @@
     left: -5px;
     top: 0;
   } */
-  .info{
-    background-color: rgba(227,233,237,.3);
+  .info {
+    background-color: rgba(227, 233, 237, 0.3);
     padding: 10px;
   }
 </style>
@@ -84,30 +84,30 @@
     <div class="info">
       <p id="the_order_guy">{{ session.name }}您好，您的訂單資訊如下：</p>
     </div>
-    <div class="info">
-      <p class="bold">訂單編號 :</p>
-      <p id="order_id" class="bold"></p>
-      <input type="button" id="copy" value="copy">
+    <div class="order_panel_complete">
+      <!-- <div class="info">
+        <p class="bold">訂單編號 :</p>
+        <p id="order_id" class="bold"></p>
+        <input type="button" id="copy" value="copy" />
+      </div>
+      <div class="info">
+        <p class="bold">景點名稱 :</p>
+        <p id="attr_id" class="bold"></p>
+      </div>
+      <div class="info">
+        <p class="bold">參觀日期 :</p>
+        <p id="date_id" class="bold"></p>
+      </div>
+      <div class="info">
+        <p class="bold">參觀時間 :</p>
+        <p id="time_id" class="bold"></p>
+      </div>
+      <div class="info">
+        <p class="bold">付款狀態 :</p>
+        <p id="status" class="bold"></p>
+      </div> -->
     </div>
-    <div class="info">
-      <p class="bold">景點名稱 :</p>
-      <p id="attr_id" class="bold"></p>
-    </div>
-    <div class="info">
-      <p class="bold">參觀日期 :</p>
-      <p id="date_id" class="bold"></p>
-    </div>
-    <div class="info">
-      <p class="bold">參觀時間 :</p>
-      <p id="time_id" class="bold"></p>
-    </div>
-    <div class="info">
-      <p class="bold">付款狀態 :</p>
-      <p id="status" class="bold"></p>
-    </div>
-    <div id="block_tick">
-  
-    </div>
+    <div id="block_tick"></div>
   </div>
   <br />
   <p id="remind">請妥善保存你的訂單編號資訊，以利後續查詢</p>
@@ -117,53 +117,99 @@
 <script>
   let href = window.location.href;
   let order_numbr = href.split("=")[1];
+  let order_panel_complete = document.getElementsByClassName(
+    "order_panel_complete"
+  )[0];
+
+  function render_order_panel(d) {
+    d.trip.forEach((element) => {
+      let block_attr = set_div(element.attraction.name,"景點名稱")
+      order_panel_complete.appendChild(block_attr);
+    });
+
+    let sum_attr = set_div(d.summary,"付款總額")
+    order_panel_complete.appendChild(sum_attr);
+  }
+
   fetch(`/api/order/${order_numbr}`)
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-      if (data["error"]) {
+      if (!data["data"]) {
         window.location.href = "/";
         return;
       }
-      console.log(data);
-      document.getElementById("order_id").innerHTML = order_numbr;
-      document.getElementById("attr_id").innerHTML =
-        data["data"]["trip"]["attraction"]["name"];
-      document.getElementById("date_id").innerHTML =
-        data["data"]["trip"]["date"];
-      document.getElementById("time_id").innerHTML =
-        data["data"]["trip"]["time"];
-      if (data.data["status"] === 0) {
-        document.getElementById("status").innerHTML = "付款成功!!!!";
-      } else {
-        document.getElementById("status").innerHTML = "付款失敗";
-      }
+      render_order_panel(data["data"]);
     });
-  fetch("/api/booking",{
-    method:"DELETE"
-  }).then((res)=>{
-    return res.json()
-  }).then((data)=>{
-    console.log(data)
-  })
 
-  let copy = document.getElementById("copy")
-  copy.addEventListener("click",function(){
-    let order_id = document.getElementById("order_id")
-    let range = document.createRange()
-    range.selectNode(order_id)
-    window.getSelection().addRange(range)
-    console.log(range)
-    try{
-      if(document.execCommand("Copy","false",null)){
-        alert("複製成功")
-      }else{
-        alert("複製失敗")
-      }
-    }catch{
-      alert("複製錯誤")
-    }
-  })
+  function set_div(name,tag) {
+    let info = document.createElement("div");
+    info.classList.add("info");
+
+    let attr_name = document.createElement("p");
+    attr_name.classList.add("bold");
+    attr_name.innerHTML = tag;
+
+    let attr_id = document.createElement("p");
+    attr_id.classList.add("bold");
+    attr_id.id = "attr_id";
+    attr_id.innerHTML = name;
+
+    info.appendChild(attr_name);
+    info.appendChild(attr_id);
+    return info
+  }
+
+  // fetch(`/api/order/${order_numbr}`)
+  //   .then((res) => {
+  //     return res.json();
+  //   })
+  //   .then((data) => {
+  //     if (data["error"]) {
+  //       window.location.href = "/";
+  //       return;
+  //     }
+  //     console.log(data);
+  //     document.getElementById("order_id").innerHTML = order_numbr;
+  //     document.getElementById("attr_id").innerHTML =
+  //       data["data"]["trip"]["attraction"]["name"];
+  //     document.getElementById("date_id").innerHTML =
+  //       data["data"]["trip"]["date"];
+  //     document.getElementById("time_id").innerHTML =
+  //       data["data"]["trip"]["time"];
+  //     if (data.data["status"] === 0) {
+  //       document.getElementById("status").innerHTML = "付款成功!!!!";
+  //     } else {
+  //       document.getElementById("status").innerHTML = "付款失敗";
+  //     }
+  //   });
+  // fetch("/api/booking", {
+  //   method: "DELETE",
+  // })
+  //   .then((res) => {
+  //     return res.json();
+  //   })
+  //   .then((data) => {
+  //     console.log(data);
+  //   });
+
+  // let copy = document.getElementById("copy");
+  // copy.addEventListener("click", function () {
+  //   let order_id = document.getElementById("order_id");
+  //   let range = document.createRange();
+  //   range.selectNode(order_id);
+  //   window.getSelection().addRange(range);
+  //   console.log(range);
+  //   try {
+  //     if (document.execCommand("Copy", "false", null)) {
+  //       alert("複製成功");
+  //     } else {
+  //       alert("複製失敗");
+  //     }
+  //   } catch {
+  //     alert("複製錯誤");
+  //   }
+  // });
 </script>
 {% endblock %}
