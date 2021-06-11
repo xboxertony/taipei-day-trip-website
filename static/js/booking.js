@@ -2,6 +2,7 @@ let confirm_btn = document.getElementById("confirm_order_btn");
 let attraction_order = {};
 let total_sum_of_attr = 0;
 let trip_list = []
+let checkout = null;
 
 // function NextMove(obj, Nextone) {
 //   let Next = document.getElementById(Nextone);
@@ -15,20 +16,24 @@ function evoke_delete_fcn() {
     let delete_fuc = document.getElementsByClassName("delete");
 
     Array.from(delete_fuc).forEach((element) => {
-        element.addEventListener("click", (e) => {
-            let idx = e.target.parentNode.dataset.id
-            total_sum_of_attr = total_sum_of_attr-parseInt(e.target.parentNode.dataset.price)
-            e.target.parentNode.remove();
-            fetch(`/api/booking/${idx}`, {
-                method: "DELETE",
+        delete_order(element)
+    });
+}
+
+function delete_order(item){
+    item.addEventListener("click", (e) => {
+        let idx = e.target.parentNode.dataset.id
+        total_sum_of_attr = total_sum_of_attr-parseInt(e.target.parentNode.dataset.price)
+        e.target.parentNode.remove();
+        fetch(`/api/booking/${idx}`, {
+            method: "DELETE",
+        })
+            .then((res) => {
+                return res.json();
             })
-                .then((res) => {
-                    return res.json();
-                })
-                .then((d) => {
-                    delete_below();
-                });
-        });
+            .then((d) => {
+                delete_below();
+            });
     });
 }
 
@@ -43,6 +48,8 @@ fetch("/api/booking", {
     .then((d) => {
         handle_attraction_list(d)
         evoke_delete_fcn();
+        let checkout = document.getElementsByClassName("checkout");
+        handle_drag_event(checkout,"schedule")
     });
 
 // if (localStorage.getItem("booking") === "ok") {
