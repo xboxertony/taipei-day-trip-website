@@ -31,12 +31,14 @@ function handle_drag_event(target_item,keyword,source){
     }
     
     function droped(e) {
-        console.log(e.target.parentNode.parentNode)
+        let tt = JSON.parse(e.dataTransfer.getData("text/plain"));
+        if(e.target.parentNode.dataset.databaseid===tt.databaseid){
+            return
+        }
         if(!e.target.parentNode.classList.contains(keyword)){
             return
         }
         e.preventDefault();
-        let tt = JSON.parse(e.dataTransfer.getData("text/plain"));
         deletesomthing(oldidx);
         let newone = document.createElement("div");
         newone.innerHTML = tt.html;
@@ -55,7 +57,7 @@ function handle_drag_event(target_item,keyword,source){
         } else {
             e.target.parentNode.parentNode.insertBefore(newone, e.target.parentNode.nextElementSibling);
         }
-        add_drag(newone);
+        add_drag(newone.getElementsByClassName("move_area")[0]);
         let arr = resetid(target_item)
         // delete_order(newone)
         evoke_delete_fcn()

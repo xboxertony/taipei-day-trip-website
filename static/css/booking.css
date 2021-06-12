@@ -13,13 +13,14 @@
 .checkout {
   display: flex;
   width: 100%;
-  margin: 10px 0;
   position: relative;
+  height: fit-content;
+  margin-bottom: 20px;
 }
-.photo,
+/* .photo,
 .word_to_paid {
   height: 200px;
-}
+} */
 .checkout > .delete {
   position: absolute;
   left: 100%;
@@ -30,13 +31,17 @@
 .photo {
   width: 266px;
   margin-right: 22px;
+  height: 100%;
 }
 .photo img {
   width: 100%;
 }
+.word_to_paid p{
+  font-weight: 700;
+  margin-bottom: 10px;
+}
 .title_word_to_paid {
   color: #448899;
-  font-weight: 700;
 }
 .information {
   color: #666666;
@@ -147,6 +152,9 @@
   height: 100%;
   background-color: transparent;
   cursor: move;
+}
+.move_area:hover{
+  background-color: rgba(10,10,10,.3);
 }
 @media screen and (max-width: 800px) {
   .form_div,

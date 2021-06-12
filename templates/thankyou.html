@@ -184,15 +184,15 @@
   //       document.getElementById("status").innerHTML = "付款失敗";
   //     }
   //   });
-  // fetch("/api/booking", {
-  //   method: "DELETE",
-  // })
-  //   .then((res) => {
-  //     return res.json();
-  //   })
-  //   .then((data) => {
-  //     console.log(data);
-  //   });
+  fetch("/api/booking", {
+    method: "DELETE",
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
 
   // let copy = document.getElementById("copy");
   // copy.addEventListener("click", function () {
