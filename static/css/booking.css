@@ -25,6 +25,7 @@
   left: 100%;
   transform: translateX(-100%);
   cursor: pointer;
+  z-index: 2;
 }
 .photo {
   width: 266px;
@@ -139,6 +140,13 @@
 }
 #error_order_phone.open{
   display: block;
+}
+.move_area{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  cursor: move;
 }
 @media screen and (max-width: 800px) {
   .form_div,

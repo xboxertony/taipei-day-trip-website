@@ -48,8 +48,8 @@ fetch("/api/booking", {
     .then((d) => {
         handle_attraction_list(d)
         evoke_delete_fcn();
-        let checkout = document.getElementsByClassName("checkout");
-        handle_drag_event(checkout,"schedule")
+        let checkout = document.getElementsByClassName("move_area");
+        handle_drag_event(checkout,"checkout","move_area")
     });
 
 // if (localStorage.getItem("booking") === "ok") {
@@ -175,6 +175,10 @@ function append_attraction(d) {
     schedule.appendChild(checkout);
 
     total_sum_of_attr = total_sum_of_attr+d.price
+
+    let move_area = document.createElement("div");
+    checkout.appendChild(move_area)
+    move_area.classList.add("move_area")
 
     document.getElementById(
         "total_sum"
