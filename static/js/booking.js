@@ -33,6 +33,12 @@ function delete_order(item){
             })
             .then((d) => {
                 delete_below();
+                let moving_area = document.getElementsByClassName("move_area");
+                let arr = resetid(moving_area)
+                let need_data = JSON.stringify({
+                    "data":arr
+                })
+                update_order(need_data)
             });
     });
 }
@@ -48,8 +54,8 @@ fetch("/api/booking", {
     .then((d) => {
         handle_attraction_list(d)
         evoke_delete_fcn();
-        let checkout = document.getElementsByClassName("move_area");
-        handle_drag_event(checkout,"checkout","move_area")
+        let moving_area = document.getElementsByClassName("move_area");
+        handle_drag_event(moving_area,"checkout","move_area")
     });
 
 // if (localStorage.getItem("booking") === "ok") {
@@ -171,6 +177,8 @@ function append_attraction(d) {
 
     checkout.dataset.id = d.attraction.id
     checkout.dataset.price = d.price
+    checkout.dataset.databaseid = d.database_id
+    checkout.dataset.base_order = d.order
 
     schedule.appendChild(checkout);
 
@@ -197,7 +205,8 @@ function append_attraction(d) {
         attraction: d.attraction.id,
         date: d.date,
         time: d.time,
-        price:d.price
+        price:d.price,
+        order:d.order
     })
 
     attraction_order = {
@@ -205,6 +214,23 @@ function append_attraction(d) {
         trip: trip_list,
     };
 
+}
+
+
+async function get_trip_list(){
+    // trip_list = []
+    // let data = await fetch("/api/booking")
+    // let res = await data.json()
+    // res.data.forEach((item)=>{
+    //     trip_list.push({
+    //         attraction:item.attraction.id,
+    //         date:item.date,
+    //         time:item.time,
+    //         price:item.price,
+    //         order:item.order
+    //     })
+    // })
+    // console.log(trip_list)
 }
 
 document.getElementById("order_name").value = booking_name
@@ -337,36 +363,57 @@ function onClick() {
             return
         }
         let prime = result.card.prime;
-        let data = {
-            prime: prime,
-            order: {
-                price: attraction_order.price,
-                trip: attraction_order.trip,
-                contact: {
-                    name: document.getElementById("order_name").value,
-                    email: document.getElementById("order_email").value,
-                    phone: document.getElementById("order_phone").value,
-                },
-            },
-        };
-        document.getElementById("status_code").innerHTML = "執行中..."
-        fetch("/api/orders", {
-            body: JSON.stringify(data),
-            headers: {
-                "content-type": "application/json",
-            },
-            method: "POST",
-        })
-            .then((res) => {
-                return res.json();
-            })
-            .then((data) => {
-                console.log(data)
-                if (data["error"]) {
-                    document.getElementById("status_code").innerHTML = data["message"]
-                    return
-                }
-                window.location.href = `/thankyou?number=${data.data.number}`
-            });
+        pay_money(prime)
     });
+}
+
+
+
+async function pay_money(prime){
+    trip_list = []
+    let ans = await fetch("/api/booking")
+    let res = await ans.json()
+    res.data.forEach((item)=>{
+        trip_list.push({
+            attraction:item.attraction.id,
+            date:item.date,
+            time:item.time,
+            price:item.price,
+            order:item.order
+        })
+    })
+    console.log(trip_list)
+    let data = {
+        prime: prime,
+        order: {
+            price: attraction_order.price,
+            trip: trip_list,
+            contact: {
+                name: document.getElementById("order_name").value,
+                email: document.getElementById("order_email").value,
+                phone: document.getElementById("order_phone").value,
+            },
+        },
+    };
+    console.log(data)
+    document.getElementById("status_code").innerHTML = "執行中..."
+    await fetch("/api/orders", {
+        body: JSON.stringify(data),
+        headers: {
+            "content-type": "application/json",
+        },
+        method: "POST",
+    })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            console.log(data)
+            if (data["error"]) {
+                document.getElementById("status_code").innerHTML = data["message"]
+                return
+            }
+            window.location.href = `/thankyou?number=${data.data.number}`
+        });
+    
 }

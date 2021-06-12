@@ -50,13 +50,16 @@ def order():
 	data = json.loads(r.text)
 	idx = data["bank_transaction_id"]
 	trip = request.get_json()["order"]["trip"]
+	print(request.get_json())
+	print(trip)
 	for item in trip:
 		attid = item['attraction']
 		date = item['date']
 		time = item['time']
 		email = session['email']
 		price = item['price']
-		sql = f"insert into attraction.order (orderid,attid,date,time,email,price) values ('{idx}','{attid}','{date}','{time}','{email}','{price}')"
+		order_att = item["order"]
+		sql = f"insert into attraction.order (orderid,attid,date,time,email,price,attorder) values ('{idx}','{attid}','{date}','{time}','{email}','{price}','{order_att}')"
 		db.engine.execute(sql)
 	if data["status"]==0:
 		return jsonify({
@@ -101,7 +104,7 @@ def pay_search(orderNumber):
 	data = json.loads(r.text)
 	# trip = data["trade_records"][0]["details"].split(";")
 	if data["trade_records"][0]["record_status"] in [0,1]:
-		sql = f"SELECT attid,date,name,images,time,email,price FROM attraction.order left join attractions on order.attid=attractions.id where orderid='{orderNumber}'"
+		sql = f"SELECT attid,date,name,images,time,email,price,attorder FROM attraction.order left join attractions on order.attid=attractions.id where orderid='{orderNumber}' order by attorder"
 		d = db.engine.execute(sql)
 		trip = []
 		for i in d:
