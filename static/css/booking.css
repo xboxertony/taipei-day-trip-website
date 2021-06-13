@@ -156,6 +156,22 @@
 .move_area:hover{
   background-color: rgba(10,10,10,.3);
 }
+.checkout.line::before{
+  position: absolute;
+  content: "";
+  top: 0;
+  width: 200%;
+  transform: translateX(-25%);
+  border: 1px solid #333;
+}
+.checkout.bottom::before{
+  position: absolute;
+  content: "";
+  bottom: 0;
+  width: 200%;
+  transform: translateX(-25%);
+  border: 1px solid #333;
+}
 @media screen and (max-width: 800px) {
   .form_div,
   .schedule {

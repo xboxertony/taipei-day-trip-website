@@ -10,9 +10,10 @@ function handle_drag_event(target_item,keyword,source){
     function add_drag(item) {
         item.setAttribute("draggable", true);
         item.addEventListener("dragstart", dragstart);
-        item.addEventListener("dragenter", preventDe);
+        item.addEventListener("dragenter", preventDeEnter);
         item.addEventListener("dragover", preventDe);
         item.addEventListener("drop", droped);
+        item.addEventListener("drag",drag)
     }
     
     function dragstart(e) {
@@ -32,6 +33,11 @@ function handle_drag_event(target_item,keyword,source){
     
     function droped(e) {
         let tt = JSON.parse(e.dataTransfer.getData("text/plain"));
+        let checkout_section = document.getElementsByClassName(keyword)
+        Array.from(checkout_section).forEach(item=>{
+            item.classList.remove("line")
+            item.classList.remove("bottom")
+        })
         if(e.target.parentNode.dataset.databaseid===tt.databaseid){
             return
         }
@@ -84,6 +90,23 @@ function handle_drag_event(target_item,keyword,source){
     
     function preventDe(e) {
         e.preventDefault();
+    }
+
+    function preventDeEnter(e){
+        e.preventDefault()
+        if (oldidx > e.target.dataset.order) {
+            e.target.parentNode.classList.add("line")
+        } else {
+            e.target.parentNode.classList.add("bottom")
+        }
+    }
+
+    function drag(e){
+
+        e.preventDefault()
+        e.target.parentNode.classList.remove("line")
+        e.target.parentNode.classList.remove("bottom")
+
     }
     
     
