@@ -109,8 +109,7 @@
   box-sizing: border-box;
   line-height: 2;
 }
-.description p,
-a {
+.description p,.description a{
   color: #757575;
   font-weight: 700;
 }

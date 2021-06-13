@@ -94,6 +94,7 @@ function handle_drag_event(target_item,keyword,source){
 
     function preventDeEnter(e){
         e.preventDefault()
+        clear_line()
         if (oldidx > e.target.dataset.order) {
             e.target.parentNode.classList.add("line")
         } else {
@@ -107,6 +108,14 @@ function handle_drag_event(target_item,keyword,source){
         e.target.parentNode.classList.remove("line")
         e.target.parentNode.classList.remove("bottom")
 
+    }
+
+    function clear_line(){
+        let item = document.getElementsByClassName(keyword)
+        Array.from(item).forEach(item=>{
+            item.classList.remove("line")
+            item.classList.remove("bottom")
+        })
     }
     
     
