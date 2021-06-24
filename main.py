@@ -6,6 +6,7 @@ from config import setapp,get_key,get_session_key,mail_username,mail_password,ma
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from itsdangerous import TimedJSONWebSignatureSerializer
+from sqlalchemy import create_engine
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
@@ -13,6 +14,7 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.secret_key=get_session_key()
 setapp(app)
 db = SQLAlchemy(app)
+db_RDS = create_engine(app.config['SQLALCHEMY_BINDS']['db_news'])
 app.config.update(
     SSL_DISABLE = False,
     MAIL_SERVER='smtp.gmail.com',
