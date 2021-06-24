@@ -1,4 +1,5 @@
 from flask import Blueprint
+from flask.json import jsonify
 from main import db_RDS
 
 import requests as req
@@ -50,9 +51,11 @@ def news():
     res = run(print_urls,urls_list)
     sql = "truncate table news.news_source"
     db_RDS.execute(sql)
+    data = {}
     for i in res:
         for link,title in i:
             title = title.replace("%","%%")
             sql_news = f"insert into news.news_source (news_title,link) values ('{title}','{link}')"
             db_RDS.execute(sql_news)
-    return "ok"
+            data[title]=link
+    return jsonify(data)
