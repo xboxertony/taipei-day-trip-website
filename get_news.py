@@ -1,12 +1,13 @@
 import requests as req
 import bs4
 from concurrent.futures import ThreadPoolExecutor
-from datetime import timedelta,date
+from datetime import timedelta,date,datetime
 from main import db_RDS
 
 
-now = date.today()
+now = datetime.now()
 now = now+timedelta(hours=8)
+print(now)
 delta = timedelta(days=1)
 
 urls_list = []
