@@ -7,7 +7,7 @@ from main import db_RDS
 
 now = date.today()
 now = now+timedelta(hours=8)
-delta = timedelta(days=2)
+delta = timedelta(days=1)
 
 urls_list = []
 for i in range(2):
