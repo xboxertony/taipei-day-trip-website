@@ -38,7 +38,7 @@ def print_urls(url):
 def run(f,urls):
     s = 0
 
-    with ThreadPoolExecutor(max_workers=3) as executor:
+    with ThreadPoolExecutor(max_workers=7) as executor:
         res = executor.map(f,urls)
     
     return res
