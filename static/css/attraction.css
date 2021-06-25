@@ -226,6 +226,7 @@ blockquote {
   background: #eee;
   width: 500px;
   padding: 50px 10px;
+  box-sizing: border-box;
 }
 blockquote img {
   width: 100%;
@@ -265,6 +266,9 @@ blockquote .img_blk .delete_btn {
   }
 }
 @media screen and (max-width: 800px) {
+  .msg_below img{
+    width: 100%;
+  }
   .place_view {
     display: block;
     margin: auto;
