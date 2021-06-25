@@ -4,7 +4,14 @@ from main import db
 
 booking_app = Blueprint("booking_app",__name__)
 
-@booking_app.route("/api/booking",methods=["GET","POST","DELETE"])
+def find_cnt(keyword,value):
+	sql = f"select count(*) from booking where {keyword} = '{value}'"
+	answer = db.engine.execute(sql)
+	for i in answer:
+		print(i)
+		return i[0]
+
+@booking_app.route("/api/booking",methods=["GET","POST","DELETE","PATCH"])
 def api_book():
 	if "name" not in session:
 		return jsonify({"error":True,"message":"未登入系統"}),403
@@ -19,19 +26,21 @@ def api_book():
 		if not date or not time or not price:
 			return jsonify({"error":True,"message":"有資料未輸入"}),400
 		now = tm.strftime("%Y-%m-%d",tm.localtime())
-		print(now)
 		gap = datetime.strptime(date,"%Y-%m-%d")-datetime.strptime(now,"%Y-%m-%d")
 		if gap.days<=0:
 			return jsonify({"error":True,"message":"請勿選擇過去時間"}),400
 		if not session.get("google") and not session.get("FB"):
 			idx = session["id"]
-			sql = f"insert into booking (attractionId,date,time,price,userid) values ('{attractionid}','{date}','{time}','{price}','{idx}')"
+			cnt = int(find_cnt("userid",idx))+1
+			sql = f"insert into booking (attractionId,date,time,price,userid,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{idx}','{cnt}')"
 		if session.get("google"):
 			email = session["email"]
-			sql = f"insert into booking (attractionId,date,time,price,email) values ('{attractionid}','{date}','{time}','{price}','{email}')"
+			cnt = int(find_cnt("email",email))+1
+			sql = f"insert into booking (attractionId,date,time,price,email,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{email}','{cnt}')"
 		if session.get("FB"):
 			idx = session["FB_ID"]
-			sql = f"insert into booking (attractionId,date,time,price,FB_ID) values ('{attractionid}','{date}','{time}','{price}','{idx}')"
+			cnt = int(find_cnt("FB_ID",idx))+1
+			sql = f"insert into booking (attractionId,date,time,price,FB_ID,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{idx}','{cnt}')"
 		db.engine.execute(sql)
 		return jsonify({"ok":True})
 		# except:
@@ -40,7 +49,7 @@ def api_book():
 		idx = session.get("id")
 		email = session.get("email")
 		fb_id = session.get("FB_ID")
-		sql = f"SELECT attractionId,name,address,images,date,time,price FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}' or email = '{email}' or FB_ID = '{fb_id}'"
+		sql = f"SELECT attractionId,name,address,images,date,time,price,bookingorder,booking.id FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}' or email = '{email}' or FB_ID = '{fb_id}' order by bookingorder"
 		sql_exe = db.engine.execute(sql)
 		res = {"data":[]}
 		for i in sql_exe:
@@ -53,7 +62,9 @@ def api_book():
 						},
 				"date":i[4],
 				"time":i[5],
-				"price":i[6]
+				"price":i[6],
+				"order":i[7],
+				"database_id":i[8]
 				}
 			res["data"].append(attr)
 			# res = {
@@ -82,6 +93,14 @@ def api_book():
 			sql = f"delete from booking where userid='{idx}'"
 		db.engine.execute(sql)
 		return jsonify({"ok":True})
+	if request.method=="PATCH":
+		data = request.get_json()["data"]
+		for i in data:
+			source = i["datasetid"]
+			target = i["orderid"]
+			sql = f"UPDATE booking SET bookingorder = '{target}' WHERE (id = '{source}');"
+			db.engine.execute(sql)
+		return jsonify({"ok":True})
 
 
 @booking_app.route("/api/booking/<id>",methods=["DELETE"])
@@ -97,3 +116,4 @@ def delete_id(id):
 		sql = f"delete from booking where userid='{idx}' and attractionId='{id}'"
 	db.engine.execute(sql)
 	return jsonify({"ok":True})
+
