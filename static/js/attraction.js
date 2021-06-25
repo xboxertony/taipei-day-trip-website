@@ -31,20 +31,20 @@ let order_time = "morning";
 let page = 0;
 
 
-function get_yt_video(word){
-    fetch("/api/youtube",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
+function get_yt_video(word) {
+    fetch("/api/youtube", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify({
-            "search_word":word
+        body: JSON.stringify({
+            "search_word": word
         })
-    }).then((res)=>{
+    }).then((res) => {
         return res.json()
-    }).then((data)=>{
-        let src = "https://www.youtube.com/embed/"+`${data.items[0].id.videoId}`
-        document.getElementById("yt_video").setAttribute("src",src)
+    }).then((data) => {
+        let src = "https://www.youtube.com/embed/" + `${data.items[0].id.videoId}`
+        document.getElementById("yt_video").setAttribute("src", src)
     })
 }
 
@@ -74,22 +74,22 @@ fetch("/api/attraction/" + `${idx}`)
 let calendar = document.getElementById("date")
 let error_date = document.getElementById("error_date")
 
-calendar.addEventListener("change",function(){
+calendar.addEventListener("change", function () {
     let select_date = this.value.split("-")
-    let select_date_date = new Date(select_date[0],select_date[1]-1,select_date[2])
+    let select_date_date = new Date(select_date[0], select_date[1] - 1, select_date[2])
     let da = new Date()
-    let now = new Date(da.getFullYear(),da.getMonth(),da.getDate())
-    if(now>=select_date_date){
+    let now = new Date(da.getFullYear(), da.getMonth(), da.getDate())
+    if (now >= select_date_date) {
         error_date.classList.add("open")
         error_date.innerHTML = "不可選擇過去的日期"
-    }else{
+    } else {
         error_date.classList.remove("open")
     }
 })
 
 send_booking_btn.addEventListener("click", (e) => {
     e.preventDefault();
-    if(error_date.classList.contains("open")){
+    if (error_date.classList.contains("open")) {
         error_message_show.innerHTML = "請選擇正確的日期"
         return
     }
@@ -142,6 +142,7 @@ function handle_data(res) {
     traffic.innerHTML = res.data.transport;
     get_yt_video(res.data.name)
     get_msg(page)
+    get_news(res.data.name, res.data.mrt, res.data.address.slice(4, 7).trim())
 }
 
 function add_point() {
@@ -257,51 +258,81 @@ let btn_msg = document.getElementById("btn_msg")
 let textarea_msg = document.getElementById("leave_msg_textarea")
 let btn_more_his = document.getElementById("btn_more_msg")
 
-btn_msg.addEventListener("click",add_msg)
+btn_msg.addEventListener("click", add_msg)
 
-function add_msg(){
-    fetch("/api/message",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
+function add_msg() {
+    fetch("/api/message", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify({
-            "attid":idx,
-            "message":textarea_msg.value
+        body: JSON.stringify({
+            "attid": idx,
+            "message": textarea_msg.innerHTML
         })
-    }).then((res)=>{
+    }).then((res) => {
         return res.json()
-    }).then((data)=>{
-        if(data["error"]){
+    }).then((data) => {
+        if (data["error"]) {
             alert("請先登入會員!!")
         }
-        else{
+        else {
             window.location.reload()
         }
     })
 }
 
-function get_msg(page){
-    fetch(`/api/message?attid=${idx}&page=${page}`).then((res)=>{
+document.addEventListener("paste", function (e) {
+    if (e.clipboardData.items[0].type !== "text/plain") {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let div = document.createElement("div");
+            let img = new Image();
+            let p = document.createElement("p");
+            let br = document.createElement("br");
+
+            let delete_btn = document.createElement("div");
+            delete_btn.classList.add("delete_btn");
+            delete_btn.innerHTML = "X";
+            delete_btn.addEventListener("click", delete_parent);
+
+            img.src = e.target.result;
+            div.appendChild(img);
+            div.appendChild(delete_btn);
+            textarea_msg.appendChild(div);
+            div.classList.add("img_blk");
+            p.appendChild(br);
+            textarea_msg.appendChild(p);
+        };
+        reader.readAsDataURL(e.clipboardData.items[0].getAsFile());
+    }
+});
+
+function delete_parent() {
+    this.parentNode.remove();
+}
+
+function get_msg(page) {
+    fetch(`/api/message?attid=${idx}&page=${page}`).then((res) => {
         return res.json()
-    }).then((data)=>{
+    }).then((data) => {
         // console.log(data)
-        Array.from(data.data).forEach((item)=>{
+        Array.from(data.data).forEach((item) => {
             create_msg(item)
         })
-        if(!data["nextpage"]){
+        if (!data["nextpage"]) {
             btn_more_his.classList.add("close")
         }
     })
 }
 
-btn_more_his.addEventListener("click",function(){
+btn_more_his.addEventListener("click", function () {
     page++
     get_msg(page)
 })
 
 
-function create_msg(msg){
+function create_msg(msg) {
     let msg_below = document.createElement("div")
     let msg_name = document.createElement("p")
     let msg_time = document.createElement("p")
@@ -323,9 +354,9 @@ function create_msg(msg){
     msg_history.appendChild(msg_below)
 }
 
-fetch("/api/weather").then((res)=>{
+fetch("/api/weather").then((res) => {
     return res.json()
-}).then((data)=>{
+}).then((data) => {
     weather_forcast = data.records.locations[0].location[0].weatherElement[6].time
     // .locations[0].location[0].weatherElement
     get_weather_data(weather_forcast)
@@ -337,57 +368,82 @@ let left_i = document.getElementById("left_icon")
 let right_i = document.getElementById("right_icon")
 let weather_tool = document.getElementById("weather_tool")
 
-left_i.addEventListener("click",function(){
+left_i.addEventListener("click", function () {
     w_region.classList.toggle("open")
     toggle_icon()
 })
 
-right_i.addEventListener("click",function(){
+right_i.addEventListener("click", function () {
     w_region.classList.toggle("open")
     toggle_icon()
 })
 
-function toggle_icon(){
+function toggle_icon() {
     left_i.classList.toggle("close")
     right_i.classList.toggle("close")
 }
 
 // let pre_time = null
 
-function get_weather_data(data){
-    weather_tool.innerHTML=""
-    data.forEach((item)=>{
+function get_weather_data(data) {
+    weather_tool.innerHTML = ""
+    data.forEach((item) => {
         weather_block = document.createElement("div")
         start_time = document.createElement("p")
         // end_time = document.createElement("p")
         des = document.createElement("div")
         line = null;
         let regex = /[陰|雲]/g
-        if(item.startTime.split(" ")[1]==="18:00:00"){
+        if (item.startTime.split(" ")[1] === "18:00:00") {
             line = document.createElement("hr")
         }
-        if(item.startTime.split(" ")[1]==="18:00:00"){
-            start_time.innerHTML = item.startTime.split(" ")[0]+" 下午"
-        }else if((item.startTime.split(" ")[1]==="06:00:00")){
-            start_time.innerHTML = item.startTime.split(" ")[0]+" 上午"
-        }else{
-            start_time.innerHTML = item.startTime.split(" ")[0]+" 凌晨"
+        if (item.startTime.split(" ")[1] === "18:00:00") {
+            start_time.innerHTML = item.startTime.split(" ")[0] + " 下午"
+        } else if ((item.startTime.split(" ")[1] === "06:00:00")) {
+            start_time.innerHTML = item.startTime.split(" ")[0] + " 上午"
+        } else {
+            start_time.innerHTML = item.startTime.split(" ")[0] + " 凌晨"
         }
         // pre_time = item.startTime.split(" ")[0]
-        if(item.elementValue[0].value.includes("雨")){
+        if (item.elementValue[0].value.includes("雨")) {
             des.innerHTML = '<i class="fas fa-cloud-showers-heavy"></i>'
-        }else if(item.elementValue[0].value.match(regex)){
+        } else if (item.elementValue[0].value.match(regex)) {
             des.innerHTML = '<i class="fas fa-cloud"></i>'
-        }else{
+        } else {
             des.innerHTML = '<i class="fas fa-sun"></i>'
         }
         weather_block.appendChild(start_time)
         // weather_block.appendChild(end_time)
         weather_block.appendChild(des)
 
-        
+
         weather_block.classList.add("weather_block")
         weather_tool.appendChild(weather_block)
-        if(line){weather_tool.appendChild(line)}
+        if (line) { weather_tool.appendChild(line) }
     })
+}
+
+let news = document.getElementsByClassName("news")[0]
+
+async function get_news(...word) {
+    let ss = "/api/news?"
+    for (let i = 0; i < arguments.length; i++) {
+        ss += `word${i + 1}=${arguments[i]}&`
+        console.log(arguments[i])
+    }
+    let news_props = await fetch(ss)
+    let data = await news_props.json()
+
+    if (Object.keys(data).length === 0) {
+        news.innerHTML = "目前一周內無相關新聞"
+        return
+    }
+
+    for (const [key, val] of Object.entries(data)) {
+        let a = document.createElement("a")
+        a.href = val
+        a.setAttribute("target", "_blank")
+        a.innerHTML = key
+        news.appendChild(a)
+    }
 }

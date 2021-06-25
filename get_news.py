@@ -11,7 +11,7 @@ print(now)
 delta = timedelta(days=1)
 
 urls_list = []
-for i in range(2):
+for i in range(7):
     urls_list.append(f"https://www.ettoday.net/news/news-list-{now.strftime('%Y-%m-%d')}-0.htm")
     now = now - delta
 
@@ -38,7 +38,7 @@ def print_urls(url):
 def run(f,urls):
     s = 0
 
-    with ThreadPoolExecutor(max_workers=3) as executor:
+    with ThreadPoolExecutor(max_workers=7) as executor:
         res = executor.map(f,urls)
     
     return res

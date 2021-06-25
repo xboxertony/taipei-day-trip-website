@@ -31,7 +31,7 @@ def mes():
         nextpage = None;
         for i in data:
             cntt = i[0]
-        if (page+1)*5<=cntt:
+        if (page+1)*5<cntt:
             nextpage = page+1
         sql = f"select * from message where attraction_id={attid} order by time desc limit 5 offset {page*5}"
         data = db.engine.execute(sql)

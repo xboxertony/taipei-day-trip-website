@@ -1,4 +1,5 @@
 from flask import Blueprint
+from flask.globals import request
 from flask.json import jsonify
 from main import db_RDS
 
@@ -48,8 +49,13 @@ news_app = Blueprint("news_app",__name__)
 
 @news_app.route("/api/news")
 def news():
+    search_word1 = request.args.get("word1")
+    search_word2 = request.args.get("word2")
+    search_word3 = request.args.get("word3")
     # res = run(print_urls,urls_list)
-    sql = "select news_title,link from news.news_source"
+    sql = f'''
+        select news_title,link from news.news_source where news_title like '%%{search_word1}%%' or news_title like '%%{search_word2}%%' or news_title like '%%{search_word3}%%' 
+    '''
     res = db_RDS.execute(sql)
     data = {}
     for i in res:
