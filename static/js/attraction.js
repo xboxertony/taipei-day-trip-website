@@ -142,7 +142,7 @@ function handle_data(res) {
     traffic.innerHTML = res.data.transport;
     get_yt_video(res.data.name)
     get_msg(page)
-    get_news(res.data.name)
+    get_news(res.data.name,res.data.mrt,res.data.address.slice(4,7).trim())
 }
 
 function add_point() {
@@ -395,8 +395,13 @@ function get_weather_data(data){
 
 let news = document.getElementsByClassName("news")[0]
 
-async function get_news(word){
-    let news_props = await fetch(`/api/news?word=${word}`)
+async function get_news(...word){
+    let ss = "/api/news?"
+    for(let i=0;i<arguments.length;i++){
+        ss+=`word${i+1}=${arguments[i]}&`
+        console.log(arguments[i])
+    }
+    let news_props = await fetch(ss)
     let data = await news_props.json()
     
     if(Object.keys(data).length===0){
