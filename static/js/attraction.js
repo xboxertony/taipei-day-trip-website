@@ -142,6 +142,7 @@ function handle_data(res) {
     traffic.innerHTML = res.data.transport;
     get_yt_video(res.data.name)
     get_msg(page)
+    get_news(res.data.name)
 }
 
 function add_point() {
@@ -390,4 +391,24 @@ function get_weather_data(data){
         weather_tool.appendChild(weather_block)
         if(line){weather_tool.appendChild(line)}
     })
+}
+
+let news = document.getElementsByClassName("news")[0]
+
+async function get_news(word){
+    let news_props = await fetch(`/api/news?word=${word}`)
+    let data = await news_props.json()
+    
+    if(Object.keys(data).length===0){
+        news.innerHTML = "目前一周內無相關新聞"
+        return
+    }
+    
+    for(const [key,val] of Object.entries(data)){
+        let a = document.createElement("a")
+        a.href = val
+        a.setAttribute("target","_blank")
+        a.innerHTML = key
+        news.appendChild(a)
+    }
 }

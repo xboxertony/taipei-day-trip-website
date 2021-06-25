@@ -210,6 +210,15 @@ input[type="radio"]:checked + span::before {
 #right_icon.close{
   display: none;
 }
+
+.news{
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+}
+.news a{
+  margin: 10px 0;
+}
 @media screen and (max-width: 1200px) {
   .place_view {
     width: 90%;
