@@ -299,6 +299,7 @@ document.addEventListener("paste", function (e) {
             img.src = e.target.result;
             div.appendChild(img);
             div.appendChild(delete_btn);
+            div.contentEditable = false
             textarea_msg.appendChild(div);
             div.classList.add("img_blk");
             p.appendChild(br);

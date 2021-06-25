@@ -225,7 +225,7 @@ input[type="radio"]:checked + span::before {
 blockquote {
   background: #eee;
   width: 500px;
-  padding: 50px 0;
+  padding: 50px 10px;
 }
 blockquote img {
   width: 100%;
