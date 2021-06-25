@@ -162,6 +162,12 @@ input[type="radio"]:checked + span::before {
   color: #424C54;
   font-weight: 700;
 }
+.msg_below img{
+  width: 100%;
+}
+.msg_below .delete_btn{
+  display: none;
+}
 #msg_context{
   line-height: 2;
 }
@@ -219,6 +225,30 @@ input[type="radio"]:checked + span::before {
 .news a{
   margin: 10px 0;
 }
+blockquote {
+  background: #eee;
+  width: 500px;
+  padding: 50px 0;
+}
+blockquote img {
+  width: 100%;
+  position: relative;
+}
+blockquote .img_blk {
+  position: relative;
+}
+blockquote .img_blk .delete_btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  background: #333;
+  color: white;
+  z-index: 1;
+  text-align: center;
+  cursor: pointer;
+}
 @media screen and (max-width: 1200px) {
   .place_view {
     width: 90%;
@@ -232,6 +262,9 @@ input[type="radio"]:checked + span::before {
   }
   .message_block{
     width: 90%;
+  }
+  blockquote{
+    width: 100%;
   }
 }
 @media screen and (max-width: 800px) {
@@ -264,9 +297,6 @@ input[type="radio"]:checked + span::before {
   .message_content{
     flex-direction: column;
     padding: 0;
-  }
-  textarea{
-    width: 100%;
   }
   #btn_msg{
     margin-top: 10px;
