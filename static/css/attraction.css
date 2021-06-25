@@ -162,9 +162,6 @@ input[type="radio"]:checked + span::before {
   color: #424C54;
   font-weight: 700;
 }
-.msg_below img{
-  width: 100%;
-}
 .msg_below .delete_btn{
   display: none;
 }
