@@ -256,7 +256,7 @@ window.onresize = () => {
 let msg_history = document.getElementById("msg_history")
 let btn_msg = document.getElementById("btn_msg")
 let textarea_msg = document.getElementById("leave_msg_textarea")
-let btn_more_his = document.getElementById("btn_more_msg")
+// let btn_more_his = document.getElementById("btn_more_msg")
 
 btn_msg.addEventListener("click", add_msg)
 
@@ -300,8 +300,12 @@ document.addEventListener("paste", function (e) {
             div.appendChild(img);
             div.appendChild(delete_btn);
             div.contentEditable = false
-            textarea_msg.appendChild(div);
             div.classList.add("img_blk");
+            // textarea_msg.appendChild(div);
+            const Rect = window.getSelection().getRangeAt(0)
+            // node = Rect.createContextualFragment(div)
+            Rect.insertNode(div)
+            window.getSelection().empty()
             p.appendChild(br);
             textarea_msg.appendChild(p);
         };
@@ -313,20 +317,20 @@ function delete_parent() {
     this.parentNode.remove();
 }
 
-function get_msg(page) {
-    fetch(`/api/message?attid=${idx}&page=${page}`).then((res) => {
-        return res.json()
-    }).then((data) => {
-        // console.log(data)
-        if(page===0)msg_history.innerHTML=""
-        Array.from(data.data).forEach((item) => {
-            create_msg(item)
-        })
-        if (!data["nextpage"]) {
-            btn_more_his.classList.add("close")
-        }
-    })
-}
+// function get_msg(page) {
+//     fetch(`/api/message?attid=${idx}&page=${page}`).then((res) => {
+//         return res.json()
+//     }).then((data) => {
+//         // console.log(data)
+//         if(page===0)msg_history.innerHTML=""
+//         Array.from(data.data).forEach((item) => {
+//             create_msg(item)
+//         })
+//         if (!data["nextpage"]) {
+//             btn_more_his.classList.add("close")
+//         }
+//     })
+// }
 
 btn_more_his.addEventListener("click", function () {
     page++
