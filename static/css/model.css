@@ -34,7 +34,7 @@ nav {
   height: 54px;
   width: 100%;
   position: fixed;
-  z-index: 4;
+  z-index: 99;
   background-color: #fff;
 }
 nav ~ div {
