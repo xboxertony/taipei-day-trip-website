@@ -366,6 +366,26 @@ async function get_collection(){
     }
 }
 
+let btn_more_his = document.getElementById("btn_more_msg")
+
+function get_msg(page) {
+    let url = location.href;
+    let l = url.split("/");
+    let idx = l[l.length - 1];
+    fetch(`/api/message?attid=${idx}&page=${page}`).then((res) => {
+        return res.json()
+    }).then((data) => {
+        // console.log(data)
+        if(page===0)msg_history.innerHTML=""
+        Array.from(data.data).forEach((item) => {
+            create_msg(item)
+        })
+        if (!data["nextpage"]) {
+            btn_more_his.classList.add("close")
+        }
+    })
+}
+
 
 function get_user() {
     fetch("/api/user", {
