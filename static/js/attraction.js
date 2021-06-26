@@ -318,6 +318,7 @@ function get_msg(page) {
         return res.json()
     }).then((data) => {
         // console.log(data)
+        if(page===0)msg_history.innerHTML=""
         Array.from(data.data).forEach((item) => {
             create_msg(item)
         })
@@ -338,6 +339,7 @@ function create_msg(msg) {
     let msg_name = document.createElement("p")
     let msg_time = document.createElement("p")
     let msg_context = document.createElement("p")
+    let delete_msg = document.createElement("div")
 
     msg_below.classList.add("msg_below")
     msg_name.id = "msg_name"
@@ -347,12 +349,28 @@ function create_msg(msg) {
     msg_name.innerHTML = msg.name
     msg_time.innerHTML = msg.time
     msg_context.innerHTML = msg.message
+    delete_msg.innerHTML = '<i class="fas fa-trash-alt"></i>'
+    delete_msg.classList.add("btn_delete_msg")
 
     msg_below.appendChild(msg_name)
     msg_below.appendChild(msg_time)
     msg_below.appendChild(msg_context)
+    if(msg["delete"]){
+        delete_msg.addEventListener("click",delete_msg_fcn)
+        msg_below.appendChild(delete_msg)
+    }
+    msg_below.dataset.msgid=msg.id
 
     msg_history.appendChild(msg_below)
+}
+
+async function delete_msg_fcn(e){
+    let idx = e.target.parentNode.parentNode.dataset.msgid
+    let de = await fetch(`/api/message/${idx}`,{
+        method:"DELETE"
+    })
+    let res = await de.json()
+    window.location.reload()
 }
 
 fetch("/api/weather").then((res) => {

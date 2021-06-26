@@ -384,6 +384,9 @@ function get_user() {
                 document.getElementById("logout").style.display = "inline";
                 document.getElementById("login").style.display = "none";
                 get_collection()
+                if(window.location.href.includes("attraction")){
+                    get_msg(0)
+                }
                 order_problem = () => {
                     let name = res.data.name
                     let email = res.data.email

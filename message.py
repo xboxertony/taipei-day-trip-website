@@ -1,4 +1,4 @@
-from flask import Blueprint,request,jsonify
+from flask import Blueprint, json,request,jsonify
 from flask.globals import session
 from main import db
 from datetime import datetime, timedelta
@@ -44,5 +44,43 @@ def mes():
                     res["time"]=value
                     continue
                 res[key]=value
+            if res["FB_ID"] and session.get("FB_ID") and int(res["FB_ID"])==int(session.get("FB_ID")):
+                res["delete"]=True
+            elif res["email"]==session.get("email") and session.get("email") and not session.get("FB_ID"):
+                res["delete"]=True
+            else:
+                res["delete"]=False
             ans.append(res.copy())
         return jsonify({"nextpage":nextpage,"data":ans})
+
+@message_app.route("/api/message_individual")
+def get_msg_by_individual():
+    fb_idx = session.get("FB_ID")
+    email = session.get("email")
+    if email:
+        sql = f"select attraction_id,time from attraction.message where email='{email}' order by time desc"
+    elif fb_idx:
+        sql = f"select attraction_id,time from attraction.message where FB_ID='{fb_idx}' order by time desc"
+    data = db.engine.execute(sql)
+    arr = []
+    for i in data:
+        arr.append({
+            "time":i[0],
+            "attrid":i[1]
+        })
+    return jsonify({"data":arr})
+
+@message_app.route("/api/message/<id>",methods=["DELETE"])
+def delete_msg(id):
+    if not session.get("email"):
+        return jsonify({"error":True}),400
+    if session.get("email") and not session.get("FB_ID"):
+        email = session.get("email")
+        sql = f"delete from attraction.message where email='{email}' and id='{id}'"
+        db.engine.execute(sql)
+        return jsonify({"ok":True})
+    if session.get("FB_ID"):
+        idx = session.get("FB_ID")
+        sql = f"delete from attraction.message where FB_ID='{idx}' and id='{id}'"
+        db.engine.execute(sql)
+        return jsonify({"ok":True})
