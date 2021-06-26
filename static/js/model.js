@@ -345,6 +345,27 @@ function signOut() {
 
 let order_problem = null;
 
+async function get_collection(){
+    if(window.location.href!==window.location.origin+"/")return
+    let res = await fetch("/api/collect_user")
+    let data = await res.json()
+    if(data["data"]){
+        let arr = data["data"]
+        let collect_icon = document.getElementsByClassName("icon_fav")
+        Array.from(collect_icon).forEach((item)=>{
+            if(arr.includes(parseInt(item.dataset.attrid))){
+                item.classList.remove("close")
+            }
+        })
+        let close_icon = document.getElementsByClassName("icon_close")
+        Array.from(close_icon).forEach((item)=>{
+            if(arr.includes(parseInt(item.dataset.attrid))){
+                item.classList.add("close")
+            }
+        })
+    }
+}
+
 
 function get_user() {
     fetch("/api/user", {
@@ -362,6 +383,7 @@ function get_user() {
                 }
                 document.getElementById("logout").style.display = "inline";
                 document.getElementById("login").style.display = "none";
+                get_collection()
                 order_problem = () => {
                     let name = res.data.name
                     let email = res.data.email

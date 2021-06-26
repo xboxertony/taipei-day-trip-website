@@ -15,7 +15,7 @@ let first_time = false;
 let load_complete = false;
 let time_machine = null;
 let mrt = null;
-let mrt_mode=false;
+let mrt_mode = false;
 
 fetch("/api/mrt").then((res) => {
     return res.json()
@@ -30,12 +30,13 @@ fetch("/api/mrt").then((res) => {
 
 mrt_select.addEventListener("change", function () {
     init()
-    mrt_mode=true
+    mrt_mode = true
     mrt = mrt_select.value
-    get_data_by_mrt(0,mrt);
+    get_data_by_mrt(0, mrt);
+    get_collection()
 })
 
-function get_data_by_mrt(page,keyword) {
+function get_data_by_mrt(page, keyword) {
     fetch("/api/attractions?page=" + `${page}` + "&mrt=" + `${keyword}`)
         .then((res) => {
             return res.json();
@@ -63,14 +64,14 @@ function init() {
     first_time = false;
     load_complete = false;
     time_machine = null;
-    mrt_mode=false
-    search_mode=false
+    mrt_mode = false
+    search_mode = false
 }
 
 window.addEventListener("scroll", () => {
     // e.log(document.consolbody.scrollTop,document.body.offsetHeight,document.documentElement.scrollHeight)
     if (
-        document.body.scrollTop + document.body.offsetHeight+150 >=
+        document.body.scrollTop + document.body.offsetHeight + 150 >=
         document.documentElement.scrollHeight
     ) {
         do_this()
@@ -89,8 +90,8 @@ function do_this() {
             get_data_by_page(next_page)
             return
         }
-        if(mrt_mode){
-            get_data_by_mrt(next_page,mrt)
+        if (mrt_mode) {
+            get_data_by_mrt(next_page, mrt)
             return
         }
         get_data_by_keyword(next_page, key)
@@ -188,6 +189,23 @@ function render_data(res) {
         description.appendChild(transport);
         description.appendChild(cat);
 
+        let favorite = new Image()
+        favorite.src = "/static/favourite.png"
+        favorite.classList.add("icon_collect")
+        favorite.classList.add("icon_fav")
+        favorite.classList.add("close")
+        favorite.dataset.attrid = element.id
+        favorite.addEventListener("click", cancel_attr)
+        let close = new Image()
+        close.src = "/static/close.png"
+        close.classList.add("icon_collect")
+        close.classList.add("icon_close")
+        close.dataset.attrid = element.id
+        close.addEventListener("click", collect_attr)
+
+        attraction.appendChild(favorite)
+        attraction.appendChild(close)
+
         attraction.appendChild(description);
 
         container.appendChild(link);
@@ -196,4 +214,74 @@ function render_data(res) {
             load_complete = true
         }
     });
+    get_collection()
+}
+
+// 收藏景點
+
+
+async function collect_attr(e) {
+    e.preventDefault();
+    let res = await fetch("/api/user")
+    let member = await res.json()
+    if (!member["data"]) {
+        alert("請先登入會員，才可使用收藏功能")
+        return
+    }
+    let config = {
+        headers: {
+            "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+            "id": e.target.dataset.attrid
+        })
+    }
+    let post_collect = await fetch("/api/collect_user", config)
+    let result = await post_collect.json()
+    let collect_icon = document.getElementsByClassName("icon_fav")
+    let close_icon = document.getElementsByClassName("icon_close")
+    Array.from(collect_icon).forEach((item) => {
+        if (item.dataset.attrid === e.target.dataset.attrid) {
+            item.classList.remove("close")
+        }
+    })
+    Array.from(close_icon).forEach((item) => {
+        if (item.dataset.attrid === e.target.dataset.attrid) {
+            item.classList.add("close")
+        }
+    })
+}
+
+async function cancel_attr(e) {
+    e.preventDefault();
+    let res = await fetch("/api/user")
+    let member = await res.json()
+    if (!member["data"]) {
+        alert("請先登入會員，才可取消收藏")
+        return
+    }
+    let config = {
+        headers: {
+            "Content-Type": "application/json"
+        },
+        method: "DELETE",
+        body: JSON.stringify({
+            "id": e.target.dataset.attrid
+        })
+    }
+    let post_collect = await fetch("/api/collect_user", config)
+    let result = await post_collect.json()
+    let collect_icon = document.getElementsByClassName("icon_fav")
+    let close_icon = document.getElementsByClassName("icon_close")
+    Array.from(collect_icon).forEach((item) => {
+        if (item.dataset.attrid === e.target.dataset.attrid) {
+            item.classList.add("close")
+        }
+    })
+    Array.from(close_icon).forEach((item) => {
+        if (item.dataset.attrid === e.target.dataset.attrid) {
+            item.classList.remove("close")
+        }
+    })
 }
