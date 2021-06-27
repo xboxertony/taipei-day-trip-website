@@ -274,7 +274,7 @@ button {
     top: 100%;
     background-color:rgba(0, 0, 0, .6);
     border-radius: 5px;
-    padding: 20px;
+    padding: 20px 25px 20px 20px;
   }
   .last-item.open{
     display: flex;
