@@ -352,6 +352,9 @@ function create_msg(msg) {
 
     msg_name.innerHTML = msg.name
     msg_time.innerHTML = msg.time
+    if(msg.cnt>0){
+        msg_time.innerHTML = msg_time.innerHTML+" (已編輯) "
+    }
     msg_context.innerHTML = msg.message
     delete_msg.innerHTML = '<i class="fas fa-trash-alt"></i>'
     delete_msg.classList.add("btn_delete_msg")

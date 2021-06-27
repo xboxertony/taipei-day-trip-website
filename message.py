@@ -33,7 +33,20 @@ def mes():
             cntt = i[0]
         if (page+1)*5<cntt:
             nextpage = page+1
-        sql = f"select * from message where attraction_id={attid} order by time desc limit 5 offset {page*5}"
+        # sql = f"select * from message where attraction_id={attid} order by time desc limit 5 offset {page*5}"
+        sql = f'''
+            SELECT 
+                message.*,
+                COUNT(message_history.ID) cnt
+            FROM
+                message
+                    LEFT JOIN
+                message_history ON message.id = message_history.message_id
+            where attraction_id = {attid}
+            GROUP BY message.id
+            order by time desc
+            limit 5 offset {page*5};
+        '''
         data = db.engine.execute(sql)
         ans = []
         res = {}
@@ -79,15 +92,21 @@ def delete_msg(id):
             email = session.get("email")
             sql = f"delete from attraction.message where email='{email}' and id='{id}'"
             db.engine.execute(sql)
+            sql2 = f"delete from attraction.message_history where message_id='{id}'"
+            db.engine.execute(sql2)
             return jsonify({"ok":True})
         if session.get("FB_ID"):
             idx = session.get("FB_ID")
             sql = f"delete from attraction.message where FB_ID='{idx}' and id='{id}'"
             db.engine.execute(sql)
+            sql2 = f"delete from attraction.message_history where message_id='{id}'"
+            db.engine.execute(sql2)
             return jsonify({"ok":True})
     if request.method=="PATCH":
         idx = request.get_json()["msg_id"]
         content = request.get_json()["content"]
         sql = f"UPDATE attraction.message set message = '{content}' where id = '{idx}' "
         db.engine.execute(sql)
+        sql2 = f"insert into attraction.message_history (message_id,content) values ('{idx}','{content}') "
+        db.engine.execute(sql2)
         return jsonify({"ok":True})
