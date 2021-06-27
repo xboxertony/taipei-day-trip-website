@@ -581,14 +581,19 @@ function default_setting() {
     }
 }
 
+let last_item = document.getElementsByClassName("last-item")[0]
+let ham = document.getElementsByClassName("hamburger")[0]
+
 document.addEventListener("click", (e) => {
     if (
         login_create !== e.target &&
         !login_create.contains(e.target) &&
-        e.target !== login_btn
+        e.target !== login_btn &&
+        e.target !== ham
     ) {
         login_board.classList.remove("open");
         default_setting();
+        last_item.classList.remove("open")
     }
 });
 
@@ -602,9 +607,6 @@ up_page.addEventListener("click", function () {
 
 //新增漢堡圖功能
 
-let ham = document.getElementsByClassName("hamburger")[0]
-
 ham.addEventListener("click",function(){
-    let last_item = document.getElementsByClassName("last-item")[0]
     last_item.classList.toggle("open")
 })
