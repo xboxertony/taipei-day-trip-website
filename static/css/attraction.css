@@ -156,7 +156,16 @@ input[type="radio"]:checked + span::before {
 }
 .msg_below{
   position: relative;
-  border-top:1px solid #424C54;
+  padding: 10px 0;
+  /* border-top:1px solid #424C54; */
+}
+.msg_below::before{
+  content: "";
+  width: 100%;
+  position: absolute;
+  top:0;
+  height: 3px;
+  background:linear-gradient(90deg, #424C54,#9198e5);
 }
 .msg_below > p{
   margin: 10px 0;
