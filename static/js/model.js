@@ -597,3 +597,14 @@ document.addEventListener("click", (e) => {
 up_page.addEventListener("click", function () {
     document.body.scrollTop = 0;
 })
+
+
+
+//新增漢堡圖功能
+
+let ham = document.getElementsByClassName("hamburger")[0]
+
+ham.addEventListener("click",function(){
+    let last_item = document.getElementsByClassName("last-item")[0]
+    last_item.classList.toggle("open")
+})

@@ -250,8 +250,40 @@ button {
   border:4px solid #FBBC05;
   box-sizing: border-box;
 }
+.hamburger{
+  position: absolute;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  display:none; 
+}
 @media screen and (max-width: 1200px) {
   nav ul {
     width: 90%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .hamburger{
+    display: block;
+  }
+  .last-item{
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    right: 20px;
+    top: 100%;
+    background-color:rgba(0, 0, 0, .6);
+    border-radius: 5px;
+    padding: 20px;
+  }
+  .last-item.open{
+    display: flex;
+  }
+  #booking{
+    margin-left: 10px;
+  }
+  .last-item > a{
+    margin-bottom: 50px;
+    color: #fff;
   }
 }
