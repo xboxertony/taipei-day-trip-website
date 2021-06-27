@@ -342,16 +342,19 @@ function create_msg(msg) {
     let msg_below = document.createElement("div")
     let msg_name = document.createElement("p")
     let msg_time = document.createElement("p")
-    let msg_context = document.createElement("p")
+    let msg_context = document.createElement("div")
     let delete_msg = document.createElement("div")
 
     msg_below.classList.add("msg_below")
-    msg_name.id = "msg_name"
-    msg_time.id = "msg_time"
-    msg_context.id = "msg_context"
+    msg_name.classList.add("msg_name")
+    msg_time.classList.add("msg_time")
+    msg_context.classList.add("msg_context")
 
     msg_name.innerHTML = msg.name
     msg_time.innerHTML = msg.time
+    if(msg.cnt>0){
+        msg_time.innerHTML = msg_time.innerHTML+" (已編輯) "
+    }
     msg_context.innerHTML = msg.message
     delete_msg.innerHTML = '<i class="fas fa-trash-alt"></i>'
     delete_msg.classList.add("btn_delete_msg")
@@ -362,10 +365,52 @@ function create_msg(msg) {
     if(msg["delete"]){
         delete_msg.addEventListener("click",delete_msg_fcn)
         msg_below.appendChild(delete_msg)
+        edit_button = document.createElement("div")
+        edit_button.innerHTML = "<i class='fas fa-edit'></i>"
+        edit_button.classList.add("btn_edit_msg")
+        edit_button.addEventListener("click",edit_msg_fcn)
+        msg_below.appendChild(edit_button)
     }
     msg_below.dataset.msgid=msg.id
 
     msg_history.appendChild(msg_below)
+}
+
+function edit_msg_fcn(e){
+    // let edit = await fetch(`/api/message/${idx}`,{
+    //     method:"PATCH"
+    // })
+    // let = res = await edit.json()
+    let edit_area = e.target.parentNode.parentNode.getElementsByClassName("msg_context")[0]
+    edit_area.setAttribute("contenteditable",true)
+    edit_area.classList.add("edit")
+    edit_area.focus()
+    let btn_send_edit_msg = document.createElement("div")
+    btn_send_edit_msg.innerHTML = "<i class='fas fa-reply'></i>"
+    btn_send_edit_msg.classList.add("edit_btn_msg")
+    e.target.parentNode.parentNode.appendChild(btn_send_edit_msg)
+    btn_send_edit_msg.addEventListener("click",send_edit_msg)
+}
+
+async function send_edit_msg(e){
+
+    let content = e.target.parentNode.parentNode.getElementsByClassName("msg_context")[0].innerHTML
+    let idx = e.target.parentNode.parentNode.dataset.msgid
+    let config = {
+        method:"PATCH",
+        body:JSON.stringify({
+            "content":content,
+            "msg_id":idx
+        }),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    }
+    let send_fetch = await fetch(`/api/message/${idx}`,config)
+    let data = await send_fetch.json()
+    if(data["ok"]){
+        window.location.reload()
+    }
 }
 
 async function delete_msg_fcn(e){
