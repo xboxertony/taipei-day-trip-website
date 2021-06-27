@@ -70,17 +70,24 @@ def get_msg_by_individual():
         })
     return jsonify({"data":arr})
 
-@message_app.route("/api/message/<id>",methods=["DELETE"])
+@message_app.route("/api/message/<id>",methods=["DELETE","PATCH"])
 def delete_msg(id):
     if not session.get("email"):
         return jsonify({"error":True}),400
-    if session.get("email") and not session.get("FB_ID"):
-        email = session.get("email")
-        sql = f"delete from attraction.message where email='{email}' and id='{id}'"
-        db.engine.execute(sql)
-        return jsonify({"ok":True})
-    if session.get("FB_ID"):
-        idx = session.get("FB_ID")
-        sql = f"delete from attraction.message where FB_ID='{idx}' and id='{id}'"
+    if request.method=="DELETE":
+        if session.get("email") and not session.get("FB_ID"):
+            email = session.get("email")
+            sql = f"delete from attraction.message where email='{email}' and id='{id}'"
+            db.engine.execute(sql)
+            return jsonify({"ok":True})
+        if session.get("FB_ID"):
+            idx = session.get("FB_ID")
+            sql = f"delete from attraction.message where FB_ID='{idx}' and id='{id}'"
+            db.engine.execute(sql)
+            return jsonify({"ok":True})
+    if request.method=="PATCH":
+        idx = request.get_json()["msg_id"]
+        content = request.get_json()["content"]
+        sql = f"UPDATE attraction.message set message = '{content}' where id = '{idx}' "
         db.engine.execute(sql)
         return jsonify({"ok":True})
