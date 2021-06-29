@@ -100,8 +100,17 @@ async function write_order_info(){
         title.innerHTML = key
         title.addEventListener("click",toggle_contain)
         title.classList.add("object_key")
+
+        let time_des = document.createElement("p")
+        let year = val['time'].split(" ")[3]
+        let month = val['time'].split(" ")[2]
+        let date = val['time'].split(" ")[1]
+        let hr = val['time'].split(" ")[4]
+        time_des.classList.add("time_des")
+        time_des.innerHTML = `${year}/${month_list[month]}/${date} ${hr}`
         
         order_history_div.appendChild(title)
+        order_history_div.appendChild(time_des)
         order_history_div.classList.add("order_history")
         
         let div = document.createElement("div")

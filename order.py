@@ -7,6 +7,7 @@ from config import get_key
 import json
 import requests as req
 from main import db
+from datetime import timedelta,datetime
 
 order_app = Blueprint("order_app",__name__)
 
@@ -107,6 +108,22 @@ def order():
 					"time":item[4],
 					"price":item[6]
 				})
+		url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
+		for order_num in res.keys():
+			payload = {
+				"partner_key": get_key(),
+				"filters":{
+					"bank_transaction_id":order_num
+				}
+			}
+			headers = {
+				'content-type': 'application/json',
+				'x-api-key': get_key()
+			}
+			r = req.post(url,data=json.dumps(payload),headers=headers)
+			data = json.loads(r.text)
+			## res[order_num]["time"] = tm.strftime('%Y-%m-%d %H:%M:%S', tm.gmtime(data["trade_records"][0]["time"]))
+			res[order_num]["time"] = datetime(1970,1,1)+ timedelta(milliseconds=data["trade_records"][0]["time"])+timedelta(hours=8)
 		return jsonify({"data":res})
 
 	# except:
