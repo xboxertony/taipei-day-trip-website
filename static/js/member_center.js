@@ -5,6 +5,7 @@ let member_email = document.getElementById("member_email")
 let member_info = document.getElementsByClassName("member_info")[0]
 let message_info = document.getElementsByClassName("message_info")[0]
 let collection_info = document.getElementsByClassName("collection_info")[0]
+let order_info = document.getElementsByClassName("order_info")[0]
 
 let month_list = {
     "Jan": 1,
@@ -42,9 +43,11 @@ async function appned_center() {
     member_info.classList.add("open")
     message_info.classList.add("open")
     collection_info.classList.add("open")
+    order_info.classList.add("open")
     write_member_info()
     write_message_info()
     write_collection_info()
+    write_order_info()
 }
 
 function write_member_info() {
@@ -75,13 +78,90 @@ async function write_collection_info(){
 
     if(data["data"]){
         let att_collect = data["data"]
-        console.log(att_collect)
         att_collect.forEach((item)=>{
             let attname = document.createElement("p")
             attname.innerHTML = `<a href='/attraction/${item["attid"]}'>${item['attname']}</a>`
-            console.log(collection_info)
             collection_info.appendChild(attname)
 
         })
     }
+}
+
+async function write_order_info(){
+    let res = await fetch("/api/orders")
+    let order_data = await res.json()
+
+    let data = order_data['data']
+
+    for(const [key,val] of Object.entries(data)){
+        let order_history_div = document.createElement("div")
+        let title = document.createElement("p")
+        title.innerHTML = key
+        title.addEventListener("click",toggle_contain)
+        title.classList.add("object_key")
+        
+        order_history_div.appendChild(title)
+        order_history_div.classList.add("order_history")
+        
+        let div = document.createElement("div")
+        order_history_div.appendChild(div)
+        div.classList.add("order_contain")
+        div.classList.add("hide")
+
+        val['arr'].forEach((item)=>{
+            let div2 = document.createElement("div")
+            order_history_div.appendChild(div2)
+            div2.classList.add("single_attr")
+
+            let attname = document.createElement("p")
+            attname.innerHTML = `景點名稱：${item['attname']}`
+            div2.appendChild(attname)
+
+            let date = document.createElement("p")
+            date.innerHTML = `遊覽日期：${item['date']}`
+            div2.appendChild(date)
+
+            let price = document.createElement("p")
+            price.innerHTML = `價錢：${item['price']}`
+            div2.appendChild(price)
+
+            let time = document.createElement("p")
+            time.innerHTML = `時間：${item['time']}`
+            div2.appendChild(time)
+
+            div.appendChild(div2)
+        })
+
+        order_history_div.appendChild(div)
+
+        let Chervon = document.createElement("div")
+        Chervon.classList.add("chevron")
+        Chervon.classList.add("right")
+        Chervon.innerHTML = "<i class='fas fa-chevron-right'></i>"
+        order_history_div.appendChild(Chervon)
+
+        let Chervon2 = document.createElement("div")
+        Chervon2.classList.add("chevron")
+        Chervon2.classList.add("down")
+        Chervon2.classList.add("hide")
+        Chervon2.innerHTML = "<i class='fas fa-chevron-down'></i>"
+        order_history_div.appendChild(Chervon2)
+
+        order_info.appendChild(order_history_div)
+
+        Chervon.addEventListener("click",toggle_contain)
+        Chervon2.addEventListener("click",toggle_contain)
+
+    }
+
+}
+
+
+
+function toggle_contain(){
+    let chev = this.parentNode.getElementsByClassName("chevron")
+    Array.from(chev).forEach((item)=>{
+        item.classList.toggle("hide")
+    })
+    this.parentNode.getElementsByClassName("order_contain")[0].classList.toggle("hide")
 }

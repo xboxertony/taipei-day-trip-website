@@ -1,5 +1,8 @@
 from flask import Blueprint,session,jsonify,request
 import re
+
+from requests.models import requote_uri
+from sqlalchemy.sql.expression import true
 from config import get_key
 import json
 import requests as req
@@ -7,80 +10,105 @@ from main import db
 
 order_app = Blueprint("order_app",__name__)
 
-@order_app.route("/api/orders",methods=["POST"])
+@order_app.route("/api/orders",methods=["GET","POST"])
 def order():
-	regex = r".+@.+"
-	phone = r'09\d{8}'
-	if "name" not in session:
-		return jsonify({"error":True,"message":"未登入系統"}),403
-	if not request.get_json()["order"]["contact"]["name"] or not request.get_json()["order"]["contact"]["email"] or not request.get_json()["order"]["contact"]["phone"]:
-		return jsonify({
-			"error":True,
-			"message":"輸入不可為空白"
-		}),400
-	email = request.get_json()["order"]["contact"]["email"]
-	phone_order = request.get_json()["order"]["contact"]["phone"]
-	if not re.findall(regex,email) or not re.findall(regex,email)[0]==email:
-		return jsonify({"error":True,"message":"email輸入格式錯誤"}),400
-	if not re.findall(phone,phone_order) or not re.findall(phone,phone_order)[0]==phone_order:
-		return jsonify({"error":True,"message":"電話輸入格式錯誤"}),400
-	# try:
-	url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
-	payload = {
-		"partner_key": get_key(),
-		"prime": request.get_json()["prime"],
-		"amount": request.get_json()["order"]["price"],
-		"merchant_id": "tonyny58_CTBC",
-		"details":"1",
-		# "details": f'{request.get_json()["order"]["trip"]["attraction"]["id"]};{request.get_json()["order"]["trip"]["date"]};{request.get_json()["order"]["trip"]["time"]}',
-		"cardholder": {
-			"phone_number": request.get_json()["order"]["contact"]["phone"],
-			"name": request.get_json()["order"]["contact"]["name"],
-			"email": request.get_json()["order"]["contact"]["email"],
-			"zip_code": "100",
-			"address": "台北市天龍區芝麻街1號1樓",
-			"national_id": "A123456789"
-			}
-	}
-	headers = {
-		'content-type': 'application/json',
-		'x-api-key': get_key()
-	}
-	r = req.post(url,data=json.dumps(payload),headers=headers)
-	data = json.loads(r.text)
-	idx = data["bank_transaction_id"]
-	trip = request.get_json()["order"]["trip"]
-	print(request.get_json())
-	print(trip)
-	for item in trip:
-		attid = item['attraction']
-		date = item['date']
-		time = item['time']
-		email = session['email']
-		price = item['price']
-		order_att = item["order"]
-		sql = f"insert into attraction.order (orderid,attid,date,time,email,price,attorder) values ('{idx}','{attid}','{date}','{time}','{email}','{price}','{order_att}')"
-		db.engine.execute(sql)
-	if data["status"]==0:
-		return jsonify({
-			"data":{
-				"number":data["bank_transaction_id"],
-				"payment":{
-					"status":"已付款",
-					"message":"付款成功",
+	if request.method=="POST":
+		regex = r".+@.+"
+		phone = r'09\d{8}'
+		if "name" not in session:
+			return jsonify({"error":True,"message":"未登入系統"}),403
+		if not request.get_json()["order"]["contact"]["name"] or not request.get_json()["order"]["contact"]["email"] or not request.get_json()["order"]["contact"]["phone"]:
+			return jsonify({
+				"error":True,
+				"message":"輸入不可為空白"
+			}),400
+		email = request.get_json()["order"]["contact"]["email"]
+		phone_order = request.get_json()["order"]["contact"]["phone"]
+		if not re.findall(regex,email) or not re.findall(regex,email)[0]==email:
+			return jsonify({"error":True,"message":"email輸入格式錯誤"}),400
+		if not re.findall(phone,phone_order) or not re.findall(phone,phone_order)[0]==phone_order:
+			return jsonify({"error":True,"message":"電話輸入格式錯誤"}),400
+		# try:
+		url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+		payload = {
+			"partner_key": get_key(),
+			"prime": request.get_json()["prime"],
+			"amount": request.get_json()["order"]["price"],
+			"merchant_id": "tonyny58_CTBC",
+			"details":"1",
+			# "details": f'{request.get_json()["order"]["trip"]["attraction"]["id"]};{request.get_json()["order"]["trip"]["date"]};{request.get_json()["order"]["trip"]["time"]}',
+			"cardholder": {
+				"phone_number": request.get_json()["order"]["contact"]["phone"],
+				"name": request.get_json()["order"]["contact"]["name"],
+				"email": request.get_json()["order"]["contact"]["email"],
+				"zip_code": "100",
+				"address": "台北市天龍區芝麻街1號1樓",
+				"national_id": "A123456789"
 				}
-			}
-		})
-	else:
-		return jsonify({
-			"data":{
-				"number":data["bank_transaction_id"],
-				"payment":{
-					"status":"未付款",
-					"message":"付款失敗",
+		}
+		headers = {
+			'content-type': 'application/json',
+			'x-api-key': get_key()
+		}
+		r = req.post(url,data=json.dumps(payload),headers=headers)
+		data = json.loads(r.text)
+		idx = data["bank_transaction_id"]
+		trip = request.get_json()["order"]["trip"]
+		for item in trip:
+			attid = item['attraction']
+			date = item['date']
+			time = item['time']
+			email = session['email']
+			price = item['price']
+			order_att = item["order"]
+			sql = f"insert into attraction.order (orderid,attid,date,time,email,price,attorder) values ('{idx}','{attid}','{date}','{time}','{email}','{price}','{order_att}')"
+			db.engine.execute(sql)
+		if data["status"]==0:
+			return jsonify({
+				"data":{
+					"number":data["bank_transaction_id"],
+					"payment":{
+						"status":"已付款",
+						"message":"付款成功",
+					}
 				}
-			}
-		})
+			})
+		else:
+			return jsonify({
+				"data":{
+					"number":data["bank_transaction_id"],
+					"payment":{
+						"status":"未付款",
+						"message":"付款失敗",
+					}
+				}
+			})
+	if request.method=="GET":
+		email = session.get("email")
+		sql = f"select attraction.order.*,attractions.name from attraction.order left join attractions on attractions.id=attraction.order.attid where email='{email}'"
+		data = db.engine.execute(sql)
+		res = {}
+		for item in data:
+			if not res.get(item[1]):
+				res[item[1]]={}
+			if not res[item[1]].get("arr"):
+				res[item[1]]["arr"]=[{
+					"attid":item[2],
+					"attname":item[8],
+					"date":item[3],
+					"time":item[4],
+					"price":item[6]
+				}]
+				continue
+			res[item[1]]["arr"].append({
+					"attid":item[2],
+					"attname":item[8],
+					"date":item[3],
+					"time":item[4],
+					"price":item[6]
+				})
+		return jsonify({"data":res})
+
 	# except:
 	# 	return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 
