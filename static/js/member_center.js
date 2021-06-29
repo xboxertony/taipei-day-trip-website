@@ -6,6 +6,9 @@ let member_info = document.getElementsByClassName("member_info")[0]
 let message_info = document.getElementsByClassName("message_info")[0]
 let collection_info = document.getElementsByClassName("collection_info")[0]
 let order_info = document.getElementsByClassName("order_info")[0]
+let order_info_contain = document.getElementsByClassName("order_info_contain")[0]
+
+let select_region = document.getElementById("select_region")
 
 let month_list = {
     "Jan": 1,
@@ -48,7 +51,7 @@ async function appned_center() {
     write_member_info()
     write_message_info()
     write_collection_info()
-    write_order_info()
+    write_order_info(100)
 }
 
 function write_member_info() {
@@ -88,11 +91,14 @@ async function write_collection_info(){
     }
 }
 
-async function write_order_info(){
+async function write_order_info(select_time){
+    order_info_contain.innerHTML = ""
     let res = await fetch("/api/orders")
     let order_data = await res.json()
 
     let data = order_data['data']
+    let now = new Date()
+    let select_now = new Date(now.setDate(now.getDate()-select_time))
 
     for(const [key,val] of Object.entries(data)){
         let order_history_div = document.createElement("div")
@@ -106,7 +112,9 @@ async function write_order_info(){
         let month = val['time'].split(" ")[2]
         let date = val['time'].split(" ")[1]
         let hr = val['time'].split(" ")[4]
+        if(new Date(val["time"]) <= select_now)continue
         time_des.classList.add("time_des")
+        time_des.addEventListener("click",toggle_contain)
         time_des.innerHTML = `${year}/${month_list[month]}/${date} ${hr}`
         
         order_history_div.appendChild(title)
@@ -157,7 +165,7 @@ async function write_order_info(){
         Chervon2.innerHTML = "<i class='fas fa-chevron-down'></i>"
         order_history_div.appendChild(Chervon2)
 
-        order_info.appendChild(order_history_div)
+        order_info_contain.appendChild(order_history_div)
 
         Chervon.addEventListener("click",toggle_contain)
         Chervon2.addEventListener("click",toggle_contain)
@@ -174,4 +182,12 @@ function toggle_contain(){
         item.classList.toggle("hide")
     })
     this.parentNode.getElementsByClassName("order_contain")[0].classList.toggle("hide")
+}
+
+select_region.addEventListener("change",fcn_select_region)
+
+
+function fcn_select_region(){
+    let v = select_region.value
+    write_order_info(parseInt(v))
 }

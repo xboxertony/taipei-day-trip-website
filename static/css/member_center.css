@@ -78,4 +78,23 @@
 }
 .time_des{
     color: darkcyan;
+    cursor: pointer;
+}
+#select_region{
+    position: absolute;
+    right: 30px;
+    top: 60px;
+    padding: 10px;
+    width: 200px;
+}
+.order_info_contain{
+    padding: 50px 0;
+}
+@media screen and (max-width:800px) {
+    .info.open{
+        padding: 50px 50px;
+    }
+    .order_info_contain{
+        margin-top: 30px;
+    }
 }
