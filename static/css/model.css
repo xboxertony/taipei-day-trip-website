@@ -58,7 +58,11 @@ nav ul {
   font-weight: 700;
 }
 #booking {
+  margin-left: 10px;
   display: none;
+}
+#member_center{
+  margin-left: 10px;
 }
 .title {
   color: #448899;

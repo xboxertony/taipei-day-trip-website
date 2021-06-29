@@ -1,0 +1,25 @@
+{% extends "model.html" %}
+{% block style%}
+<link rel="stylesheet" href="../static/css/member_center.css">
+{% endblock %}
+{% block content %}
+<div id="member_center_block">
+    <div class="member_info info">
+        <div id="member_name_blk">
+            <span>姓名：</span><span id="member_name"></span>
+        </div>
+        <div id="member_email_blk">
+            <span>email：</span><span id="member_email"></span>
+        </div>
+    </div>
+    <div class="message_info info">
+
+    </div>
+    <div class="collection_info info">
+        
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="../static/js/member_center.js"></script>
+{% endblock %}

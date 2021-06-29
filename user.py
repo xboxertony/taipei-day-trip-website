@@ -135,3 +135,8 @@ def FB():
 		session["url"]=request.get_json()["url"]
 		session.permanent = True
 		return jsonify({"ok":True})
+
+
+@user_app.route("/member_center")
+def member_center():
+	return render_template("member_center.html")

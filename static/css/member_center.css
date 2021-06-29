@@ -1,0 +1,48 @@
+#member_center_block{
+    padding: 20px;
+    font-weight: 700;
+}
+#member_center_block > div{
+    position: relative;
+}
+#member_center_block.text_center{
+    text-align: center;
+}
+.info{
+    display: none;
+}
+.info.open{
+    display: block;
+    padding: 50px 50px 50px 100px;
+    border: 1px solid coral;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 30px;
+}
+.member_info.open::before,.message_info::before,.collection_info::before{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+    padding: 10px;
+    background: rgba(0, 0, 0, .7);
+    color: white;
+}
+.member_info > div{
+    margin-bottom: 15px;
+}
+.member_info.open::before{
+    content: "會員資料";
+}
+.message_info.open::before{
+    content:"留言紀錄"
+}
+.message_info > p{
+    margin-bottom: 15px;
+}
+.collection_info.open::before{
+    content:"目前收藏"
+}
+.collection_info > p{
+    margin-bottom: 15px;
+}

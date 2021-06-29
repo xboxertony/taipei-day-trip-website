@@ -314,6 +314,7 @@ function attachSignin(element) {
                     login_board.classList.remove("open");
                     document.getElementById("message_for_error_login").innerHTML = ""
                     get_user()
+                    check_login_user()
                     // after_login()
                 }
             })
@@ -350,7 +351,13 @@ async function get_collection(){
     let res = await fetch("/api/collect_user")
     let data = await res.json()
     if(data["data"]){
-        let arr = data["data"]
+        let arr_data = data["data"]
+        let arr = []
+
+        arr_data.forEach((item)=>{
+            arr.push(item["attid"])
+        })
+
         let collect_icon = document.getElementsByClassName("icon_fav")
         Array.from(collect_icon).forEach((item)=>{
             if(arr.includes(parseInt(item.dataset.attrid))){
@@ -610,3 +617,26 @@ up_page.addEventListener("click", function () {
 ham.addEventListener("click",function(){
     last_item.classList.toggle("open")
 })
+
+
+
+//新增會員中心功能
+
+let btn_member_center = document.getElementById("member_center")
+
+btn_member_center.addEventListener("click",enter_center)
+
+function enter_center(e){
+    e.preventDefault()
+    fetch("/api/user", {
+        method: "GET"
+    }).then((res) => {
+        return res.json()
+    }).then((data) => {
+        if (data["data"]) {
+            window.location.href = "/member_center"
+        } else {
+            login_board.classList.add("open");
+        }
+    })
+}
