@@ -183,6 +183,7 @@ function testAPI() {
                                 login_board.classList.remove("open");
                                 document.getElementById("message_for_error_login").innerHTML = ""
                                 get_user()
+                                check_login_user()
                                 // after_login()
                             }
                         })

@@ -30,8 +30,9 @@ async function check_login_user() {
         user_information = { ...data["data"] }
         appned_center()
     } else {
-        member_info.classList.remove("open")
-        alert("你尚未登入會員")
+        window.location.href = "/"
+        // member_info.classList.remove("open")
+        // alert("你尚未登入會員")
         // member_center_block.innerHTML = "你尚未登入會員，請先登入會員"
         // member_center_block.classList.add("text_center")
     }
