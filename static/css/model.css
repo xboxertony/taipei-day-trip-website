@@ -57,6 +57,9 @@ nav ul {
   display: none;
   font-weight: 700;
 }
+#member_center{
+  display: none;
+}
 #booking {
   margin-left: 10px;
   display: none;
