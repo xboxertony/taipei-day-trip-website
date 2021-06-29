@@ -1,0 +1,43 @@
+{% extends "model.html" %}
+{% block style%}
+<link rel="stylesheet" href="../static/css/member_center.css">
+{% endblock %}
+{% block content %}
+<div id="member_center_block">
+    <div class="member_info info">
+        <div id="member_name_blk">
+            <span>姓名：</span><span id="member_name"></span>
+        </div>
+        <div id="member_email_blk">
+            <span>email：</span><span id="member_email"></span>
+        </div>
+        <button id="open_update_password_blk">修改密碼</button>
+        <div class="blk_update_password">
+            <p>請輸入舊密碼：<input type="password" value="" id="old_password"></p>
+            <p>請輸入新密碼：<input type="password" value="" id="new_password"></p>
+            <p>請再次輸入新密碼：<input type="password" value="" id="new_password_again"></p>
+            <p id="msg_for_update"></p>
+            <button id="btn_update_password">送出</button>
+            <div id="float_only"></div>
+        </div>
+    </div>
+    <div class="message_info info">
+
+    </div>
+    <div class="collection_info info">
+        
+    </div>
+    <div class="order_info info">
+        <select id="select_region">
+            <option value="100">所有訂單</option>
+            <option value="3">三天內</option>
+            <option value="7">一週內</option>
+            <option value="30">一個月內</option>
+        </select>
+        <div class="order_info_contain"></div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="../static/js/member_center.js"></script>
+{% endblock %}

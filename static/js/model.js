@@ -183,6 +183,7 @@ function testAPI() {
                                 login_board.classList.remove("open");
                                 document.getElementById("message_for_error_login").innerHTML = ""
                                 get_user()
+                                check_login_user()
                                 // after_login()
                             }
                         })
@@ -314,6 +315,7 @@ function attachSignin(element) {
                     login_board.classList.remove("open");
                     document.getElementById("message_for_error_login").innerHTML = ""
                     get_user()
+                    check_login_user()
                     // after_login()
                 }
             })
@@ -350,7 +352,13 @@ async function get_collection(){
     let res = await fetch("/api/collect_user")
     let data = await res.json()
     if(data["data"]){
-        let arr = data["data"]
+        let arr_data = data["data"]
+        let arr = []
+
+        arr_data.forEach((item)=>{
+            arr.push(item["attid"])
+        })
+
         let collect_icon = document.getElementsByClassName("icon_fav")
         Array.from(collect_icon).forEach((item)=>{
             if(arr.includes(parseInt(item.dataset.attrid))){
@@ -396,6 +404,7 @@ function get_user() {
         })
         .then((res) => {
             document.getElementById("booking").style.display = "inline";
+            document.getElementById("member_center").style.display = "inline";
             if (res["data"]) {
                 pro.src = window.localStorage["url"]
                 if (!window.localStorage["url"]) {
@@ -581,14 +590,19 @@ function default_setting() {
     }
 }
 
+let last_item = document.getElementsByClassName("last-item")[0]
+let ham = document.getElementsByClassName("hamburger")[0]
+
 document.addEventListener("click", (e) => {
     if (
         login_create !== e.target &&
         !login_create.contains(e.target) &&
-        e.target !== login_btn
+        e.target !== login_btn &&
+        e.target !== ham
     ) {
         login_board.classList.remove("open");
         default_setting();
+        last_item.classList.remove("open")
     }
 });
 
@@ -597,3 +611,34 @@ document.addEventListener("click", (e) => {
 up_page.addEventListener("click", function () {
     document.body.scrollTop = 0;
 })
+
+
+
+//新增漢堡圖功能
+
+ham.addEventListener("click",function(){
+    last_item.classList.toggle("open")
+})
+
+
+
+//新增會員中心功能
+
+let btn_member_center = document.getElementById("member_center")
+
+btn_member_center.addEventListener("click",enter_center)
+
+function enter_center(e){
+    e.preventDefault()
+    fetch("/api/user", {
+        method: "GET"
+    }).then((res) => {
+        return res.json()
+    }).then((data) => {
+        if (data["data"]) {
+            window.location.href = "/member_center"
+        } else {
+            login_board.classList.add("open");
+        }
+    })
+}

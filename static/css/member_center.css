@@ -1,0 +1,135 @@
+#member_center_block{
+    padding: 20px;
+    font-weight: 700;
+}
+#member_center_block > div{
+    position: relative;
+}
+#member_center_block.text_center{
+    text-align: center;
+}
+.info{
+    display: none;
+    width: 70%;
+    margin: auto;
+}
+.info > p{
+    margin-bottom: 15px;
+} 
+.info.open{
+    display: block;
+    padding: 70px 50px 50px 100px;
+    border: 1px solid coral;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 30px;
+}
+#member_center_block > div::before{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+    padding: 10px;
+    background: rgba(0, 0, 0, .7);
+    color: white;
+}
+.member_info > div{
+    margin-bottom: 15px;
+}
+.member_info.open::before{
+    content: "會員資料";
+}
+.message_info.open::before{
+    content:"留言紀錄"
+}
+.collection_info.open::before{
+    content:"目前收藏"
+}
+.order_info.open::before{
+    content:"訂單紀錄"
+}
+.order_history{
+    margin-bottom: 30px;
+    position: relative;
+}
+.single_attr{
+    margin: 20px 0;
+}
+.chevron{
+    position: absolute;
+    top: 0;
+    left: -30px;
+    cursor: pointer;
+}
+.chevron.down.hide{
+    display: none;
+}
+.chevron.right.hide{
+    display: none;
+}
+.order_contain{
+    display: block;
+}
+.order_contain.hide{
+    display: none;
+}
+.object_key{
+    cursor: pointer;
+}
+.time_des{
+    color: darkcyan;
+    cursor: pointer;
+}
+#select_region{
+    position: absolute;
+    right: 30px;
+    top: 60px;
+    padding: 10px;
+    width: 200px;
+}
+.order_info_contain{
+    padding: 50px 0;
+}
+#open_update_password_blk{
+    width: 100px;
+    border-radius: 10px;
+}
+.blk_update_password{
+    display: none;
+    margin: 30px 0;
+    background-color: #ccc;
+    padding: 10px;
+    width: fit-content;
+    border-radius: 5px;
+}
+.blk_update_password.open{
+    display: block;
+}
+.blk_update_password > p{
+    margin:10px 0;
+    text-align: right;
+}
+.blk_update_password > p > input{
+    padding: 5px;
+}
+#btn_update_password{
+    width: 100px;
+    margin-top: 10px;
+    float: right;
+    background-color: cornflowerblue;
+    height: fit-content;
+}
+#float_only{
+    clear: both;
+}
+#msg_for_update{
+    color: crimson;
+}
+@media screen and (max-width:800px) {
+    .info.open{
+        padding: 50px 50px;
+    }
+    .order_info_contain{
+        margin-top: 30px;
+    }
+}

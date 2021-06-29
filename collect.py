@@ -1,7 +1,7 @@
 from flask.globals import request, session
 from flask.json import jsonify
 from sqlalchemy.sql.expression import true
-from main import db_RDS
+from main import db_RDS,db
 from flask import Blueprint
 
 collect_app = Blueprint("collect_app",__name__)
@@ -31,5 +31,8 @@ def f():
             sql = f"select collect_attr from collect.collect_attr where FB_ID = '{fb_idx}' "
         data = db_RDS.engine.execute(sql)
         for i in data:
-            arr.append(i[0])
+            sql = f"select name from attractions where id={i[0]}"
+            data_attr = db.engine.execute(sql)
+            for j in data_attr:
+                arr.append({"attid":i[0],"attname":j[0]})
         return jsonify({"data":arr})

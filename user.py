@@ -1,3 +1,4 @@
+from datetime import datetime
 import email
 from operator import truth
 from flask import Blueprint,request,jsonify,session,render_template
@@ -135,3 +136,28 @@ def FB():
 		session["url"]=request.get_json()["url"]
 		session.permanent = True
 		return jsonify({"ok":True})
+
+
+@user_app.route("/member_center")
+def member_center():
+	return render_template("member_center.html")
+
+@user_app.route("/api/user/password",methods=["POST"])
+def update_password():
+	data = request.get_json()
+	old_password = data.get("old_password")
+	new_password = data.get("new_password")
+	again_password = data.get("again_password")
+	email = session.get("email")
+	sql = f"select password from user WHERE email = '{email}'"
+	pas = db.engine.execute(sql)
+	for i in pas:
+		if old_password!=i[0]:
+			return jsonify({"error":"舊密碼輸入錯誤"})
+	if new_password!=again_password:
+		return jsonify({"error":"新密碼與再次輸入密碼不一樣"})
+	if new_password==old_password:
+		return jsonify({"error":"新密碼與舊密碼一樣"})
+	sql = f"UPDATE user SET password = '{new_password}' WHERE email = '{email}'"
+	db.engine.execute(sql)
+	return jsonify({"ok":True})

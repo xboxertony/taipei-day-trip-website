@@ -71,15 +71,16 @@ def get_msg_by_individual():
     fb_idx = session.get("FB_ID")
     email = session.get("email")
     if email:
-        sql = f"select attraction_id,time from attraction.message where email='{email}' order by time desc"
+        sql = f"select attraction_id,time,attractions.name from message left join attractions on message.attraction_id=attractions.id where email='{email}' order by time desc"
     elif fb_idx:
-        sql = f"select attraction_id,time from attraction.message where FB_ID='{fb_idx}' order by time desc"
+        sql = f"select attraction_id,time,attractions.name from message left join attractions on message.attraction_id=attractions.id where FB_ID='{fb_idx}' order by time desc"
     data = db.engine.execute(sql)
     arr = []
     for i in data:
         arr.append({
-            "time":i[0],
-            "attrid":i[1]
+            "time":i[1],
+            "attrid":i[0],
+            "attname":i[2]
         })
     return jsonify({"data":arr})
 
