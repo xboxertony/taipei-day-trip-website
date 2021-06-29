@@ -90,6 +90,41 @@
 .order_info_contain{
     padding: 50px 0;
 }
+#open_update_password_blk{
+    width: 100px;
+    border-radius: 10px;
+}
+.blk_update_password{
+    display: none;
+    margin: 30px 0;
+    background-color: #ccc;
+    padding: 10px;
+    width: fit-content;
+    border-radius: 5px;
+}
+.blk_update_password.open{
+    display: block;
+}
+.blk_update_password > p{
+    margin:10px 0;
+    text-align: right;
+}
+.blk_update_password > p > input{
+    padding: 5px;
+}
+#btn_update_password{
+    width: 100px;
+    margin-top: 10px;
+    float: right;
+    background-color: cornflowerblue;
+    height: fit-content;
+}
+#float_only{
+    clear: both;
+}
+#msg_for_update{
+    color: crimson;
+}
 @media screen and (max-width:800px) {
     .info.open{
         padding: 50px 50px;

@@ -191,3 +191,36 @@ function fcn_select_region(){
     let v = select_region.value
     write_order_info(parseInt(v))
 }
+
+let open_update_password_blk = document.getElementById("open_update_password_blk")
+let blk_update_password = document.getElementsByClassName("blk_update_password")[0]
+let btn_update_password = document.getElementById("btn_update_password")
+
+open_update_password_blk.addEventListener("click",open_div)
+btn_update_password.addEventListener("click",update_password)
+
+function open_div(){
+    blk_update_password.classList.toggle("open")
+}
+
+async function update_password(){
+    let msg_for_update = document.getElementById("msg_for_update")
+    let config = {
+        method:"POST",
+        body:JSON.stringify({
+            old_password:document.getElementById("old_password").value,
+            new_password:document.getElementById("new_password").value,
+            again_password:document.getElementById("new_password_again").value
+        }),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    }
+    let res = await fetch("/api/user/password",config)
+    let result = await res.json()
+    if(result['ok']){
+        msg_for_update.innerHTML = "修改密碼成功!!"
+    }else{
+        msg_for_update.innerHTML = `${result['error']}`
+    }
+}
