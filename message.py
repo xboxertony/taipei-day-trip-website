@@ -1,6 +1,6 @@
 from flask import Blueprint, json,request,jsonify
 from flask.globals import session
-from main import db
+from main import db,db_RDS
 from datetime import datetime, timedelta
 
 message_app = Blueprint("message_app",__name__)
@@ -15,18 +15,18 @@ def mes():
         name = session.get("name")
         if session.get("FB_ID"):
             idx = session.get("FB_ID")
-            sql = f"INSERT INTO message (name,attraction_id,message,FB_ID) VALUES ('{name}','{attid}','{mes}', '{idx}');"
-            db.engine.execute(sql)
+            sql = f"INSERT INTO attraction.message (name,attraction_id,message,FB_ID) VALUES ('{name}','{attid}','{mes}', '{idx}');"
+            db_RDS.engine.execute(sql)
         else:
             email = session.get("email")
-            sql = f"INSERT INTO message (name,attraction_id,message,email) VALUES ('{name}','{attid}','{mes}', '{email}');"
-            db.engine.execute(sql)
+            sql = f"INSERT INTO attraction.message (name,attraction_id,message,email) VALUES ('{name}','{attid}','{mes}', '{email}');"
+            db_RDS.engine.execute(sql)
         return jsonify({"ok":True})
     if request.method=="GET":
         attid = request.args.get("attid")
         page = int(request.args.get("page"))
-        sql = f"select count(*) from message where attraction_id={attid}"
-        data = db.engine.execute(sql)
+        sql = f"select count(*) from attraction.message where attraction_id={attid}"
+        data = db_RDS.engine.execute(sql)
         cntt = 0
         nextpage = None;
         for i in data:
@@ -39,15 +39,15 @@ def mes():
                 message.*,
                 COUNT(message_history.ID) cnt
             FROM
-                message
+                attraction.message
                     LEFT JOIN
-                message_history ON message.id = message_history.message_id
+                attraction.message_history ON message.id = message_history.message_id
             where attraction_id = {attid}
             GROUP BY message.id
             order by time desc
             limit 5 offset {page*5};
         '''
-        data = db.engine.execute(sql)
+        data = db_RDS.engine.execute(sql)
         ans = []
         res = {}
         for item in data:
@@ -71,10 +71,10 @@ def get_msg_by_individual():
     fb_idx = session.get("FB_ID")
     email = session.get("email")
     if email:
-        sql = f"select attraction_id,time,attractions.name from message left join attractions on message.attraction_id=attractions.id where email='{email}' order by time desc"
+        sql = f"select attraction_id,time,attractions.name from attraction.message left join attraction.attractions on message.attraction_id=attractions.id where email='{email}' order by time desc"
     elif fb_idx:
-        sql = f"select attraction_id,time,attractions.name from message left join attractions on message.attraction_id=attractions.id where FB_ID='{fb_idx}' order by time desc"
-    data = db.engine.execute(sql)
+        sql = f"select attraction_id,time,attractions.name from attraction.message left join attraction.attractions on message.attraction_id=attractions.id where FB_ID='{fb_idx}' order by time desc"
+    data = db_RDS.engine.execute(sql)
     arr = []
     for i in data:
         arr.append({
@@ -92,22 +92,22 @@ def delete_msg(id):
         if session.get("email") and not session.get("FB_ID"):
             email = session.get("email")
             sql = f"delete from attraction.message where email='{email}' and id='{id}'"
-            db.engine.execute(sql)
+            db_RDS.engine.execute(sql)
             sql2 = f"delete from attraction.message_history where message_id='{id}'"
-            db.engine.execute(sql2)
+            db_RDS.engine.execute(sql2)
             return jsonify({"ok":True})
         if session.get("FB_ID"):
             idx = session.get("FB_ID")
             sql = f"delete from attraction.message where FB_ID='{idx}' and id='{id}'"
-            db.engine.execute(sql)
+            db_RDS.engine.execute(sql)
             sql2 = f"delete from attraction.message_history where message_id='{id}'"
-            db.engine.execute(sql2)
+            db_RDS.engine.execute(sql2)
             return jsonify({"ok":True})
     if request.method=="PATCH":
         idx = request.get_json()["msg_id"]
         content = request.get_json()["content"]
         sql = f"UPDATE attraction.message set message = '{content}' where id = '{idx}' "
-        db.engine.execute(sql)
+        db_RDS.engine.execute(sql)
         sql2 = f"insert into attraction.message_history (message_id,content) values ('{idx}','{content}') "
-        db.engine.execute(sql2)
+        db_RDS.engine.execute(sql2)
         return jsonify({"ok":True})

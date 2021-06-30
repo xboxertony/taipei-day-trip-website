@@ -4,7 +4,7 @@ from operator import truth
 from flask import Blueprint,request,jsonify,session,render_template
 from flask.helpers import url_for
 from werkzeug.utils import redirect
-from main import db,mail,s
+from main import db,mail,s,db_RDS
 import re
 from flask_mail import Message
 from config import mail_username
@@ -16,8 +16,8 @@ def reset_password():
 	data = request.get_json()
 	password = data["password"]
 	email = data['email']
-	sql = f"UPDATE user SET password = '{password}' WHERE (email = '{email}');"
-	db.engine.execute(sql)
+	sql = f"UPDATE attraction.user SET password = '{password}' WHERE (email = '{email}');"
+	db_RDS.engine.execute(sql)
 	return jsonify({"ok":True})
 
 @user_app.route("/reset_password")
@@ -36,8 +36,8 @@ def forget():
 	data = request.get_json()
 	req_mail = data["mail"]
 	msg = Message(subject="This is your Reset Password Mail",sender=mail_username,recipients=[req_mail])
-	sql = f"select * from user where email='{req_mail}'"
-	conclusion = db.engine.execute(sql)
+	sql = f"select * from attraction.user where email='{req_mail}'"
+	conclusion = db_RDS.engine.execute(sql)
 	for i in conclusion:
 		token = s.dumps({"user":i[1],"email":req_mail}).decode("utf8")
 		msg.html = render_template("mail.html",user = i[1],token=token)
@@ -62,18 +62,18 @@ def user():
 			email = data["email"]
 			password = data["password"]
 			leader = data.get("leader")
-			sql = f"select email from user where email='{email}'"
-			replicate = db.engine.execute(sql)
+			sql = f"select email from attraction.user where email='{email}'"
+			replicate = db_RDS.engine.execute(sql)
 			for i in replicate:
 				return jsonify({"error":True,"message":"註冊失敗，重複的email"}),400
 			if not name or not email or not password:
 				return jsonify({"error":True,"message":"註冊失敗，欄位不可以為空"}),400
 			if not re.findall(regex,email) or not re.findall(regex,email)[0]==email:
 				return jsonify({"error":True,"message":"註冊失敗，email格式錯誤"}),400
-			sql = f"insert into user (name,email,password,leader) values ('{name}','{email}','{password}','{leader}')"
+			sql = f"insert into attraction.user (name,email,password,leader) values ('{name}','{email}','{password}','{leader}')"
 			if not leader:
-				sql = f"insert into user (name,email,password) values ('{name}','{email}','{password}')"
-			db.engine.execute(sql)
+				sql = f"insert into attraction.user (name,email,password) values ('{name}','{email}','{password}')"
+			db_RDS.engine.execute(sql)
 			return jsonify({"ok":True})
 		except:
 			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
@@ -82,8 +82,8 @@ def user():
 			data = request.get_json()
 			email = data["email"]
 			password = data["password"]
-			sql = f"select id,name,email,leader from user where email='{email}' and password='{password}'"
-			result = db.engine.execute(sql)
+			sql = f"select id,name,email,leader from attraction.user where email='{email}' and password='{password}'"
+			result = db_RDS.engine.execute(sql)
 			for i in result:
 				session["id"]=i[0]
 				session["name"]=i[1]
@@ -154,8 +154,8 @@ def update_password():
 	new_password = data.get("new_password")
 	again_password = data.get("again_password")
 	email = session.get("email")
-	sql = f"select password from user WHERE email = '{email}'"
-	pas = db.engine.execute(sql)
+	sql = f"select password from attraction.user WHERE email = '{email}'"
+	pas = db_RDS.engine.execute(sql)
 	for i in pas:
 		if old_password!=i[0]:
 			return jsonify({"error":"舊密碼輸入錯誤"})
@@ -163,6 +163,6 @@ def update_password():
 		return jsonify({"error":"新密碼與再次輸入密碼不一樣"})
 	if new_password==old_password:
 		return jsonify({"error":"新密碼與舊密碼一樣"})
-	sql = f"UPDATE user SET password = '{new_password}' WHERE email = '{email}'"
-	db.engine.execute(sql)
+	sql = f"UPDATE attraction.user SET password = '{new_password}' WHERE email = '{email}'"
+	db_RDS.engine.execute(sql)
 	return jsonify({"ok":True})

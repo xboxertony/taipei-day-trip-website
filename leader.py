@@ -39,7 +39,7 @@ def schedule():
 @leader_app.route("/api/leaders")
 def leaders():
 	sql = "select * from attraction.user where leader=1"
-	data = db.engine.execute(sql)
+	data = db_RDS.engine.execute(sql)
 	arr = []
 	for i in data:
 		arr.append({
