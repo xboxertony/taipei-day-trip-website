@@ -18,6 +18,13 @@ let memebr = {
     // 3: "D"
 }
 
+let main_user = null
+
+window.onbeforeunload = function(e){
+    let event = window.event||e
+    event.returnValue = ("確定離開此頁面不繼續編輯嗎?")
+}
+
 let sche = []
 
 async function get_Month(year, month) {
@@ -99,6 +106,9 @@ async function get_Month(year, month) {
 let schedual = document.getElementById("schedule");
 
 async function append_schedule(cnt) {
+    let check_user = await fetch("/api/user")
+    let check_user_result = await check_user.json()
+    main_user = check_user_result["data"].name
     let member_block = document.getElementById("member")
     let data = await fetch("/api/leaders")
     let response = await data.json()
@@ -126,6 +136,7 @@ async function append_schedule(cnt) {
 }
 
 function send_schedule() {
+    if(this.dataset.id!==main_user)return
     let config = {
         "name": this.dataset.id,
         "Time": this.dataset.date,
