@@ -9,6 +9,7 @@ from message import message_app
 from weather import weather_app
 from news import news_app
 from collect import collect_app
+from leader import leader_app
 
 app.register_blueprint(attraction_app)
 app.register_blueprint(user_app)
@@ -18,6 +19,7 @@ app.register_blueprint(message_app)
 app.register_blueprint(weather_app)
 app.register_blueprint(news_app)
 app.register_blueprint(collect_app)
+app.register_blueprint(leader_app)
 
 # Pages
 @app.route("/")

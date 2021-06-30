@@ -1,0 +1,63 @@
+#big_table {
+  display: flex;
+}
+#member {
+  flex: 0 0 100px;
+  background-color: #f1f3f6;
+  margin-right: 10px;
+  padding-top: 100px;
+}
+#member > div {
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-weight: 700;
+  color: black;
+}
+#schedule {
+  display: flex;
+  overflow-x: scroll;
+}
+#schedule > div {
+  padding: 10px;
+  text-align: center;
+}
+.week,
+.date {
+  width: 100px;
+  font-weight: 700;
+  padding: 5px;
+}
+.week {
+  background-color: #656464;
+  color: white;
+}
+.date {
+  background-color: #dedede;
+  color: black;
+}
+.member_chk {
+  height: 50px;
+  display: flex;
+}
+.member_chk > div {
+  width: 50%;
+  border: 1px solid #eee;
+  box-sizing: border-box;
+  line-height: 50px;
+  cursor: pointer;
+}
+.member_chk > div:nth-child(1) {
+  background-color: cornsilk;
+}
+.member_chk > div:nth-child(2) {
+  background-color: cornflowerblue;
+}
+#send_schedule {
+  padding: 10px;
+  margin-top: 10px;
+  float: right;
+}
+#schedule_table{
+    padding: 10px;
+}

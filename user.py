@@ -79,13 +79,13 @@ def user():
 			data = request.get_json()
 			email = data["email"]
 			password = data["password"]
-			sql = f"select id,name,email from user where email='{email}' and password='{password}'"
+			sql = f"select id,name,email,leader from user where email='{email}' and password='{password}'"
 			result = db.engine.execute(sql)
 			for i in result:
-				print(i)
 				session["id"]=i[0]
 				session["name"]=i[1]
 				session["email"]=i[2]
+				session['leader']=i[3]
 				session.permanent = True
 				return jsonify({"ok":True})
 			return jsonify({"error":True,"message":"登入失敗，帳號或密碼錯誤"}),400
@@ -99,6 +99,7 @@ def user():
 			session.pop("FB_ID")
 			session.pop("url")
 		session.pop("name")
+		session.pop("leader")
 		if "email" in session:
 			session.pop("email")
 		if "google" in session:

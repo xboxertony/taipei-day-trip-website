@@ -1,0 +1,18 @@
+{% extends "model.html" %} 
+{% block style%}
+<link rel="stylesheet" href="../static/css/schedule.css" />
+{% endblock %} 
+{% block content %}
+<div id="schedule_table">
+    <div id="big_table">
+      <div id="member"></div>
+      <div id="schedule"></div>
+    </div>
+    <div>
+      <button id="send_schedule">send</button>
+    </div>
+</div>
+{% endblock %} 
+{% block script %}
+<script src="../static/js/schedule.js"></script>
+{% endblock %}
