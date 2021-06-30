@@ -1,7 +1,7 @@
 from datetime import datetime
 import email
 from operator import truth
-from flask import Blueprint,request,jsonify,session,render_template
+from flask import Blueprint,request,jsonify,session,render_template,url_for
 from flask.helpers import url_for
 from werkzeug.utils import redirect
 from main import db,mail,s,db_RDS
@@ -145,6 +145,8 @@ def FB():
 
 @user_app.route("/member_center")
 def member_center():
+	if "email" not in session:
+		return redirect(url_for("index"))
 	return render_template("member_center.html")
 
 @user_app.route("/api/user/password",methods=["POST"])
@@ -159,10 +161,12 @@ def update_password():
 	for i in pas:
 		if old_password!=i[0]:
 			return jsonify({"error":"舊密碼輸入錯誤"})
-	if new_password!=again_password:
-		return jsonify({"error":"新密碼與再次輸入密碼不一樣"})
-	if new_password==old_password:
-		return jsonify({"error":"新密碼與舊密碼一樣"})
-	sql = f"UPDATE attraction.user SET password = '{new_password}' WHERE email = '{email}'"
-	db_RDS.engine.execute(sql)
-	return jsonify({"ok":True})
+		else:
+			if new_password!=again_password:
+				return jsonify({"error":"新密碼與再次輸入密碼不一樣"})
+			if new_password==old_password:
+				return jsonify({"error":"新密碼與舊密碼一樣"})
+			sql = f"UPDATE attraction.user SET password = '{new_password}' WHERE email = '{email}'"
+			db_RDS.engine.execute(sql)
+			return jsonify({"ok":True})
+	return jsonify({"error":"您並非使用此系統註冊"})
