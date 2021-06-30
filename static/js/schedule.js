@@ -76,7 +76,7 @@ async function get_Month(year, month) {
             member_chk.appendChild(evening_chk)
             evening_chk.dataset.date = `${select_year} ${select_month + 1} ${select_day}`
             evening_chk.dataset.id = memebr[j+1]
-            evening_chk.dataset.day = "evening"
+            evening_chk.dataset.day = "afternoon"
             evening_chk.addEventListener("click", send_schedule)
             div.appendChild(member_chk)
             if (!res[memebr[j+1]]) continue
@@ -84,7 +84,7 @@ async function get_Month(year, month) {
             if (read_data && read_data.includes("morning")) {
                 morning_chk.innerHTML = "O"
             }
-            if (read_data && read_data.includes("evening")) {
+            if (read_data && read_data.includes("afternoon")) {
                 evening_chk.innerHTML = "O"
             }
         }

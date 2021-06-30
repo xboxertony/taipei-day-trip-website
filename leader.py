@@ -55,3 +55,24 @@ def schedule_index():
 		print(session.get("leader"))
 		return render_template("schedule.html")
 	return redirect(url_for("index"))
+
+@leader_app.route("/api/arrange_schedule",methods=["POST"])
+def arrange():
+    data_all = request.get_json()["arr"]
+    order_number = request.get_json()["order_number"]
+    for data in data_all:
+        sql = f"UPDATE leader_info.schedule SET booking_user = '{order_number}' WHERE id='{data}'"
+        db_RDS.engine.execute(sql)
+    return jsonify({"ok":True})
+
+@leader_app.route("/api/check_leader",methods=["POST"])
+def check():
+    data = request.get_json()
+    Time = data["date"]
+    half = data["time"]
+    sql = f"select * from leader_info.schedule where Time='{Time}' and half='{half}' and booking_user is null"
+    res = db_RDS.engine.execute(sql)
+    for i in res:
+        print(i)
+        return jsonify({"ok":True,"id":i[0]})
+    return jsonify({"error":True,"message":"該時段無導遊排班"})

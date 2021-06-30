@@ -74,6 +74,20 @@ fetch("/api/attraction/" + `${idx}`)
 let calendar = document.getElementById("date")
 let error_date = document.getElementById("error_date")
 
+function set_calendar_today(){
+    let today = new Date()
+    let setday = new Date(today.setDate(today.getDate()+1))
+    let year = setday.getFullYear()
+    let month = setday.getMonth()
+    let date = setday.getDate()
+    let s = `${year}-${month+1<10?"0"+(month+1):month+1}-${date<10?"0"+date:date}`
+
+    calendar.setAttribute("min",s)
+    calendar.value = s
+}
+
+set_calendar_today()
+
 calendar.addEventListener("change", function () {
     let select_date = this.value.split("-")
     let select_date_date = new Date(select_date[0], select_date[1] - 1, select_date[2])
@@ -107,14 +121,30 @@ send_booking_btn.addEventListener("click", (e) => {
 });
 
 
-function post_booking_information() {
+async function post_booking_information() {
     let booking_info = {
         attractionId: parseInt(idx),
         date: document.getElementById("date").value,
         time: order_time,
         price: order_price,
     };
-    fetch("/api/booking", {
+    let check_config = {
+        method:"POST",
+        body:JSON.stringify({
+            date:document.getElementById("date").value,
+            time:order_time
+        }),
+        headers:{
+            "content-type": "application/json"
+        }
+    }
+    let check_schedule = await fetch("/api/check_leader",check_config)
+    let check_res = await check_schedule.json()
+    if(check_res['error']){
+        error_message_show.innerHTML = check_res["message"]
+        return
+    }
+    await fetch("/api/booking", {
         method: "POST",
         headers: {
             "content-type": "application/json",

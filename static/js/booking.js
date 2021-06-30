@@ -369,6 +369,44 @@ function onClick() {
 
 
 
+
+function check_status(item){
+
+    let config = {
+        method:"POST",
+        body:JSON.stringify({
+            date:item.date,
+            time:item.time
+        }),
+        headers: {
+            "content-type": "application/json",
+        },
+    }
+
+    return fetch("/api/check_leader",config).then((res)=>{
+        return res.json()
+    })
+}
+
+async function insert_status(item,order_number){
+    let config = {
+        method:"POST",
+        body:JSON.stringify({
+            arr:item,
+            order_number:order_number
+        }),
+        headers: {
+            "content-type": "application/json",
+        },
+    }
+
+    await fetch("/api/arrange_schedule",config).then((res)=>{
+        return res.json()
+    })
+    window.location.href = `/thankyou?number=${order_number}`
+}
+
+
 async function pay_money(prime){
     trip_list = []
     let ans = await fetch("/api/booking")
@@ -382,7 +420,22 @@ async function pay_money(prime){
             order:item.order
         })
     })
-    console.log(trip_list)
+    let arr = []
+    let id_list = []
+    trip_list.forEach((item)=>{
+        arr.push(check_status(item))
+    })
+    let the_result = true
+    await Promise.all(arr).then((res)=>{
+        res.forEach((item)=>{
+            if(item["error"]){
+                the_result = false
+            }else{
+                id_list.push(item['id'])
+            }
+        })
+    })
+    if(!the_result)return
     let data = {
         prime: prime,
         order: {
@@ -413,7 +466,7 @@ async function pay_money(prime){
                 document.getElementById("status_code").innerHTML = data["message"]
                 return
             }
-            window.location.href = `/thankyou?number=${data.data.number}`
+            insert_status(id_list,data.data.number)
         });
     
 }
