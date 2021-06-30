@@ -57,7 +57,7 @@ nav ul {
   display: none;
   font-weight: 700;
 }
-#member_center{
+#member_center,#leader_schedule{
   display: none;
 }
 #booking {
@@ -263,6 +263,15 @@ button {
   font-size: 30px;
   cursor: pointer;
   display:none; 
+}
+#blk_leader_check{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#blk_leader_check > input{
+  width: 20px;
+  margin-left: 20px;
 }
 @media screen and (max-width: 1200px) {
   nav ul {

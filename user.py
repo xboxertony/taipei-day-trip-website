@@ -61,6 +61,7 @@ def user():
 			name = data["name"]
 			email = data["email"]
 			password = data["password"]
+			leader = data.get("leader")
 			sql = f"select email from user where email='{email}'"
 			replicate = db.engine.execute(sql)
 			for i in replicate:
@@ -69,7 +70,9 @@ def user():
 				return jsonify({"error":True,"message":"註冊失敗，欄位不可以為空"}),400
 			if not re.findall(regex,email) or not re.findall(regex,email)[0]==email:
 				return jsonify({"error":True,"message":"註冊失敗，email格式錯誤"}),400
-			sql = f"insert into user (name,email,password) values ('{name}','{email}','{password}')"
+			sql = f"insert into user (name,email,password,leader) values ('{name}','{email}','{password}','{leader}')"
+			if not leader:
+				sql = f"insert into user (name,email,password) values ('{name}','{email}','{password}')"
 			db.engine.execute(sql)
 			return jsonify({"ok":True})
 		except:
@@ -99,7 +102,8 @@ def user():
 			session.pop("FB_ID")
 			session.pop("url")
 		session.pop("name")
-		session.pop("leader")
+		if "leader" in session:
+			session.pop("leader")
 		if "email" in session:
 			session.pop("email")
 		if "google" in session:
