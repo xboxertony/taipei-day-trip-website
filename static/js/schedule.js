@@ -1,5 +1,6 @@
 let today = new Date();
 let schedule = document.getElementById("schedule");
+let select_leader = document.getElementById("select_leader")
 
 let cat = {
     1: "星期一",
@@ -27,7 +28,7 @@ window.onbeforeunload = function(e){
 
 let sche = []
 
-async function get_Month(year, month) {
+async function get_Month(check_all,main_user,year, month) {
 
     let data = await fetch("/api/schedule")
     let res = await data.json()
@@ -71,6 +72,7 @@ async function get_Month(year, month) {
         div.appendChild(week_div);
 
         for (let j = 0; j < Object.keys(memebr).length; j++) {
+            if(check_all && memebr[j+1]!==main_user)continue
             let member_chk = document.createElement("div")
             member_chk.classList.add("member_chk")
             let morning_chk = document.createElement("div")
@@ -104,17 +106,22 @@ async function get_Month(year, month) {
 }
 
 let schedual = document.getElementById("schedule");
+let member_block = document.getElementById("member_block")
 
-async function append_schedule(cnt) {
+async function append_schedule(check_all,cnt) {
+    schedual.innerHTML = ""
     let check_user = await fetch("/api/user")
     let check_user_result = await check_user.json()
     main_user = check_user_result["data"].name
-    let member_block = document.getElementById("member")
     let data = await fetch("/api/leaders")
     let response = await data.json()
     let leader_cnt = 1
     response["data"].forEach((item)=>{
         memebr[leader_cnt]=item.name
+        let option = document.createElement("option")
+        select_leader.appendChild(option)
+        option.value = leader_cnt
+        option.innerHTML = item.name
         leader_cnt++
     })
     for (let i = 1; i < Object.keys(memebr).length+1; i++) {
@@ -127,7 +134,7 @@ async function append_schedule(cnt) {
         let loop_time = new Date(
             today_today.setMonth(today_today.getMonth() + i)
         );
-        await get_Month(loop_time.getFullYear(), loop_time.getMonth()).then((res) => {
+        await get_Month(check_all,main_user,loop_time.getFullYear(), loop_time.getMonth()).then((res) => {
             res.forEach((item) => {
                 schedule.appendChild(item)
             })
@@ -162,7 +169,7 @@ function send_schedule() {
     // console.log(data)
 }
 
-append_schedule(5)
+append_schedule(false,5)
 
 let btn_send_sche = document.getElementById("send_schedule")
 btn_send_sche.addEventListener("click", fcn_send_sche)
@@ -179,5 +186,30 @@ async function fcn_send_sche() {
     let data = await send.json()
     if (data["ok"]) {
         alert("班表寄送成功")
+    }
+}
+
+select_leader.addEventListener("change",function(){
+    append_schedule_individual(this.value,5)
+})
+
+
+async function append_schedule_individual(idx,cnt) {
+    console.log(idx)
+    schedual.innerHTML = ""
+    member_block.innerHTML = ""
+    let child = document.createElement("div")
+    child.innerHTML = memebr[parseInt(idx)]
+    member_block.appendChild(child)
+    for (let i = 0; i < cnt; i++) {
+        let today_today = new Date();
+        let loop_time = new Date(
+            today_today.setMonth(today_today.getMonth() + i)
+        );
+        await get_Month(true,memebr[parseInt(idx)],loop_time.getFullYear(), loop_time.getMonth()).then((res) => {
+            res.forEach((item) => {
+                schedule.appendChild(item)
+            })
+        });
     }
 }

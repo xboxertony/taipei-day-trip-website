@@ -5,7 +5,7 @@
   flex: 0 0 100px;
   background-color: #f1f3f6;
   margin-right: 10px;
-  padding-top: 100px;
+  padding-top: 50px;
 }
 #member > div {
   height: 50px;
@@ -60,4 +60,11 @@
 }
 #schedule_table{
     padding: 10px;
+}
+#select_leader{
+  width: 200px;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: linear-gradient(180deg,#fff 0%,#fff 20%,#ddd 40% , #ddd 60%,#fff 80% ,#fff 100%);
 }
