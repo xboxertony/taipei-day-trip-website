@@ -100,13 +100,34 @@ async function write_order_info(select_time){
     let now = new Date()
     let select_now = new Date(now.setDate(now.getDate()-select_time))
 
+    let arr = []
+
     for(const [key,val] of Object.entries(data)){
+        let obj = {}
+        obj[key]=val
+        arr.push(obj)
+    }
+
+    arr = arr.sort(function(a,b){
+        let key1 = Object.keys(a)[0]
+        let key2 = Object.keys(b)[0]
+        if(new Date(a[key1].time)<new Date(b[key2].time)){
+            return 1
+        }else{
+            return -1
+        }
+    })
+
+    for(let i=0;i<arr.length;i++){
+        let key = Object.keys(arr[i])[0]
+        let val = arr[i][key]
+
         let order_history_div = document.createElement("div")
         let title = document.createElement("p")
         title.innerHTML = key
         title.addEventListener("click",toggle_contain)
         title.classList.add("object_key")
-
+    
         let time_des = document.createElement("p")
         let year = val['time'].split(" ")[3]
         let month = val['time'].split(" ")[2]
@@ -125,51 +146,50 @@ async function write_order_info(select_time){
         order_history_div.appendChild(div)
         div.classList.add("order_contain")
         div.classList.add("hide")
-
+    
         val['arr'].forEach((item)=>{
             let div2 = document.createElement("div")
             order_history_div.appendChild(div2)
             div2.classList.add("single_attr")
-
+    
             let attname = document.createElement("p")
             attname.innerHTML = `景點名稱：${item['attname']}`
             div2.appendChild(attname)
-
+    
             let date = document.createElement("p")
             date.innerHTML = `遊覽日期：${item['date']}`
             div2.appendChild(date)
-
+    
             let price = document.createElement("p")
             price.innerHTML = `價錢：${item['price']}`
             div2.appendChild(price)
-
+    
             let time = document.createElement("p")
             time.innerHTML = `時間：${item['time']}`
             div2.appendChild(time)
-
+    
             div.appendChild(div2)
         })
-
+    
         order_history_div.appendChild(div)
-
+    
         let Chervon = document.createElement("div")
         Chervon.classList.add("chevron")
         Chervon.classList.add("right")
         Chervon.innerHTML = "<i class='fas fa-chevron-right'></i>"
         order_history_div.appendChild(Chervon)
-
+    
         let Chervon2 = document.createElement("div")
         Chervon2.classList.add("chevron")
         Chervon2.classList.add("down")
         Chervon2.classList.add("hide")
         Chervon2.innerHTML = "<i class='fas fa-chevron-down'></i>"
         order_history_div.appendChild(Chervon2)
-
+    
         order_info_contain.appendChild(order_history_div)
-
+    
         Chervon.addEventListener("click",toggle_contain)
         Chervon2.addEventListener("click",toggle_contain)
-
     }
 
 }
