@@ -289,6 +289,9 @@ button {
   #booking{
     margin-left: 10px;
   }
+  #leader_schedule{
+    margin-left: 10px;
+  }
   .last-item > a{
     margin-bottom: 50px;
     color: #fff;
