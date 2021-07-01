@@ -5,7 +5,6 @@
   flex: 0 0 100px;
   background-color: #f1f3f6;
   margin-right: 10px;
-  padding-top: 50px;
 }
 #member > div {
   height: 50px;
@@ -53,6 +52,9 @@
 .member_chk > div:nth-child(2) {
   background-color: cornflowerblue;
 }
+.member_chk > div{
+  font-weight: 900;
+}
 #send_schedule {
   padding: 10px;
   margin-top: 10px;
@@ -67,4 +69,48 @@
   border-radius: 10px;
   margin-bottom: 10px;
   background: linear-gradient(180deg,#fff 0%,#fff 20%,#ddd 40% , #ddd 60%,#fff 80% ,#fff 100%);
+}
+.introduction{
+  display: flex;
+  justify-content: space-around;
+}
+.blk_schedule_select{
+  margin: auto;
+  display: none;
+  margin-bottom: 20px;
+  transform: translateX(14%);
+}
+.blk_schedule_select.open{
+  display: flex;
+  flex-direction: column;
+}
+.order_number{
+  margin-bottom: 15px;
+  font-weight: 700;
+  padding: 0 15px;
+}
+.contact_person{
+  background-color: #FFFABD;
+  padding: 20px;
+}
+.contact_person > div{
+
+  margin-bottom: 15px;
+}
+.more_detail{
+  display: flex;
+  font-weight: 700;
+  border-radius: 10px;
+  border:2px solid coral;
+  padding: 10px;
+}
+.trip_detail{
+  background-color: #E5A967;
+  padding: 20px;
+}
+.trip_detail > div:not(:first-of-type){
+  margin-top: 50px;
+}
+.trip_detail > div >div:not(:first-of-type){
+  margin-top: 10px;
 }

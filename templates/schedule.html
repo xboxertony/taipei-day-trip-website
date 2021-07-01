@@ -1,25 +1,33 @@
-{% extends "model.html" %} 
-{% block style%}
+{% extends "model.html" %} {% block style%}
 <link rel="stylesheet" href="../static/css/schedule.css" />
-{% endblock %} 
-{% block content %}
+{% endblock %} {% block content %}
 <div id="schedule_table">
-    <div id="big_table">
-      <div id="member">
-        <select name="" id="select_leader">
-  
-        </select>
-        <div id="member_block">
-
-        </div>
+  <div id="big_table">
+    <div id="member">
+      <div class="introduction">
+        <div><span class="red">O</span><span>有訂單</span></div>
+        <div><span>O</span><span>無訂單</span></div>
       </div>
-      <div id="schedule"></div>
+      <select name="" id="select_leader"></select>
+      <div id="member_block"></div>
     </div>
-    <div>
-      <button id="send_schedule">send</button>
-    </div>
+    <div id="schedule"></div>
+  </div>
+  <div>
+    <button id="send_schedule">send</button>
+  </div>
 </div>
-{% endblock %} 
-{% block script %}
+<div class="blk_schedule_select">
+  <div class="order_number"></div>
+  <div class="more_detail">
+    <div class="contact_person">
+      <div><span>聯絡人姓名：</span><span id="contact_name"></span></div>
+      <div><span>聯絡人email：</span><span id="contact_email"></span></div>
+      <div><span>聯絡人phone：</span><span id="contact_phone"></span></div>
+    </div>
+    <div class="trip_detail"></div>
+  </div>
+</div>
+{% endblock %} {% block script %}
 <script src="../static/js/schedule.js"></script>
 {% endblock %}

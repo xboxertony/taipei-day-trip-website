@@ -31,9 +31,9 @@ def schedule():
             if not res.get(i[1]):
                 res[i[1]] = {}
             if not res[i[1]].get(str(i[2]).split(" ")[0]):
-                res[i[1]][str(i[2]).split(" ")[0]]=[i[3]]
+                res[i[1]][str(i[2]).split(" ")[0]]=[{i[3]:i[4]}]
                 continue
-            res[i[1]][str(i[2]).split(" ")[0]].append(i[3])  
+            res[i[1]][str(i[2]).split(" ")[0]].append({i[3]:i[4]})  
         return jsonify(res)
 
 @leader_app.route("/api/leaders")

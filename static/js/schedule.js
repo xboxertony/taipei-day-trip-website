@@ -19,6 +19,8 @@ let memebr = {
     // 3: "D"
 }
 
+let schedule_now = {}
+
 let main_user = null
 
 window.onbeforeunload = function(e){
@@ -90,11 +92,22 @@ async function get_Month(check_all,main_user,year, month) {
             div.appendChild(member_chk)
             if (!res[memebr[j+1]]) continue
             let read_data = res[memebr[j+1]][`${select_year}-${select_month + 1 < 10 ? '0' + (select_month + 1) : select_month + 1}-${select_day < 10 ? '0' + (select_day) : select_day}`]
-            if (read_data && read_data.includes("morning")) {
-                morning_chk.innerHTML = "O"
-            }
-            if (read_data && read_data.includes("afternoon")) {
-                evening_chk.innerHTML = "O"
+            if(!read_data)continue
+            for(let k=0;k<read_data.length;k++){
+                if (read_data[k] && Object.keys(read_data[k]).includes("morning")) {
+                    morning_chk.innerHTML = `O`
+                    if(read_data[k]["morning"]){
+                        morning_chk.style.color="red"
+                        morning_chk.dataset.order_number = read_data[k]["morning"]
+                    }
+                }
+                if (read_data[k] && Object.keys(read_data[k]).includes("afternoon")) {
+                    evening_chk.innerHTML = `O`
+                    if(read_data[k]["afternoon"]){
+                        evening_chk.style.color="red"
+                        evening_chk.dataset.order_number = read_data[k]["morning"]
+                    }
+                }
             }
         }
 
@@ -142,8 +155,58 @@ async function append_schedule(check_all,cnt) {
     }
 }
 
-function send_schedule() {
+let blk_schedule_select = document.getElementsByClassName("blk_schedule_select")[0]
+let trip_detail = document.getElementsByClassName("trip_detail")[0]
+
+function append_order_detail(detail){
+    detail["data"]["trip"].forEach((item)=>{
+        let attraction_detail = document.createElement("div")
+        let attraction_name = document.createElement("div")
+        let attraction_date = document.createElement("div")
+        let attraction_time = document.createElement("div")
+
+        attraction_name.innerHTML = `景點名稱：${item.attraction.name}`
+        attraction_date.innerHTML = `出發日期：${item.date}`
+        attraction_time.innerHTML = `出發時間：${item.time}`
+
+        attraction_detail.appendChild(attraction_name)
+        attraction_detail.appendChild(attraction_date)
+        attraction_detail.appendChild(attraction_time)
+
+        trip_detail.appendChild(attraction_detail)
+    })
+}
+
+let contact_name = document.getElementById("contact_name")
+let contact_email = document.getElementById("contact_email")
+let contact_phone = document.getElementById("contact_phone")
+let order_number = document.getElementsByClassName("order_number")[0]
+
+function clear_div(){
+    contact_name.innerHTML = ""
+    contact_email.innerHTML = ""
+    contact_phone.innerHTML = ""
+    trip_detail.innerHTML = ""
+}
+
+async function send_schedule() {
     if(this.dataset.id!==main_user)return
+
+    if(this.style.color==="red"){
+        clear_div()
+        blk_schedule_select.classList.add("open")
+        order_number.innerHTML = `訂單編號：${this.dataset.order_number}`
+        if(this.dataset.order_number){
+            let data = await fetch(`/api/order/${this.dataset.order_number}`)
+            let response = await data.json()
+            contact_name.innerHTML = response["data"]["contact"]["name"]
+            contact_email.innerHTML = response["data"]["contact"]["email"]
+            contact_phone.innerHTML = response["data"]["contact"]["phone"]
+            append_order_detail(response)
+        }
+    }
+
+    if(this.style.color==="red")return
     let config = {
         "name": this.dataset.id,
         "Time": this.dataset.date,
@@ -213,3 +276,9 @@ async function append_schedule_individual(idx,cnt) {
         });
     }
 }
+
+
+// async function update_schedule(){
+//     let data = await fetch("/api/schedule")
+//     let 
+// }
