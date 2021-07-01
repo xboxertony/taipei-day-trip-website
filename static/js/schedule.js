@@ -252,7 +252,23 @@ async function fcn_send_sche() {
     }
 }
 
+function appned_all(){
+    let option = document.createElement("option")
+    option.innerHTML = "All"
+    select_leader.appendChild(option)
+}
+
+appned_all()
+
+
 select_leader.addEventListener("change",function(){
+    if(select_leader.value==="All"){
+        select_leader.innerHTML=""
+        member_block.innerHTML = ""
+        appned_all()
+        append_schedule(false,5)
+        return
+    }
     append_schedule_individual(this.value,5)
 })
 
