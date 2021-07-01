@@ -5,9 +5,9 @@
     font-weight: 900;
     font-size: 20px;
   }
-  #the_order_guy{
+  #the_order_guy {
     margin: auto;
-    color: #161B22;
+    color: #161b22;
   }
   .bold:nth-of-type(2n) {
     margin-left: 10px;
@@ -36,7 +36,7 @@
     margin: auto;
     width: fit-content;
     position: relative;
-    border: 2px solid #B8BA31;
+    border: 2px solid #b8ba31;
     padding: 10px;
     border-radius: 5px;
   }
@@ -60,17 +60,12 @@
     z-index: -1;
   }
   #copy {
-    margin-left: 10px;
-    transform: translateY(-75%);
     border: none;
     cursor: pointer;
     font-size: 15px;
     font-weight: 700;
     background-color: transparent;
-    display: block;
     color: #aaa;
-    border-left: 2px solid #ddd;
-    padding-left: 5px;
   }
   /* #copy::after{
     content: "";
@@ -84,28 +79,28 @@
   .info {
     padding: 10px;
   }
-  .table_thankyou{
+  .table_thankyou {
     width: 100%;
   }
-  thead{
+  thead {
     margin: auto;
   }
-  th{
-    color: #38659B;
+  th {
+    color: #38659b;
   }
-  td{
+  td {
     padding: 10px;
     text-align: center;
     border-bottom: 1px solid #333;
     font-weight: 700;
   }
-  .title_attr{
-    color: #1D2021;
+  .title_attr {
+    color: #1d2021;
   }
-  .no_bottom{
+  .no_bottom {
     border-bottom: none;
   }
-  .name_for_order{
+  .name_for_order {
     color: #91a111;
   }
 </style>
@@ -113,7 +108,10 @@
 <div id="order_result">
   <div class="order_mention">
     <div class="info">
-      <p id="the_order_guy"><span class="name_for_order">{{ session.name }}</span>您好，您的訂單資訊如下：</p>
+      <p id="the_order_guy">
+        <span class="name_for_order">{{ session.name }}</span
+        >您好，您的訂單資訊如下：
+      </p>
     </div>
     <div class="order_panel_complete">
       <table class="table_thankyou">
@@ -167,40 +165,40 @@
     "order_panel_complete"
   )[0];
 
-  let table_title = document.getElementsByClassName("table_title")[0]
+  let table_title = document.getElementsByClassName("table_title")[0];
 
-  let thankyou_info = document.getElementById("thankyou_info")
+  let thankyou_info = document.getElementById("thankyou_info");
 
   function render_order_panel(d) {
     // let orderid = document.createElement("p");
     // orderid.classList.add("bold");
     // orderid.innerHTML = "訂單標號：" + order_numbr;
 
-    table_title.innerHTML = order_numbr
+    table_title.innerHTML = `<span id='order_id'>${order_numbr}</span> <i class="fas fa-copy" id='copy'></i>`;
 
-    
-    d.trip.forEach(element => {
-      
-      let tr = document.createElement("tr")
+    d.trip.forEach((element) => {
+      let tr = document.createElement("tr");
       let html_str = `
         <td class='title_attr'>${element.attraction.name}</td>
         <td>${element.price}</td>
         <td>${element.date}</td>
         <td>${element.time}</td>
-      `
-      tr.innerHTML = html_str
-      thankyou_info.appendChild(tr)
+      `;
+      tr.innerHTML = html_str;
+      thankyou_info.appendChild(tr);
     });
 
-    let tr = document.createElement("tr")
-      let html_str = `
+    let tr = document.createElement("tr");
+    let html_str = `
         <td class='no_bottom'></td>
         <td class='no_bottom'>${d.summary}</td>
         <td class='no_bottom'></td>
         <td class='no_bottom'></td>
-      `
-      tr.innerHTML = html_str
-      thankyou_info.appendChild(tr)
+      `;
+    tr.innerHTML = html_str;
+    thankyou_info.appendChild(tr);
+
+    add_copy()
 
     // order_panel_complete.appendChild(orderid);
 
@@ -276,22 +274,26 @@
       console.log(data);
     });
 
-  // let copy = document.getElementById("copy");
-  // copy.addEventListener("click", function () {
-  //   let order_id = document.getElementById("order_id");
-  //   let range = document.createRange();
-  //   range.selectNode(order_id);
-  //   window.getSelection().addRange(range);
-  //   console.log(range);
-  //   try {
-  //     if (document.execCommand("Copy", "false", null)) {
-  //       alert("複製成功");
-  //     } else {
-  //       alert("複製失敗");
-  //     }
-  //   } catch {
-  //     alert("複製錯誤");
-  //   }
-  // });
+  function add_copy() {
+    let copy = document.getElementById("copy");
+    copy.addEventListener("click", function () {
+      let order_id = document.getElementById("order_id");
+      let range = document.createRange();
+      range.selectNode(order_id);
+      console.log(range)
+      let sel = window.getSelection()
+      sel.removeAllRanges()
+      sel.addRange(range)
+      try {
+        if (document.execCommand("Copy", "false", null)) {
+          alert("複製成功");
+        } else {
+          alert("複製失敗");
+        }
+      } catch {
+        alert("複製錯誤");
+      }
+    });
+  }
 </script>
 {% endblock %}
