@@ -545,3 +545,34 @@ async function get_news(...word) {
         news.appendChild(a)
     }
 }
+
+
+// collect 收藏
+
+let collect_btn = document.getElementById("collect_btn")
+
+collect_btn.addEventListener("click",collec_action)
+
+async function collec_action(e){
+    e.preventDefault()
+    console.log(idx)
+    let config = {
+        method:"POST",
+        body:JSON.stringify({
+            id:idx
+        }),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    }
+    let send_collect = await fetch("/api/collect_user",config)
+    let response = await send_collect.json()
+    if(response["ok"]){
+        alert("該景點已加入收藏")
+        return
+    }
+    if(response["error"]){
+        alert(response["error"])
+        return
+    }
+}
