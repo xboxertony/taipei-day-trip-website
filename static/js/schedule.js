@@ -105,7 +105,7 @@ async function get_Month(check_all,main_user,year, month) {
                     evening_chk.innerHTML = `O`
                     if(read_data[k]["afternoon"]){
                         evening_chk.style.color="red"
-                        evening_chk.dataset.order_number = read_data[k]["morning"]
+                        evening_chk.dataset.order_number = read_data[k]["afternoon"]
                     }
                 }
             }
@@ -249,6 +249,7 @@ async function fcn_send_sche() {
     let data = await send.json()
     if (data["ok"]) {
         alert("班表寄送成功")
+        sche=[]
     }
     if(data["error"]){
         alert(data["message"])

@@ -12,6 +12,7 @@ leader_app = Blueprint("leader_app",__name__)
 def schedule():
     if request.method=="POST":
         req_data = request.get_json()["data"]
+        print(req_data)
         for data in req_data:
             name = data.get("name")
             Time = data.get("Time").split(" ")
