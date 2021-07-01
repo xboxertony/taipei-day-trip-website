@@ -92,6 +92,7 @@ label {
   width: 154px;
   height: 36px;
   border-radius: 10px;
+  word-break: keep-all;
 }
 .order_panel .form_title,
 .des_title {
