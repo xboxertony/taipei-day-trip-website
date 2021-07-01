@@ -250,6 +250,9 @@ async function fcn_send_sche() {
     if (data["ok"]) {
         alert("班表寄送成功")
     }
+    if(data["error"]){
+        alert(data["message"])
+    }
 }
 
 function appned_all(){
