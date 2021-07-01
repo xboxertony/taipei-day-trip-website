@@ -6,7 +6,7 @@ from sqlalchemy.sql.expression import true
 from config import get_key
 import json
 import requests as req
-from main import db
+from main import db,db_RDS
 from datetime import timedelta,datetime
 
 order_app = Blueprint("order_app",__name__)
@@ -63,7 +63,7 @@ def order():
 			price = item['price']
 			order_att = item["order"]
 			sql = f"insert into attraction.order (orderid,attid,date,time,email,price,attorder) values ('{idx}','{attid}','{date}','{time}','{email}','{price}','{order_att}')"
-			db.engine.execute(sql)
+			db_RDS.engine.execute(sql)
 		if data["status"]==0:
 			return jsonify({
 				"data":{
@@ -86,8 +86,8 @@ def order():
 			})
 	if request.method=="GET":
 		email = session.get("email")
-		sql = f"select attraction.order.*,attractions.name from attraction.order left join attractions on attractions.id=attraction.order.attid where email='{email}'"
-		data = db.engine.execute(sql)
+		sql = f"select attraction.order.*,attractions.name from attraction.order left join attraction.attractions on attractions.id=attraction.order.attid where email='{email}'"
+		data = db_RDS.engine.execute(sql)
 		res = {}
 		for item in data:
 			if not res.get(item[1]):
@@ -149,8 +149,8 @@ def pay_search(orderNumber):
 	data = json.loads(r.text)
 	# trip = data["trade_records"][0]["details"].split(";")
 	if data["trade_records"][0]["record_status"] in [0,1]:
-		sql = f"SELECT attid,date,name,images,time,email,price,attorder FROM attraction.order left join attractions on order.attid=attractions.id where orderid='{orderNumber}' order by attorder"
-		d = db.engine.execute(sql)
+		sql = f"SELECT attid,date,name,images,time,email,price,attorder FROM attraction.order left join attraction.attractions on order.attid=attractions.id where orderid='{orderNumber}' order by attorder"
+		d = db_RDS.engine.execute(sql)
 		trip = []
 		for i in d:
 			attr = {

@@ -57,6 +57,11 @@
         <input type="password" placeholder="輸入密碼" id="create_password" />
         <p id="error_password" class="error"></p>
         <button id="create_account_btn">註冊新帳戶</button>
+        <br>
+        <div id="blk_leader_check">
+          <label for="check_leader">是否為導遊</label>
+          <input type="checkbox" id="check_leader">
+        </div>
         <p id="message_for_error_create"></p>
         <p>已經有帳戶了?<a id="login_account">點此登入</a></p>
         <img src="../static/icon_close.png" alt="" class="close" />
@@ -68,6 +73,7 @@
       <a href="/" class="title">台北一日遊</a>
       <i class="fas fa-bars hamburger"></i>
       <li class="last-item">
+        <a id="leader_schedule" href="/schedule">班表系統</a>
         <a id="member_center" href="/member_center">會員中心</a>
         <a id="booking">預定行程</a>
         <a id="login">註冊/登入</a>

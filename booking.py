@@ -1,12 +1,12 @@
 from flask import Blueprint,session,request,jsonify
 from datetime import datetime
-from main import db
+from main import db,db_RDS
 
 booking_app = Blueprint("booking_app",__name__)
 
 def find_cnt(keyword,value):
-	sql = f"select count(*) from booking where {keyword} = '{value}'"
-	answer = db.engine.execute(sql)
+	sql = f"select count(*) from attraction.booking where {keyword} = '{value}'"
+	answer = db_RDS.engine.execute(sql)
 	for i in answer:
 		print(i)
 		return i[0]
@@ -32,16 +32,28 @@ def api_book():
 		if not session.get("google") and not session.get("FB"):
 			idx = session["id"]
 			cnt = int(find_cnt("userid",idx))+1
-			sql = f"insert into booking (attractionId,date,time,price,userid,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{idx}','{cnt}')"
+			sql = f"select * from attraction.booking where attractionId='{attractionid}' and userid='{idx}'"
+			data = db_RDS.engine.execute(sql)
+			for i in data:
+				return jsonify({"error":True,"message":"該景點已選擇過"}),400
+			sql = f"insert into attraction.booking (attractionId,date,time,price,userid,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{idx}','{cnt}')"
 		if session.get("google"):
 			email = session["email"]
 			cnt = int(find_cnt("email",email))+1
-			sql = f"insert into booking (attractionId,date,time,price,email,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{email}','{cnt}')"
+			sql = f"select * from attraction.booking where attractionId='{attractionid}' and email='{email}'"
+			data = db_RDS.engine.execute(sql)
+			for i in data:
+				return jsonify({"error":True,"message":"該景點已選擇過"}),400
+			sql = f"insert into attraction.booking (attractionId,date,time,price,email,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{email}','{cnt}')"
 		if session.get("FB"):
 			idx = session["FB_ID"]
 			cnt = int(find_cnt("FB_ID",idx))+1
-			sql = f"insert into booking (attractionId,date,time,price,FB_ID,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{idx}','{cnt}')"
-		db.engine.execute(sql)
+			sql = f"select * from attraction.booking where attractionId='{attractionid}' and FB_ID='{idx}'"
+			data = db_RDS.engine.execute(sql)
+			for i in data:
+				return jsonify({"error":True,"message":"該景點已選擇過"}),400
+			sql = f"insert into attraction.booking (attractionId,date,time,price,FB_ID,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{idx}','{cnt}')"
+		db_RDS.engine.execute(sql)
 		return jsonify({"ok":True})
 		# except:
 		# 	return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
@@ -50,7 +62,7 @@ def api_book():
 		email = session.get("email")
 		fb_id = session.get("FB_ID")
 		sql = f"SELECT attractionId,name,address,images,date,time,price,bookingorder,booking.id FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}' or email = '{email}' or FB_ID = '{fb_id}' order by bookingorder"
-		sql_exe = db.engine.execute(sql)
+		sql_exe = db_RDS.engine.execute(sql)
 		res = {"data":[]}
 		for i in sql_exe:
 			attr = {
@@ -86,20 +98,20 @@ def api_book():
 		email = session.get("email")
 		fb_id = session.get("FB_ID")
 		if session.get("google"):
-			sql = f"delete from booking where email='{email}'"
+			sql = f"delete from attraction.booking where email='{email}'"
 		elif session.get("FB"):
-			sql = f"delete from booking where FB_ID='{fb_id}'"
+			sql = f"delete from attraction.booking where FB_ID='{fb_id}'"
 		else:
-			sql = f"delete from booking where userid='{idx}'"
-		db.engine.execute(sql)
+			sql = f"delete from attraction.booking where userid='{idx}'"
+		db_RDS.engine.execute(sql)
 		return jsonify({"ok":True})
 	if request.method=="PATCH":
 		data = request.get_json()["data"]
 		for i in data:
 			source = i["datasetid"]
 			target = i["orderid"]
-			sql = f"UPDATE booking SET bookingorder = '{target}' WHERE (id = '{source}');"
-			db.engine.execute(sql)
+			sql = f"UPDATE attraction.booking SET bookingorder = '{target}' WHERE (id = '{source}');"
+			db_RDS.engine.execute(sql)
 		return jsonify({"ok":True})
 
 
@@ -109,11 +121,11 @@ def delete_id(id):
 	email = session.get("email")
 	fb_id = session.get("FB_ID")
 	if session.get("google"):
-		sql = f"delete from booking where email='{email}' and attractionId='{id}'"
+		sql = f"delete from attraction.booking where email='{email}' and attractionId='{id}'"
 	elif session.get("FB"):
-		sql = f"delete from booking where FB_ID='{fb_id}' and attractionId='{id}'"
+		sql = f"delete from attraction.booking where FB_ID='{fb_id}' and attractionId='{id}'"
 	else:
-		sql = f"delete from booking where userid='{idx}' and attractionId='{id}'"
-	db.engine.execute(sql)
+		sql = f"delete from attraction.booking where userid='{idx}' and attractionId='{id}'"
+	db_RDS.engine.execute(sql)
 	return jsonify({"ok":True})
 

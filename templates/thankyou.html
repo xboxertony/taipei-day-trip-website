@@ -122,12 +122,18 @@
   )[0];
 
   function render_order_panel(d) {
+    let orderid = document.createElement("p");
+    orderid.classList.add("bold");
+    orderid.innerHTML = "訂單標號："+order_numbr;
+
+    order_panel_complete.appendChild(orderid)
+
     d.trip.forEach((element) => {
-      let block_attr = set_div(element.attraction.name,"景點名稱")
+      let block_attr = set_div(element.attraction.name, "景點名稱");
       order_panel_complete.appendChild(block_attr);
     });
 
-    let sum_attr = set_div(d.summary,"付款總額")
+    let sum_attr = set_div(d.summary, "付款總額");
     order_panel_complete.appendChild(sum_attr);
   }
 
@@ -143,7 +149,7 @@
       render_order_panel(data["data"]);
     });
 
-  function set_div(name,tag) {
+  function set_div(name, tag) {
     let info = document.createElement("div");
     info.classList.add("info");
 
@@ -158,7 +164,7 @@
 
     info.appendChild(attr_name);
     info.appendChild(attr_id);
-    return info
+    return info;
   }
 
   // fetch(`/api/order/${order_numbr}`)

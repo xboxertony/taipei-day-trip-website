@@ -132,4 +132,10 @@
     .order_info_contain{
         margin-top: 30px;
     }
+    .blk_update_password > p{
+        text-align: center;
+    }
+    .blk_update_password >p > input{
+        margin-top: 10px;
+    }
 }

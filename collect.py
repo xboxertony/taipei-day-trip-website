@@ -12,6 +12,11 @@ def f():
     fb_idx=session.get("FB_ID")
     if request.method=="POST":
         idx = request.get_json()["id"]
+        sql = f"select count(*) from collect.collect_attr where email='{email}' and collect_attr='{idx}'"
+        data = db_RDS.engine.execute(sql)
+        for i in data:
+            if i[0]>0:
+                return jsonify({"error":"該景點已收藏過"})
         sql = f"insert into collect.collect_attr (email,FB_ID,collect_attr) values ('{email}','{fb_idx}','{idx}')"
         db_RDS.engine.execute(sql)
         return jsonify({"ok":True})
@@ -31,8 +36,8 @@ def f():
             sql = f"select collect_attr from collect.collect_attr where FB_ID = '{fb_idx}' "
         data = db_RDS.engine.execute(sql)
         for i in data:
-            sql = f"select name from attractions where id={i[0]}"
-            data_attr = db.engine.execute(sql)
+            sql = f"select name from attraction.attractions where id={i[0]}"
+            data_attr = db_RDS.engine.execute(sql)
             for j in data_attr:
                 arr.append({"attid":i[0],"attname":j[0]})
         return jsonify({"data":arr})

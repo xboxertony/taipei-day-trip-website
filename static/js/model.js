@@ -183,7 +183,9 @@ function testAPI() {
                                 login_board.classList.remove("open");
                                 document.getElementById("message_for_error_login").innerHTML = ""
                                 get_user()
-                                check_login_user()
+                                if(window.location.href.includes("member_center")){
+                                    check_login_user()
+                                }
                                 // after_login()
                             }
                         })
@@ -315,7 +317,9 @@ function attachSignin(element) {
                     login_board.classList.remove("open");
                     document.getElementById("message_for_error_login").innerHTML = ""
                     get_user()
-                    check_login_user()
+                    if(window.location.href.includes("member_center")){
+                        check_login_user()
+                    }
                     // after_login()
                 }
             })
@@ -405,6 +409,7 @@ function get_user() {
         .then((res) => {
             document.getElementById("booking").style.display = "inline";
             document.getElementById("member_center").style.display = "inline";
+            document.getElementById("leader_schedule").style.display = "inline";
             if (res["data"]) {
                 pro.src = window.localStorage["url"]
                 if (!window.localStorage["url"]) {
@@ -503,6 +508,9 @@ create_act_btn.addEventListener("click", (e) => {
         email: create_email.value,
         password: create_password.value,
     };
+    if(document.getElementById("check_leader").checked){
+        data["leader"]=1
+    }
     fetch("/api/user", {
         method: "POST",
         headers: {
