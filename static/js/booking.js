@@ -435,7 +435,10 @@ async function pay_money(prime){
             }
         })
     })
-    if(!the_result)return
+    if(!the_result){
+        document.getElementById("status_code").innerHTML = "有時段已被預約"
+        return
+    }
     let data = {
         prime: prime,
         order: {
