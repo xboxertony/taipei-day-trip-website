@@ -75,4 +75,4 @@ def check():
     for i in res:
         print(i)
         return jsonify({"ok":True,"id":i[0]})
-    return jsonify({"error":True,"message":"該時段無導遊排班"})
+    return jsonify({"error":True,"message":"該時段無導遊排班","data":{"date":Time,"half":half}})
