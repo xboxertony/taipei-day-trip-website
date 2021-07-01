@@ -439,7 +439,7 @@ async function pay_money(prime){
     let data = {
         prime: prime,
         order: {
-            price: attraction_order.price,
+            price: total_sum_of_attr,
             trip: trip_list,
             contact: {
                 name: document.getElementById("order_name").value,

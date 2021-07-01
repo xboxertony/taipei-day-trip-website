@@ -32,14 +32,26 @@ def api_book():
 		if not session.get("google") and not session.get("FB"):
 			idx = session["id"]
 			cnt = int(find_cnt("userid",idx))+1
+			sql = f"select * from attraction.booking where attractionId='{attractionid}' and userid='{idx}'"
+			data = db_RDS.engine.execute(sql)
+			for i in data:
+				return jsonify({"error":True,"message":"該景點已選擇過"}),400
 			sql = f"insert into attraction.booking (attractionId,date,time,price,userid,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{idx}','{cnt}')"
 		if session.get("google"):
 			email = session["email"]
 			cnt = int(find_cnt("email",email))+1
+			sql = f"select * from attraction.booking where attractionId='{attractionid}' and email='{email}'"
+			data = db_RDS.engine.execute(sql)
+			for i in data:
+				return jsonify({"error":True,"message":"該景點已選擇過"}),400
 			sql = f"insert into attraction.booking (attractionId,date,time,price,email,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{email}','{cnt}')"
 		if session.get("FB"):
 			idx = session["FB_ID"]
 			cnt = int(find_cnt("FB_ID",idx))+1
+			sql = f"select * from attraction.booking where attractionId='{attractionid}' and FB_ID='{idx}'"
+			data = db_RDS.engine.execute(sql)
+			for i in data:
+				return jsonify({"error":True,"message":"該景點已選擇過"}),400
 			sql = f"insert into attraction.booking (attractionId,date,time,price,FB_ID,bookingorder) values ('{attractionid}','{date}','{time}','{price}','{idx}','{cnt}')"
 		db_RDS.engine.execute(sql)
 		return jsonify({"ok":True})
