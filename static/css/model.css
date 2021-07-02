@@ -57,14 +57,14 @@ nav ul {
   display: none;
   font-weight: 700;
 }
-#member_center,#leader_schedule{
+#member_center,#leader_schedule,#question_center{
   display: none;
 }
 #booking {
   margin-left: 10px;
   display: none;
 }
-#member_center{
+#member_center,#leader_schedule{
   margin-left: 10px;
 }
 .title {
@@ -298,7 +298,7 @@ button {
   #booking{
     margin-left: 10px;
   }
-  #leader_schedule{
+  #leader_schedule,#question_center{
     margin-left: 10px;
   }
   .last-item > a{

@@ -410,6 +410,7 @@ function get_user() {
             document.getElementById("booking").style.display = "inline";
             document.getElementById("member_center").style.display = "inline";
             document.getElementById("leader_schedule").style.display = "inline";
+            document.getElementById("question_center").style.display = "inline";
             if (res["data"]) {
                 pro.src = window.localStorage["url"]
                 if (!window.localStorage["url"]) {
