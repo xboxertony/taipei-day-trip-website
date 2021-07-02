@@ -105,7 +105,7 @@ async function get_Month(check_all,main_user,year, month) {
                     evening_chk.innerHTML = `O`
                     if(read_data[k]["afternoon"]){
                         evening_chk.style.color="red"
-                        evening_chk.dataset.order_number = read_data[k]["morning"]
+                        evening_chk.dataset.order_number = read_data[k]["afternoon"]
                     }
                 }
             }
@@ -249,10 +249,30 @@ async function fcn_send_sche() {
     let data = await send.json()
     if (data["ok"]) {
         alert("班表寄送成功")
+        sche=[]
+    }
+    if(data["error"]){
+        alert(data["message"])
     }
 }
 
+function appned_all(){
+    let option = document.createElement("option")
+    option.innerHTML = "All"
+    select_leader.appendChild(option)
+}
+
+appned_all()
+
+
 select_leader.addEventListener("change",function(){
+    if(select_leader.value==="All"){
+        select_leader.innerHTML=""
+        member_block.innerHTML = ""
+        appned_all()
+        append_schedule(false,5)
+        return
+    }
     append_schedule_individual(this.value,5)
 })
 

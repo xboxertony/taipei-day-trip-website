@@ -85,9 +85,32 @@ async function write_collection_info(){
         att_collect.forEach((item)=>{
             let attname = document.createElement("p")
             attname.innerHTML = `<a href='/attraction/${item["attid"]}'>${item['attname']}</a>`
+            let btn = document.createElement("button")
+            btn.innerHTML = "取消收藏"
+            attname.appendChild(btn)
+            btn.dataset.idx = item["attid"]
+            btn.classList.add("cancel_collection")
+            btn.addEventListener("click",cancel_collection_fcn)
             collection_info.appendChild(attname)
 
         })
+    }
+}
+
+async function cancel_collection_fcn(){
+    let config = {
+        method:"DELETE",
+        body:JSON.stringify({
+            id:this.dataset.idx
+        }),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    }
+    let send_delete = await fetch("/api/collect_user",config)
+    let response = await send_delete.json()
+    if(response["ok"]){
+        window.location.reload()
     }
 }
 

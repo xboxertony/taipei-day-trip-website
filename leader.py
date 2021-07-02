@@ -12,12 +12,18 @@ leader_app = Blueprint("leader_app",__name__)
 def schedule():
     if request.method=="POST":
         req_data = request.get_json()["data"]
+        print(req_data)
         for data in req_data:
             name = data.get("name")
             Time = data.get("Time").split(" ")
             Time = datetime.datetime.strptime(Time[0]+"-"+Time[1]+"-"+Time[2],"%Y-%m-%d")
             half = data.get("half")
             if data.get("update"):
+                sql = f"select count(*) from leader_info.schedule where name='{name}' and Time='{Time}' and half='{half}'"
+                result_check_repeat = db_RDS.engine.execute(sql)
+                for i in result_check_repeat:
+                    if i[0]>0:
+                        return jsonify({"error":True,"message":"已有重複排班"})
                 sql = f"insert into leader_info.schedule (name,Time,half) values ('{name}','{Time}','{half}') "
             else:
                 sql = f"delete from leader_info.schedule where name='{name}' and Time='{Time}' and half='{half}' "
@@ -61,7 +67,7 @@ def arrange():
     data_all = request.get_json()["arr"]
     order_number = request.get_json()["order_number"]
     for data in data_all:
-        sql = f"UPDATE leader_info.schedule SET booking_user = '{order_number}' WHERE id='{data}'"
+        sql = f"UPDATE leader_info.schedule SET booking_user = '{order_number}' WHERE id='{data}' and booking_user is null"
         db_RDS.engine.execute(sql)
     return jsonify({"ok":True})
 
@@ -75,4 +81,4 @@ def check():
     for i in res:
         print(i)
         return jsonify({"ok":True,"id":i[0]})
-    return jsonify({"error":True,"message":"該時段無導遊排班"})
+    return jsonify({"error":True,"message":"該時段無導遊排班","data":{"date":Time,"half":half}})

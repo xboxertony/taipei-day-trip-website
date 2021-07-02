@@ -5,12 +5,17 @@
     font-weight: 900;
     font-size: 20px;
   }
+  #the_order_guy {
+    margin: auto;
+    color: #161b22;
+  }
   .bold:nth-of-type(2n) {
     margin-left: 10px;
   }
   #order_result {
     padding: 10px;
     text-align: center;
+    font-family: sans-serif;
   }
   #order_result p {
     margin-bottom: 10px;
@@ -31,6 +36,9 @@
     margin: auto;
     width: fit-content;
     position: relative;
+    border: 2px solid #b8ba31;
+    padding: 10px;
+    border-radius: 5px;
   }
   .order_mention p {
     color: black;
@@ -52,17 +60,12 @@
     z-index: -1;
   }
   #copy {
-    margin-left: 10px;
-    transform: translateY(-75%);
     border: none;
     cursor: pointer;
     font-size: 15px;
     font-weight: 700;
     background-color: transparent;
-    display: block;
     color: #aaa;
-    border-left: 2px solid #ddd;
-    padding-left: 5px;
   }
   /* #copy::after{
     content: "";
@@ -74,17 +77,58 @@
     top: 0;
   } */
   .info {
-    background-color: rgba(227, 233, 237, 0.3);
     padding: 10px;
+  }
+  .table_thankyou {
+    width: 100%;
+  }
+  thead {
+    margin: auto;
+  }
+  th {
+    color: #38659b;
+  }
+  td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+    font-weight: 700;
+  }
+  .title_attr {
+    color: #1d2021;
+  }
+  .no_bottom {
+    border-bottom: none;
+  }
+  .name_for_order {
+    color: #91a111;
   }
 </style>
 {% endblock %} {% block content %}
 <div id="order_result">
   <div class="order_mention">
     <div class="info">
-      <p id="the_order_guy">{{ session.name }}您好，您的訂單資訊如下：</p>
+      <p id="the_order_guy">
+        <span class="name_for_order">{{ session.name }}</span
+        >您好，您的訂單資訊如下：
+      </p>
     </div>
     <div class="order_panel_complete">
+      <table class="table_thankyou">
+        <thead>
+          <tr>
+            <th colspan="4" class="table_title"></th>
+          </tr>
+        </thead>
+        <tbody id="thankyou_info">
+          <tr>
+            <td>景點名稱</td>
+            <td>訂單價錢</td>
+            <td>出發日期</td>
+            <td>出發時間</td>
+          </tr>
+        </tbody>
+      </table>
       <!-- <div class="info">
         <p class="bold">訂單編號 :</p>
         <p id="order_id" class="bold"></p>
@@ -121,20 +165,50 @@
     "order_panel_complete"
   )[0];
 
-  function render_order_panel(d) {
-    let orderid = document.createElement("p");
-    orderid.classList.add("bold");
-    orderid.innerHTML = "訂單標號："+order_numbr;
+  let table_title = document.getElementsByClassName("table_title")[0];
 
-    order_panel_complete.appendChild(orderid)
+  let thankyou_info = document.getElementById("thankyou_info");
+
+  function render_order_panel(d) {
+    // let orderid = document.createElement("p");
+    // orderid.classList.add("bold");
+    // orderid.innerHTML = "訂單標號：" + order_numbr;
+
+    table_title.innerHTML = `<span id='order_id'>${order_numbr}</span> <i class="fas fa-copy" id='copy'></i>`;
 
     d.trip.forEach((element) => {
-      let block_attr = set_div(element.attraction.name, "景點名稱");
-      order_panel_complete.appendChild(block_attr);
+      let tr = document.createElement("tr");
+      let html_str = `
+        <td class='title_attr'>${element.attraction.name}</td>
+        <td>${element.price}</td>
+        <td>${element.date}</td>
+        <td>${element.time}</td>
+      `;
+      tr.innerHTML = html_str;
+      thankyou_info.appendChild(tr);
     });
 
-    let sum_attr = set_div(d.summary, "付款總額");
-    order_panel_complete.appendChild(sum_attr);
+    let tr = document.createElement("tr");
+    let html_str = `
+        <td class='no_bottom'></td>
+        <td class='no_bottom'>${d.summary}</td>
+        <td class='no_bottom'></td>
+        <td class='no_bottom'></td>
+      `;
+    tr.innerHTML = html_str;
+    thankyou_info.appendChild(tr);
+
+    add_copy()
+
+    // order_panel_complete.appendChild(orderid);
+
+    // d.trip.forEach((element) => {
+    //   let block_attr = set_div(element.attraction.name, "景點名稱");
+    //   order_panel_complete.appendChild(block_attr);
+    // });
+
+    // let sum_attr = set_div(d.summary, "付款總額");
+    // order_panel_complete.appendChild(sum_attr);
   }
 
   fetch(`/api/order/${order_numbr}`)
@@ -200,22 +274,26 @@
       console.log(data);
     });
 
-  // let copy = document.getElementById("copy");
-  // copy.addEventListener("click", function () {
-  //   let order_id = document.getElementById("order_id");
-  //   let range = document.createRange();
-  //   range.selectNode(order_id);
-  //   window.getSelection().addRange(range);
-  //   console.log(range);
-  //   try {
-  //     if (document.execCommand("Copy", "false", null)) {
-  //       alert("複製成功");
-  //     } else {
-  //       alert("複製失敗");
-  //     }
-  //   } catch {
-  //     alert("複製錯誤");
-  //   }
-  // });
+  function add_copy() {
+    let copy = document.getElementById("copy");
+    copy.addEventListener("click", function () {
+      let order_id = document.getElementById("order_id");
+      let range = document.createRange();
+      range.selectNode(order_id);
+      console.log(range)
+      let sel = window.getSelection()
+      sel.removeAllRanges()
+      sel.addRange(range)
+      try {
+        if (document.execCommand("Copy", "false", null)) {
+          alert("複製成功");
+        } else {
+          alert("複製失敗");
+        }
+      } catch {
+        alert("複製錯誤");
+      }
+    });
+  }
 </script>
 {% endblock %}

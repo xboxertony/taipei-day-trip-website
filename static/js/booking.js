@@ -426,16 +426,25 @@ async function pay_money(prime){
         arr.push(check_status(item))
     })
     let the_result = true
+    let error = []
     await Promise.all(arr).then((res)=>{
         res.forEach((item)=>{
             if(item["error"]){
+                error.push(item.data)
                 the_result = false
             }else{
                 id_list.push(item['id'])
             }
         })
     })
-    if(!the_result)return
+    if(!the_result){
+        let s = ""
+        error.forEach((item)=>{
+            s = s+item["date"]+" "+item["half"]+" 時段已無排班 <br>"
+        })
+        document.getElementById("status_code").innerHTML = s
+        return
+    }
     let data = {
         prime: prime,
         order: {
