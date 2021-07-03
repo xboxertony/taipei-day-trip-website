@@ -170,7 +170,7 @@ function handle_data(res) {
     describe_content.innerHTML = res.data.description;
     address_place.innerHTML = res.data.address;
     traffic.innerHTML = res.data.transport;
-    // get_yt_video(res.data.name)
+    get_yt_video(res.data.name)
     get_msg(page)
     get_news(res.data.name, res.data.mrt, res.data.address.slice(4, 7).trim())
 }
