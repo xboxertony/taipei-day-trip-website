@@ -82,13 +82,14 @@ def user():
 			data = request.get_json()
 			email = data["email"]
 			password = data["password"]
-			sql = f"select id,name,email,leader from attraction.user where email='{email}' and password='{password}'"
+			sql = f"select id,name,email,leader,img_src from attraction.user where email='{email}' and password='{password}'"
 			result = db_RDS.engine.execute(sql)
 			for i in result:
 				session["id"]=i[0]
 				session["name"]=i[1]
 				session["email"]=i[2]
 				session['leader']=i[3]
+				session["img_src"]=i[4]
 				session.permanent = True
 				return jsonify({"ok":True})
 			return jsonify({"error":True,"message":"登入失敗，帳號或密碼錯誤"}),400
@@ -108,6 +109,8 @@ def user():
 			session.pop("email")
 		if "google" in session:
 			session.pop("google")
+		if "img_src" in session:
+			session.pop("img_src")
 		return jsonify({"ok":True})
 	if request.method=="GET":
 		print(session)
@@ -115,7 +118,8 @@ def user():
 			return jsonify({"data":{
 				"id":session.get("id"),
 				"name":session.get("name"),
-				"email":session.get("email")
+				"email":session.get("email"),
+				"img_src":session.get("img_src")
 				}
 			})
 		else:

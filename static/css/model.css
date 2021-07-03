@@ -209,10 +209,11 @@ button {
 }
 #profile {
   position: absolute;
-  width: 30px;
-  left: -35px;
+  width: 40px;
+  left: -45px;
   top: -13px;
   border-radius: 10px;
+  height: 40px;
 }
 .error {
   display: none;

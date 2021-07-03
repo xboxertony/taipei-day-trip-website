@@ -135,6 +135,25 @@
   /* line-height: unset; */
   padding: 5px;
 }
+.photo_center{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 130px;
+}
+#photo_show,#photo_upload{
+  width: 100%;
+}
+#upload_check{
+  width: 100%;
+  margin-top: 10px;
+  height: auto;
+}
+#error_upload{
+  color: red;
+  font-weight: 800;
+  text-align: center;
+}
 @media screen and (max-width: 800px) {
   .info.open {
     padding: 50px 50px;
