@@ -1,7 +1,7 @@
 from flask.globals import request, session
 from main import db_RDS
 import boto3
-from flask import Blueprint,request,jsonify
+from flask import Blueprint,request,jsonify,session
 from config import aws_access_key_id,aws_secret_access_key
 
 s3 = boto3.client(
@@ -26,4 +26,5 @@ def upload():
         db_RDS.engine.execute(sql)
         ##photo.save(file_path)
         s3.upload_fileobj(photo,"tonytony58",photo.filename,ExtraArgs={'ACL': 'public-read'})
+        session["img_src"] = real_path
         return jsonify({"ok":True})

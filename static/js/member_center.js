@@ -313,11 +313,11 @@ async function upload_photo_fcn(){
     })
     let response = await send_photo.json()
     if(response["ok"]){
-        error_upload.innerHTML = ""
         alert("上傳成功")
     }
     if(response["error"]){
-        error_upload.innerHTML = ""
         alert("上傳失敗")
     }
+    error_upload.innerHTML = ""
+    window.location.reload()
 }
