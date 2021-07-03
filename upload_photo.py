@@ -17,9 +17,13 @@ allow_path = set(["jpg","png","JPG","PNG"])
 @upload_photo_app.route("/api/user_photo",methods=["POST"])
 def upload():
     if request.method=="POST":
-        photo = request.files["files"]
+        photo = request.files.get("files")
+        if not photo:
+            return jsonify({"error":True,"message":"請選擇圖片"})
         if photo.filename.split(".")[-1] not in allow_path:
-            return jsonify({"error":True})
+            return jsonify({"error":True,"message":"圖片副檔名不對"})
+        if session.get("google") or session.get("FB"):
+            return jsonify({"error":True,"message":"您並非以本系統註冊，無法上傳圖片"})
         email = session.get("email")
         real_path = "http://d3nczlg85bnjib.cloudfront.net/"+photo.filename
         sql = f"UPDATE attraction.user SET img_src = '{real_path}' WHERE email = '{email}'"

@@ -144,6 +144,9 @@
 #photo_show,#photo_upload{
   width: 100%;
 }
+#photo_show{
+  height: 100px;
+}
 #upload_check{
   width: 100%;
   margin-top: 10px;

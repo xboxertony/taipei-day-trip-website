@@ -316,7 +316,7 @@ async function upload_photo_fcn(){
         alert("上傳成功")
     }
     if(response["error"]){
-        alert("上傳失敗")
+        alert("上傳失敗，"+response["message"])
     }
     error_upload.innerHTML = ""
     window.location.reload()
