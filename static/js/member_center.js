@@ -25,6 +25,8 @@ let month_list = {
     "Dec": 12
 }
 
+let photo_show = document.getElementById("photo_show")
+
 async function check_login_user() {
     if (!window.location.href.includes("member_center")) return
     let res = await fetch("/api/user")
@@ -57,6 +59,9 @@ async function appned_center() {
 function write_member_info() {
     member_name.innerHTML = user_information["name"]
     member_email.innerHTML = user_information["email"]
+    if(user_information['img_src']){
+        photo_show.src = user_information['img_src']
+    }
 }
 
 async function write_message_info() {
@@ -266,4 +271,53 @@ async function update_password(){
     }else{
         msg_for_update.innerHTML = `${result['error']}`
     }
+}
+
+// ##上傳圖片##
+
+let btn_upload_photo = document.getElementById("photo_upload")
+let upload_check = document.getElementById("upload_check")
+// let photo_show = document.getElementById("photo_show")
+let error_upload = document.getElementById("error_upload")
+
+upload_check.addEventListener("click",upload_photo_fcn)
+btn_upload_photo.addEventListener("change",upload_photo)
+
+function upload_photo(){
+
+    let item = btn_upload_photo.files[0];
+    const reader = new FileReader()
+
+    reader.addEventListener("load",function(){
+        photo_show.src = reader.result
+    })
+
+    if(item){
+        reader.readAsDataURL(item)
+    }
+
+}
+
+async function upload_photo_fcn(){
+    let item = btn_upload_photo.files[0];
+
+    let data = new FormData()
+    data.append("files",item)
+
+    error_upload.innerHTML="上傳中"
+    error_upload.style.display = "block"
+
+    let send_photo = await fetch("/api/user_photo",{
+        method:"POST",
+        body:data
+    })
+    let response = await send_photo.json()
+    if(response["ok"]){
+        alert("上傳成功")
+    }
+    if(response["error"]){
+        alert("上傳失敗")
+    }
+    error_upload.innerHTML = ""
+    window.location.reload()
 }

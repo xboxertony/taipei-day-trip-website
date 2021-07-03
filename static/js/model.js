@@ -430,6 +430,9 @@ function get_user() {
                         "email": email
                     }
                 }
+                if(res["data"]["img_src"]){
+                    document.getElementById("profile").src = res["data"]["img_src"]
+                }
             } else {
                 // console.log("ok")
                 document.getElementById("login").style.display = "inline";

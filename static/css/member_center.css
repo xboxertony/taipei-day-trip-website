@@ -135,9 +135,31 @@
   /* line-height: unset; */
   padding: 5px;
 }
+.photo_center{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 130px;
+}
+#photo_show,#photo_upload{
+  width: 100%;
+}
+#upload_check{
+  width: 100%;
+  margin-top: 10px;
+  height: auto;
+}
+#error_upload{
+  color: red;
+  font-weight: 800;
+  text-align: center;
+}
 @media screen and (max-width: 800px) {
   .info.open {
     padding: 50px 50px;
+  }
+  .info.open:first-of-type{
+    margin-top: 250px;
   }
   .order_info_contain {
     margin-top: 30px;
@@ -147,5 +169,14 @@
   }
   .blk_update_password > p > input {
     margin-top: 10px;
+  }
+  .member_info{
+    margin-top: 100px;
+  }
+  .photo_center{
+    position: absolute;
+    top: -230px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
