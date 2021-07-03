@@ -158,6 +158,9 @@
   .info.open {
     padding: 50px 50px;
   }
+  .info.open:first-of-type{
+    margin-top: 250px;
+  }
   .order_info_contain {
     margin-top: 30px;
   }
@@ -166,5 +169,14 @@
   }
   .blk_update_password > p > input {
     margin-top: 10px;
+  }
+  .member_info{
+    margin-top: 100px;
+  }
+  .photo_center{
+    position: absolute;
+    top: -230px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
