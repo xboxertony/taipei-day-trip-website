@@ -307,4 +307,7 @@ button {
     margin-bottom: 50px;
     color: #fff;
   }
+  #logout{
+    margin-left: 40px;
+  }
 }
