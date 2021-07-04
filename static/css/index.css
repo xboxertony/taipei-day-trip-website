@@ -265,6 +265,39 @@ input:focus {
 .icon_collect.close{
   display: none;
 }
+.top_attraction{
+  width: 1200px;
+  background-color: #eeeeee;
+  margin: 30px auto;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  position: relative;
+}
+.top_attraction > p{
+  font-weight: 800;
+}
+.top_attr_item{
+  display: flex;
+  margin: 10px 0;
+  overflow-x: scroll;
+}
+.top_attr_item::-webkit-scrollbar{
+  height: 15px;
+  background-color:#eeeeee;
+}
+.top_attr_item > a{
+  margin-right: 30px;
+}
+/* #right_page{
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  font-size: 70px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #66aabb;
+} */
 @media screen and (max-width: 1200px) {
   nav ul,
   .container,
@@ -286,6 +319,9 @@ input:focus {
   }
   .container {
     justify-content: space-evenly;
+  }
+  .top_attraction{
+    width: 90%;
   }
 }
 @media screen and (max-width: 800px) {
