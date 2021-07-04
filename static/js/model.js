@@ -654,3 +654,24 @@ function enter_center(e){
         }
     })
 }
+
+//新增班表系統防呆機制
+
+let schedule_btn = document.getElementById("leader_schedule")
+
+schedule_btn.addEventListener("click",enter_schedule_system)
+
+async function enter_schedule_system(e){
+    e.preventDefault()
+    let get_user = await fetch("/api/user")
+    let response = await get_user.json()
+    if(response["data"]){
+        if(!response["data"]["leader"]){
+            alert("您並非導遊")
+            return
+        }
+        window.location.href = "/schedule"
+    }else{
+        alert("請登入會員")
+    }
+}
