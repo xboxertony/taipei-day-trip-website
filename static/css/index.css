@@ -57,6 +57,10 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  background-color: #DEE0D5;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 10px;
 }
 .attraction {
   width: 276px;
@@ -267,7 +271,7 @@ input:focus {
 }
 .top_attraction{
   width: 1200px;
-  background-color: #eeeeee;
+  background-color: #DEE0D5;
   margin: 30px auto;
   padding: 20px 10px;
   box-sizing: border-box;
