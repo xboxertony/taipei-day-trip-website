@@ -58,6 +58,7 @@ nav ul {
   font-weight: 700;
 }
 #member_center,#leader_schedule,#question_center{
+  margin-left: 10px;
   display: none;
 }
 #booking {
@@ -305,5 +306,8 @@ button {
   .last-item > a{
     margin-bottom: 50px;
     color: #fff;
+  }
+  #logout{
+    margin-left: 40px;
   }
 }

@@ -146,75 +146,111 @@ function get_data_by_keyword(page, keyword) {
         });
 }
 
+let top_attr_item = document.getElementsByClassName("top_attr_item")[0]
+let right_page = document.getElementById("right_page")
+
+// right_page.addEventListener("click",right_page_act)
+// let px = 0
+
+// function right_page_act(){
+
+//     let son = top_attr_item.getElementsByClassName("for_move")
+//     px = px-50
+//     Array.from(son).forEach((item)=>{
+//         item.style.transform = `translateX(${px}px)`
+//     })
+// }
+
+async function appened_data_to_top_5(){
+    let append_top = await fetch("/api/search")
+    let response = await append_top.json()
+
+    response.data.forEach((item)=>{
+        top_attr_item.appendChild(create_attraction(item))
+    })
+    get_collection()
+}
+
+appened_data_to_top_5()
+
 function render_data(res) {
     let cnt = 0;
     res.data.forEach((element) => {
-        let attraction = document.createElement("div");
-        attraction.classList.add("attraction");
-
-        attraction.style.backgroundImage = "url('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif')";
-
-        let img = new Image();
-        // img.onload = function () {
-        //     cnt++;
-        //     if (cnt === res.data.length && load_complete === false) {
-        //         load_complete = true;
-        //     }
-        // };
-        img.src = element.images[0];
-
-        let link = document.createElement("a");
-        link.href = `/attraction/${element.id}`;
-
-        link.appendChild(attraction);
-        attraction.appendChild(img);
-
-
-        let description = document.createElement("div");
-        description.classList.add("description");
-
-        let p = document.createElement("p");
-        p.innerHTML = element.name;
-        attraction.setAttribute("data-content", element.name)
-
-        let transport = document.createElement("a");
-        transport.classList.add("transport");
-        transport.innerHTML = element.mrt;
-
-        let cat = document.createElement("a");
-        cat.classList.add("cat");
-        cat.innerHTML = element.category;
-
-        description.appendChild(p);
-        description.appendChild(transport);
-        description.appendChild(cat);
-
-        let favorite = new Image()
-        favorite.src = "/static/favourite.png"
-        favorite.classList.add("icon_collect")
-        favorite.classList.add("icon_fav")
-        favorite.classList.add("close")
-        favorite.dataset.attrid = element.id
-        favorite.addEventListener("click", cancel_attr)
-        let close = new Image()
-        close.src = "/static/close.png"
-        close.classList.add("icon_collect")
-        close.classList.add("icon_close")
-        close.dataset.attrid = element.id
-        close.addEventListener("click", collect_attr)
-
-        attraction.appendChild(favorite)
-        attraction.appendChild(close)
-
-        attraction.appendChild(description);
-
-        container.appendChild(link);
+        container.appendChild(create_attraction(element));
         cnt++
         if (cnt === res.data.length) {
             load_complete = true
         }
     });
     get_collection()
+}
+
+
+
+function create_attraction(element){
+
+    let attraction = document.createElement("div");
+    attraction.classList.add("attraction");
+
+    attraction.style.backgroundImage = "url('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif')";
+
+    let img = new Image();
+    // img.onload = function () {
+    //     cnt++;
+    //     if (cnt === res.data.length && load_complete === false) {
+    //         load_complete = true;
+    //     }
+    // };
+    img.src = element.images[0];
+
+    let link = document.createElement("a");
+    link.href = `/attraction/${element.id}`;
+    link.classList.add("for_move")
+
+    link.appendChild(attraction);
+    attraction.appendChild(img);
+
+
+    let description = document.createElement("div");
+    description.classList.add("description");
+
+    let p = document.createElement("p");
+    p.innerHTML = element.name;
+    attraction.setAttribute("data-content", element.name)
+
+    let transport = document.createElement("a");
+    transport.classList.add("transport");
+    transport.innerHTML = element.mrt;
+
+    let cat = document.createElement("a");
+    cat.classList.add("cat");
+    cat.innerHTML = element.category;
+
+    description.appendChild(p);
+    description.appendChild(transport);
+    description.appendChild(cat);
+
+    let favorite = new Image()
+    favorite.src = "/static/favourite.png"
+    favorite.classList.add("icon_collect")
+    favorite.classList.add("icon_fav")
+    favorite.classList.add("close")
+    favorite.dataset.attrid = element.id
+    favorite.addEventListener("click", cancel_attr)
+    let close = new Image()
+    close.src = "/static/close.png"
+    close.classList.add("icon_collect")
+    close.classList.add("icon_close")
+    close.dataset.attrid = element.id
+    close.addEventListener("click", collect_attr)
+
+    attraction.appendChild(favorite)
+    attraction.appendChild(close)
+
+    attraction.appendChild(description);
+
+    return link
+
 }
 
 // 收藏景點

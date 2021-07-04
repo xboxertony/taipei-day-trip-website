@@ -119,7 +119,8 @@ def user():
 				"id":session.get("id"),
 				"name":session.get("name"),
 				"email":session.get("email"),
-				"img_src":session.get("img_src")
+				"img_src":session.get("img_src"),
+				"leader":session.get("leader")
 				}
 			})
 		else:

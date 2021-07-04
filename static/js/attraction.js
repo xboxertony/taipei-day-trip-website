@@ -69,6 +69,7 @@ fetch("/api/attraction/" + `${idx}`)
         judge_width();
         show_img();
         handle_data(res);
+        add_view()
     });
 
 let calendar = document.getElementById("date")
@@ -170,7 +171,7 @@ function handle_data(res) {
     describe_content.innerHTML = res.data.description;
     address_place.innerHTML = res.data.address;
     traffic.innerHTML = res.data.transport;
-    // get_yt_video(res.data.name)
+    get_yt_video(res.data.name)
     get_msg(page)
     get_news(res.data.name, res.data.mrt, res.data.address.slice(4, 7).trim())
 }
@@ -574,5 +575,31 @@ async function collec_action(e){
     if(response["error"]){
         alert(response["error"])
         return
+    }
+}
+
+//新增瀏覽次數
+async function add_view(){
+
+    let time = new Date()
+
+    const config = {
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            "time":`${time.getFullYear()}-${time.getMonth()+1}-${time.getDate()}`,
+            "attrid":idx
+        })
+    }
+    let view_api = await fetch("/api/search",config)
+    let response = await view_api.json()
+
+    if(response["ok"]){
+        console.log("ok")
+    }
+    if(response["error"]){
+        console.log("error")
     }
 }
