@@ -61,6 +61,11 @@
   </div>
 </div>
 <div class="describe">
+  <div id="weather_forcast_region">
+    <!-- <i class="fas fa-caret-square-left" id="left_icon"></i>
+    <i class="fas fa-caret-square-right close" id="right_icon"></i> -->
+    <div id="weather_tool"></div>
+  </div>
   <div class="describe_content"></div>
   <div>
     <p class="des_title">景點地址：</p>
@@ -72,9 +77,7 @@
   </div>
   <div>
     <p class="des_title">近一周該區相關新聞</p>
-    <div class="news">
-      
-    </div>
+    <div class="news"></div>
   </div>
   <div class="video">
     <p class="des_title">Youtube相關影片</p>
@@ -97,10 +100,8 @@
     <blockquote id="leave_msg_textarea" contenteditable="true"></blockquote>
     <button id="btn_msg">送出</button>
   </div>
-  <br>
-  <div id="msg_history">
-    
-  </div>
+  <br />
+  <div id="msg_history"></div>
   <!-- <div class="msg_below">
     <p id="msg_name">蔡承翰</p>
     <p id="msg_time">2021-06-03</p>
@@ -113,13 +114,13 @@
   </div> -->
   <button id="btn_more_msg">載入更多</button>
 </div>
-<div id="weather_forcast_region">
+<!-- <div id="weather_forcast_region">
   <i class="fas fa-caret-square-left" id="left_icon"></i>
   <i class="fas fa-caret-square-right close" id="right_icon"></i>
   <div id="weather_tool">
     
   </div>
-</div>
+</div> -->
 {% endblock %} {% block script %}
 <script src="../static/js/attraction.js"></script>
 {% endblock %}

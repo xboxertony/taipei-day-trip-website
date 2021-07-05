@@ -30,6 +30,8 @@ let order_time = "morning";
 
 let page = 0;
 
+let news = document.getElementsByClassName("news")[0]
+
 
 function get_yt_video(word) {
     fetch("/api/youtube", {
@@ -171,7 +173,7 @@ function handle_data(res) {
     describe_content.innerHTML = res.data.description;
     address_place.innerHTML = res.data.address;
     traffic.innerHTML = res.data.transport;
-    get_yt_video(res.data.name)
+    // get_yt_video(res.data.name)
     get_msg(page)
     get_news(res.data.name, res.data.mrt, res.data.address.slice(4, 7).trim())
 }
@@ -456,26 +458,26 @@ async function delete_msg_fcn(e){
 fetch("/api/weather").then((res) => {
     return res.json()
 }).then((data) => {
-    weather_forcast = data.records.locations[0].location[0].weatherElement[6].time
+    weather_forcast = data.records.locations[0].location[0].weatherElement
     // .locations[0].location[0].weatherElement
     get_weather_data(weather_forcast)
     // console.log(weather_forcast)
 })
 
 let w_region = document.getElementById("weather_forcast_region")
-let left_i = document.getElementById("left_icon")
-let right_i = document.getElementById("right_icon")
+// let left_i = document.getElementById("left_icon")
+// let right_i = document.getElementById("right_icon")
 let weather_tool = document.getElementById("weather_tool")
 
-left_i.addEventListener("click", function () {
-    w_region.classList.toggle("open")
-    toggle_icon()
-})
+// left_i.addEventListener("click", function () {
+//     w_region.classList.toggle("open")
+//     toggle_icon()
+// })
 
-right_i.addEventListener("click", function () {
-    w_region.classList.toggle("open")
-    toggle_icon()
-})
+// right_i.addEventListener("click", function () {
+//     w_region.classList.toggle("open")
+//     toggle_icon()
+// })
 
 function toggle_icon() {
     left_i.classList.toggle("close")
@@ -486,22 +488,26 @@ function toggle_icon() {
 
 function get_weather_data(data) {
     weather_tool.innerHTML = ""
-    data.forEach((item) => {
+    let weather_des = data[6].time
+    let raining_percent = data[0].time
+    let themometer_high = data[12].time
+    let themometer_low = data[8].time
+    weather_des.forEach((item) => {
         weather_block = document.createElement("div")
         start_time = document.createElement("p")
         // end_time = document.createElement("p")
         des = document.createElement("div")
         line = null;
         let regex = /[陰|雲]/g
-        if (item.startTime.split(" ")[1] === "18:00:00") {
-            line = document.createElement("hr")
-        }
+        // if (item.startTime.split(" ")[1] === "18:00:00") {
+        //     line = document.createElement("hr")
+        // }
         if (item.startTime.split(" ")[1] === "18:00:00") {
             start_time.innerHTML = item.startTime.split(" ")[0] + " 下午"
         } else if ((item.startTime.split(" ")[1] === "06:00:00")) {
             start_time.innerHTML = item.startTime.split(" ")[0] + " 上午"
         } else {
-            start_time.innerHTML = item.startTime.split(" ")[0] + " 凌晨"
+            start_time.innerHTML = item.startTime.split(" ")[0] + " 上午"
         }
         // pre_time = item.startTime.split(" ")[0]
         if (item.elementValue[0].value.includes("雨")) {
@@ -511,18 +517,39 @@ function get_weather_data(data) {
         } else {
             des.innerHTML = '<i class="fas fa-sun"></i>'
         }
+        des.classList.add("weather_icon")
         weather_block.appendChild(start_time)
         // weather_block.appendChild(end_time)
+        let des_word = document.createElement("div")
+        des_word.innerHTML = item.elementValue[0].value
+        des_word.classList.add("des_word")
         weather_block.appendChild(des)
+        weather_block.appendChild(des_word)
 
 
         weather_block.classList.add("weather_block")
         weather_tool.appendChild(weather_block)
         if (line) { weather_tool.appendChild(line) }
     })
+    
+    let weather_block_div = document.getElementsByClassName("weather_block")
+    for(let i=0;i<weather_block_div.length;i++){
+
+        let val = raining_percent[i].elementValue[0].value
+        let block = document.createElement("div")
+        block.classList.add("raning_block")
+        block.innerHTML = `<div class='raining'><i class="fas fa-umbrella"></i></div> <div class="weather_word">${val!==" "?val+"%":"尚無資料"}</div>`
+        weather_block_div[i].appendChild(block)
+        let high_temp = themometer_high[i].elementValue[0].value
+        let low_temp = themometer_low[i].elementValue[0].value
+        let block2 = document.createElement("div")
+        block2.classList.add("raning_block")
+        block2.innerHTML = `<div class='raining'><i class="fas fa-thermometer-half"></i></div> <div class="weather_word">${low_temp+"°"+" ~ "+high_temp+"°C"}</div>`
+        weather_block_div[i].appendChild(block2)
+    }
 }
 
-let news = document.getElementsByClassName("news")[0]
+// let news = document.getElementsByClassName("news")[0]
 
 async function get_news(...word) {
     let ss = "/api/news?"

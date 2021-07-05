@@ -60,7 +60,7 @@
 }
 .describe {
   width: 1200px;
-  margin: 50px auto;
+  margin: 20px auto;
   word-wrap: break-word;
 }
 .describe > div {
@@ -206,7 +206,55 @@ input[type="radio"]:checked + span::before {
 #btn_more_msg.close{
   display: none;
 }
-#weather_forcast_region{
+#weather_tool{
+  display: flex;
+  background-color: #fafafa;
+  overflow-x: scroll;
+  padding: 30px 0;
+}
+#weather_tool::-webkit-scrollbar{
+  height: 2px;
+  background-color: #fafafa;
+}
+.weather_block{
+  flex: 0 0 100px;
+  margin: 0 30px;
+  background-color: #ffffff;
+  padding: 30px;
+  text-align: center;
+}
+.weather_icon{
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  font-size: 30px;
+}
+.weather_block p{
+  white-space: nowrap;
+}
+/* .weather_block i{
+  font-size: 50px;
+} */
+.raining{
+  color: #52cbd4;
+  font-size: 20px;
+}
+.raning_block{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+.raning_block > div{
+  width: fit-content;
+}
+.weather_word{
+  font-size: 20px;
+}
+.des_word{
+  word-break: keep-all;
+}
+/* #weather_forcast_region{
   position: fixed;
   right: -160px;
   background-color: #333333;
@@ -215,11 +263,11 @@ input[type="radio"]:checked + span::before {
   padding: 10px;
   color: #ffffff;
   z-index: 5;
-}
-#weather_forcast_region.open{
+} */
+/* #weather_forcast_region.open{
   right: 0px;
-}
-.weather_block{
+} */
+/* .weather_block{
   display: flex;
   margin-bottom: 5px;
   align-items: center;
@@ -241,7 +289,7 @@ input[type="radio"]:checked + span::before {
 }
 #right_icon.close{
   display: none;
-}
+} */
 
 .news{
   display: flex;
