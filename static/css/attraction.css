@@ -63,8 +63,8 @@
   margin: 20px auto;
   word-wrap: break-word;
 }
-.describe > div {
-  margin: 20px 0;
+.describe > div:not(:first-of-type) {
+  margin: 50px 0;
 }
 .point {
   position: absolute;
