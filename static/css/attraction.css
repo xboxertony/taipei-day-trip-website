@@ -94,10 +94,16 @@ label {
   border-radius: 10px;
   word-break: keep-all;
 }
-.order_panel .form_title,
-.des_title {
+.order_panel .form_title{
   font-weight: 900;
   color: #111111;
+}
+.des_title{
+  font-weight: 900;
+  font-size: 20px;
+  width: fit-content;
+  border-bottom: 5px solid #52CBD4;
+  margin: auto;
 }
 input[type="radio"] {
   display: none;
@@ -222,6 +228,7 @@ input[type="radio"]:checked + span::before {
   background-color: #ffffff;
   padding: 30px;
   text-align: center;
+  box-shadow: 10px 5px 5px #ccc;
 }
 .weather_icon{
   display: flex;
@@ -350,6 +357,11 @@ blockquote .img_blk .delete_btn {
 #collect_btn{
   margin-left: 50px;
 }
+.describe_content,.address_place,.traffic,.news{
+  margin-top: 10px;
+  box-shadow: 5px 5px 10px #ccc;
+  padding: 10px;
+}
 @media screen and (max-width: 1200px) {
   .place_view {
     width: 90%;
@@ -393,7 +405,7 @@ blockquote .img_blk .delete_btn {
     justify-content: space-evenly;
   }
   .describe {
-    margin: 50px auto;
+    margin: 20px auto;
   }
   #yt_video{
     width: 340px;
