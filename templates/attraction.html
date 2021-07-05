@@ -1,5 +1,6 @@
 {% extends "model.html" %} {% block style%}
 <link rel="stylesheet" href="../static/css/attraction.css" />
+<link rel="stylesheet" href="../static/css/calendar.css">
 {% endblock %} {% block content %}
 <div class="place_view">
   <div class="img_test">
@@ -33,11 +34,14 @@
     <div class="order_panel">
       <form action="">
         <p class="form_title">訂購導覽行程</p>
-        <p>以此景點為中心的一日行程，帶你探索城市角落故事</p>
+        <!-- <p>以此景點為中心的一日行程，帶你探索城市角落故事</p> -->
         <div id="select_date">
-          <label for="date" class="form_title">選擇日期：</label
+          <div id="big_table">
+            <div id="schedule_table"></div>
+          </div>
+          <!-- <label for="date" class="form_title">選擇日期：</label
           ><input type="date" id="date" name="date" />
-          <p id="error_date"></p>
+          <p id="error_date"></p> -->
         </div>
         <div id="select_time">
           <label for="" class="form_title">選擇時間：</label>
@@ -122,5 +126,6 @@
   </div>
 </div> -->
 {% endblock %} {% block script %}
+<script src="../static/js/calendar.js"></script>
 <script src="../static/js/attraction.js"></script>
 {% endblock %}

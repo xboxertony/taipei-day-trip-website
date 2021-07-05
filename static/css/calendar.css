@@ -1,0 +1,53 @@
+.big_date{
+    display: flex;
+    flex-wrap: wrap;
+}
+.select_date{
+    width: 13%;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    color: #ccc;
+}
+.select_date:hover{
+    background-color: orange;
+}
+.div_year{
+    text-align: center;
+}
+.big_day{
+    display: flex;
+    text-align: center;
+    margin-top: 10px;
+}
+.big_day > div{
+    width: 13%;
+}
+.big_calnedar > div{
+    width: 100%;
+    margin-top: 10px;
+}
+.empty_date{
+    opacity: 0;
+}
+#schedule_table{
+    width: 300px;
+    height: 200px;
+    overflow-y: scroll;
+    position: absolute;
+    top: -10px;
+    right: 0;
+}
+.select_date.hide{
+    background-color: rgba(200, 200, 200, .5);
+    box-shadow: 5px 5px 10px #ccc;
+    color: black;
+}
+.select_date.light{
+    background-color: orange;
+}
+@media screen and (max-width: 1200px) {
+    #schedule_table{
+        position: relative;
+    }
+}

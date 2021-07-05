@@ -57,6 +57,7 @@
 .order_panel {
   background-color: #e8e8e8;
   height: 300px;
+  position: relative;
 }
 .describe {
   width: 1200px;
@@ -116,12 +117,15 @@ input[type="radio"] + span::before {
   margin: 0 0.3rem;
   border-radius: 50%;
   border-style: solid;
-  border-color: gray;
   vertical-align: bottom;
+  border-color: #ccc;
 }
 input[type="radio"]:checked + span::before {
   background: radial-gradient(#448899 0%, #448899 40%, transparent 50%);
   border-color: #448899;
+}
+input[type="radio"]:disabled + span{
+  opacity: 0;
 }
 .describe_content,
 .address_place,
@@ -133,7 +137,7 @@ input[type="radio"]:checked + span::before {
 }
 #error_message_show {
   color: red;
-  font-size: 20px;
+  font-weight: 800;
 }
 #error_date{
   display:none;
@@ -367,9 +371,18 @@ blockquote .img_blk .delete_btn {
   padding: 10px;
 }
 @media screen and (max-width: 1200px) {
+  .order_panel{
+    height: 500px;
+  }
+  .img_word{
+    height: fit-content;
+  }
+  #attraction_name,#attraction_cat_and_mrt{
+    margin: 10px 0 20px 0;
+  }
   .place_view {
     width: 90%;
-    height: 400px;
+    height: fit-content;
   }
   .img_test {
     margin-right: 30px;
@@ -391,7 +404,7 @@ blockquote .img_blk .delete_btn {
   .place_view {
     display: block;
     margin: auto;
-    height: 800px;
+    /* height: 800px; */
   }
   .img_test {
     height: 350px;
