@@ -140,7 +140,7 @@ def user_create_mail(token):
 		sql = f"select * from attraction.user where email='{email}'"
 		data = db_RDS.engine.execute(sql)
 		for i in data:
-			return
+			return render_template("create_success.html",msg="你已驗證成功，請勿重複驗證")
 		sql = f"insert into attraction.user (name,email,password,leader) values ('{name}','{email}','{password}','{leader}')"
 		if not leader:
 			sql = f"insert into attraction.user (name,email,password) values ('{name}','{email}','{password}')"
