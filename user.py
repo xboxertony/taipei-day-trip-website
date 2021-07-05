@@ -137,6 +137,10 @@ def user_create_mail(token):
 		email = s.loads(token)["email"]
 		password = s.loads(token)["password"]
 		leader = s.loads(token)["leader"]
+		sql = f"select * from attraction.user where email='{email}'"
+		data = db_RDS.engine.execute(sql)
+		for i in data:
+			return
 		sql = f"insert into attraction.user (name,email,password,leader) values ('{name}','{email}','{password}','{leader}')"
 		if not leader:
 			sql = f"insert into attraction.user (name,email,password) values ('{name}','{email}','{password}')"

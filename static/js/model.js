@@ -506,6 +506,7 @@ function after_login() {
 
 create_act_btn.addEventListener("click", (e) => {
     e.preventDefault();
+    document.getElementById("message_for_error_create").innerHTML = "寄送驗證信中..."
     check_all_input()
     let data = {
         name: create_name.value,
