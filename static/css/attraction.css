@@ -234,7 +234,8 @@ input[type="radio"]:checked + span::before {
   display: flex;
   justify-content: center;
   margin: 10px 0;
-  font-size: 30px;
+  align-items: center;
+  height: 100px;
 }
 .weather_block p{
   white-space: nowrap;
@@ -251,6 +252,9 @@ input[type="radio"]:checked + span::before {
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
+}
+.rainng_move{
+  transform: translateX(-5px);
 }
 .raning_block > div{
   width: fit-content;

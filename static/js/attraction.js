@@ -547,6 +547,7 @@ function get_weather_data(data) {
         let val = raining_percent[i].elementValue[0].value
         let block = document.createElement("div")
         block.classList.add("raning_block")
+        block.classList.add("rainng_move")
         block.innerHTML = `<div class='raining'><i class="fas fa-umbrella"></i></div> <div class="weather_word">${val!==" "?val+"%":"尚無資料"}</div>`
         weather_block_div[i].appendChild(block)
         let high_temp = themometer_high[i].elementValue[0].value
