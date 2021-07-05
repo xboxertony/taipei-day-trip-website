@@ -37,6 +37,9 @@
     position: absolute;
     top: -10px;
     right: 0;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #ddd;
 }
 .select_date.hide{
     background-color: rgba(200, 200, 200, .5);
@@ -50,4 +53,9 @@
     #schedule_table{
         position: relative;
     }
+}
+#select_date_word{
+    position: absolute;
+    left: 300px;
+    top: -50px;
 }
