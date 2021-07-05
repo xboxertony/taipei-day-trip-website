@@ -36,7 +36,7 @@
     overflow-y: scroll;
     position: absolute;
     top: -10px;
-    right: 0;
+    right: -20px;
     border: 1px solid black;
     border-radius: 5px;
     background-color: #ddd;
@@ -49,13 +49,27 @@
 .select_date.light{
     background-color: orange;
 }
+#select_date_word{
+    position: absolute;
+    left: 320px;
+    top: -50px;
+    color: red;
+}
+#select_time_word{
+    color: red;
+}
 @media screen and (max-width: 1200px) {
     #schedule_table{
         position: relative;
     }
 }
-#select_date_word{
-    position: absolute;
-    left: 300px;
-    top: -50px;
+@media screen and (max-width: 1200px){
+    #select_date_word{
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+    #schedule_table{
+        transform: translateY(20px);
+    }
 }
