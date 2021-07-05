@@ -527,7 +527,7 @@ create_act_btn.addEventListener("click", (e) => {
         })
         .then((data) => {
             if (data["ok"]) {
-                document.getElementById("message_for_error_create").innerHTML = "註冊成功!!!"
+                document.getElementById("message_for_error_create").innerHTML = "請收取驗證信，完成驗證流程"
             } else {
                 document.getElementById("message_for_error_create").innerHTML = data["message"];
             }
