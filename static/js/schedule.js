@@ -74,7 +74,7 @@ async function get_Month(check_all,main_user,year, month) {
         div.appendChild(week_div);
 
         for (let j = 0; j < Object.keys(memebr).length; j++) {
-            if(check_all && memebr[j+1]!==main_user)continue
+            if(memebr[j+1]!==main_user)continue
             let member_chk = document.createElement("div")
             member_chk.classList.add("member_chk")
             let morning_chk = document.createElement("div")
@@ -131,16 +131,20 @@ async function append_schedule(check_all,cnt) {
     let leader_cnt = 1
     response["data"].forEach((item)=>{
         memebr[leader_cnt]=item.name
-        let option = document.createElement("option")
-        select_leader.appendChild(option)
-        option.value = leader_cnt
-        option.innerHTML = item.name
+        // if(memebr[leader_cnt]===main_user){
+        //     let option = document.createElement("option")
+        //     select_leader.appendChild(option)
+        //     option.value = leader_cnt
+        //     option.innerHTML = item.name
+        // }
         leader_cnt++
     })
     for (let i = 1; i < Object.keys(memebr).length+1; i++) {
-        let sub_member = document.createElement("div")
-        sub_member.innerHTML = memebr[i]
-        member_block.appendChild(sub_member)
+        if(memebr[i]===main_user){
+            let sub_member = document.createElement("div")
+            sub_member.innerHTML = memebr[i]
+            member_block.appendChild(sub_member)
+        }
     }
     for (let i = 0; i < cnt; i++) {
         let today_today = new Date();

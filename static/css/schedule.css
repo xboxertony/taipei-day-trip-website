@@ -64,6 +64,7 @@
     padding: 10px;
 }
 #select_leader{
+  opacity: 0;
   width: 200px;
   padding: 10px;
   border-radius: 10px;
