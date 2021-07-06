@@ -82,3 +82,15 @@ def check():
         print(i)
         return jsonify({"ok":True,"id":i[0]})
     return jsonify({"error":True,"message":"該時段無導遊排班","data":{"date":Time,"half":half}})
+
+@leader_app.route("/api/all_date")
+def check_date():
+    sql = f"select Time,half from leader_info.schedule where booking_user is null"
+    res = db_RDS.engine.execute(sql)
+    arr = []
+    for i in res:
+        arr.append({
+            "date":i[0],
+            "half":i[1]
+        })
+    return jsonify(arr)

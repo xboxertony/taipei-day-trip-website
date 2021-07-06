@@ -1,0 +1,29 @@
+{% extends "model.html" %} 
+{% block style%}
+<style>
+    .success_create{
+        padding: 30px;
+        text-align: center;
+        color: red;
+        font-weight: 700;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="success_create">
+    {{msg}}，請等待<span id="time_create">5</span>秒
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    let time = 5
+    setTimeout(function(){
+        clearInterval(abomb)
+        window.location.href="/"
+    },5000)
+    let abomb = setInterval(() => {
+        document.getElementById("time_create").innerHTML = time-1
+        time = time-1
+    }, 1000);
+</script>
+{% endblock %}

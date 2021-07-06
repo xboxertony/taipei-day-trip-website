@@ -70,10 +70,14 @@ def user():
 				return jsonify({"error":True,"message":"註冊失敗，欄位不可以為空"}),400
 			if not re.findall(regex,email) or not re.findall(regex,email)[0]==email:
 				return jsonify({"error":True,"message":"註冊失敗，email格式錯誤"}),400
-			sql = f"insert into attraction.user (name,email,password,leader) values ('{name}','{email}','{password}','{leader}')"
-			if not leader:
-				sql = f"insert into attraction.user (name,email,password) values ('{name}','{email}','{password}')"
-			db_RDS.engine.execute(sql)
+			msg = Message(subject="This is your Reset Password Mail",sender=mail_username,recipients=[email])
+			token = s.dumps({"user":name,"email":email,"leader":leader,"password":password}).decode("utf8")
+			msg.html = render_template("create_user_mail.html",user = name,token=token)
+			mail.send(msg)
+			# sql = f"insert into attraction.user (name,email,password,leader) values ('{name}','{email}','{password}','{leader}')"
+			# if not leader:
+			# 	sql = f"insert into attraction.user (name,email,password) values ('{name}','{email}','{password}')"
+			# db_RDS.engine.execute(sql)
 			return jsonify({"ok":True})
 		except:
 			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
@@ -126,6 +130,24 @@ def user():
 		else:
 			return jsonify({"data":None}) 
 
+@user_app.route("/create_user_mail/<token>")
+def user_create_mail(token):
+	if s.loads(token)['user'] and s.loads(token)['email']:
+		name = s.loads(token)['user']
+		email = s.loads(token)["email"]
+		password = s.loads(token)["password"]
+		leader = s.loads(token)["leader"]
+		sql = f"select * from attraction.user where email='{email}'"
+		data = db_RDS.engine.execute(sql)
+		for i in data:
+			return render_template("create_success.html",msg="你已驗證成功，請勿重複驗證")
+		sql = f"insert into attraction.user (name,email,password,leader) values ('{name}','{email}','{password}','{leader}')"
+		if not leader:
+			sql = f"insert into attraction.user (name,email,password) values ('{name}','{email}','{password}')"
+		db_RDS.engine.execute(sql)
+		return render_template("create_success.html",msg="恭喜註冊成功，請待畫面跳轉")
+	else:
+		return render_template("create_success.html",msg="資料驗證不符")
 
 @user_app.route("/api/google/user",methods=["PATCH"])
 def google():

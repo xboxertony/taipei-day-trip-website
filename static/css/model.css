@@ -11,6 +11,10 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+p{
+  font-family: 'Ubuntu', sans-serif;
 }
 a {
   cursor: pointer;

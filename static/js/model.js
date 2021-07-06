@@ -506,6 +506,7 @@ function after_login() {
 
 create_act_btn.addEventListener("click", (e) => {
     e.preventDefault();
+    document.getElementById("message_for_error_create").innerHTML = "寄送驗證信中..."
     check_all_input()
     let data = {
         name: create_name.value,
@@ -527,7 +528,7 @@ create_act_btn.addEventListener("click", (e) => {
         })
         .then((data) => {
             if (data["ok"]) {
-                document.getElementById("message_for_error_create").innerHTML = "註冊成功!!!"
+                document.getElementById("message_for_error_create").innerHTML = "請收取驗證信，完成驗證流程"
             } else {
                 document.getElementById("message_for_error_create").innerHTML = data["message"];
             }

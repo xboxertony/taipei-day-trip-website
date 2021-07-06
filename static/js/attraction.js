@@ -74,40 +74,44 @@ fetch("/api/attraction/" + `${idx}`)
         add_view()
     });
 
-let calendar = document.getElementById("date")
+// let calendar = document.getElementById("date")
 let error_date = document.getElementById("error_date")
 
-function set_calendar_today(){
-    let today = new Date()
-    let setday = new Date(today.setDate(today.getDate()+1))
-    let year = setday.getFullYear()
-    let month = setday.getMonth()
-    let date = setday.getDate()
-    let s = `${year}-${month+1<10?"0"+(month+1):month+1}-${date<10?"0"+date:date}`
+// function set_calendar_today(){
+//     let today = new Date()
+//     let setday = new Date(today.setDate(today.getDate()+1))
+//     let year = setday.getFullYear()
+//     let month = setday.getMonth()
+//     let date = setday.getDate()
+//     let s = `${year}-${month+1<10?"0"+(month+1):month+1}-${date<10?"0"+date:date}`
 
-    calendar.setAttribute("min",s)
-    calendar.value = s
-}
+//     calendar.setAttribute("min",s)
+//     calendar.value = s
+// }
 
-set_calendar_today()
+// set_calendar_today()
 
-calendar.addEventListener("change", function () {
-    let select_date = this.value.split("-")
-    let select_date_date = new Date(select_date[0], select_date[1] - 1, select_date[2])
-    let da = new Date()
-    let now = new Date(da.getFullYear(), da.getMonth(), da.getDate())
-    if (now >= select_date_date) {
-        error_date.classList.add("open")
-        error_date.innerHTML = "不可選擇過去的日期"
-    } else {
-        error_date.classList.remove("open")
-    }
-})
+// calendar.addEventListener("change", function () {
+//     let select_date = this.value.split("-")
+//     let select_date_date = new Date(select_date[0], select_date[1] - 1, select_date[2])
+//     let da = new Date()
+//     let now = new Date(da.getFullYear(), da.getMonth(), da.getDate())
+//     if (now >= select_date_date) {
+//         error_date.classList.add("open")
+//         error_date.innerHTML = "不可選擇過去的日期"
+//     } else {
+//         error_date.classList.remove("open")
+//     }
+// })
 
 send_booking_btn.addEventListener("click", (e) => {
     e.preventDefault();
-    if (error_date.classList.contains("open")) {
-        error_message_show.innerHTML = "請選擇正確的日期"
+    // if (error_date.classList.contains("open")) {
+    //     error_message_show.innerHTML = "請選擇正確的日期"
+    //     return
+    // }
+    if(!select_date){
+        error_message_show.innerHTML = "請選擇日期"
         return
     }
     fetch("/api/user", {
@@ -127,14 +131,14 @@ send_booking_btn.addEventListener("click", (e) => {
 async function post_booking_information() {
     let booking_info = {
         attractionId: parseInt(idx),
-        date: document.getElementById("date").value,
+        date: select_date,
         time: order_time,
         price: order_price,
     };
     let check_config = {
         method:"POST",
         body:JSON.stringify({
-            date:document.getElementById("date").value,
+            date:select_date,
             time:order_time
         }),
         headers:{
@@ -547,6 +551,7 @@ function get_weather_data(data) {
         let val = raining_percent[i].elementValue[0].value
         let block = document.createElement("div")
         block.classList.add("raning_block")
+        block.classList.add("rainng_move")
         block.innerHTML = `<div class='raining'><i class="fas fa-umbrella"></i></div> <div class="weather_word">${val!==" "?val+"%":"尚無資料"}</div>`
         weather_block_div[i].appendChild(block)
         let high_temp = themometer_high[i].elementValue[0].value
