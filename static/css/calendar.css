@@ -40,6 +40,10 @@
     border: 1px solid black;
     border-radius: 5px;
     background-color: #ddd;
+    display: none;
+}
+#schedule_table.show{
+    display: block;
 }
 .select_date.hide{
     background-color: rgba(200, 200, 200, .5);
@@ -49,8 +53,12 @@
 .select_date.light{
     background-color: orange;
 }
+#calendar_toggle{
+    color: black;
+    cursor: pointer;
+}
 #select_date_word{
-    position: absolute;
+    /* position: absolute; */
     left: 320px;
     top: -50px;
     color: red;
@@ -61,6 +69,8 @@
 @media screen and (max-width: 1200px) {
     #schedule_table{
         position: relative;
+        top: 0;
+        right:0;
     }
 }
 @media screen and (max-width: 1200px){

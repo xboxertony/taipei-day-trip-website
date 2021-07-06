@@ -31,3 +31,12 @@ def search():
                 "images":item[4].split(";")
             })
         return jsonify({"data":res})
+
+@search_app.route("/api/all_view")
+def view():
+    sql = f"SELECT * FROM attraction.search where time=current_date()"
+    data = db_RDS.engine.execute(sql)
+    res = {}
+    for item in data:
+        res[item[1]]=item[3]
+    return jsonify(res)

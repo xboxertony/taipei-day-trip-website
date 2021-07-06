@@ -17,6 +17,8 @@ let time_machine = null;
 let mrt = null;
 let mrt_mode = false;
 
+let view_dic = {}
+
 fetch("/api/mrt").then((res) => {
     return res.json()
 }).then((data) => {
@@ -113,8 +115,11 @@ function do_this() {
 
 get_data_by_page(cur_id);
 
-function get_data_by_page(page) {
-    fetch("/api/attractions?page=" + `${page}`)
+async function get_data_by_page(page) {
+    let view_dic_fetch = await fetch("/api/all_view")
+    let response = await view_dic_fetch.json()
+    view_dic = response
+    await fetch("/api/attractions?page=" + `${page}`)
         .then((res) => {
             return res.json();
         })
@@ -125,8 +130,11 @@ function get_data_by_page(page) {
         });
 }
 
-function get_data_by_keyword(page, keyword) {
-    fetch("/api/attractions?page=" + `${page}` + "&keyword=" + `${keyword}`)
+async function get_data_by_keyword(page, keyword) {
+    let view_dic_fetch = await fetch("/api/all_view")
+    let response = await view_dic_fetch.json()
+    view_dic = response
+    await fetch("/api/attractions?page=" + `${page}` + "&keyword=" + `${keyword}`)
         .then((res) => {
             return res.json();
         })
@@ -162,6 +170,9 @@ let right_page = document.getElementById("right_page")
 // }
 
 async function appened_data_to_top_5(){
+    let view_dic_fetch = await fetch("/api/all_view")
+    let res = await view_dic_fetch.json()
+    view_dic = res
     let append_top = await fetch("/api/search")
     let response = await append_top.json()
 
@@ -170,6 +181,18 @@ async function appened_data_to_top_5(){
     })
     get_collection()
 }
+
+// async function update_view(){
+//     let view_dic_fetch = await fetch("/api/all_view")
+//     let response = await view_dic_fetch.json()
+//     view_dic = response
+
+//     // if(Object.keys(response).includes(item.dataset.attrid)){
+//     //     item.innerHTML = `${response[item.dataset.attrid]}`
+//     // }else{
+//     //     item.innerHTML = "0"
+//     // }
+// }
 
 appened_data_to_top_5()
 
@@ -216,6 +239,7 @@ function create_attraction(element){
 
     let p = document.createElement("p");
     p.innerHTML = element.name;
+    p.classList.add("attr_title")
     attraction.setAttribute("data-content", element.name)
 
     let transport = document.createElement("a");
@@ -248,6 +272,11 @@ function create_attraction(element){
     attraction.appendChild(close)
 
     attraction.appendChild(description);
+
+    let view_cnt = document.createElement("div")
+    view_cnt.innerHTML = `<i class="far fa-eye"></i> <span class='view_cnt'>${view_dic[element.id]?view_dic[element.id]:0}<span>`
+    view_cnt.classList.add("view_cnt_div")
+    attraction.appendChild(view_cnt)
 
     return link
 
