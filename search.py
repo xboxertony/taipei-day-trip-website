@@ -40,3 +40,22 @@ def view():
     for item in data:
         res[item[1]]=item[3]
     return jsonify(res)
+
+@search_app.route("/api/suggestion")
+def suggestion():
+    search_word = request.args.get("word")
+    sql = f'''
+        SELECT 
+            attractions.id, attractions.name
+        FROM
+            key_word.dictionary
+                LEFT JOIN
+            attraction.attractions ON attractions.name COLLATE utf8mb4_general_ci = dictionary.value
+        WHERE
+            dictionary.key = '{search_word}';
+    '''
+    data = db_RDS.engine.execute(sql)
+    res = {}
+    for item in data:
+        res[item[0]] = item[1]
+    return jsonify(res)
