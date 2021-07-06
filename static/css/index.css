@@ -70,6 +70,7 @@
   border-radius: 5%;
   background-position: center center;
   position: relative;
+  padding-bottom: 20px;
 }
 .attraction img:not(.icon_collect) {
   width: 100%;
@@ -303,6 +304,10 @@ input:focus {
 }
 .top_attr_item::-webkit-scrollbar{
   height: 2px;
+}
+.view_cnt_div{
+  padding: 0 10px;
+  color: #aaa;
 }
 /* #right_page{
   position: absolute;
