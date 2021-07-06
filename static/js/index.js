@@ -239,6 +239,7 @@ function create_attraction(element){
 
     let p = document.createElement("p");
     p.innerHTML = element.name;
+    p.classList.add("attr_title")
     attraction.setAttribute("data-content", element.name)
 
     let transport = document.createElement("a");

@@ -309,6 +309,10 @@ input:focus {
   padding: 0 10px;
   color: #aaa;
 }
+.description p{
+  font-size: 20px;
+  color: #5AC5A0;
+}
 /* #right_page{
   position: absolute;
   top: 50%;
