@@ -273,7 +273,7 @@ function create_attraction(element){
     attraction.appendChild(description);
 
     let view_cnt = document.createElement("div")
-    view_cnt.innerHTML = `<i class="far fa-eye"></i> <span class='view_cnt'>${view_dic[element.id]}<span>`
+    view_cnt.innerHTML = `<i class="far fa-eye"></i> <span class='view_cnt'>${view_dic[element.id]?view_dic[element.id]:0}<span>`
     view_cnt.classList.add("view_cnt_div")
     attraction.appendChild(view_cnt)
 
