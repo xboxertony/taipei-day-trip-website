@@ -143,3 +143,10 @@ function fcn_select_fcn(){
 }
 
 append_calendar(9)
+
+let calendar_toggle = document.getElementById("calendar_toggle")
+calendar_toggle.addEventListener("click",fcn_toggle_calendar)
+
+function fcn_toggle_calendar(){
+    schedule.classList.toggle("show")
+}
