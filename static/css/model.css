@@ -13,7 +13,7 @@ body {
   height: 100%;
   font-family: 'Noto Sans TC', sans-serif;
 }
-p{
+p,label{
   font-family: 'Ubuntu', sans-serif;
 }
 a {
