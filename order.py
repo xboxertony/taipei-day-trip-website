@@ -132,8 +132,8 @@ def order():
 
 @order_app.route("/api/order/<orderNumber>")
 def pay_search(orderNumber):
-	if "name" not in session:
-		return jsonify({"error":True,"message":"未登入系統"}),403
+	# if "name" not in session:
+	# 	return jsonify({"error":True,"message":"未登入系統"}),403
 	url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
 	payload = {
         "partner_key": get_key(),

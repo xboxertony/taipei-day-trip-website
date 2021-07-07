@@ -39,8 +39,8 @@ def booking():
 	return render_template("booking.html")
 @app.route("/thankyou")
 def thankyou():
-	if "name" not in session:
-		return redirect(url_for("index"))
+	# if "name" not in session:
+	# 	return redirect(url_for("index"))
 	return render_template("thankyou.html")
 
 if __name__=="__main__":

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        p,div{
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+    <p>{{name}}您好，以下是您這三天內預計的行程及單號，可點擊單號確認詳細內容：</p>
+    <br>
+    <div id="context">
+        {% for item in data %}
+            <p>{{item.date}} {{item.time}} 有行程，單號為：<a href='https://www.taipei-attraction.com/thankyou?number={{item.orderid}}'>{{item.orderid}}<a/></p>
+        {% endfor %}
+    </div>
+    <br>
+    <p>=============</p>
+    <p>台北一日遊敬上</p>
+    <p>連絡電話：02-2222-2222</p>
+    <p>聯絡地址：台北市XXXXXXXXX</p>
+    <p>=============</p>
+</body>
+</html>

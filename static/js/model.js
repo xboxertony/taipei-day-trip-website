@@ -29,6 +29,8 @@ let FB_BTN = document.getElementById("FB_BTN")
 
 let up_page = document.getElementById("up_page")
 
+let inform_bell = document.getElementById("inform_bell")
+
 // 前端驗證
 
 let regex = /.+@.+/g
@@ -438,6 +440,7 @@ function get_user() {
                 document.getElementById("login").style.display = "inline";
                 document.getElementById("logout").style.display = "none";
             }
+            check_order()
         });
 }
 
@@ -611,7 +614,8 @@ document.addEventListener("click", (e) => {
         login_create !== e.target &&
         !login_create.contains(e.target) &&
         e.target !== login_btn &&
-        e.target !== ham
+        e.target !== ham &&
+        e.target !== inform_bell
     ) {
         login_board.classList.remove("open");
         default_setting();
@@ -674,5 +678,45 @@ async function enter_schedule_system(e){
         window.location.href = "/schedule"
     }else{
         alert("請登入會員")
+    }
+}
+
+//新增通知功能
+
+inform_bell.addEventListener("click",inform_user_order)
+
+let bell_board = document.getElementsByClassName("bell_board")[0]
+
+function inform_user_order(){
+    bell_board.classList.toggle("show")
+}
+
+async function check_order(){
+    if(order_problem && order_problem()){
+        let get_order = await fetch("/api/orders")
+        let data = await get_order.json()
+        let check_3day_schedule = false
+        bell_board.innerHTML = ""
+
+        for( const [key,val] of Object.entries(data["data"])){
+            val.arr.forEach(item=>{
+                let time_delta = (new Date(item.date)-new Date())/(24*60*60*1000)
+                if(0<time_delta && time_delta<3){
+                    check_3day_schedule = true
+                    let inform_fragment = document.createElement("div")
+                    inform_fragment.innerHTML = `您在${Math.round(time_delta)}天後有行程，單號為<a href='/thankyou?number=${key}'>${key}</a>`
+                    bell_board.appendChild(inform_fragment)
+                    if(!inform_bell.classList.contains("light")){
+                        inform_bell.classList.add("light")
+                    }
+                }
+            })
+        }
+
+        if(!check_3day_schedule){
+            bell_board.innerHTML = "您並無三天內的行程"
+        }
+    }else{
+        bell_board.innerHTML = "請先登入觀看行程提醒"
     }
 }
