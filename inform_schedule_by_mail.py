@@ -28,6 +28,9 @@ with app.app_context():
             
     for email in [em for em in res.keys()]:
         if email in ["tonyny58@gmail.com","x25836901@gmail.com"]:
-            msg = Message(subject=f"行前通知，三天內行程",sender=mail_username,recipients=[email])
-            msg.html = render_template("inform_schedule_mail.html",data=res[email])
-            mail.send(msg)
+            sql2 = f"SELECT name FROM attraction.user where email='{email}'"
+            data2 = db_RDS.engine.execute(sql2)
+            for i in data2:
+                msg = Message(subject=f"行前通知，三天內行程",sender=mail_username,recipients=[email])
+                msg.html = render_template("inform_schedule_mail.html",data=res[email],name=i[0])
+                mail.send(msg)
