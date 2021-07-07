@@ -55,7 +55,18 @@ search.addEventListener("click", () => {
     key = search_input.value;
     search_mode = true;
     get_data_by_keyword(cur_id, key);
+    check_full_name(key)
 });
+
+async function check_full_name(name){
+    let full_name = await fetch(`/api/full_name/${name}`)
+    let response = await full_name.json()
+
+    if(response['ok']){
+        let accu_cnt = await fetch(`/api/accu_cnt/${name}`)
+        let res = await accu_cnt.json()
+    }
+}
 
 let suggestion_word = document.getElementById("suggestion_word")
 
@@ -80,14 +91,14 @@ async function suggest_word(key_word){
     suggestion_word.innerHTML = ""
 
 
-    for(const [key,value] of Object.entries(data)){
-
+    data.forEach((item)=>{
         let output = document.createElement("div")
-        output.innerHTML = value
+        output.innerHTML = item
         output.classList.add("click_word")
         output.addEventListener("click",update_word)
         suggestion_word.appendChild(output)
-    }
+    })
+
 }
 
 function update_word(){

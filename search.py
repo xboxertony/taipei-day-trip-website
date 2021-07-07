@@ -51,11 +51,34 @@ def suggestion():
             key_word.dictionary
                 LEFT JOIN
             attraction.attractions ON attractions.name COLLATE utf8mb4_general_ci = dictionary.value
+				LEFT JOIN
+			key_word.dict_cnt on dict_cnt.name COLLATE utf8mb4_general_ci = attractions.name
         WHERE
-            dictionary.key = '{search_word}' and dictionary.key!="" limit 5;
+            dictionary.key = '{search_word}' and dictionary.key!="" order by dict_cnt.cnt desc limit 5
     '''
     data = db_RDS.engine.execute(sql)
-    res = {}
+    res = []
     for item in data:
-        res[item[0]] = item[1]
+        res.append(item[1])
     return jsonify(res)
+
+@search_app.route("/api/full_name/<name>")
+def attr_name(name):
+    sql = f"SELECT count(*) FROM attraction.attractions where name='{name}'"
+    data = db_RDS.engine.execute(sql)
+    for i in data:
+        if i[0]>0:
+            return jsonify({"ok":True})
+    return jsonify({"error":True})
+
+@search_app.route("/api/accu_cnt/<name>")
+def insert_name_cnt(name):
+    sql = f"select * from key_word.dict_cnt where name='{name}'"
+    data = db_RDS.engine.execute(sql)
+    for i in data:
+        sql2 = f"update key_word.dict_cnt set name='{name}',cnt='{i[2]+1}' where name='{name}'"
+        data = db_RDS.engine.execute(sql2)
+        return jsonify({"ok":True})
+    sql2 = f"insert into key_word.dict_cnt (name,cnt) values ('{name}','{1}')"
+    data = db_RDS.engine.execute(sql2)
+    return jsonify({"ok":True})
