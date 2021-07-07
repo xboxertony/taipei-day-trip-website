@@ -31,4 +31,3 @@ with app.app_context():
             msg = Message(subject=f"行前通知，三天內行程",sender=mail_username,recipients=[email])
             msg.html = render_template("inform_schedule_mail.html",data=res[email])
             mail.send(msg)
-            break
