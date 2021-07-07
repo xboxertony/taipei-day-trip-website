@@ -152,22 +152,52 @@ def user_create_mail(token):
 @user_app.route("/api/google/user",methods=["PATCH"])
 def google():
 	if request.method == "PATCH":
-		session["google"]="google"
+		# session["google"]="google"
+		name = request.get_json()["name"]
+		email = request.get_json()["email"]
 		session["name"]=request.get_json()["name"]
 		session["email"]=request.get_json()["email"]
 		session.permanent = True
-		return jsonify({"ok":True})
+		sql = f"SELECT * FROM attraction.user where email='{email}'"
+		data = db_RDS.engine.execute(sql)
+		for i in data:
+			session["id"] = i[0]
+			return jsonify({"ok":True})
+		sql = f"insert into attraction.user (name,email) values ('{name}','{email}')"
+		db_RDS.engine.execute(sql)	
+		sql = f"SELECT * FROM attraction.user where email='{email}'"
+		data2 = db_RDS.engine.execute(sql)
+		for i in data2:
+			if i[0]:
+				session["id"] = i[0]
+				return jsonify({"ok":True})
+		return jsonify({"error":True})
 
 @user_app.route("/api/FB/user",methods=["PATCH"])
 def FB():
 	if request.method == "PATCH":
-		session["FB"]="FB"
+		# session["FB"]="FB"
 		session["name"]=request.get_json()["name"]
-		session["FB_ID"]=request.get_json()["FB_ID"]
+		# session["FB_ID"]=request.get_json()["FB_ID"]
 		session["email"]=request.get_json()["email"]
 		session["url"]=request.get_json()["url"]
 		session.permanent = True
-		return jsonify({"ok":True})
+		name = request.get_json()["name"]
+		email = request.get_json()["email"]
+		sql = f"SELECT * FROM attraction.user where email='{email}'"
+		data = db_RDS.engine.execute(sql)
+		for i in data:
+			session["id"] = i[0]
+			return jsonify({"ok":True})
+		sql = f"insert into attraction.user (name,email) values ('{name}','{email}')"
+		db_RDS.engine.execute(sql)	
+		sql = f"SELECT * FROM attraction.user where email='{email}'"
+		data2 = db_RDS.engine.execute(sql)
+		for i in data2:
+			if i[0]:
+				session["id"] = i[0]
+				return jsonify({"ok":True})
+		return jsonify({"error":True})
 
 
 @user_app.route("/member_center")
