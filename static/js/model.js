@@ -620,6 +620,7 @@ document.addEventListener("click", (e) => {
         login_board.classList.remove("open");
         default_setting();
         last_item.classList.remove("open")
+        document.getElementById("suggestion_word").classList.remove("show")
     }
 });
 

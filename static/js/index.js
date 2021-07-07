@@ -57,6 +57,45 @@ search.addEventListener("click", () => {
     get_data_by_keyword(cur_id, key);
 });
 
+let suggestion_word = document.getElementById("suggestion_word")
+
+search_input.addEventListener("keyup",function(){
+    if(this.value){
+
+        suggest_word(this.value)
+    }else{
+        suggestion_word.classList.remove("show")
+    }
+})
+
+async function suggest_word(key_word){
+
+    let suggest_fetch = await fetch(`/api/suggestion?word=${key_word}`)
+    let data = await suggest_fetch.json()
+
+    if(!suggestion_word.classList.contains("show")){
+        suggestion_word.classList.add("show")
+    }
+    
+    suggestion_word.innerHTML = ""
+
+
+    for(const [key,value] of Object.entries(data)){
+
+        let output = document.createElement("div")
+        output.innerHTML = value
+        output.classList.add("click_word")
+        output.addEventListener("click",update_word)
+        suggestion_word.appendChild(output)
+    }
+}
+
+function update_word(){
+    search_input.value = this.innerHTML
+    if(!suggestion_word.classList.contains("show"))return
+    suggestion_word.classList.remove("show")
+}
+
 
 function init() {
     container.innerHTML = "";
@@ -152,6 +191,7 @@ async function get_data_by_keyword(page, keyword) {
             next_page = res.nextPage
             // dont_stop = true;
         });
+    window.scrollTo(0,document.body.scrollHeight)
 }
 
 let top_attr_item = document.getElementsByClassName("top_attr_item")[0]

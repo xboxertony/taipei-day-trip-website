@@ -52,7 +52,7 @@ def suggestion():
                 LEFT JOIN
             attraction.attractions ON attractions.name COLLATE utf8mb4_general_ci = dictionary.value
         WHERE
-            dictionary.key = '{search_word}';
+            dictionary.key = '{search_word}' and dictionary.key!="" limit 5;
     '''
     data = db_RDS.engine.execute(sql)
     res = {}
