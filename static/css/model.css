@@ -55,7 +55,6 @@ nav ul {
 #login {
   display: none;
   font-weight: 700;
-  margin-left: 10px;
 }
 #logout {
   display: none;
@@ -83,10 +82,10 @@ nav ul {
   font-weight: 700;
   position: relative;
 }
-.last-item a:last-of-type {
+.last-item > a:last-of-type {
   margin-left: 45px;
 }
-.last-item a::after {
+.last-item > a::after {
   content: "";
   position: absolute;
   width: 0%;
@@ -279,6 +278,49 @@ button {
   width: 20px;
   margin-left: 20px;
 }
+.inform_board{
+  position: relative;
+  display: inline-block;
+  margin-right: 55px;
+}
+.bell_board a{
+  text-decoration: none;
+  margin-left: 0;
+}
+#inform_bell{
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+}
+.bell_board{
+  position: absolute;
+  width: fit-content;
+  background-color: #cccccc;
+  top: 200%;
+  left: -40px;
+  border-radius: 5px;
+  padding: 10px;
+  display: none;
+  white-space: nowrap;
+}
+.bell_board.show{
+  display: block;
+}
+.bell_board > div{
+  word-break: keep-all;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+#inform_bell.light::after{
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: red;
+  top: -5px;
+  left: -5px;
+}
 @media screen and (max-width: 1200px) {
   nav ul {
     width: 90%;
@@ -304,7 +346,7 @@ button {
   #booking{
     margin-left: 10px;
   }
-  #leader_schedule,#question_center{
+  #leader_schedule,#question_center,#login{
     margin-left: 10px;
   }
   .last-item > a{
@@ -313,5 +355,19 @@ button {
   }
   #logout{
     margin-left: 40px;
+  }
+  .inform_board{
+    margin-right: 0;
+  }
+  #inform_bell{
+    margin-bottom: 50px;
+    margin-left: 30px;
+  }
+  .bell_board{
+    top: 0;
+    left: -350%;
+  }
+  .bell_board > div{
+    white-space:normal;
   }
 }
