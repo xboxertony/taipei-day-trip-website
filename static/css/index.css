@@ -324,7 +324,7 @@ input:focus {
   top: 100%;
   left: 0;
   width: 400px;
-  background-color: #ccc;
+  background-color: #161B22;
   display: none;
   z-index: 100;
 }
