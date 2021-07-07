@@ -35,14 +35,14 @@ a {
   background-color: coral;
 }
 nav {
-  height: 54px;
+  /* height: 54px; */
   width: 100%;
   position: fixed;
   z-index: 99;
   background-color: #fff;
 }
 nav ~ div {
-  top: 54px;
+  top: 65px;
   position: relative;
 }
 nav ul {
@@ -212,12 +212,13 @@ button {
   font-size: 16px;
 }
 #profile {
-  position: absolute;
+  /* position: absolute; */
   width: 40px;
-  left: -45px;
-  top: -13px;
+  /* left: -45px;
+  top: -13px; */
   border-radius: 10px;
-  height: 40px;
+  /* height: 40px; */
+  vertical-align:middle;
 }
 .error {
   display: none;
@@ -281,7 +282,7 @@ button {
 .inform_board{
   position: relative;
   display: inline-block;
-  margin-right: 55px;
+  margin-right: 10px;
 }
 .bell_board a{
   text-decoration: none;
@@ -354,7 +355,7 @@ button {
     color: #fff;
   }
   #logout{
-    margin-left: 40px;
+    /* margin-left: 40px; */
   }
   .inform_board{
     margin-right: 0;
@@ -365,7 +366,7 @@ button {
   }
   .bell_board{
     top: 0;
-    left: -350%;
+    left: -300%;
   }
   .bell_board > div{
     white-space:normal;
