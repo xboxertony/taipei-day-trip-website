@@ -437,7 +437,9 @@ function get_user() {
                 if(res["data"]["img_src"]){
                     document.getElementById("profile").src = res["data"]["img_src"]
                 }
-                get_recent_record()
+                if(window.location.pathname==="/"){
+                    get_recent_record()
+                }
             } else {
                 // console.log("ok")
                 document.getElementById("login").style.display = "inline";
@@ -623,7 +625,9 @@ document.addEventListener("click", (e) => {
         login_board.classList.remove("open");
         default_setting();
         last_item.classList.remove("open")
-        document.getElementById("suggestion_word").classList.remove("show")
+        if(window.location.pathname==="/"){
+            document.getElementById("suggestion_word").classList.remove("show")
+        }
     }
 });
 
