@@ -2,7 +2,7 @@ from flask import *
 import json
 
 from data import data_handle
-from config import setapp,get_key,get_session_key,mail_username,mail_password,mail_key
+from config import setapp,get_key,get_session_key,mail_username,mail_password,mail_key,redis_host
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from itsdangerous import TimedJSONWebSignatureSerializer
@@ -29,7 +29,7 @@ s = TimedJSONWebSignatureSerializer(mail_key)
 
 config_cache = {
     'CACHE_TYPE': 'redis',
-    'CACHE_REDIS_HOST': 'taipeicity.ux33x2.0001.apne1.cache.amazonaws.com',
+    'CACHE_REDIS_HOST': redis_host,
     'CACHE_REDIS_PORT': 6379,
     "CACHE_DEFAULT_TIMEOUT":600
 }
