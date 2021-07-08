@@ -19,6 +19,8 @@ let mrt_mode = false;
 
 let view_dic = {}
 
+let arrow_cnt_one = 0
+
 fetch("/api/mrt").then((res) => {
     return res.json()
 }).then((data) => {
@@ -70,14 +72,48 @@ async function check_full_name(name){
 
 let suggestion_word = document.getElementById("suggestion_word")
 
-search_input.addEventListener("keyup",function(){
-    if(this.value){
-
+search_input.addEventListener("keyup",function(e){
+    if(e.key==="ArrowDown"||e.key==="ArrowUp")return
+    arrow_cnt_one=0
+    if(e.target.value&&!(e.key==="Enter")){
         suggest_word(this.value)
     }else{
         suggestion_word.classList.remove("show")
     }
 })
+
+document.addEventListener("keyup",enter_search)
+
+function enter_search(e){
+    let search_output = document.getElementsByClassName("click_word")
+
+    if((e.key==="ArrowDown"||e.key==="ArrowUp") && suggestion_word.classList.contains("show") && !(suggestion_word.innerHTML==="")){
+        for(let i=0;i<search_output.length;i++){
+            search_output[i].classList.remove("select")
+        }
+        if(e.key==="ArrowDown"){
+            arrow_cnt_one++
+            if(arrow_cnt_one>search_output.length){
+                arrow_cnt_one=1
+            }
+        }else{
+            arrow_cnt_one--
+            if(arrow_cnt_one<=0){
+                arrow_cnt_one=search_output.length
+            }
+        }
+        search_output[arrow_cnt_one-1].classList.add("select")
+        search_input.value = search_output[arrow_cnt_one-1].innerHTML
+    }
+
+    if(!(e.key==="Enter"))return
+
+    if(!document.getElementsByClassName("block_page")[0].classList.contains("open")){
+        search.dispatchEvent(new Event("click"))
+        document.dispatchEvent(new Event("click"))
+        suggestion_word.innerHTML = ""
+    }
+}
 
 async function suggest_word(key_word){
 
@@ -89,7 +125,6 @@ async function suggest_word(key_word){
     }
     
     suggestion_word.innerHTML = ""
-
 
     data.forEach((item)=>{
         let output = document.createElement("div")
@@ -104,7 +139,7 @@ async function suggest_word(key_word){
 function update_word(){
     search_input.value = this.innerHTML
     if(!suggestion_word.classList.contains("show"))return
-    suggestion_word.classList.remove("show")
+    // suggestion_word.classList.remove("show")
 }
 
 
@@ -118,6 +153,7 @@ function init() {
     time_machine = null;
     mrt_mode = false
     search_mode = false
+    arrow_cnt_one = 0
 }
 
 window.addEventListener("scroll", () => {
@@ -202,7 +238,9 @@ async function get_data_by_keyword(page, keyword) {
             next_page = res.nextPage
             // dont_stop = true;
         });
-    window.scrollTo(0,document.body.scrollHeight)
+    if(page===0){
+        window.scrollTo(0,document.getElementsByClassName("container")[0].getBoundingClientRect().top)
+    }
 }
 
 let top_attr_item = document.getElementsByClassName("top_attr_item")[0]

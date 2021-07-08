@@ -338,6 +338,9 @@ input:focus {
 .click_word:hover{
   color: #FF7f50;
 }
+.click_word.select{
+  color: #FF7f50;
+}
 /* #right_page{
   position: absolute;
   top: 50%;
