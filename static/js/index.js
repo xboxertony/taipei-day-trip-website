@@ -442,9 +442,10 @@ async function cancel_attr(e) {
 
 //最近瀏覽的景點
 
-let recent_record = document.getElementById("recent_record")
+// let recent_record = document.getElementById("recent_record")
 
 async function get_recent_record(){
+    if(window.location.pathname!=="/")return
     let get_record = await fetch("/api/get_recent_record")
     let response = await get_record.json()
 

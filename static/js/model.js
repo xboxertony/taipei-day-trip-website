@@ -39,6 +39,8 @@ let error_email = document.getElementById("error_email")
 let error_password = document.getElementById("error_password")
 let error_input = document.getElementsByClassName("error")
 
+let recent_record = document.getElementById("recent_record")
+
 function add_event(item, act, f) {
     item.addEventListener(act, f)
 }
@@ -435,6 +437,7 @@ function get_user() {
                 if(res["data"]["img_src"]){
                     document.getElementById("profile").src = res["data"]["img_src"]
                 }
+                get_recent_record()
             } else {
                 // console.log("ok")
                 document.getElementById("login").style.display = "inline";
