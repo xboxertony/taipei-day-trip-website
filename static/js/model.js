@@ -620,6 +620,7 @@ document.addEventListener("click", (e) => {
         login_board.classList.remove("open");
         default_setting();
         last_item.classList.remove("open")
+        document.getElementById("suggestion_word").classList.remove("show")
     }
 });
 
@@ -704,7 +705,7 @@ async function check_order(){
                 if(0<time_delta && time_delta<3){
                     check_3day_schedule = true
                     let inform_fragment = document.createElement("div")
-                    inform_fragment.innerHTML = `您在${Math.round(time_delta)}天後有行程，單號為<a href='/thankyou?number=${key}'>${key}</a>`
+                    inform_fragment.innerHTML = `您在${Math.ceil(time_delta)}天後有行程，單號為<a href='/thankyou?number=${key}'>${key}</a>`
                     bell_board.appendChild(inform_fragment)
                     if(!inform_bell.classList.contains("light")){
                         inform_bell.classList.add("light")
