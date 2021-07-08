@@ -12,6 +12,7 @@ from collect import collect_app
 from leader import leader_app
 from upload_photo import upload_photo_app
 from search import search_app
+from recent_view import recent_view
 
 app.register_blueprint(attraction_app)
 app.register_blueprint(user_app)
@@ -24,6 +25,7 @@ app.register_blueprint(collect_app)
 app.register_blueprint(leader_app)
 app.register_blueprint(upload_photo_app)
 app.register_blueprint(search_app)
+app.register_blueprint(recent_view)
 
 # Pages
 @app.route("/")

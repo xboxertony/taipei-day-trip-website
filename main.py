@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from itsdangerous import TimedJSONWebSignatureSerializer
 from sqlalchemy import create_engine
+from flask_caching import Cache
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
@@ -25,3 +26,13 @@ app.config.update(
 )
 mail = Mail(app)
 s = TimedJSONWebSignatureSerializer(mail_key)
+
+config_cache = {
+    'CACHE_TYPE': 'redis',
+    'CACHE_REDIS_HOST': 'taipeicity.ux33x2.0001.apne1.cache.amazonaws.com',
+    'CACHE_REDIS_PORT': 6379,
+    "CACHE_DEFAULT_TIMEOUT":600
+}
+
+app.config.from_mapping(config_cache)
+cache = Cache(app)

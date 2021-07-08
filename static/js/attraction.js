@@ -644,3 +644,14 @@ async function add_view(){
         console.log("error")
     }
 }
+
+//紀錄瀏覽紀錄
+
+async function record(){
+    let data = await fetch(`/api/recent_view/${idx}`)
+    let res = await data.json()
+
+    console.log(res)
+}
+
+record()
