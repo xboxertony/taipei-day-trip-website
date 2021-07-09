@@ -8,13 +8,14 @@ from main import db,mail,s,db_RDS
 import re
 from flask_mail import Message
 from config import mail_username
+import jwt
 
 user_app = Blueprint("user_app",__name__)
 
 @user_app.route("/api/reset_password",methods=["POST"])
 def reset_password():
 	data = request.get_json()
-	password = data["password"]
+	password =  jwt.encode({"password":data["password"]},"secret",algorithm="HS256")
 	email = data['email']
 	sql = f"UPDATE attraction.user SET password = '{password}' WHERE (email = '{email}');"
 	db_RDS.engine.execute(sql)
@@ -60,7 +61,7 @@ def user():
 			data = request.get_json()
 			name = data["name"]
 			email = data["email"]
-			password = data["password"]
+			password = jwt.encode({"password":data["password"]}, "secret", algorithm="HS256")
 			leader = data.get("leader")
 			sql = f"select email from attraction.user where email='{email}'"
 			replicate = db_RDS.engine.execute(sql)
@@ -85,7 +86,7 @@ def user():
 		try:
 			data = request.get_json()
 			email = data["email"]
-			password = data["password"]
+			password = jwt.encode({"password":data["password"]}, "secret", algorithm="HS256")
 			sql = f"select id,name,email,leader,img_src from attraction.user where email='{email}' and password='{password}'"
 			result = db_RDS.engine.execute(sql)
 			for i in result:
@@ -216,13 +217,14 @@ def update_password():
 	sql = f"select password from attraction.user WHERE email = '{email}'"
 	pas = db_RDS.engine.execute(sql)
 	for i in pas:
-		if old_password!=i[0]:
+		if  jwt.encode({"password":old_password},"secret",algorithm="HS256")!=i[0]:
 			return jsonify({"error":"舊密碼輸入錯誤"})
 		else:
 			if new_password!=again_password:
 				return jsonify({"error":"新密碼與再次輸入密碼不一樣"})
 			if new_password==old_password:
 				return jsonify({"error":"新密碼與舊密碼一樣"})
+			new_password = jwt.encode({"password":new_password},"secret",algorithm="HS256")
 			sql = f"UPDATE attraction.user SET password = '{new_password}' WHERE email = '{email}'"
 			db_RDS.engine.execute(sql)
 			return jsonify({"ok":True})
