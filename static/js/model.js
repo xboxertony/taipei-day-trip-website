@@ -39,6 +39,8 @@ let error_email = document.getElementById("error_email")
 let error_password = document.getElementById("error_password")
 let error_input = document.getElementsByClassName("error")
 
+let recent_record = document.getElementById("recent_record")
+
 function add_event(item, act, f) {
     item.addEventListener(act, f)
 }
@@ -400,6 +402,32 @@ function get_msg(page) {
     })
 }
 
+async function get_recent_record(){
+    if(window.location.pathname!=="/")return
+    let get_record = await fetch("/api/get_recent_record")
+    let response = await get_record.json()
+
+    recent_record.innerHTML = ""
+
+    if(!response["error"]){
+        for(const [key,val] of Object.entries(response)){
+            let link_to_attr = document.createElement("a")
+            recent_record.appendChild(link_to_attr)
+            link_to_attr.innerHTML = val
+            link_to_attr.href = `/attraction/${key}`
+        }
+        return
+    }
+
+    let link_to_attr = document.createElement("a")
+    recent_record.appendChild(link_to_attr)
+    link_to_attr.innerHTML = "目前無瀏覽紀錄"
+
+
+}
+
+get_recent_record()
+
 
 function get_user() {
     fetch("/api/user", {
@@ -434,6 +462,9 @@ function get_user() {
                 }
                 if(res["data"]["img_src"]){
                     document.getElementById("profile").src = res["data"]["img_src"]
+                }
+                if(window.location.pathname==="/"){
+                    get_recent_record()
                 }
             } else {
                 // console.log("ok")
@@ -620,7 +651,9 @@ document.addEventListener("click", (e) => {
         login_board.classList.remove("open");
         default_setting();
         last_item.classList.remove("open")
-        document.getElementById("suggestion_word").classList.remove("show")
+        if(window.location.pathname==="/"){
+            document.getElementById("suggestion_word").classList.remove("show")
+        }
     }
 });
 

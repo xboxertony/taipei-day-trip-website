@@ -439,3 +439,33 @@ async function cancel_attr(e) {
         }
     })
 }
+
+//最近瀏覽的景點
+
+// let recent_record = document.getElementById("recent_record")
+
+// async function get_recent_record(){
+//     if(window.location.pathname!=="/")return
+//     let get_record = await fetch("/api/get_recent_record")
+//     let response = await get_record.json()
+
+//     recent_record.innerHTML = ""
+
+//     if(!response["error"]){
+//         for(const [key,val] of Object.entries(response)){
+//             let link_to_attr = document.createElement("a")
+//             recent_record.appendChild(link_to_attr)
+//             link_to_attr.innerHTML = val
+//             link_to_attr.href = `/attraction/${key}`
+//         }
+//         return
+//     }
+
+//     let link_to_attr = document.createElement("a")
+//     recent_record.appendChild(link_to_attr)
+//     link_to_attr.innerHTML = "目前無瀏覽紀錄"
+
+
+// }
+
+// get_recent_record()

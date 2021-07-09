@@ -370,6 +370,24 @@ blockquote .img_blk .delete_btn {
   box-shadow: 5px 5px 10px #ccc;
   padding: 10px;
 }
+#near_by{
+  display: flex;
+}
+.near_by_title{
+  font-weight: 800;
+}
+#near_by_attr{
+  margin-left: 30px;
+}
+.find_out_attr{
+  margin-left: 20px;
+  background-color: #B0C99F;
+  padding: 10px;
+  color: #2C4A4C;
+  cursor: pointer;
+  width: fit-content;
+  border-radius: 10px;
+}
 @media screen and (max-width: 1200px) {
   .order_panel{
     height: 500px;
@@ -436,6 +454,23 @@ blockquote .img_blk .delete_btn {
   }
   .message_block{
     padding: 5px 0;
+  }
+  #near_by{
+    flex-direction: column;
+    align-items: center;
+  }
+  .near_by_title{
+    text-align: center;
+  }
+  #near_by_attr{
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+  }
+  .find_out_attr{
+    margin-top: 20px;
+    text-align: center;
+    margin-left: 0;
   }
 }
 @media screen and (max-width: 450px) {
