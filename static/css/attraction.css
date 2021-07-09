@@ -64,7 +64,7 @@
   margin: 20px auto;
   word-wrap: break-word;
 }
-.describe > div:not(:first-of-type) {
+.describe > div:not(:first-of-type,:nth-last-of-type(2)) {
   margin: 50px 0;
 }
 .point {
@@ -373,6 +373,7 @@ blockquote .img_blk .delete_btn {
 #near_by{
   display: flex;
   align-items: center;
+  margin-top: 20px;
 }
 .near_by_title{
   font-weight: 800;
@@ -391,6 +392,38 @@ blockquote .img_blk .delete_btn {
   width: fit-content;
   border-radius: 10px;
   margin-top: 10px;
+}
+#near_by{
+  display: flex;
+}
+#scroll_bar{
+  position: relative;
+  flex:0 0 300px;
+  height: 50px;
+  padding: 20px;
+}
+#line{
+  height: 5px;
+  background-color: black;
+  border-radius: 10px;
+}
+#circle{
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: cadetblue;
+  top: 5px;
+  left: 0;
+}
+#circle::after{
+  content:"距離附近 "attr(data-left)" km的景點";
+  position: absolute;
+  top: -40px;
+  left: -15px;
+  color: black;
+  font-weight: 900;
+  white-space: nowrap;
 }
 @media screen and (max-width: 1200px) {
   .order_panel{
@@ -420,6 +453,9 @@ blockquote .img_blk .delete_btn {
   }
 }
 @media screen and (max-width: 800px) {
+  #near_by{
+    display: block;
+  }
   .msg_below img{
     width: 100%;
   }
@@ -458,10 +494,6 @@ blockquote .img_blk .delete_btn {
   }
   .message_block{
     padding: 5px 0;
-  }
-  #near_by{
-    flex-direction: column;
-    align-items: center;
   }
   .near_by_title{
     text-align: center;
