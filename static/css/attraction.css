@@ -372,12 +372,15 @@ blockquote .img_blk .delete_btn {
 }
 #near_by{
   display: flex;
+  align-items: center;
 }
 .near_by_title{
   font-weight: 800;
 }
 #near_by_attr{
+  display: flex;
   margin-left: 30px;
+  flex-wrap: wrap;
 }
 .find_out_attr{
   margin-left: 20px;
@@ -387,6 +390,7 @@ blockquote .img_blk .delete_btn {
   cursor: pointer;
   width: fit-content;
   border-radius: 10px;
+  margin-top: 10px;
 }
 @media screen and (max-width: 1200px) {
   .order_panel{
@@ -466,6 +470,7 @@ blockquote .img_blk .delete_btn {
     display: flex;
     flex-direction: column;
     margin-left: 0;
+    align-items: center;
   }
   .find_out_attr{
     margin-top: 20px;
