@@ -83,23 +83,23 @@ def user():
 		except:
 			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 	if request.method=="PATCH":
-		try:
-			data = request.get_json()
-			email = data["email"]
-			password = jwt.encode({"password":data["password"]}, "secret", algorithm="HS256")
-			sql = f"select id,name,email,leader,img_src from attraction.user where email='{email}' and password='{password}'"
-			result = db_RDS.engine.execute(sql)
-			for i in result:
-				session["id"]=i[0]
-				session["name"]=i[1]
-				session["email"]=i[2]
-				session['leader']=i[3]
-				session["img_src"]=i[4]
-				session.permanent = True
-				return jsonify({"ok":True})
-			return jsonify({"error":True,"message":"登入失敗，帳號或密碼錯誤"}),400
-		except:
-			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
+		# try:
+		data = request.get_json()
+		email = data["email"]
+		password = jwt.encode({"password":data["password"]}, "secret", algorithm="HS256")
+		sql = f"select id,name,email,leader,img_src from attraction.user where email='{email}' and password='{password}'"
+		result = db_RDS.engine.execute(sql)
+		for i in result:
+			session["id"]=i[0]
+			session["name"]=i[1]
+			session["email"]=i[2]
+			session['leader']=i[3]
+			session["img_src"]=i[4]
+			session.permanent = True
+			return jsonify({"ok":True})
+		return jsonify({"error":True,"message":"登入失敗，帳號或密碼錯誤"}),400
+		# except:
+		# 	return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 	if request.method=="DELETE":
 		if "id" in session:
 			session.pop("id")
