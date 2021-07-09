@@ -177,7 +177,7 @@ function handle_data(res) {
     describe_content.innerHTML = res.data.description;
     address_place.innerHTML = res.data.address;
     traffic.innerHTML = res.data.transport;
-    get_yt_video(res.data.name)
+    // get_yt_video(res.data.name)
     get_msg(page)
     get_news(res.data.name, res.data.mrt, res.data.address.slice(4, 7).trim())
 }
@@ -655,3 +655,28 @@ async function record(){
 }
 
 record()
+
+//得到附近景點
+
+let near_by_attr = document.getElementById("near_by_attr")
+
+async function get_near_by(){
+    let data = await fetch(`/api/nearby?attrid=${idx}&km=2`)
+    let response = await data.json()
+
+    let cnt = 5
+    for(let i=0;i<response.length;i++){
+        if(i>=5)return
+        for(const [key,val] of Object.entries(response[i])){
+            let find_out_attr = document.createElement("a")
+            find_out_attr.innerHTML = val
+            find_out_attr.href = `/attraction/${key}`
+            find_out_attr.setAttribute("target","_blank")
+            near_by_attr.appendChild(find_out_attr)
+            find_out_attr.classList.add("find_out_attr")
+        }
+    }
+
+}
+
+get_near_by()
