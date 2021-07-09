@@ -1,6 +1,7 @@
 let today = new Date();
 let schedule = document.getElementById("schedule");
 let select_leader = document.getElementById("select_leader")
+let select_month = document.getElementById("select_month")
 
 let cat = {
     1: "星期一",
@@ -67,6 +68,7 @@ async function get_Month(check_all,main_user,year, month) {
         week_div.innerHTML = `${cat[select_week]}`;
         year_div.classList.add("week")
         month_div.classList.add("week")
+        month_div.classList.add("month_check")
         week_div.classList.add("date")
         div.appendChild(year_div);
         div.appendChild(month_div);
@@ -151,6 +153,7 @@ async function append_schedule(check_all,cnt) {
         let loop_time = new Date(
             today_today.setMonth(today_today.getMonth() + i)
         );
+        append_month_to_selectbar(loop_time.getMonth())
         await get_Month(check_all,main_user,loop_time.getFullYear(), loop_time.getMonth()).then((res) => {
             res.forEach((item) => {
                 schedule.appendChild(item)
@@ -298,6 +301,32 @@ async function append_schedule_individual(idx,cnt) {
                 schedule.appendChild(item)
             })
         });
+    }
+}
+
+select_month.addEventListener("change",change_month)
+
+function append_month_to_selectbar(month){
+
+    let opt = document.createElement("option")
+    select_month.appendChild(opt)
+    opt.value = `${month}`
+    opt.innerHTML= `${month}月`
+
+}
+
+function change_month(){
+
+    let val = this.value
+    let schedule_pos = document.getElementsByClassName("month_check")
+    for(let i=0;i<schedule_pos.length;i++){
+        let content = schedule_pos[i].innerHTML
+        if(parseInt(content.split("/")[0])===parseInt(val)){
+            let x = schedule_pos[i].offsetLeft
+            let xx = schedule.offsetLeft
+            schedule.scrollTo(x-xx,0)
+            break
+        }
     }
 }
 

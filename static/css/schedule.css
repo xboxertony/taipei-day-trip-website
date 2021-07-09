@@ -16,6 +16,7 @@
 #schedule {
   display: flex;
   overflow-x: scroll;
+  scroll-behavior: smooth;
 }
 #schedule > div {
   padding: 10px;
@@ -114,4 +115,53 @@
 }
 .trip_detail > div >div:not(:first-of-type){
   margin-top: 10px;
+}
+.fix-select{
+  position: relative;
+  margin-bottom: 20px;
+}
+#select_month{
+  width: 150px;
+  padding: 10px;
+  background: #4d5061;
+  color: white;
+  float: right;
+}
+.float-item{
+  clear: both;
+}
+.custom-arrow{
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+  width: 2em;
+  height: 100%;
+  background: #3b3c47;
+  pointer-events: none;
+}
+
+.custom-arrow::before,
+.custom-arrow::after{
+  content:"";
+  position: absolute;
+  width: 0;
+  height: 0;
+  --size: .3em;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.custom-arrow::before{
+  border-top: var(--size) solid #ccc ;
+  border-left: var(--size) solid transparent ;
+  border-right: var(--size) solid transparent ;
+  top: 60%;
+}
+
+.custom-arrow::after{
+  border-bottom: var(--size) solid #ccc ;
+  border-left: var(--size) solid transparent ;
+  border-right: var(--size) solid transparent ;
+  top: 30%;
 }
