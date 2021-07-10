@@ -220,6 +220,11 @@ def refund(order_num):
 	for i in data_Sql3:
 		if i[0]:
 			return jsonify({"error":True,"msg":"請勿重複退款"})
+	sql_check_time = f"select count(*) from attraction.order where orderid='{order_num}' and (date<current_date() or (datediff(date,current_date()) < 3 and date>current_date()))"
+	data_check_cnt = db_RDS.engine.execute(sql_check_time)
+	for i in data_check_cnt:
+		if i[0]>0:
+			return jsonify({"error":True,"msg":"時間已過或是行程三天內不得退款"})
 	query_url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
 	payload = {
 		"partner_key": get_key(),
@@ -252,5 +257,5 @@ def refund(order_num):
 			return jsonify({"ok":True})
 		except Exception as e:
 			print(e)
-			return jsonify({"error":True}),400
-	return jsonify({"error":True}),400
+			return jsonify({"error":True,"msg":"資料庫處理錯誤"}),400
+	return jsonify({"error":True,"msg":"退款失敗"}),400

@@ -128,6 +128,9 @@ async function refund_action(){
             alert("退款成功!!!!")
             window.location.reload()
         }
+        if(result["error"]){
+            alert(result["msg"])
+        }
     }
 }
 
