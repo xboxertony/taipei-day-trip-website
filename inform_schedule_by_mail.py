@@ -6,7 +6,7 @@ from flask import render_template
 
 with app.app_context():
 
-    sql = "SELECT * FROM attraction.order where datediff(date,current_date()) < 4 and date>current_date();"
+    sql = "SELECT * FROM attraction.order where datediff(date,current_date()) < 4 and date>current_date() and refund_time is null"
 
     data = db_RDS.engine.execute(sql)
 
