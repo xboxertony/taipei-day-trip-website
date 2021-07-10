@@ -733,6 +733,9 @@ async function check_order(){
         bell_board.innerHTML = ""
 
         for( const [key,val] of Object.entries(data["data"])){
+
+            if(!val.refund_time)continue
+
             val.arr.forEach(item=>{
                 let time_delta = (new Date(item.date)-new Date())/(24*60*60*1000)
                 if(0<time_delta && time_delta<3){

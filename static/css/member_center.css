@@ -157,6 +157,24 @@
   font-weight: 800;
   text-align: center;
 }
+.refund_button{
+  position: absolute;
+  top: 0;
+  right: 40%;
+  width: 100px;
+  font-weight: 900;
+  font-size: 12px;
+  background-color: #DB2828;
+  color: white;
+  border-radius: 10px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+}
+.refund_button.fix{
+  background-color:#21BA45;
+  color: black;
+}
 @media screen and (max-width: 800px) {
   .info.open {
     padding: 50px 50px;
@@ -181,5 +199,8 @@
     top: -230px;
     left: 50%;
     transform: translateX(-50%);
+  }
+  .refund_button{
+    position: relative;
   }
 }

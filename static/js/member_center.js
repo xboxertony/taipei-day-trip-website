@@ -119,6 +119,21 @@ async function cancel_collection_fcn(){
     }
 }
 
+async function refund_action(){
+    let yes = confirm("請問確定要退款嗎?")
+    if(yes){
+        let refund_fetch = await fetch(`/api/refund/${this.dataset.number}`)
+        let result = await refund_fetch.json()
+        if(result["ok"]){
+            alert("退款成功!!!!")
+            window.location.reload()
+        }
+        if(result["error"]){
+            alert(result["msg"])
+        }
+    }
+}
+
 async function write_order_info(select_time){
     order_info_contain.innerHTML = ""
     let res = await fetch("/api/orders")
@@ -155,6 +170,19 @@ async function write_order_info(select_time){
         title.innerHTML = key
         title.addEventListener("click",toggle_contain)
         title.classList.add("object_key")
+
+        let refund_button = document.createElement("button")
+
+        if(!val.refund_time){
+            refund_button.innerHTML = "退款"
+            refund_button.classList.add("refund_button")
+            refund_button.addEventListener("click",refund_action)
+            refund_button.dataset.number = key
+        }else{
+            refund_button.innerHTML = "已退款"
+            refund_button.classList.add("refund_button")
+            refund_button.classList.add("fix")
+        }
     
         let time_des = document.createElement("p")
         let year = val['time'].split(" ")[3]
@@ -168,6 +196,7 @@ async function write_order_info(select_time){
         
         order_history_div.appendChild(title)
         order_history_div.appendChild(time_des)
+        order_history_div.appendChild(refund_button)
         order_history_div.classList.add("order_history")
         
         let div = document.createElement("div")

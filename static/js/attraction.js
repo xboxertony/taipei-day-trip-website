@@ -659,14 +659,18 @@ record()
 //得到附近景點
 
 let near_by_attr = document.getElementById("near_by_attr")
+let km = 2
+let time_action = null
 
 async function get_near_by(){
-    let data = await fetch(`/api/nearby?attrid=${idx}&km=2`)
+    let data = await fetch(`/api/nearby?attrid=${idx}&km=${km}`)
     let response = await data.json()
+
+    near_by_attr.innerHTML =""
 
     let cnt = 5
     for(let i=0;i<response.length;i++){
-        if(i>=5)return
+        if(i>=cnt)return
         for(const [key,val] of Object.entries(response[i])){
             let find_out_attr = document.createElement("a")
             find_out_attr.innerHTML = val
@@ -680,3 +684,44 @@ async function get_near_by(){
 }
 
 get_near_by()
+
+let circle = document.getElementById("circle")
+let scroll_bar = document.getElementById("scroll_bar")
+let isdrawing = false
+let window_size = document.body.offsetWidth
+scroll_bar.addEventListener("click",function(e){
+    move_circle(e)
+    // console.log(Math.round(parseInt(e.clientX-30)*10/scroll_bar.offsetWidth))
+})
+circle.addEventListener("mousedown",function(e){
+    move_circle(e)
+    isdrawing=true
+})
+circle.addEventListener("mousemove",function(e){
+    if(!isdrawing)return
+    move_circle(e)
+})
+circle.addEventListener("mouseup",function(e){
+    isdrawing=false
+})
+
+function get_left(left){
+    circle.dataset.left = Math.round(parseInt(left-50)*10/scroll_bar.offsetWidth+1)
+    clearTimeout(time_action)
+    time_action = setTimeout(function(){
+        km = circle.dataset.left
+        get_near_by()
+    },500)
+}
+
+function move_circle(e){
+    if(window_size>800){
+        if(e.clientX>scroll_bar.offsetWidth || e.clientX-50<0)return
+        circle.style.left = (e.clientX-50)+"px"
+        get_left(e.clientX)
+    }else{
+        if(e.clientX-150>scroll_bar.offsetWidth || e.clientX<170)return
+        circle.style.left = (e.clientX-180)+"px"
+        get_left(e.clientX-134)
+    }
+}
