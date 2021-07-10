@@ -32,6 +32,8 @@ let page = 0;
 
 let news = document.getElementsByClassName("news")[0]
 
+let score_real = document.getElementById("score_real")
+
 
 function get_yt_video(word) {
     fetch("/api/youtube", {
@@ -305,7 +307,8 @@ function add_msg() {
         },
         body: JSON.stringify({
             "attid": idx,
-            "message": textarea_msg.innerHTML
+            "message": textarea_msg.innerHTML,
+            "score":parseInt(score_real.innerHTML)
         })
     }).then((res) => {
         return res.json()
@@ -396,7 +399,16 @@ function create_msg(msg) {
     delete_msg.innerHTML = '<i class="fas fa-trash-alt"></i>'
     delete_msg.classList.add("btn_delete_msg")
 
+    let score = document.createElement("span")
+    score.classList.add("score_in_msg")
+    let star_html = "<span class='score_title'>景點評價：</span>"
+    for(let i=0;i<msg.score;i++){
+        star_html=star_html+"<i class='fas fa-star'></i>"
+    }
+    score.innerHTML = star_html
+
     msg_below.appendChild(msg_name)
+    msg_below.appendChild(score)
     msg_below.appendChild(msg_time)
     msg_below.appendChild(msg_context)
     if(msg["delete"]){
@@ -458,6 +470,30 @@ async function delete_msg_fcn(e){
     let res = await de.json()
     window.location.reload()
 }
+
+//評價星星的程式碼
+let empty_star = document.getElementsByClassName("empty_star")
+let full_star = document.getElementsByClassName("full_star")
+
+function hover_star(){
+    console.log(this.dataset.id)
+    for(let i=0;i<5;i++){
+        if(i<=this.dataset.id){
+            empty_star[i].classList.add("close")
+            full_star[i].classList.add("open")
+        }else{
+            empty_star[i].classList.remove("close")
+            full_star[i].classList.remove("open")
+        }
+    }
+
+    score_real.innerHTML = `${parseInt(this.dataset.id)+1}`
+
+}
+
+Array.from(empty_star).forEach((item)=>{
+    item.addEventListener("mouseover",hover_star)
+})
 
 fetch("/api/weather").then((res) => {
     return res.json()
@@ -720,8 +756,9 @@ function move_circle(e){
         circle.style.left = (e.clientX-50)+"px"
         get_left(e.clientX)
     }else{
-        if(e.clientX-150>scroll_bar.offsetWidth || e.clientX<170)return
-        circle.style.left = (e.clientX-180)+"px"
-        get_left(e.clientX-134)
+        let delta = (window_size-scroll_bar.offsetWidth)/2
+        if(e.clientX-delta-20<0 || e.clientX-delta>scroll_bar.offsetWidth-20)return
+        circle.style.left = (e.clientX-delta-20)+"px"
+        get_left(e.clientX-delta+30)
     }
 }

@@ -12,14 +12,15 @@ def mes():
             return jsonify({"error":True})
         attid = request.get_json()["attid"]
         mes = request.get_json()["message"]
+        score = request.get_json()["score"]
         name = session.get("name")
         if session.get("FB_ID"):
             idx = session.get("FB_ID")
-            sql = f"INSERT INTO attraction.message (name,attraction_id,message,FB_ID) VALUES ('{name}','{attid}','{mes}', '{idx}');"
+            sql = f"INSERT INTO attraction.message (name,attraction_id,message,FB_ID,score) VALUES ('{name}','{attid}','{mes}', '{idx}','{score}');"
             db_RDS.engine.execute(sql)
         else:
             email = session.get("email")
-            sql = f"INSERT INTO attraction.message (name,attraction_id,message,email) VALUES ('{name}','{attid}','{mes}', '{email}');"
+            sql = f"INSERT INTO attraction.message (name,attraction_id,message,email,score) VALUES ('{name}','{attid}','{mes}', '{email}','{score}');"
             db_RDS.engine.execute(sql)
         return jsonify({"ok":True})
     if request.method=="GET":
