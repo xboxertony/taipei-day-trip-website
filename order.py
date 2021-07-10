@@ -220,7 +220,7 @@ def refund(order_num):
 	for i in data_Sql3:
 		if i[0]:
 			return jsonify({"error":True,"msg":"請勿重複退款"})
-	sql_check_time = f"select count(*) from attraction.order where orderid='{order_num}' and (date<current_date() or (datediff(date,current_date()) < 3 and date>current_date()))"
+	sql_check_time = f"select count(*) from attraction.order where orderid='{order_num}' and (date<current_date() or (datediff(date,current_date()) < 3 and date>=current_date()))"
 	data_check_cnt = db_RDS.engine.execute(sql_check_time)
 	for i in data_check_cnt:
 		if i[0]>0:
