@@ -34,6 +34,18 @@ let news = document.getElementsByClassName("news")[0]
 
 let score_real = document.getElementById("score_real")
 
+let view_score = {}
+
+
+async function get_score(){
+    let get_score_fetch = await fetch("/api/score")
+    let get_data = await get_score_fetch.json()
+
+    view_score = {...get_data}
+    let score = view_score[idx+""]?parseFloat(view_score[idx+""]['score']).toFixed(2):"0"
+    let cnt = view_score[idx+""]?view_score[idx+""]['cnt']:"0"
+    attraction_name.innerHTML=attraction_name.innerHTML+`<span class="score_index"><i class="fas fa-star"></i>${score}</span><span class='score_cnt'>一共${cnt}人評分</span>`;
+}
 
 function get_yt_video(word) {
     fetch("/api/youtube", {
@@ -172,8 +184,9 @@ async function post_booking_information() {
         });
 }
 
-function handle_data(res) {
+async function handle_data(res) {
     attraction_name.innerHTML = res.data.name;
+    get_score()
     attraction_cat_and_mrt.innerHTML =
         res.data.category + " at " + res.data.mrt;
     describe_content.innerHTML = res.data.description;

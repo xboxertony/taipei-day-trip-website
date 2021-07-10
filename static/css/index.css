@@ -366,6 +366,9 @@ input:focus {
   color: #448899;
   margin-left: 30px;
 }
+.score_index > i{
+  margin-right: 5px;
+}
 /* #right_page{
   position: absolute;
   top: 50%;

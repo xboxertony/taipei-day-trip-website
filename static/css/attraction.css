@@ -269,6 +269,15 @@ input[type="radio"]:disabled + span{
 .des_word{
   word-break: keep-all;
 }
+.score_index{
+  margin-left: 10px;
+  color: orange;
+}
+.score_cnt{
+  margin-left: 10px;
+  font-size: 12px;
+  color: #2C4A4C;
+}
 /* #weather_forcast_region{
   position: fixed;
   right: -160px;
