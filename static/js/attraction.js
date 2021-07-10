@@ -42,7 +42,7 @@ async function get_score(){
     let get_data = await get_score_fetch.json()
 
     view_score = {...get_data}
-    let score = view_score[idx+""]?view_score[idx+""]['score']:"0"
+    let score = view_score[idx+""]?parseFloat(view_score[idx+""]['score']).toFixed(2):"0"
     let cnt = view_score[idx+""]?view_score[idx+""]['cnt']:"0"
     attraction_name.innerHTML=attraction_name.innerHTML+`<span class="score_index"><i class="fas fa-star"></i>${score}</span><span class='score_cnt'>一共${cnt}人評分</span>`;
 }
