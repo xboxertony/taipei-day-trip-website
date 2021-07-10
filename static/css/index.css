@@ -318,6 +318,7 @@ input:focus {
 .description p{
   font-size: 20px;
   color: #5AC5A0;
+  white-space: nowrap;
 }
 #suggestion_word{
   position: absolute;
@@ -360,6 +361,10 @@ input:focus {
   color: white;
   border-radius: 30px;
   margin-left: 15px;
+}
+.score_index{
+  color: #448899;
+  margin-left: 30px;
 }
 /* #right_page{
   position: absolute;

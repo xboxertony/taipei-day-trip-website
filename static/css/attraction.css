@@ -425,6 +425,45 @@ blockquote .img_blk .delete_btn {
   font-weight: 900;
   white-space: nowrap;
 }
+#score_real{
+  margin-left: 10px;
+}
+.score_big_board{
+  display: flex;
+  margin-bottom: 10px;
+}
+.score_board{
+  display: flex;
+}
+.score_board > li{
+  position: relative;
+}
+.full_star,.empty_star{
+  font-size: 18px;
+}
+.full_star{
+  position: absolute;
+  left:0;
+  z-index: -1;
+  bottom: 3px;
+}
+.empty_star.close{
+  opacity: 0;
+}
+.full_star{
+  opacity: 0;
+}
+.full_star.open{
+  opacity: 1;
+  color: orange;
+}
+.score_in_msg{
+  color: orange;
+}
+.score_title{
+  font-weight: 600;
+  color: #448899;
+}
 @media screen and (max-width: 1200px) {
   .order_panel{
     height: 500px;
