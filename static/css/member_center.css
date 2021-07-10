@@ -200,4 +200,7 @@
     left: 50%;
     transform: translateX(-50%);
   }
+  .refund_button{
+    position: relative;
+  }
 }
