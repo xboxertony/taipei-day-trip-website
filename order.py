@@ -95,19 +95,21 @@ def order():
 			if not res[item[1]].get("arr"):
 				res[item[1]]["arr"]=[{
 					"attid":item[2],
-					"attname":item[8],
+					"attname":item[9],
 					"date":item[3],
 					"time":item[4],
 					"price":item[6]
 				}]
+				res[item[1]]["refund_time"]=item[8]
 				continue
 			res[item[1]]["arr"].append({
 					"attid":item[2],
-					"attname":item[8],
+					"attname":item[9],
 					"date":item[3],
 					"time":item[4],
 					"price":item[6]
 				})
+			res[item[1]]["refund_time"]=item[8]
 		url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
 		for order_num in res.keys():
 			payload = {
@@ -148,34 +150,37 @@ def pay_search(orderNumber):
 	r = req.post(url,data=json.dumps(payload),headers=headers)
 	data = json.loads(r.text)
 	# trip = data["trade_records"][0]["details"].split(";")
-	if data["trade_records"][0]["record_status"] in [0,1]:
-		sql = f"SELECT attid,date,name,images,time,email,price,attorder FROM attraction.order left join attraction.attractions on order.attid=attractions.id where orderid='{orderNumber}' order by attorder"
-		d = db_RDS.engine.execute(sql)
-		trip = []
-		for i in d:
-			attr = {
-				"attraction":{
-					"id":i[0],
-					"name":i[2],
-					"image":"https"+i[3].split(";")[0].split("http")[1]
-				},
-				"date":i[1],
-				"time":i[4],
-				"price":i[6]
-			}
-			trip.append(attr)
-		return jsonify({"data":{
-			"order_id":orderNumber,
-			"summary":data["trade_records"][0]["amount"],
-			"contact":{
-				"name":data["trade_records"][0]["cardholder"]["name"],
-				"email":data["trade_records"][0]["cardholder"]["email"],
-				"phone":data["trade_records"][0]["cardholder"]["phone_number"],
+	# if data["trade_records"][0]["record_status"] in [0,1]:
+	sql = f"SELECT attid,date,name,images,time,email,price,attorder,refund_time FROM attraction.order left join attraction.attractions on order.attid=attractions.id where orderid='{orderNumber}' order by attorder"
+	d = db_RDS.engine.execute(sql)
+	trip = []
+	refund_time = None
+	for i in d:
+		attr = {
+			"attraction":{
+				"id":i[0],
+				"name":i[2],
+				"image":"https"+i[3].split(";")[0].split("http")[1]
 			},
-			"trip":trip
-		}})
-	else:
-		return jsonify({"data":None})
+			"date":i[1],
+			"time":i[4],
+			"price":i[6]
+		}
+		trip.append(attr)
+		refund_time = i[8]
+	return jsonify({"data":{
+		"order_id":orderNumber,
+		"summary":data["trade_records"][0]["amount"],
+		"contact":{
+			"name":data["trade_records"][0]["cardholder"]["name"],
+			"email":data["trade_records"][0]["cardholder"]["email"],
+			"phone":data["trade_records"][0]["cardholder"]["phone_number"],
+		},
+		"trip":trip,
+		"refund_time":refund_time
+	}})
+	# else:
+	# 	return jsonify({"data":None})
 	# for i in d:
 	# 	attr = {
 	# 		"id":i[0],
@@ -205,3 +210,47 @@ def pay_search(orderNumber):
 	# 		"status":status
 	# 	}
 	# })
+
+@order_app.route("/api/refund/<order_num>")
+def refund(order_num):
+	# if "email" not in session:
+	# 	return jsonify({"error":True,"msg":"你尚未登入，無法退款"}),400
+	sql3 = f"select refund_time from attraction.order where orderid='{order_num}'"
+	data_Sql3 = db_RDS.engine.execute(sql3)
+	for i in data_Sql3:
+		if i[0]:
+			return jsonify({"error":True,"msg":"請勿重複退款"})
+	query_url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
+	payload = {
+		"partner_key": get_key(),
+		"filters":{
+			"bank_transaction_id":order_num
+		}
+	}
+	headers = {
+		'content-type': 'application/json',
+		'x-api-key': get_key()
+	}
+	r = req.post(query_url,data=json.dumps(payload),headers=headers)
+	query_data = json.loads(r.text)
+	rec_trade_id = query_data['trade_records'][0]['rec_trade_id']
+
+	refund_url = "https://sandbox.tappaysdk.com/tpc/transaction/refund"
+	body = {
+		"partner_key": get_key(),
+		"rec_trade_id": rec_trade_id
+	}
+
+	refund_input = req.post(refund_url,data=json.dumps(body),headers=headers)
+	refund_outcome = json.loads(refund_input.text)
+	if refund_outcome["msg"]=='Success':
+		try:
+			sql = f"update leader_info.schedule set booking_user = null where booking_user='{order_num}'"
+			db_RDS.engine.execute(sql)
+			sql2 = f"update attraction.order set refund_time=TIMESTAMPADD(HOUR, 8, CURRENT_TIMESTAMP) where orderid='{order_num}'"
+			db_RDS.engine.execute(sql2)
+			return jsonify({"ok":True})
+		except Exception as e:
+			print(e)
+			return jsonify({"error":True}),400
+	return jsonify({"error":True}),400
