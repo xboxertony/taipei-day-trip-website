@@ -18,6 +18,7 @@ let mrt = null;
 let mrt_mode = false;
 
 let view_dic = {}
+let view_score = {}
 
 let arrow_cnt_one = 0
 
@@ -199,6 +200,15 @@ function do_this() {
     // }
 }
 
+async function get_score(){
+    let get_score_fetch = await fetch("/api/score")
+    let get_data = await get_score_fetch.json()
+
+    view_score = {...get_data}
+}
+
+get_score()
+
 get_data_by_page(cur_id);
 
 async function get_data_by_page(page) {
@@ -327,7 +337,9 @@ function create_attraction(element){
     description.classList.add("description");
 
     let p = document.createElement("p");
-    p.innerHTML = element.name;
+    let score = view_score[element.id+""]?view_score[element.id+""]['score']:0
+    score = parseFloat(score).toFixed(2)
+    p.innerHTML = element.name
     p.classList.add("attr_title")
     attraction.setAttribute("data-content", element.name)
 
@@ -364,6 +376,7 @@ function create_attraction(element){
 
     let view_cnt = document.createElement("div")
     view_cnt.innerHTML = `<i class="far fa-eye"></i> <span class='view_cnt'>${view_dic[element.id]?view_dic[element.id]:0}<span>`
+    view_cnt.innerHTML = view_cnt.innerHTML +`<span class="score_index"><i class="fas fa-star"></i>${score}</span>`
     view_cnt.classList.add("view_cnt_div")
     attraction.appendChild(view_cnt)
 

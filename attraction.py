@@ -1,9 +1,11 @@
 from flask import Blueprint,request
+from flask.json import jsonify
 from data import data_handle
 import json
-from main import db
+from main import db,db_RDS
 import requests as req
 from config import ytb_key
+import math,decimal
 
 attraction_app = Blueprint("attraction_app",__name__)
 
@@ -66,3 +68,23 @@ def ytb():
 	search_word = request.get_json()["search_word"]
 	data = req.get(f"https://www.googleapis.com/youtube/v3/search?part=snippet&q={search_word}&type=video&maxResults=1&key={ytb_key}")
 	return json.loads(data.text)
+
+@attraction_app.route("/api/score")
+def score_app():
+	sql = f'''
+	SELECT 
+    	c.attraction_id,AVG(c.score),count(*)
+	FROM
+    	(SELECT DISTINCT
+        	attraction_id, email, score
+    	FROM
+        	attraction.message) c group by c.attraction_id
+	'''
+	data = db_RDS.engine.execute(sql)
+	res = {}
+	for item in data:
+		res[item[0]] = {
+			"score":str(item[1]) if item[1] else "0",
+			"cnt":item[2]
+		}
+	return jsonify(res)
