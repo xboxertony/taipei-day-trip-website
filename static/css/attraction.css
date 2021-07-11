@@ -568,6 +568,13 @@ blockquote .img_blk .delete_btn {
 .img_delete.open{
   display: block;
 }
+#mapid{
+  height: 400px;
+  z-index: 0;
+}
+.leaflet-popup-content{
+  font-weight: 900;
+}
 @media screen and (max-width: 1200px) {
   .order_panel{
     height: 500px;
