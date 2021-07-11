@@ -2,6 +2,14 @@ from flask import Blueprint, json,request,jsonify
 from flask.globals import session
 from main import db,db_RDS
 from datetime import datetime, timedelta
+import boto3
+from config import aws_access_key_id,aws_secret_access_key
+
+s3 = boto3.client(
+    "s3",
+    aws_access_key_id = aws_access_key_id,
+    aws_secret_access_key = aws_secret_access_key
+)
 
 message_app = Blueprint("message_app",__name__)
 
@@ -10,17 +18,25 @@ def mes():
     if request.method=="POST":
         if "name" not in session:
             return jsonify({"error":True})
-        attid = request.get_json()["attid"]
-        mes = request.get_json()["message"]
-        score = request.get_json()["score"]
+        photo = request.files.getlist("files")
+        text = request.form.get("context")
+        real_path = []
+        for item in photo:
+            real_path.append("http://d3nczlg85bnjib.cloudfront.net/"+item.filename)
+            s3.upload_fileobj(item,"tonytony58",item.filename,ExtraArgs={'ACL': 'public-read'})
+        text = json.loads(text)
+        attid = text.get("attid")
+        mes = text.get("message")
+        score = text.get("score")
         name = session.get("name")
+        img_path_text = ";".join(real_path)
         if session.get("FB_ID"):
             idx = session.get("FB_ID")
-            sql = f"INSERT INTO attraction.message (name,attraction_id,message,FB_ID,score) VALUES ('{name}','{attid}','{mes}', '{idx}','{score}');"
+            sql = f"INSERT INTO attraction.message (name,attraction_id,message,FB_ID,score,img) VALUES ('{name}','{attid}','{mes}', '{idx}','{score}','{img_path_text}');"
             db_RDS.engine.execute(sql)
         else:
             email = session.get("email")
-            sql = f"INSERT INTO attraction.message (name,attraction_id,message,email,score) VALUES ('{name}','{attid}','{mes}', '{email}','{score}');"
+            sql = f"INSERT INTO attraction.message (name,attraction_id,message,email,score,img) VALUES ('{name}','{attid}','{mes}', '{email}','{score}','{img_path_text}');"
             db_RDS.engine.execute(sql)
         return jsonify({"ok":True})
     if request.method=="GET":
@@ -112,3 +128,14 @@ def delete_msg(id):
         sql2 = f"insert into attraction.message_history (message_id,content) values ('{idx}','{content}') "
         db_RDS.engine.execute(sql2)
         return jsonify({"ok":True})
+
+@message_app.route("/api/photo_wall/<idx>")
+def get_photo(idx):
+    sql = f'select img from attraction.message where attraction_id="{idx}"'
+    data = db_RDS.engine.execute(sql)
+    img_arr = []
+    for item in data:
+        if item[0]:
+            for j in item[0].split(";"):
+                img_arr.append(j)
+    return jsonify(img_arr)

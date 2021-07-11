@@ -308,21 +308,65 @@ window.onresize = () => {
 let msg_history = document.getElementById("msg_history")
 let btn_msg = document.getElementById("btn_msg")
 let textarea_msg = document.getElementById("leave_msg_textarea")
+let idx_img = -1
 // let btn_more_his = document.getElementById("btn_more_msg")
 
 btn_msg.addEventListener("click", add_msg)
 
+let msg_photo_upload = document.getElementById("msg_photo_upload")
+let photo_message = document.getElementById("photo_message")
+let msg_img_arr = []
+
+function fcn_delete_image(){
+    msg_img_arr = msg_img_arr.filter((item)=>parseInt(item.idx)!==parseInt(this.parentNode.dataset.idx))
+    this.parentNode.remove()
+}
+
+msg_photo_upload.addEventListener("change",append_img)
+
+
+function append_img(){
+
+    let item = msg_photo_upload.files[0];
+    const reader = new FileReader()
+
+    reader.addEventListener("load",function(){
+        let img_container = document.createElement("div")
+        let photo_show = document.createElement("img")
+        img_container.dataset.idx = idx_img+1
+        photo_show.src = reader.result
+        img_container.appendChild(photo_show)
+        let delete_img = document.createElement("div")
+        delete_img.innerHTML = "<i class='fas fa-times-circle'></i>"
+        delete_img.classList.add("delete_img")
+        delete_img.addEventListener("click",fcn_delete_image)
+        img_container.appendChild(delete_img)
+        photo_message.appendChild(img_container)
+        msg_img_arr.push({"files":item,"idx":idx_img+1})
+        idx_img++
+    })
+
+    if(item){
+        reader.readAsDataURL(item)
+    }
+}
+
 function add_msg() {
+    let upload_img = new FormData()
+    msg_img_arr.forEach(item=>{
+        upload_img.append("files",item.files)
+    })
+    upload_img.append("context",JSON.stringify({
+        "attid": idx,
+        "message": textarea_msg.innerHTML,
+        "score":parseInt(score_real.innerHTML)
+    }))
     fetch("/api/message", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "attid": idx,
-            "message": textarea_msg.innerHTML,
-            "score":parseInt(score_real.innerHTML)
-        })
+        // headers: {
+        //     "Content-Type": "application/json"
+        body: upload_img
+        // },
     }).then((res) => {
         return res.json()
     }).then((data) => {
@@ -419,11 +463,23 @@ function create_msg(msg) {
         star_html=star_html+"<i class='fas fa-star'></i>"
     }
     score.innerHTML = star_html
-
+    
     msg_below.appendChild(msg_name)
     msg_below.appendChild(score)
     msg_below.appendChild(msg_time)
     msg_below.appendChild(msg_context)
+    
+    if(msg.img){
+        let img_contain_msg = document.createElement("div")
+        img_contain_msg.classList.add("img_contain_msg")
+        msg.img.split(";").forEach(item=>{
+            let img_msg = document.createElement("img")
+            img_msg.src = item
+            img_contain_msg.appendChild(img_msg)
+        })
+        msg_below.appendChild(img_contain_msg)
+    }
+
     if(msg["delete"]){
         delete_msg.addEventListener("click",delete_msg_fcn)
         msg_below.appendChild(delete_msg)
@@ -489,7 +545,6 @@ let empty_star = document.getElementsByClassName("empty_star")
 let full_star = document.getElementsByClassName("full_star")
 
 function hover_star(){
-    console.log(this.dataset.id)
     for(let i=0;i<5;i++){
         if(i<=this.dataset.id){
             empty_star[i].classList.add("close")
@@ -618,7 +673,6 @@ async function get_news(...word) {
     let ss = "/api/news?"
     for (let i = 0; i < arguments.length; i++) {
         ss += `word${i + 1}=${arguments[i]}&`
-        console.log(arguments[i])
     }
     let news_props = await fetch(ss)
     let data = await news_props.json()
@@ -646,7 +700,6 @@ collect_btn.addEventListener("click",collec_action)
 
 async function collec_action(e){
     e.preventDefault()
-    console.log(idx)
     let config = {
         method:"POST",
         body:JSON.stringify({
@@ -687,10 +740,8 @@ async function add_view(){
     let response = await view_api.json()
 
     if(response["ok"]){
-        console.log("ok")
     }
     if(response["error"]){
-        console.log("error")
     }
 }
 
@@ -699,8 +750,6 @@ async function add_view(){
 async function record(){
     let data = await fetch(`/api/recent_view/${idx}`)
     let res = await data.json()
-
-    console.log(res)
 }
 
 record()
@@ -775,3 +824,29 @@ function move_circle(e){
         get_left(e.clientX-delta+30)
     }
 }
+
+//更新照片牆
+
+let the_wall_inside = document.getElementsByClassName("the_wall_inside")[0]
+let the_wall = document.getElementsByClassName("the_wall")[0]
+
+async function add_photo_to_wall(){
+    let fetch_get_photo = await fetch(`/api/photo_wall/${idx}`)
+    let data_get = await fetch_get_photo.json()
+
+    data_get.forEach((item)=>{
+        let img_to_wall = document.createElement("img")
+        img_to_wall.src = item
+        img_to_wall.addEventListener("click",function(){
+            the_wall.classList.toggle("show")
+            document.getElementById("the_wall_photo").src = this.src
+        })
+        the_wall_inside.appendChild(img_to_wall)
+    })
+}
+
+add_photo_to_wall()
+
+the_wall.addEventListener("click",function(){
+    the_wall.classList.remove("show")
+})

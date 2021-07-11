@@ -106,6 +106,15 @@
       allowfullscreen
     ></iframe>
   </div>
+  <div class="photo_wall">
+    <p class="des_title">照片牆</p>
+    <div class="the_wall_inside">
+
+    </div>
+    <div class="the_wall">
+      <img src="" alt="" id="the_wall_photo">
+    </div>
+  </div>
 </div>
 <div class="message_block">
   <p class="des_title">留言區</p>
@@ -120,11 +129,16 @@
       <li data-score="5"><span class="empty_star" data-id="4"><i class="far fa-star"></i></span><span class="full_star"><i class="fas fa-star"></i></span></li>
     </ul>
     <p id="score_real">0</p>
+    <label for="msg_photo_upload" id="msg_photo_upload_icon">
+      <i class="fas fa-images"></i>
+    </label>
+    <input type="file" name="" id="msg_photo_upload">
   </div>
   <div class="message_content">
     <blockquote id="leave_msg_textarea" contenteditable="true"></blockquote>
     <button id="btn_msg">送出</button>
   </div>
+  <div id="photo_message"></div>
   <br />
   <div id="msg_history"></div>
   <!-- <div class="msg_below">
