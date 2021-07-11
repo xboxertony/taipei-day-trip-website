@@ -128,7 +128,7 @@ def delete_msg(id):
             img = img[:-1]
             sql = f"UPDATE attraction.message set message = '{content}',img = '{img}' where id = '{idx}' "
         else:
-            sql = f"UPDATE attraction.message set message = '{content}' where id = '{idx}' "
+            sql = f"UPDATE attraction.message set message = '{content}',img = null where id = '{idx}' "
         db_RDS.engine.execute(sql)
         sql2 = f"insert into attraction.message_history (message_id,content) values ('{idx}','{content}') "
         db_RDS.engine.execute(sql2)
