@@ -128,3 +128,14 @@ def delete_msg(id):
         sql2 = f"insert into attraction.message_history (message_id,content) values ('{idx}','{content}') "
         db_RDS.engine.execute(sql2)
         return jsonify({"ok":True})
+
+@message_app.route("/api/photo_wall/<idx>")
+def get_photo(idx):
+    sql = f'select img from attraction.message where attraction_id="{idx}"'
+    data = db_RDS.engine.execute(sql)
+    img_arr = []
+    for item in data:
+        if item[0]:
+            for j in item[0].split(";"):
+                img_arr.append(j)
+    return jsonify(img_arr)

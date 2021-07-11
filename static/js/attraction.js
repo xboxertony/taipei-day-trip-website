@@ -824,3 +824,29 @@ function move_circle(e){
         get_left(e.clientX-delta+30)
     }
 }
+
+//更新照片牆
+
+let the_wall_inside = document.getElementsByClassName("the_wall_inside")[0]
+let the_wall = document.getElementsByClassName("the_wall")[0]
+
+async function add_photo_to_wall(){
+    let fetch_get_photo = await fetch(`/api/photo_wall/${idx}`)
+    let data_get = await fetch_get_photo.json()
+
+    data_get.forEach((item)=>{
+        let img_to_wall = document.createElement("img")
+        img_to_wall.src = item
+        img_to_wall.addEventListener("click",function(){
+            the_wall.classList.toggle("show")
+            document.getElementById("the_wall_photo").src = this.src
+        })
+        the_wall_inside.appendChild(img_to_wall)
+    })
+}
+
+add_photo_to_wall()
+
+the_wall.addEventListener("click",function(){
+    the_wall.classList.remove("show")
+})
