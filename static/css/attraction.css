@@ -440,6 +440,7 @@ blockquote .img_blk .delete_btn {
 .score_big_board{
   display: flex;
   margin-bottom: 10px;
+  align-items: flex-end;
 }
 .score_board{
   display: flex;
@@ -472,6 +473,46 @@ blockquote .img_blk .delete_btn {
 .score_title{
   font-weight: 600;
   color: #448899;
+}
+#msg_photo_upload{
+  display: none;
+}
+#msg_photo_upload_icon{
+  font-size: 30px;
+  margin-left: 20px;
+}
+#photo_message{
+  display: flex;
+  flex-wrap: wrap;
+}
+#photo_message img{
+  width: 100px;
+  height: 100px;
+}
+#photo_message > div{
+  position: relative;
+}
+#photo_message > div:not(:first-of-type){
+  margin-left: 20px;
+}
+.delete_img{
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  color: white;
+}
+.img_contain_msg{
+  display: flex;
+  overflow-x: scroll;
+}
+.img_contain_msg::-webkit-scrollbar{
+  height: 3px;
+  background-color: transparent;
+}
+.img_contain_msg > img{
+  margin-left: 10px;
+  margin-top: 10px;
+  height: 200px;
 }
 @media screen and (max-width: 1200px) {
   .order_panel{
