@@ -491,6 +491,7 @@ blockquote .img_blk .delete_btn {
 }
 #photo_message > div{
   position: relative;
+  margin-top: 10px;
 }
 #photo_message > div:not(:first-of-type){
   margin-left: 20px;
