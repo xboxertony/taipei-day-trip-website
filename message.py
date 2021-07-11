@@ -123,7 +123,12 @@ def delete_msg(id):
     if request.method=="PATCH":
         idx = request.get_json()["msg_id"]
         content = request.get_json()["content"]
-        sql = f"UPDATE attraction.message set message = '{content}' where id = '{idx}' "
+        img = request.get_json()["img"]
+        if img:
+            img = img[:-1]
+            sql = f"UPDATE attraction.message set message = '{content}',img = '{img}' where id = '{idx}' "
+        else:
+            sql = f"UPDATE attraction.message set message = '{content}' where id = '{idx}' "
         db_RDS.engine.execute(sql)
         sql2 = f"insert into attraction.message_history (message_id,content) values ('{idx}','{content}') "
         db_RDS.engine.execute(sql2)

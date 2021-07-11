@@ -434,6 +434,10 @@ btn_more_his.addEventListener("click", function () {
     get_msg(page)
 })
 
+function delete_img_in_msg(){
+    this.parentNode.remove()
+}
+
 
 function create_msg(msg) {
     let msg_below = document.createElement("div")
@@ -473,9 +477,17 @@ function create_msg(msg) {
         let img_contain_msg = document.createElement("div")
         img_contain_msg.classList.add("img_contain_msg")
         msg.img.split(";").forEach(item=>{
+            let img_div = document.createElement("div")
             let img_msg = document.createElement("img")
+            let img_delete = document.createElement("div")
+            img_div.classList.add("img_div")
+            img_delete.innerHTML = "<i class='fas fa-times-circle'></i>"
+            img_delete.classList.add("img_delete")
             img_msg.src = item
-            img_contain_msg.appendChild(img_msg)
+            img_div.appendChild(img_msg)
+            img_div.appendChild(img_delete)
+            img_contain_msg.appendChild(img_div)
+            img_delete.addEventListener("click",delete_img_in_msg)
         })
         msg_below.appendChild(img_contain_msg)
     }
@@ -508,17 +520,27 @@ function edit_msg_fcn(e){
     btn_send_edit_msg.classList.add("edit_btn_msg")
     e.target.parentNode.parentNode.appendChild(btn_send_edit_msg)
     btn_send_edit_msg.addEventListener("click",send_edit_msg)
+    let img_delete_class = e.target.parentNode.parentNode.getElementsByClassName("img_delete")
+    Array.from(img_delete_class).forEach(item=>{
+        item.classList.add("open")
+    })
 }
 
 async function send_edit_msg(e){
 
     let content = e.target.parentNode.parentNode.getElementsByClassName("msg_context")[0].innerHTML
     let idx = e.target.parentNode.parentNode.dataset.msgid
+    let img_src_str = ""
+    let img_list_for_edit = e.target.parentNode.parentNode.getElementsByTagName("img")
+    Array.from(img_list_for_edit).forEach(item=>{
+        img_src_str+=item.src+";"
+    })
     let config = {
         method:"PATCH",
         body:JSON.stringify({
             "content":content,
-            "msg_id":idx
+            "msg_id":idx,
+            "img":img_src_str
         }),
         headers:{
             "Content-Type":"application/json"
