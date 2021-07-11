@@ -322,6 +322,33 @@ button {
   top: -5px;
   left: -5px;
 }
+
+#login_create{
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  perspective: 1000;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  transition: all 0.6s ease;
+  position: relative;
+  margin-top: 50px;
+}
+.message{
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  top: 50%;
+  left: 50%;
+}
+#create_board{
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  transform: translateX(-50%) rotateY(180deg);
+}
+#login_create.rotate{
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
 @media screen and (max-width: 1200px) {
   nav ul {
     width: 90%;
@@ -347,7 +374,7 @@ button {
   #booking{
     margin-left: 10px;
   }
-  #leader_schedule,#question_center,#login{
+  #leader_schedule,#question_center{
     margin-left: 10px;
   }
   .last-item > a{

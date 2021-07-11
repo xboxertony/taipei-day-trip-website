@@ -137,9 +137,10 @@ async function refund_action(){
 }
 
 async function write_order_info(select_time){
-    order_info_contain.innerHTML = ""
+    order_info_contain.innerHTML = "載入中...."
     let res = await fetch("/api/orders")
     let order_data = await res.json()
+    order_info_contain.innerHTML = ""
 
     let data = order_data['data']
     let now = new Date()
