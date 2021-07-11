@@ -491,6 +491,7 @@ blockquote .img_blk .delete_btn {
 }
 #photo_message > div{
   position: relative;
+  margin-top: 10px;
 }
 #photo_message > div:not(:first-of-type){
   margin-left: 20px;
@@ -504,6 +505,7 @@ blockquote .img_blk .delete_btn {
 .img_contain_msg{
   display: flex;
   overflow-x: scroll;
+  padding: 10px;
 }
 .img_contain_msg::-webkit-scrollbar{
   height: 3px;
@@ -524,8 +526,10 @@ blockquote .img_blk .delete_btn {
   background-color: transparent;
 }
 .the_wall_inside > img{
-  margin: 0 10px;
+  margin: 10px;
   height: 100px;
+  border-radius: 10px;
+  width: 100px;
 }
 .the_wall{
   position: fixed;
@@ -545,6 +549,24 @@ blockquote .img_blk .delete_btn {
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
+}
+.img_div{
+  position: relative;
+  height: 150px;
+  margin: 10px;
+}
+.img_div > img{
+  height: 100%;
+}
+.img_delete{
+  display: none;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  color: #111111;
+}
+.img_delete.open{
+  display: block;
 }
 @media screen and (max-width: 1200px) {
   .order_panel{
@@ -576,9 +598,6 @@ blockquote .img_blk .delete_btn {
 @media screen and (max-width: 800px) {
   #near_by{
     display: block;
-  }
-  .msg_below img{
-    width: 100%;
   }
   .place_view {
     display: block;
