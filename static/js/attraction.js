@@ -212,12 +212,12 @@ async function handle_data(res) {
         {
             attribution:
                 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
-            maxZoom: 13,
+            maxZoom: 30,
         }
     ).addTo(mymap);
     var marker = L.marker([res.data.latitude, res.data.longitude]).addTo(mymap);
     marker.bindPopup(res.data.name).openPopup();
-    get_yt_video(res.data.name)
+    // get_yt_video(res.data.name)
     get_msg(page)
     get_news(res.data.name, res.data.mrt, res.data.address.slice(4, 7).trim())
 }
@@ -832,7 +832,11 @@ async function get_near_by() {
             find_out_attr.setAttribute("target", "_blank")
             near_by_attr.appendChild(find_out_attr)
             find_out_attr.classList.add("find_out_attr")
-            marker_arr.push({"marker":L.marker([val.lat,val.long]),"name":val.name})
+            let marker_self = L.AwesomeMarkers.icon({
+                icon:'star',
+                markerColor: 'green'
+              });
+            marker_arr.push({"marker":L.marker([val.lat,val.long],{icon:marker_self}),"name":val.name})
         }
     }
 
