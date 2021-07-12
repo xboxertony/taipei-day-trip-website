@@ -172,6 +172,28 @@
   transform: translateX(-25%);
   border: 1px solid #333;
 }
+.back_to_page{
+  position: absolute;
+  top: 0;
+  right: 30px;
+  z-index: 10;
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 10px;
+  color: #448899;
+}
+.back_to_page:hover::after{
+  content: "回到該景點頁面重新編輯";
+  position: absolute;
+  top: -50px;
+  left: -20px;
+  background-color: #ccc;
+  padding: 10px;
+  width: 200px;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+}
 @media screen and (max-width: 800px) {
   .form_div,
   .schedule {

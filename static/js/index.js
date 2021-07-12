@@ -5,6 +5,7 @@ let search_input = document.getElementById("search_input");
 let search_mode = false;
 let copyright = document.getElementsByClassName("copyright")[0];
 let mrt_select = document.getElementById("mrt_select")
+let cat_select = document.getElementById("cat_select")
 
 let cur_id = 0;
 let pre_id = 0;
@@ -15,6 +16,7 @@ let first_time = false;
 let load_complete = false;
 let time_machine = null;
 let mrt = null;
+let cat = null
 let mrt_mode = false;
 
 let view_dic = {}
@@ -25,6 +27,10 @@ let arrow_cnt_one = 0
 fetch("/api/mrt").then((res) => {
     return res.json()
 }).then((data) => {
+    let option = document.createElement("option")
+    option.value = "all"
+    option.innerHTML = "所有"
+    mrt_select.appendChild(option)
     data.data.forEach((item) => {
         let option = document.createElement("option")
         option.value = item
@@ -33,21 +39,51 @@ fetch("/api/mrt").then((res) => {
     })
 })
 
+fetch("/api/cat").then((res)=>{
+    return res.json()
+}).then((data)=>{
+    let option = document.createElement("option")
+    option.value = "all"
+    option.innerHTML = "所有"
+    cat_select.appendChild(option)
+    data.data.forEach(item=>{
+        let option = document.createElement("option")
+        option.value = item
+        option.innerHTML = item
+        cat_select.appendChild(option)
+    })
+})
+
 mrt_select.addEventListener("change", function () {
     init()
     mrt_mode = true
     mrt = mrt_select.value
-    get_data_by_mrt(0, mrt);
+    cat = cat_select.value
+    get_data_by_mrt(0,mrt,cat);
     get_collection()
 })
 
-function get_data_by_mrt(page, keyword) {
-    fetch("/api/attractions?page=" + `${page}` + "&mrt=" + `${keyword}`)
+cat_select.addEventListener("change",function(){
+    init()
+    mrt_mode = true
+    mrt = mrt_select.value
+    cat = cat_select.value
+    get_data_by_mrt(0,mrt,cat);
+    get_collection()
+})
+
+function get_data_by_mrt(page, keyword,category) {
+    fetch("/api/attractions?page=" + `${page}` + "&mrt=" + `${keyword}`+`&cat=${category}`)
         .then((res) => {
             return res.json();
         })
         .then((res) => {
+            if(page===0&res.data.length===0){
+                container.innerHTML = "目前無篩選結果喔"
+                return
+            }
             // next_page = res.nextPage;
+            console.log(page,keyword,category)
             render_data(res);
             next_page = res.nextPage
         });
@@ -172,7 +208,6 @@ window.addEventListener("scroll", () => {
 });
 
 function do_this() {
-
     if (load_complete && next_page) {
         load_complete = false
         if (!search_mode && !mrt_mode) {
@@ -180,7 +215,7 @@ function do_this() {
             return
         }
         if (mrt_mode) {
-            get_data_by_mrt(next_page, mrt)
+            get_data_by_mrt(next_page, mrt,cat)
             return
         }
         get_data_by_keyword(next_page, key)
@@ -347,13 +382,13 @@ function create_attraction(element){
     transport.classList.add("transport");
     transport.innerHTML = element.mrt;
 
-    let cat = document.createElement("a");
-    cat.classList.add("cat");
-    cat.innerHTML = element.category;
+    let cate = document.createElement("a");
+    cate.classList.add("cat");
+    cate.innerHTML = element.category;
 
     description.appendChild(p);
     description.appendChild(transport);
-    description.appendChild(cat);
+    description.appendChild(cate);
 
     let favorite = new Image()
     favorite.src = "/static/favourite.png"

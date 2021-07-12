@@ -67,7 +67,7 @@ function write_member_info() {
 async function write_message_info() {
     let res = await fetch("/api/message_individual")
     let data = await res.json()
-    if (data["data"]) {
+    if (data["data"].length>0) {
         let record_data = data["data"]
         record_data.forEach(element => {
             let record = document.createElement("p")
@@ -85,7 +85,7 @@ async function write_collection_info(){
     let res = await fetch("api/collect_user")
     let data = await res.json()
 
-    if(data["data"]){
+    if(data["data"].length>0){
         let att_collect = data["data"]
         att_collect.forEach((item)=>{
             let attname = document.createElement("p")
@@ -99,6 +99,8 @@ async function write_collection_info(){
             collection_info.appendChild(attname)
 
         })
+    }else{
+        collection_info.innerHTML = "你目前沒有收藏"
     }
 }
 
@@ -135,9 +137,10 @@ async function refund_action(){
 }
 
 async function write_order_info(select_time){
-    order_info_contain.innerHTML = ""
+    order_info_contain.innerHTML = "載入中...."
     let res = await fetch("/api/orders")
     let order_data = await res.json()
+    order_info_contain.innerHTML = ""
 
     let data = order_data['data']
     let now = new Date()
@@ -160,6 +163,11 @@ async function write_order_info(select_time){
             return -1
         }
     })
+
+    if(arr.length===0){
+        order_info_contain.innerHTML = "目前並無訂單"
+        return
+    }
 
     for(let i=0;i<arr.length;i++){
         let key = Object.keys(arr[i])[0]

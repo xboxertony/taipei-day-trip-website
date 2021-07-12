@@ -580,8 +580,9 @@ login_btn_a.addEventListener("click", (e) => {
 });
 
 function login_process() {
-    login_board_b.classList.toggle("not_you");
-    create_board_b.classList.toggle("not_you");
+    document.getElementById("login_create").classList.toggle("rotate")
+    // login_board_b.classList.toggle("not_you");
+    // create_board_b.classList.toggle("not_you");
     document.getElementById("message_for_error_create").innerHTML = ""
 }
 
@@ -629,12 +630,12 @@ Array.from(close_btn).forEach((ele) => {
 });
 
 function default_setting() {
-    if (login_board_b.classList.contains("not_you")) {
-        login_board_b.classList.remove("not_you");
-    }
-    if (!create_board_b.classList.contains("not_you")) {
-        create_board_b.classList.add("not_you");
-    }
+    // if (login_board_b.classList.contains("not_you")) {
+    //     login_board_b.classList.remove("not_you");
+    // }
+    // if (!create_board_b.classList.contains("not_you")) {
+    //     create_board_b.classList.add("not_you");
+    // }
 }
 
 let last_item = document.getElementsByClassName("last-item")[0]
@@ -734,7 +735,7 @@ async function check_order(){
 
         for( const [key,val] of Object.entries(data["data"])){
 
-            if(!val.refund_time)continue
+            if(val.refund_time)continue
 
             val.arr.forEach(item=>{
                 let time_delta = (new Date(item.date)-new Date())/(24*60*60*1000)

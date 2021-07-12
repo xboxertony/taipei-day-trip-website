@@ -33,5 +33,5 @@ def get_near():
     res = db_RDS.engine.execute(sql2)
     for i in res:
         if abs(get_distance(lat,long,i[2],i[3]))<int(km):
-            arr.append({i[0]:i[1]})
+            arr.append({i[0]:{"name":i[1],"lat":i[2],"long":i[3]}})
     return jsonify(arr)

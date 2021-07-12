@@ -49,11 +49,12 @@
         <div id="fb-root"></div>
         <p id="message_for_error_login"></p>
         <p>還沒有帳戶?<a id="create_account">點此註冊</a></p>
+        <br>
         <a href="/forget">忘記密碼?</a>
         <br>
         <img src="../static/icon_close.png" alt="" class="close" />
       </form>
-      <form class="message create not_you" id="create_board">
+      <form class="message create" id="create_board">
         <div class="upper_bar"></div>
         <p>註冊會員帳號</p>
         <input type="text" placeholder="輸入姓名" id="create_name" />
@@ -63,13 +64,13 @@
         <input type="password" placeholder="輸入密碼" id="create_password" />
         <p id="error_password" class="error"></p>
         <button id="create_account_btn">註冊新帳戶</button>
-        <br>
+        <p id="message_for_error_create"></p>
         <div id="blk_leader_check">
           <label for="check_leader">是否為導遊</label>
           <input type="checkbox" id="check_leader">
         </div>
-        <p id="message_for_error_create"></p>
-        <p>已經有帳戶了?<a id="login_account">點此登入</a></p>
+        <br>
+        <p id="already_create_account">已經有帳戶了?<a id="login_account">點此登入</a></p>
         <img src="../static/icon_close.png" alt="" class="close" />
       </form>
     </div>

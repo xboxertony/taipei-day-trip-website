@@ -20,6 +20,30 @@ function evoke_delete_fcn() {
     });
 }
 
+function evoke_back_fcn(){
+    let back_to_page = document.getElementsByClassName("back_to_page")
+    Array.from(back_to_page).forEach(element=>{
+        element.addEventListener("click",back_page_order)
+    })
+}
+
+async function back_page_order(e){
+    let parent = e.target.parentNode.parentNode
+    let idx = parent.dataset.id
+    total_sum_of_attr = total_sum_of_attr-parseInt(parent.dataset.price)
+    parent.remove()
+    let back_to = await fetch(`/api/booking/${idx}`,{method:"DELETE"})
+    let result = await back_to.json()
+    delete_below();
+    let moving_area = document.getElementsByClassName("move_area");
+    let arr = resetid(moving_area)
+    let need_data = JSON.stringify({
+        "data":arr
+    })
+    update_order(need_data)
+    window.location.href = `/attraction/${idx}`
+}
+
 function delete_order(item){
     item.addEventListener("click", (e) => {
         let idx = e.target.parentNode.dataset.id
@@ -54,6 +78,7 @@ fetch("/api/booking", {
     .then((d) => {
         handle_attraction_list(d)
         evoke_delete_fcn();
+        evoke_back_fcn()
         let moving_area = document.getElementsByClassName("move_area");
         handle_drag_event(moving_area,"checkout","move_area")
     });
@@ -173,7 +198,12 @@ function append_attraction(d) {
     delete_action_btn.src = "../static/icon_delete.png";
     delete_action_btn.classList.add("delete");
 
+    let back_to_page = document.createElement("div")
+    back_to_page.innerHTML = "<i class='fas fa-backward'></i>"
+    back_to_page.classList.add("back_to_page")
+
     checkout.appendChild(delete_action_btn);
+    checkout.appendChild(back_to_page)
 
     checkout.dataset.id = d.attraction.id
     checkout.dataset.price = d.price
