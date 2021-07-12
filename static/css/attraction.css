@@ -575,6 +575,50 @@ blockquote .img_blk .delete_btn {
 .leaflet-popup-content{
   font-weight: 900;
 }
+.show_cat_mrt{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .5);
+  display: none;
+}
+.show_cat_mrt.show{
+  display: block;
+}
+#show_data{
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ccc;
+  padding: 20px;
+}
+.get_cat_data{
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.attr_item{
+  padding: 10px;
+  display: inline-block;
+  color: white;
+  background-color: rgba(0, 0, 0, .5);
+  margin: 10px;
+}
+#res_cat,#res_mrt{
+  padding: 10px;
+  color: white;
+  border-radius: 10px;
+  font-weight: 800;
+  background-color: tomato;
+}
+#res_cat:hover,#res_mrt:hover{
+  background-color: orange;
+  color: #111111;
+}
 @media screen and (max-width: 1200px) {
   .order_panel{
     height: 500px;

@@ -98,6 +98,11 @@ fetch("/api/attraction/" + `${idx}`)
         show_img();
         handle_data(res);
         add_view()
+        let res_cat = document.getElementById("res_cat")
+        let res_mrt = document.getElementById("res_mrt")
+
+        res_cat.addEventListener("click",get_cat)
+        res_mrt.addEventListener("click",get_mrt)
     });
 
 // let calendar = document.getElementById("date")
@@ -198,11 +203,68 @@ async function post_booking_information() {
 
 let mymap = null
 
+let show_data = document.getElementById("show_data")
+let show_cat_mrt = document.getElementsByClassName("show_cat_mrt")[0]
+
+// let res_cat = document.getElementById("res_cat")
+// let res_mrt = document.getElementById("res_mrt")
+
+// res_cat.addEventListener("click",get_cat)
+
+show_cat_mrt.addEventListener("click",function(e){
+    if(!show_data.contains(e.target)){
+        show_cat_mrt.classList.remove("show")
+    }
+})
+
+async function get_cat(e){
+
+    e.preventDefault()
+
+    show_cat_mrt.classList.add("show")
+    show_data.innerHTML = ''
+
+    let get_data = await fetch(`/api/attractions?page=0&cat=${this.dataset.name}`)
+    let response = await get_data.json()
+
+    append_mrt_cat_data(response)
+    
+}
+
+async function get_mrt(e){
+    e.preventDefault()
+
+    show_cat_mrt.classList.add("show")
+    show_data.innerHTML = ''
+
+    let get_data = await fetch(`/api/attractions?page=0&mrt=${this.dataset.name}`)
+    let response = await get_data.json()
+
+    append_mrt_cat_data(response)
+
+}
+
+function append_mrt_cat_data(response){
+    let title = document.createElement("p")
+    title.innerHTML = '以下是部分相關類別的景點：'
+    title.classList.add('get_cat_data')
+    show_data.appendChild(title)
+    
+    response.data.forEach(item=>{
+        let attr_item = document.createElement("a")
+        attr_item.innerHTML = item.name
+        attr_item.classList.add("attr_item")
+        attr_item.href = `/attraction/${item.id}`
+        show_data.appendChild(attr_item)
+    })
+}
+
+
 async function handle_data(res) {
     attraction_name.innerHTML = res.data.name;
     get_score()
     attraction_cat_and_mrt.innerHTML =
-        res.data.category + " at " + res.data.mrt;
+        `<a id='res_cat' data-name=${res.data.category}>${res.data.category}</a>   at   <a id='res_mrt' data-name=${res.data.mrt}>${res.data.mrt}</a>`;
     describe_content.innerHTML = res.data.description;
     address_place.innerHTML = res.data.address;
     traffic.innerHTML = res.data.transport;
