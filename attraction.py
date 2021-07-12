@@ -16,15 +16,28 @@ def attr():
 		page = int(request.args.get("page"))+1
 		name = request.args.get("keyword")
 		mrt = request.args.get("mrt")
+		cat = request.args.get("cat")
+		if mrt=="all":
+			mrt = None
+		if cat=="all":
+			cat = None
 		if name:
 			ans = data_handle.filter_by_keyword(db,page,name)
-		elif mrt:
-			sql_cmd = f"SELECT count(*) FROM attraction.attractions where mrt='{mrt}'"
+		elif mrt or cat:
+			if mrt and cat:
+				sql_cmd = f"SELECT count(*) FROM attraction.attractions where mrt='{mrt}' and category='{cat}'"
+				sql = f"SELECT * FROM attraction.attractions where mrt='{mrt}' and category='{cat}' limit 12 offset {max(page-1,0)*12}"
+			elif mrt:
+				sql_cmd = f"SELECT count(*) FROM attraction.attractions where mrt='{mrt}'"
+				sql = f"SELECT * FROM attraction.attractions where mrt='{mrt}' limit 12 offset {max(page-1,0)*12}"
+			else:
+				sql_cmd = f"SELECT count(*) FROM attraction.attractions where category='{cat}'"
+				sql = f"SELECT * FROM attraction.attractions where category='{cat}' limit 12 offset {max(page-1,0)*12}"
 			data = db.engine.execute(sql_cmd)
 			cntt = 0
 			for i in data:
 				cntt = i[0]
-			sql = f"SELECT * FROM attraction.attractions where mrt='{mrt}' limit 12 offset {max(page-1,0)*12}"
+			# sql = f"SELECT * FROM attraction.attractions where mrt='{mrt}' limit 12 offset {max(page-1,0)*12}"
 			data = db.engine.execute(sql)
 			if page*12>cntt:
 				page = None
@@ -41,7 +54,8 @@ def attr():
 		else:
 			ans = data_handle.filter_by_page(db,page)
 		return ans
-	except:
+	except Exception as e:
+		print(e)
 		return json.dumps({"error":True,"message":"伺服器內部錯誤"},ensure_ascii=False),500
 
 @attraction_app.route("/api/attraction/<id>")
@@ -57,6 +71,15 @@ def attr2(id):
 @attraction_app.route("/api/mrt")
 def mrt():
 	sql = f"SELECT distinct mrt FROM attraction.attractions where mrt!='None'"
+	data = db.engine.execute(sql)
+	ans = []
+	for i in data:
+		ans.append(i[0])
+	return json.dumps({"data":ans})
+
+@attraction_app.route("/api/cat")
+def cat():
+	sql = f"SELECT distinct category FROM attraction.attractions"
 	data = db.engine.execute(sql)
 	ans = []
 	for i in data:
