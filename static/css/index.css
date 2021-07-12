@@ -482,6 +482,13 @@ label[for="cat_select"]{
   .container {
     justify-content: center;
   }
+  .select_category{
+    margin-top: 10px;
+  }
+  #recent_record > a{
+    display: block;
+    margin-top: 10px;
+  }
   /* .input_text {
             width: 85%;
             margin: auto;

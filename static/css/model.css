@@ -412,4 +412,7 @@ button {
   .bell_board > div{
     white-space:normal;
   }
+  #login{
+    margin-left: 10px;
+  }
 }
