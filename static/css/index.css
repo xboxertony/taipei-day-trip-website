@@ -260,11 +260,12 @@ input:focus {
 }
 .div_for_mrt select{
   padding: 10px 30px 10px 10px;
-  background-color: #AEA493;
+  background-color: #333333;
   margin-left: 10px;
   font-size: 15px;
   color: white;
   font-weight: 800;
+  border-radius: 10px;
 }
 .custom_arrow_index{
   position: absolute;
@@ -272,9 +273,10 @@ input:focus {
   right: 0;
   height: 100%;
   width: 30px;
-  background-color: #BB432C;
+  background-color: #333333;
   pointer-events: none;
   --for_border:7px;
+  border-radius: 0 10px 10px 0;
 }
 .custom_arrow_index::after,
 .custom_arrow_index::before{
