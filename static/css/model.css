@@ -349,6 +349,20 @@ button {
   -moz-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
+#create_account,#login_account{
+  background-color: #27272A;
+  padding: 10px;
+  border-radius: 10px;
+  margin-left: 5px;
+  color: white;
+}
+#create_account:hover,#login_account:hover{
+  background-color: black;
+  color: orange;
+}
+#already_create_account{
+  transform: translateY(-50%);
+}
 @media screen and (max-width: 1200px) {
   nav ul {
     width: 90%;
