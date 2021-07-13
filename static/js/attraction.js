@@ -917,7 +917,7 @@ get_near_by()
 let circle = document.getElementById("circle")
 let scroll_bar = document.getElementById("scroll_bar")
 let isdrawing = false
-let window_size = document.body.offsetWidth
+
 scroll_bar.addEventListener("click", function (e) {
     move_circle(e)
     // console.log(Math.round(parseInt(e.clientX-30)*10/scroll_bar.offsetWidth))
@@ -944,17 +944,16 @@ function get_left(left) {
 }
 
 function move_circle(e) {
+    let window_size = document.body.offsetWidth
+    let delta = null
     if (window_size > 800) {
-        console.log(e.clientX)
-        if (e.clientX > scroll_bar.offsetWidth+50 || e.clientX - 70 < 0) return
-        circle.style.left = (e.clientX - 70) + "px"
-        get_left(e.clientX-20)
+        delta = (window_size - document.getElementsByClassName("place_view")[0].offsetWidth) / 2
     } else {
-        let delta = (window_size - scroll_bar.offsetWidth) / 2
-        if (e.clientX - delta - 20 < 0 || e.clientX - delta > scroll_bar.offsetWidth - 20) return
-        circle.style.left = (e.clientX - delta - 20) + "px"
-        get_left(e.clientX - delta + 30)
+        delta = (window_size - scroll_bar.offsetWidth) / 2
     }
+    if (e.clientX - delta - 20 < 0 || e.clientX - delta > scroll_bar.offsetWidth - 20) return
+    circle.style.left = (e.clientX - delta - 20) + "px"
+    get_left(e.clientX - delta + 30)
 }
 
 //更新照片牆

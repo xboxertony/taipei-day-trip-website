@@ -455,13 +455,26 @@ label[for="cat_select"]{
   .container {
     width: 90%;
   }
-  .div_for_mrt{
-    text-align: center;
+  label[for="cat_select"] {
+    margin-left: 0px;
   }
   #welcome {
     right: 0;
     bottom: 0;
     width: 80%;
+  }
+  #all_stop{
+    text-align: center;
+  }
+  .select_category{
+    margin-left: 15%;
+    width: 300px;
+  }
+  #cat_select{
+    margin-left: 40px;
+  }
+  .custom_arrow_index{
+    right: 25px;
   }
   .input_text {
     width: 322px;

@@ -700,6 +700,10 @@ blockquote .img_blk .delete_btn {
     text-align: center;
     margin-left: 0;
   }
+  #show_data{
+    height: 500px;
+    overflow-y:scroll;
+  }
 }
 @media screen and (max-width: 450px) {
   .copyright {
