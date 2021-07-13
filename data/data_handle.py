@@ -35,10 +35,10 @@ def filter_by_keyword(db,page,name):
     res = {}
     for i in data:
         for column,value in i.items():
-            if column=="images":
+            if column=="images" or column=="images2":
                 value = value.split(";")[:-1]
             res[column]=value
-            if column=="images":
+            if column=="images2":
                 ans.append(res.copy())
     return json.dumps({"nextPage":page,"data":ans},ensure_ascii=False)
 
@@ -53,12 +53,12 @@ def filter_by_page(db,page):
     res = {}
     for i in data:
         for column,value in i.items():
-            if column=="images":
+            if column=="images" or column=="images2":
                 value = value.split(";")[:-1]
                 for i in range(len(value)):
                     value[i] = value[i].replace("http","https")
             res[column]=value
-            if column=="images":
+            if column=="images2":
                 ans.append(res.copy())
     return json.dumps({"nextPage":page,"data":ans},ensure_ascii=False)
 
@@ -71,7 +71,7 @@ def filter_by_id(db,id):
     res = dict()
     for i in data:
         for column,value in i.items():
-            if column=="images":
+            if column=="images" or column=="images2":
                 value = value.split(";")[:-1]
                 for i in range(len(value)):
                     value[i] = value[i].replace("http","https")
