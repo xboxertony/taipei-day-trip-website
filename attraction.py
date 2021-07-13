@@ -44,10 +44,10 @@ def attr():
 			res = {}
 			for i in data:
 				for col,val in i.items():
-					if col=="images":
+					if col=="images" or col=="images2":
 						val = val.split(";")[:-1]
 					res[col] = val
-					if col=="images":
+					if col=="images2":
 						ans.append(res.copy())
 			return json.dumps({"nextPage":page,"data":ans},ensure_ascii=False)
 		else:
