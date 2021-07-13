@@ -944,17 +944,15 @@ function get_left(left) {
 }
 
 function move_circle(e) {
+    let delta = null
     if (window_size > 800) {
-        console.log(e.clientX)
-        if (e.clientX > scroll_bar.offsetWidth+50 || e.clientX - 70 < 0) return
-        circle.style.left = (e.clientX - 70) + "px"
-        get_left(e.clientX-20)
+        delta = (window_size - document.getElementsByClassName("place_view")[0].offsetWidth) / 2
     } else {
-        let delta = (window_size - scroll_bar.offsetWidth) / 2
-        if (e.clientX - delta - 20 < 0 || e.clientX - delta > scroll_bar.offsetWidth - 20) return
-        circle.style.left = (e.clientX - delta - 20) + "px"
-        get_left(e.clientX - delta + 30)
+        delta = (window_size - scroll_bar.offsetWidth) / 2
     }
+    if (e.clientX - delta - 20 < 0 || e.clientX - delta > scroll_bar.offsetWidth - 20) return
+    circle.style.left = (e.clientX - delta - 20) + "px"
+    get_left(e.clientX - delta + 30)
 }
 
 //更新照片牆
