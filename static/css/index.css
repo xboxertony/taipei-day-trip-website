@@ -449,6 +449,11 @@ label[for="cat_select"]{
   }
 }
 @media screen and (max-width: 800px) {
+  .div_for_mrt{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   #suggestion_word{
     width: 286px;
   }
@@ -467,7 +472,6 @@ label[for="cat_select"]{
     text-align: center;
   }
   .select_category{
-    margin-left: 15%;
     width: 300px;
   }
   #cat_select{
