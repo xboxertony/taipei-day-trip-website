@@ -621,7 +621,10 @@ blockquote .img_blk .delete_btn {
 }
 @media screen and (max-width: 1200px) {
   .order_panel{
-    height: 500px;
+    height: fit-content;
+  }
+  .order_panel > form > p,.order_panel > form > div{
+    margin-top: 30px;
   }
   .img_word{
     height: fit-content;
