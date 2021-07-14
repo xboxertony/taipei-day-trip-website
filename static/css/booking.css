@@ -235,4 +235,13 @@
   .summary p{
     text-align: center;
   }
+  .back_to_page{
+    top: 99%;
+    right: 3%;
+    transform: translate(-100%, -100%);
+  }
+  .back_to_page:hover::after{
+    width: 100px;
+    top:-90px;
+  }
 }

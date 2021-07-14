@@ -358,7 +358,7 @@ function create_attraction(element){
     //         load_complete = true;
     //     }
     // };
-    img.src = element.images[0];
+    img.src = element.images2[0];
 
     let link = document.createElement("a");
     link.href = `/attraction/${element.id}`;

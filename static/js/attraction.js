@@ -93,7 +93,7 @@ fetch("/api/attraction/" + `${idx}`)
         return res.json();
     })
     .then((res) => {
-        handle_img(res.data.images);
+        handle_img(res.data.images2);
         judge_width();
         show_img();
         handle_data(res);
@@ -279,7 +279,7 @@ async function handle_data(res) {
     ).addTo(mymap);
     var marker = L.marker([res.data.latitude, res.data.longitude]).addTo(mymap);
     marker.bindPopup(res.data.name).openPopup();
-    // get_yt_video(res.data.name)
+    //get_yt_video(res.data.name)
     get_msg(page)
     get_news(res.data.name, res.data.mrt, res.data.address.slice(4, 7).trim())
 }
