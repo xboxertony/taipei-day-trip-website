@@ -310,6 +310,11 @@ async function appened_data_to_top_5(){
     let append_top = await fetch("/api/search")
     let response = await append_top.json()
 
+    if(response.data.length===0){
+        top_attr_item.innerHTML = "目前尚無景點觀看量"
+        return
+    }
+
     response.data.forEach((item)=>{
         top_attr_item.appendChild(create_attraction(item))
     })
