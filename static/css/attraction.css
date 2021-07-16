@@ -619,6 +619,9 @@ blockquote .img_blk .delete_btn {
   background-color: orange;
   color: #111111;
 }
+.red_btn{
+  background-color: orange;
+}
 @media screen and (max-width: 1200px) {
   .order_panel{
     height: fit-content;

@@ -279,7 +279,7 @@ async function handle_data(res) {
     ).addTo(mymap);
     var marker = L.marker([res.data.latitude, res.data.longitude]).addTo(mymap);
     marker.bindPopup(res.data.name).openPopup();
-    get_yt_video(res.data.name)
+    //get_yt_video(res.data.name)
     get_msg(page)
     get_news(res.data.name, res.data.mrt, res.data.address.slice(4, 7).trim())
 }
@@ -822,6 +822,7 @@ async function collec_action(e) {
     let response = await send_collect.json()
     if (response["ok"]) {
         alert("該景點已加入收藏")
+        check_collect()
         return
     }
     if (response["error"]) {
@@ -829,6 +830,23 @@ async function collec_action(e) {
         return
     }
 }
+
+async function check_collect(){
+    let get_collect = await fetch("/api/collect_user")
+    let data = await get_collect.json()
+
+    data.data.forEach((item)=>{
+        console.log(item,idx)
+        if(item.attid===parseInt(idx)){
+            collect_btn.removeEventListener("click",collec_action)
+            collect_btn.innerHTML = "已加入收藏"
+            collect_btn.disabled = true
+            collect_btn.classList.add("red_btn")
+        }
+    })
+}
+
+check_collect()
 
 //新增瀏覽次數
 async function add_view() {

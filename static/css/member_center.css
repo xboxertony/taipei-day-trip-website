@@ -141,6 +141,9 @@
   top: 20px;
   width: 130px;
 }
+#photo_upload{
+  display: none;
+}
 #photo_show,#photo_upload{
   width: 100%;
 }
