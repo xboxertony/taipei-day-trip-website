@@ -68,7 +68,7 @@ def order():
 			db_RDS.engine.execute(sql)
 		if data["status"]==0:
 			name = session.get('name')
-			msg = Message(subject="台北一日遊，成功付款訂單連結",sender=mail_username,recipients=[email])
+			msg = Message(subject="台北一日遊，成功付款通知",sender=mail_username,recipients=[email])
 			msg.html = render_template("confirm_order_email.html",user = name,orderid=data["bank_transaction_id"])
 			mail.send(msg)
 			return jsonify({
@@ -260,6 +260,11 @@ def refund(order_num):
 			db_RDS.engine.execute(sql)
 			sql2 = f"update attraction.order set refund_time=TIMESTAMPADD(HOUR, 8, CURRENT_TIMESTAMP) where orderid='{order_num}'"
 			db_RDS.engine.execute(sql2)
+			email = session['email']
+			name = session['name']
+			msg = Message(subject="台北一日遊，成功退款通知",sender=mail_username,recipients=[email])
+			msg.html = render_template("confirm_order_refund.html",user = name,orderid=order_num)
+			mail.send(msg)
 			return jsonify({"ok":True})
 		except Exception as e:
 			print(e)
