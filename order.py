@@ -1,4 +1,4 @@
-from flask import Blueprint,session,jsonify,request
+from flask import Blueprint,session,jsonify,request,render_template
 import re
 
 from requests.models import requote_uri
@@ -6,8 +6,10 @@ from sqlalchemy.sql.expression import true
 from config import get_key
 import json
 import requests as req
-from main import db,db_RDS
+from main import db,db_RDS,mail
 from datetime import timedelta,datetime
+from flask_mail import Message
+from config import mail_username
 
 order_app = Blueprint("order_app",__name__)
 
@@ -65,6 +67,10 @@ def order():
 			sql = f"insert into attraction.order (orderid,attid,date,time,email,price,attorder) values ('{idx}','{attid}','{date}','{time}','{email}','{price}','{order_att}')"
 			db_RDS.engine.execute(sql)
 		if data["status"]==0:
+			name = session.get('name')
+			msg = Message(subject="台北一日遊，成功付款訂單連結",sender=mail_username,recipients=[email])
+			msg.html = render_template("confirm_order_email.html",user = name,orderid=data["bank_transaction_id"])
+			mail.send(msg)
 			return jsonify({
 				"data":{
 					"number":data["bank_transaction_id"],
