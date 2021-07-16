@@ -42,6 +42,9 @@
 .message_info.open::before {
   content: "留言紀錄";
 }
+.collection_info > p{
+  margin: 30px 0;
+}
 .collection_info.open::before {
   content: "目前收藏";
 }
