@@ -411,6 +411,16 @@ label[for="cat_select"]{
 #all_stop{
   margin: 30px 0;
 }
+.loading{
+  display: flex;
+  justify-content: center;
+}
+.loading > img{
+  width: 50px;
+}
+.loading.hide{
+  display: none;
+}
 /* #right_page{
   position: absolute;
   top: 50%;
