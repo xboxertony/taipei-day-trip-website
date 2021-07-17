@@ -207,9 +207,14 @@ window.addEventListener("scroll", () => {
     }
 });
 
+let loading = document.getElementsByClassName("loading")[0]
+
 function do_this() {
     if (load_complete && next_page) {
         load_complete = false
+        if(loading.classList.contains("hide")){
+            loading.classList.remove("hide")
+        }
         if (!search_mode && !mrt_mode) {
             get_data_by_page(next_page)
             return
@@ -219,6 +224,9 @@ function do_this() {
             return
         }
         get_data_by_keyword(next_page, key)
+    }
+    if(!next_page){
+        loading.classList.add("hide")
     }
     // if (next_page !== null) {
     //     cur_id++;
