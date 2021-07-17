@@ -57,17 +57,19 @@ def order():
 		data = json.loads(r.text)
 		idx = data["bank_transaction_id"]
 		trip = request.get_json()["order"]["trip"]
+		main_email = session.get("email")
+		name = request.get_json()["order"]["contact"]["name"]
 		for item in trip:
 			attid = item['attraction']
 			date = item['date']
 			time = item['time']
-			email = session['email']
+			# email = session['email']
 			price = item['price']
 			order_att = item["order"]
-			sql = f"insert into attraction.order (orderid,attid,date,time,email,price,attorder) values ('{idx}','{attid}','{date}','{time}','{email}','{price}','{order_att}')"
+			sql = f"insert into attraction.order (orderid,attid,date,time,email,price,attorder,contact_email,contact_name) values ('{idx}','{attid}','{date}','{time}','{main_email}','{price}','{order_att}','{email}','{name}')"
 			db_RDS.engine.execute(sql)
 		if data["status"]==0:
-			name = session.get('name')
+			# name = session.get('name')
 			msg = Message(subject="台北一日遊，成功付款通知",sender=mail_username,recipients=[email])
 			msg.html = render_template("confirm_order_email.html",user = name,orderid=data["bank_transaction_id"])
 			mail.send(msg)
@@ -97,11 +99,11 @@ def order():
 		res = {}
 		for item in data:
 			if not res.get(item[1]):
-				res[item[1]]={}
+				res[item[1]]={"contact_name":item[10]}
 			if not res[item[1]].get("arr"):
 				res[item[1]]["arr"]=[{
 					"attid":item[2],
-					"attname":item[9],
+					"attname":item[11],
 					"date":item[3],
 					"time":item[4],
 					"price":item[6]
@@ -110,7 +112,7 @@ def order():
 				continue
 			res[item[1]]["arr"].append({
 					"attid":item[2],
-					"attname":item[9],
+					"attname":item[11],
 					"date":item[3],
 					"time":item[4],
 					"price":item[6]
@@ -157,10 +159,11 @@ def pay_search(orderNumber):
 	data = json.loads(r.text)
 	# trip = data["trade_records"][0]["details"].split(";")
 	# if data["trade_records"][0]["record_status"] in [0,1]:
-	sql = f"SELECT attid,date,name,images,time,email,price,attorder,refund_time FROM attraction.order left join attraction.attractions on order.attid=attractions.id where orderid='{orderNumber}' order by attorder"
+	sql = f"SELECT attid,date,name,images,time,email,price,attorder,refund_time,contact_name FROM attraction.order left join attraction.attractions on order.attid=attractions.id where orderid='{orderNumber}' order by attorder"
 	d = db_RDS.engine.execute(sql)
 	trip = []
 	refund_time = None
+	contact_name = None
 	for i in d:
 		attr = {
 			"attraction":{
@@ -174,6 +177,7 @@ def pay_search(orderNumber):
 		}
 		trip.append(attr)
 		refund_time = i[8]
+		contact_name = i[9]
 	return jsonify({"data":{
 		"order_id":orderNumber,
 		"summary":data["trade_records"][0]["amount"],
@@ -183,7 +187,8 @@ def pay_search(orderNumber):
 			"phone":data["trade_records"][0]["cardholder"]["phone_number"],
 		},
 		"trip":trip,
-		"refund_time":refund_time
+		"refund_time":refund_time,
+		"contact_name":contact_name
 	}})
 	# else:
 	# 	return jsonify({"data":None})

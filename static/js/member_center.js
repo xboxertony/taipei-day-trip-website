@@ -154,6 +154,8 @@ async function write_order_info(select_time){
         arr.push(obj)
     }
 
+    console.log(arr)
+
     arr = arr.sort(function(a,b){
         let key1 = Object.keys(a)[0]
         let key2 = Object.keys(b)[0]
@@ -178,6 +180,7 @@ async function write_order_info(select_time){
         title.innerHTML = key
         title.addEventListener("click",toggle_contain)
         title.classList.add("object_key")
+        let contact_name = document.createElement("p")
 
         let refund_button = document.createElement("button")
 
@@ -203,6 +206,12 @@ async function write_order_info(select_time){
         time_des.innerHTML = `${year}/${month_list[month]}/${date} ${hr}`
         
         order_history_div.appendChild(title)
+        if(val.contact_name){
+            contact_name.innerHTML = `聯絡人姓名：${val.contact_name}`
+            order_history_div.appendChild(contact_name)
+            contact_name.classList.add("contact_name")
+            contact_name.addEventListener("click",toggle_contain)
+        }
         order_history_div.appendChild(time_des)
         order_history_div.appendChild(refund_button)
         order_history_div.classList.add("order_history")

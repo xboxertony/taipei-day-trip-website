@@ -181,6 +181,10 @@
   background-color:#21BA45;
   color: black;
 }
+.contact_name{
+  cursor: pointer;
+  color: blue;
+}
 @media screen and (max-width: 800px) {
   .info.open {
     padding: 50px 50px;
