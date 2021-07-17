@@ -489,6 +489,8 @@ async function pay_money(prime){
     };
     console.log(data)
     document.getElementById("status_code").innerHTML = "執行中..."
+    let cover_page = document.getElementsByClassName("cover_page")[0]
+    cover_page.classList.add("show")
     await fetch("/api/orders", {
         body: JSON.stringify(data),
         headers: {
@@ -503,6 +505,7 @@ async function pay_money(prime){
             console.log(data)
             if (data["error"]) {
                 document.getElementById("status_code").innerHTML = data["message"]
+                cover_page.classList.remove("show")
                 return
             }
             insert_status(id_list,data.data.number)

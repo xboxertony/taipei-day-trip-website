@@ -194,6 +194,27 @@
   text-align: center;
   font-size: 16px;
 }
+.cover_page{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.7);
+  z-index: 100;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.cover_page.show{
+  display: flex;
+}
+.cover_page > img{
+  width: 70px;
+}
+.cover_page > p{
+  color: white;
+  margin-left: 10px;
+}
 @media screen and (max-width: 800px) {
   .form_div,
   .schedule {
