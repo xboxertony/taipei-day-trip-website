@@ -13,24 +13,25 @@ with app.app_context():
     res = {}
 
     for i in data:
-        if res.get(i[5]):
-            res[i[5]].append({
+        if not i[9]:continue
+        if res.get(i[9]):
+            res[i[9]]["data"].append({
                 "date":i[3],
                 "time":i[4],
-                "orderid":i[1]
+                "orderid":i[1],
             })
         else:
-            res[i[5]] = [{
+            res[i[9]] = {"data":[{
                 "date":i[3],
                 "time":i[4],
                 "orderid":i[1]
-            }]
+            }],"name":i[10]}
             
     for email in [em for em in res.keys()]:
         if email in ["tonyny58@gmail.com","x25836901@gmail.com"]:
-            sql2 = f"SELECT name FROM attraction.user where email='{email}'"
-            data2 = db_RDS.engine.execute(sql2)
-            for i in data2:
-                msg = Message(subject=f"行前通知，三天內行程",sender=mail_username,recipients=[email])
-                msg.html = render_template("inform_schedule_mail.html",data=res[email],name=i[0])
-                mail.send(msg)
+            # sql2 = f"SELECT name FROM attraction.user where email='{email}'"
+            # data2 = db_RDS.engine.execute(sql2)
+            # for i in data2:
+            msg = Message(subject=f"行前通知，三天內行程",sender=mail_username,recipients=[email])
+            msg.html = render_template("inform_schedule_mail.html",data=res[email]["data"],name=res[email]["name"])
+            mail.send(msg)

@@ -109,8 +109,7 @@
   <div class="order_mention">
     <div class="info">
       <p id="the_order_guy">
-        <span class="name_for_order">{{ session.name }}</span
-        >您好，您的訂單資訊如下：
+        <span class="name_for_order"></span>您好，您的訂單資訊如下：
       </p>
     </div>
     <div class="order_panel_complete">
@@ -169,10 +168,14 @@
 
   let thankyou_info = document.getElementById("thankyou_info");
 
+  let name_for_order = document.getElementsByClassName("name_for_order")[0]
+
   function render_order_panel(d) {
     // let orderid = document.createElement("p");
     // orderid.classList.add("bold");
     // orderid.innerHTML = "訂單標號：" + order_numbr;
+
+    name_for_order.innerHTML = d.contact_name
 
     table_title.innerHTML = `<span id='order_id'>${order_numbr}</span> <i class="fas fa-copy" id='copy'></i>`;
 
