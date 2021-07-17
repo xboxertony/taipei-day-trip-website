@@ -41,17 +41,18 @@
       color: #666666;
     } */
 .banner {
-  min-height: 320px;
+  /* min-height: 320px; */
   background: linear-gradient(135deg, #aaddee 0%, #66aabb 100%);
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content:flex-start;
   align-items: center;
   position: relative;
   background: url("https://d3nczlg85bnjib.cloudfront.net/pexels-timo-volz-1717859.jpg");
   background-attachment: fixed;
   background-size: cover;
+  flex: 0 0 800px;
 }
 .container {
   width: 1200px;
@@ -126,11 +127,12 @@
 }
 .word {
   width: 1200px;
-  margin: 10px 0;
+  margin: 20px 0;
   z-index: 2;
   color: #fff;
 }
 .word1 {
+  margin-top: 100px;
   font-weight: 700;
   font-size: 28px;
   color: white;
