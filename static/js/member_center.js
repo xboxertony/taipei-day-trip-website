@@ -122,10 +122,13 @@ async function cancel_collection_fcn(){
 }
 
 async function refund_action(){
+    let cover_blank = document.getElementsByClassName("cover_blank")[0];
     let yes = confirm("請問確定要退款嗎?")
     if(yes){
+        cover_blank.classList.remove("hide")
         let refund_fetch = await fetch(`/api/refund/${this.dataset.number}`)
         let result = await refund_fetch.json()
+        cover_blank.classList.add("hide")
         if(result["ok"]){
             alert("退款成功!!!!")
             window.location.reload()
