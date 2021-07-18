@@ -135,10 +135,17 @@
   display: flex;
 }
 #messgae_for_null{
+  font-size: large;
+  font-weight: 800;
   display: none;
+  color: orangered;
 }
 #messgae_for_null.open{
   display: block;
+}
+#session_name{
+  color: blueviolet;
+  font-size: larger;
 }
 .error{
   display: none;
