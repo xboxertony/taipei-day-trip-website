@@ -59,19 +59,27 @@ def order():
 		trip = request.get_json()["order"]["trip"]
 		main_email = session.get("email")
 		name = request.get_json()["order"]["contact"]["name"]
+		summary = 0
+		mail_dict = {}
+		for item in trip:
+			sql_for_attraction = f"select name from attraction.attractions where id={item['attraction']}"
+			ddddd = db_RDS.engine.execute(sql_for_attraction)
+			for i in ddddd:
+				mail_dict[item['attraction']]=i[0]
 		for item in trip:
 			attid = item['attraction']
 			date = item['date']
 			time = item['time']
 			# email = session['email']
 			price = item['price']
+			summary+=price
 			order_att = item["order"]
 			sql = f"insert into attraction.order (orderid,attid,date,time,email,price,attorder,contact_email,contact_name) values ('{idx}','{attid}','{date}','{time}','{main_email}','{price}','{order_att}','{email}','{name}')"
 			db_RDS.engine.execute(sql)
 		if data["status"]==0:
 			# name = session.get('name')
-			msg = Message(subject="台北一日遊，成功付款通知",sender=mail_username,recipients=[email])
-			msg.html = render_template("confirm_order_email.html",user = name,orderid=data["bank_transaction_id"])
+			msg = Message(subject=f"台北一日遊，成功付款通知，單號：{data['bank_transaction_id']}",sender=mail_username,recipients=[email])
+			msg.html = render_template("confirm_order_email.html",user = name,orderid=data["bank_transaction_id"],data=trip,summary=summary,mail_dict=mail_dict)
 			mail.send(msg)
 			return jsonify({
 				"data":{
