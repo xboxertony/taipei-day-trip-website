@@ -622,6 +622,10 @@ blockquote .img_blk .delete_btn {
 .red_btn{
   background-color: orange;
 }
+#yt_video{
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
 @media screen and (max-width: 1200px) {
   .order_panel{
     height: fit-content;
