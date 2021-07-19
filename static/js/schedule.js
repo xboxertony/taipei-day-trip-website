@@ -243,7 +243,7 @@ async function send_schedule() {
     if(this.style.color==="red"){
         clear_div()
         blk_schedule_select.classList.add("open")
-        order_number.innerHTML = `訂單編號：${this.dataset.order_number}`
+        order_number.innerHTML = `${this.dataset.order_number}`
         if(this.dataset.order_number){
             let data = await fetch(`/api/order/${this.dataset.order_number}`)
             let response = await data.json()
@@ -395,9 +395,31 @@ function show_order_in_screen(){
     let blk_schedule_select = document.getElementsByClassName("blk_schedule_select")[0]
     blk_schedule_select.addEventListener("click",toggle_order_content)
     function toggle_order_content(e){
-        let order_number = document.getElementsByClassName("order_number")[0]
+        let order_number_big = document.getElementById("order_number_big")
         let more_detail = document.getElementsByClassName("more_detail")[0]
-        if(order_number.contains(e.target) || more_detail.contains(e.target))return
+        if(order_number_big.contains(e.target) || more_detail.contains(e.target))return
         this.classList.remove("open")
+    }
+}
+
+
+// 複製單號
+let copy_icon = document.getElementById("copy_icon")
+copy_icon.addEventListener("click",copy_order_num)
+function copy_order_num(){
+    let order_number = document.getElementsByClassName("order_number")[0]
+    let range = document.createRange()
+    range.selectNode(order_number)
+    let sel = window.getSelection()
+    sel.removeAllRanges()
+    sel.addRange(range)
+    try{
+        if (document.execCommand("Copy", "false", null)) {
+            alert("複製成功");
+        } else {
+            alert("複製失敗");
+        }
+    } catch{
+        alert("複製錯誤")
     }
 }
