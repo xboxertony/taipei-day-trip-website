@@ -93,7 +93,7 @@ async function append_calendar(cnt) {
                     big_date.appendChild(empty_date)
                 }
             }
-            select_date.dataset.act_date = `${item[i].getFullYear()}-${item[i].getMonth()+1<10?"0"+(item[i].getMonth()+1):item[i].getDate()+1}-${item[i].getDate()<10?"0"+item[i].getDate():item[i].getDate()}`
+            select_date.dataset.act_date = `${item[i].getFullYear()}-${item[i].getMonth()+1<10?"0"+(item[i].getMonth()+1):item[i].getMonth()+1}-${item[i].getDate()<10?"0"+item[i].getDate():item[i].getDate()}`
             if(check.includes(select_date.dataset.act_date)){
                 select_date.classList.add("hide")
                 select_date.addEventListener("click",fcn_select_fcn)

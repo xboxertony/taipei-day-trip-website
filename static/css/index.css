@@ -355,6 +355,8 @@ input:focus {
   font-size: 20px;
   color: #5AC5A0;
   white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
 }
 #suggestion_word{
   position: absolute;

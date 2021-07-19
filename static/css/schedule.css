@@ -12,21 +12,53 @@
   text-align: center;
   font-weight: 700;
   color: black;
+  box-sizing: border-box;
 }
-#schedule {
-  display: flex;
-  overflow-x: scroll;
-  scroll-behavior: smooth;
-}
-#schedule > div {
-  padding: 10px;
+.month_title{
   text-align: center;
+  cursor: pointer;
+}
+.month_only {
+  display: flex;
+  /* overflow-x: scroll; */
+  scroll-behavior: smooth;
+  flex-wrap: wrap;
+  width: 80%;
+}
+.blank_div{
+  width: 14%;
+  height: 170px;
+  padding: 0;
+}
+.month_content{
+  width: 100%;
+  flex-wrap: wrap;
+  display: none;
+}
+.month_content.show{
+  display: flex;
+}
+.month_content > div {
+  width: 13%;
+  padding: 10px 0;
+  text-align: center;
+  flex-grow: 1;
 }
 .week,
-.date {
-  width: 100px;
+.date,.member_chk {
+  width: 100%;
   font-weight: 700;
-  padding: 5px;
+  padding: 5px 0;
+  border-left: 3px solid white ;
+  border-right: 3px solid white ;
+}
+.month_title{
+  padding: 10px;
+  background-color: cadetblue;
+  color: white;
+  flex: 0 0 100%;
+  margin: 10px 0;
+  box-sizing: border-box;
 }
 .week {
   background-color: #656464;
@@ -79,17 +111,36 @@
 .blk_schedule_select{
   margin: auto;
   display: none;
-  margin-bottom: 20px;
-  transform: translateX(14%);
+  flex-direction: column;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0,.8);
+  align-items: center;
+  top: 0;
+  z-index: 100;
+  /* margin-bottom: 20px;
+  transform: translateX(14%); */
+}
+#order_number_big{
+  color: white;
+  background-color: cadetblue;
+  height: fit-content;
+  padding: 10px;
+  margin: 20px 0;
+}
+#copy_icon{
+  color: white;
+  cursor: pointer;
 }
 .blk_schedule_select.open{
   display: flex;
   flex-direction: column;
 }
 .order_number{
-  margin-bottom: 15px;
   font-weight: 700;
-  padding: 0 15px;
+  padding:15px;
+  display: inline-block;
 }
 .contact_person{
   background-color: #FFFABD;
@@ -126,13 +177,17 @@
   background: #4d5061;
   color: white;
   float: right;
+  display: none;
 }
 .float-item{
   clear: both;
 }
+#schedule{
+  flex: 1 1 100%;
+}
 .custom-arrow{
   position: absolute;
-  display: block;
+  display: none;
   top: 0;
   right: 0;
   width: 2em;

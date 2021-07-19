@@ -5,8 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        *{
+            font-weight: 800;
+        }
+        td{
+            border-bottom: 3px solid royalblue;
+            padding: 10px;
+        }
+        .tdd{
+            border-bottom: none;
+        }
+        .title > td{
+            color: salmon;
+        }
+    </style>
 </head>
 <body>
     <p>{{user}} 您好，恭喜你成功付款，以下是你的訂單資訊連結：<a href="https://www.taipei-attraction.com/thankyou?number={{orderid}}">請按此</a></p>
+    <table>
+        <tr class="title">
+            <td>景點名稱</td>
+            <td>出發日期</td>
+            <td>出發時間</td>
+            <td>價格</td>
+        </tr>
+        {% for item in data%}
+            <tr>
+                <td>{{ mail_dict[item['attraction']] }}</td>
+                <td>{{ item['date'] }}</td>
+                <td>{{ item['time'] }}</td>
+                <td>{{ item['price'] }}</td>
+            </tr>
+        {% endfor %}
+        <td class="tdd"></td>
+        <td class="tdd"></td>
+        <td class="tdd"></td>
+        <td class="tdd">{{ summary }}</td>
+    </table>
 </body>
 </html>
