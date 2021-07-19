@@ -45,15 +45,33 @@ async function get_Month(check_all,main_user,year, month) {
     calendar.classList.add("calendar");
 
     let arr = [];
+    let cntttt = 0
+    let last_week = null
 
     for (let i = 0; i < time_delta; i++) {
         let select_time = new Date(year, month - 1, i + 1);
         if (select_time <= today) continue;
+        cntttt+=1
         let select_year = select_time.getFullYear();
         let select_month = select_time.getMonth();
         let select_day = select_time.getDate();
         let select_week = select_time.getDay();
+        last_week = select_week
         let div = document.createElement("div");
+
+        if(cntttt===1){
+            let bb = select_week
+            if(select_week===6){
+                bb = 0
+            }else{
+                bb = select_week
+            }
+            for(let blank_day=0;blank_day<bb;blank_day++){
+                let create_blank_day = document.createElement("div")
+                create_blank_day.classList.add("blank_div")
+                arr.push(create_blank_day)
+            }
+        }
 
         let year_div = document.createElement("div")
         let month_div = document.createElement("div")
@@ -113,10 +131,21 @@ async function get_Month(check_all,main_user,year, month) {
             }
         }
 
-
+        
+        
         arr.push(div);
     }
 
+    let bbb = 6 - last_week
+    
+    if(cntttt!==0){
+        for(let blank_day=0;blank_day<bbb;blank_day++){
+            let create_blank_day = document.createElement("div")
+            create_blank_day.classList.add("blank_div")
+            arr.push(create_blank_day)
+        }
+    }
+    console.log(arr)
     return arr;
 }
 
@@ -148,18 +177,30 @@ async function append_schedule(check_all,cnt) {
             member_block.appendChild(sub_member)
         }
     }
-    for (let i = 0; i < cnt; i++) {
+    for (let i = 1; i < cnt+1; i++) {
         let today_today = new Date();
         let loop_time = new Date(
             today_today.setMonth(today_today.getMonth() + i)
         );
         append_month_to_selectbar(loop_time.getMonth())
         await get_Month(check_all,main_user,loop_time.getFullYear(), loop_time.getMonth()).then((res) => {
+            let month_title = document.createElement("div")
+            month_title.classList.add("month_title")
+            month_title.innerHTML = `${loop_time.getMonth()}月`
+            let month_only = document.createElement("div")
+            month_only.appendChild(month_title)
+            month_only.classList.add("month_only")
+            let month_content = document.createElement("div")
+            month_content.classList.add("month_content")
             res.forEach((item) => {
-                schedule.appendChild(item)
+                month_content.appendChild(item)
             })
+            month_only.appendChild(month_content)
+            schedual.appendChild(month_only)
         });
     }
+    add_func_to_month_block()
+    show_order_in_screen()
 }
 
 let blk_schedule_select = document.getElementsByClassName("blk_schedule_select")[0]
@@ -330,8 +371,33 @@ function change_month(){
     }
 }
 
+function add_func_to_month_block(){
+    let month_title = document.getElementsByClassName("month_title")
+    
+    Array.from(month_title).forEach(item=>{
+        item.addEventListener("click",show_content)
+    })
+    
+    function show_content(){
+        let parent = this.parentNode
+        let content = parent.getElementsByClassName("month_content")[0]
+        content.classList.toggle("show")
+    }
+}
 
 // async function update_schedule(){
 //     let data = await fetch("/api/schedule")
 //     let 
 // }
+
+
+function show_order_in_screen(){
+    let blk_schedule_select = document.getElementsByClassName("blk_schedule_select")[0]
+    blk_schedule_select.addEventListener("click",toggle_order_content)
+    function toggle_order_content(e){
+        let order_number = document.getElementsByClassName("order_number")[0]
+        let more_detail = document.getElementsByClassName("more_detail")[0]
+        if(order_number.contains(e.target) || more_detail.contains(e.target))return
+        this.classList.remove("open")
+    }
+}
