@@ -155,10 +155,11 @@ async function get_Month(check_all,main_user,year, month) {
 let schedual = document.getElementById("schedule");
 let member_block = document.getElementById("member_block")
 let order_today = document.getElementById("order_today")
+let already_timeline = document.getElementsByClassName("already_timeline")[0]
 
 function append_schedule_already_month(res){
-    let already_timeline = document.createElement("table")
-    already_timeline.classList.add("already_timeline")
+    // let already_timeline = document.createElement("table")
+    // already_timeline.classList.add("already_timeline")
 
     //新增欄位
     let column_for_timeline = document.createElement("tr")
@@ -174,7 +175,7 @@ function append_schedule_already_month(res){
     }
 
     already_timeline.appendChild(column_for_timeline)
-    order_today.appendChild(already_timeline)
+    // order_today.appendChild(already_timeline)
 
     let total_cnt = document.createElement("tr")
     let total_cnt_title = document.createElement("td")
@@ -203,12 +204,56 @@ function append_schedule_already_month(res){
         if(res[month+i]){
             month_block.innerHTML = `${res[month+i].arrange_cnt}`
             already_cnt.appendChild(month_block)
+            month_block.dataset.month = month+i
+            month_block.addEventListener("click",get_schedule_for_month)
+            month_block.classList.add("month_block")
         }else{
             month_block.innerHTML = "0"
             already_cnt.appendChild(month_block)
         }
     }
     already_timeline.appendChild(already_cnt)
+}
+
+let already_timeline_for_month = document.getElementsByClassName("already_timeline_for_month")[0]
+
+
+async function get_schedule_for_month(){
+    already_timeline_for_month.innerHTML = ""
+    let title_for_month = document.createElement("tr")
+    let obj = ['日期','時間','景點名稱','聯絡人','聯絡信箱']
+    obj.forEach(item=>{
+        let title_td = document.createElement("td")
+        title_td.innerHTML = item
+        title_for_month.appendChild(title_td)
+    })
+    already_timeline_for_month.appendChild(title_for_month)
+
+    //新增景點列表
+    let get_data_for_month = await fetch(`/api/schedule_month/${this.dataset.month}`)
+    let data_get_month = await get_data_for_month.json()
+
+    for(const [key,val] of Object.entries(data_get_month)){
+        for(let i=0;i<val.length;i++){
+            let key_for_month = document.createElement("tr")
+            if(i==0){
+                append_month_to_month(key_for_month,key)
+            }else{
+                append_month_to_month(key_for_month,"")
+            }
+            append_month_to_month(key_for_month,val[i]['half'])
+            append_month_to_month(key_for_month,val[i]['att_name'])
+            append_month_to_month(key_for_month,val[i]['contact_name'])
+            append_month_to_month(key_for_month,val[i]['contact_email'])
+            already_timeline_for_month.appendChild(key_for_month)
+        }
+    }
+}
+
+function append_month_to_month(mother,val){
+    let date_ff = document.createElement("td")
+    date_ff.innerHTML = val
+    mother.appendChild(date_ff)
 }
 
 async function append_schedule(check_all,cnt) {

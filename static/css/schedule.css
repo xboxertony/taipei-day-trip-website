@@ -194,7 +194,8 @@
 .already_timeline{
   width: 400px;
   text-align: center;
-  table-layout: fixed;
+  margin: auto;
+  /* table-layout: fixed; */
 }
 .already_timeline td{
   border-bottom: 2px solid yellowgreen;
@@ -241,4 +242,21 @@
   color: tomato;
   font-weight: 900;
   text-align: center;
+}
+
+.already_timeline_for_month{
+  margin-top: 20px;
+  text-align: center;
+}
+
+.already_timeline_for_month td{
+  padding: 10px;
+  box-sizing: border-box;
+  border-bottom: 3px solid sandybrown;
+  font-size: 12px;
+}
+
+.month_block{
+  cursor: pointer;
+  color: red;
 }
