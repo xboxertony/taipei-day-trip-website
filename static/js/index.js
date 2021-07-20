@@ -391,9 +391,15 @@ function create_attraction(element){
     p.classList.add("attr_title")
     attraction.setAttribute("data-content", element.name)
 
-    let transport = document.createElement("a");
+    let transport = document.createElement("div");
     transport.classList.add("transport");
-    transport.innerHTML = element.mrt;
+    let mrt_img = document.createElement("img")
+    mrt_img.src = "/static/metro-removebg-preview.png"
+    mrt_img.classList.add("mrt_img")
+    let t_content = document.createElement("a")
+    t_content.innerHTML = element.mrt;
+    transport.appendChild(mrt_img)
+    transport.appendChild(t_content)
 
     let cate = document.createElement("a");
     cate.classList.add("cat");
