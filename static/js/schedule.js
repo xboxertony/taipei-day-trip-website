@@ -145,38 +145,67 @@ async function get_Month(check_all,main_user,year, month) {
             arr.push(create_blank_day)
         }
     }
-    console.log(arr)
+    // console.log(arr)
     return arr;
 }
 
 let schedual = document.getElementById("schedule");
 let member_block = document.getElementById("member_block")
+let order_today = document.getElementById("order_today")
 
 function append_schedule_already_month(res){
     let already_timeline = document.createElement("table")
     already_timeline.classList.add("already_timeline")
-    let order_today = document.getElementById("order_today")
-    let month = document.createElement("tr")
-    let cnt = document.createElement("tr")
-    let month_title = document.createElement("td")
-    let cnt_title = document.createElement("td")
 
-    month_title.innerHTML = '月'
-    cnt_title.innerHTML = '件'
-    month.appendChild(month_title)
-    cnt.appendChild(cnt_title)
-    
-    for(const [key,val] of Object.entries(res)){
-        let month_content = document.createElement("td")
-        let cnt_content = document.createElement("td")
-        month_content.innerHTML = `${key}`
-        cnt_content.innerHTML = `${val}`
-        month.appendChild(month_content)
-        cnt.appendChild(cnt_content)
+    //新增欄位
+    let column_for_timeline = document.createElement("tr")
+    let timeline_title = document.createElement("td")
+    timeline_title.classList.add("table_title")
+    timeline_title.innerHTML = '月份'
+    column_for_timeline.appendChild(timeline_title)
+    let month = today.getMonth()+1
+    for(let i=0;i<5;i++){
+        let column_month = document.createElement("td")
+        column_month.innerHTML = `${month+i}`
+        column_for_timeline.appendChild(column_month)
     }
-    already_timeline.appendChild(month)
-    already_timeline.appendChild(cnt)
+
+    already_timeline.appendChild(column_for_timeline)
     order_today.appendChild(already_timeline)
+
+    let total_cnt = document.createElement("tr")
+    let total_cnt_title = document.createElement("td")
+    total_cnt_title.innerHTML = '總排班數'
+    total_cnt_title.classList.add("table_title")
+    total_cnt.appendChild(total_cnt_title)
+    for(let i=0;i<5;i++){
+        let month_block = document.createElement("td")
+        if(res[month+i]){
+            month_block.innerHTML = `${res[month+i].total_cnt}`
+            total_cnt.appendChild(month_block)
+        }else{
+            month_block.innerHTML = "0"
+            total_cnt.appendChild(month_block)
+        }
+    }
+    already_timeline.appendChild(total_cnt)
+
+    let already_cnt = document.createElement("tr")
+    let already_cnt_title = document.createElement("td")
+    already_cnt_title.innerHTML = '已排班數'
+    already_cnt_title.classList.add("table_title")
+    already_cnt.appendChild(already_cnt_title)
+    for(let i=0;i<5;i++){
+        let month_block = document.createElement("td")
+        if(res[month+i]){
+            month_block.innerHTML = `${res[month+i].arrange_cnt}`
+            already_cnt.appendChild(month_block)
+        }else{
+            month_block.innerHTML = "0"
+            already_cnt.appendChild(month_block)
+        }
+    }
+    already_timeline.appendChild(already_cnt)
 }
 
 async function append_schedule(check_all,cnt) {
@@ -335,28 +364,28 @@ async function fcn_send_sche() {
 }
 
 function appned_all(){
-    let option = document.createElement("option")
-    option.innerHTML = "All"
-    select_leader.appendChild(option)
+    // let option = document.createElement("option")
+    // option.innerHTML = "All"
+    // select_leader.appendChild(option)
 }
 
 appned_all()
 
 
-select_leader.addEventListener("change",function(){
-    if(select_leader.value==="All"){
-        select_leader.innerHTML=""
-        member_block.innerHTML = ""
-        appned_all()
-        append_schedule(false,5)
-        return
-    }
-    append_schedule_individual(this.value,5)
-})
+// select_leader.addEventListener("change",function(){
+//     if(select_leader.value==="All"){
+//         select_leader.innerHTML=""
+//         member_block.innerHTML = ""
+//         appned_all()
+//         append_schedule(false,5)
+//         return
+//     }
+//     append_schedule_individual(this.value,5)
+// })
 
 
 async function append_schedule_individual(idx,cnt) {
-    console.log(idx)
+    // console.log(idx)
     schedual.innerHTML = ""
     member_block.innerHTML = ""
     let child = document.createElement("div")

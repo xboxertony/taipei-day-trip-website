@@ -1,10 +1,13 @@
 #big_table {
   display: flex;
+  justify-content: space-around;
 }
 #member {
-  flex: 0 0 100px;
+  width: fit-content;
+  margin: auto;
+  /* flex: 0 0 100px;
   background-color: #f1f3f6;
-  margin-right: 10px;
+  margin-right: 10px; */
 }
 #member > div {
   height: 50px;
@@ -23,7 +26,7 @@
   /* overflow-x: scroll; */
   scroll-behavior: smooth;
   flex-wrap: wrap;
-  width: 80%;
+  /* width: 80%; */
 }
 .blank_div{
   width: 14%;
@@ -108,6 +111,9 @@
   display: flex;
   justify-content: space-around;
 }
+.introduction > div{
+  margin-left: 10px;
+}
 .blk_schedule_select{
   margin: auto;
   display: none;
@@ -183,15 +189,17 @@
   clear: both;
 }
 #schedule{
-  flex: 1 1 100%;
+  width: 50%;
 }
 .already_timeline{
-  width: 100%;
+  width: 400px;
   text-align: center;
   table-layout: fixed;
 }
 .already_timeline td{
   border-bottom: 2px solid yellowgreen;
+  padding: 10px;
+  box-sizing: border-box;
 }
 .custom-arrow{
   position: absolute;
@@ -227,4 +235,10 @@
   border-left: var(--size) solid transparent ;
   border-right: var(--size) solid transparent ;
   top: 30%;
+}
+
+#order_today_title{
+  color: tomato;
+  font-weight: 900;
+  text-align: center;
 }
