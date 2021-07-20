@@ -5,6 +5,7 @@ from main import db_RDS,db
 from flask import session,request,jsonify,render_template,Blueprint
 import re
 import datetime
+from collections import defaultdict
 
 leader_app = Blueprint("leader_app",__name__)
 
@@ -94,3 +95,88 @@ def check_date():
             "half":i[1]
         })
     return jsonify(arr)
+
+
+@leader_app.route("/api/schedule_sum/<person>")
+def schedule_sum(person):
+    sql = f'''
+        SELECT DISTINCT
+            MONTH(total.time) 'month',
+            (SELECT 
+                    COUNT(*)
+                FROM
+                    (SELECT 
+                        *, MONTH(Time) 'Month'
+                    FROM
+                        leader_info.schedule) c
+                WHERE
+                    c.time > TIMESTAMPADD(HOUR, 8, CURRENT_TIMESTAMP)
+                        AND c.name = total.name
+                        AND c.month = MONTH(total.time)) total_cnt,
+            (SELECT 
+                    COUNT(*)
+                FROM
+                    (SELECT 
+                        *, MONTH(Time) 'Month'
+                    FROM
+                        leader_info.schedule) c
+                WHERE
+                    c.time > TIMESTAMPADD(HOUR, 8, CURRENT_TIMESTAMP)
+                        AND c.name = total.name
+                        AND c.booking_user IS NOT NULL
+                        AND c.month = MONTH(total.time)) arrange_cnt
+        FROM
+            leader_info.schedule total
+        WHERE
+            total.name = '{person}'
+    '''
+    data = db_RDS.engine.execute(sql)
+    res = {}
+    for item in data:
+        res[item[0]]={
+            'total_cnt':item[1],
+            'arrange_cnt':item[2]
+            }
+    return jsonify(res)
+
+
+@leader_app.route("/api/schedule_month/<month>")
+def get_month(month):
+    name = session.get("name")
+    sql = f'''
+        SELECT 
+            c.Time,
+            c.half,
+            attid,
+            attractions.name,
+            contact_name,
+            contact_email
+        FROM
+            (SELECT 
+                *, MONTH(time) 'month'
+            FROM
+                leader_info.schedule) c
+                LEFT JOIN
+            attraction.order ON booking_user = attraction.order.orderid
+                AND attraction.order.time = half
+                AND DATE(attraction.order.date) = DATE(c.time)
+                LEFT JOIN
+            attraction.attractions ON attraction.attractions.id = attid
+        WHERE
+            c.month = '{month}' AND c.name = '{name}'
+                AND c.booking_user IS NOT NULL
+                AND order.refund_time IS NULL
+                AND c.time > TIMESTAMPADD(HOUR, 8, CURRENT_TIMESTAMP)
+        ORDER BY c.Time
+    '''
+    data = db_RDS.engine.execute(sql)
+    res = defaultdict(list)
+    for item in data:
+        res[item[0].strftime("%Y-%m-%d")].append({
+            "half":item[1],
+            "att_name":item[3],
+            "contact_name":item[4],
+            "contact_email":item[5]
+        })
+    
+    return jsonify(res)
