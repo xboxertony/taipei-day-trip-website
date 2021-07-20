@@ -395,6 +395,8 @@ btn_send_sche.addEventListener("click", fcn_send_sche)
 
 
 async function fcn_send_sche() {
+    let cover_page = document.getElementById("cover_page")
+    cover_page.classList.add("show")
     let send = await fetch("/api/schedule", {
         method: "POST",
         body: JSON.stringify({ data: sche }),
@@ -404,12 +406,17 @@ async function fcn_send_sche() {
     })
     another_action = true
     let data = await send.json()
+    cover_page.classList.remove("show")
     if (data["ok"]) {
-        alert("班表寄送成功")
+        setTimeout(()=>{
+            alert("班表寄送成功")
+        },0)
         sche=[]
     }
     if(data["error"]){
-        alert(data["message"])
+        setTimeout(()=>{
+            alert(data["message"])
+        },0)
     }
     window.location.reload()
 }

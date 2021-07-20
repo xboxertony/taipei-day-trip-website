@@ -260,3 +260,34 @@
   cursor: pointer;
   color: red;
 }
+
+#cover_page{
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0,.8);
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+#cover_page > img{
+  margin: auto;
+  display: inline-block;
+  margin-top: 20%;
+  margin-left: 50%;
+  transform: translate(-50%,-50%);
+}
+#cover_page > p{
+  color: white;
+  font-weight: 700;
+  font-size: 30px;
+  width: fit-content;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+#cover_page.show{
+  display: block;
+}
