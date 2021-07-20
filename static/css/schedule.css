@@ -185,6 +185,14 @@
 #schedule{
   flex: 1 1 100%;
 }
+.already_timeline{
+  width: 100%;
+  text-align: center;
+  table-layout: fixed;
+}
+.already_timeline td{
+  border-bottom: 2px solid yellowgreen;
+}
 .custom-arrow{
   position: absolute;
   display: none;

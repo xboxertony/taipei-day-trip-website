@@ -94,3 +94,22 @@ def check_date():
             "half":i[1]
         })
     return jsonify(arr)
+
+
+@leader_app.route("/api/schedule_sum/<person>")
+def schedule_sum(person):
+    sql = f'''
+    SELECT 
+        c.name, c.Month, COUNT(*) cnt
+    FROM
+        (SELECT 
+            *, MONTH(Time) 'Month'
+        FROM
+            leader_info.schedule) c where c.time>TIMESTAMPADD(HOUR, 8, CURRENT_TIMESTAMP) and name='{person}' and booking_user is not null
+    GROUP BY c.name , c.Month
+    '''
+    data = db_RDS.engine.execute(sql)
+    res = {}
+    for item in data:
+        res[item[1]]=item[2]
+    return jsonify(res)

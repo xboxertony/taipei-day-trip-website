@@ -152,6 +152,33 @@ async function get_Month(check_all,main_user,year, month) {
 let schedual = document.getElementById("schedule");
 let member_block = document.getElementById("member_block")
 
+function append_schedule_already_month(res){
+    let already_timeline = document.createElement("table")
+    already_timeline.classList.add("already_timeline")
+    let order_today = document.getElementById("order_today")
+    let month = document.createElement("tr")
+    let cnt = document.createElement("tr")
+    let month_title = document.createElement("td")
+    let cnt_title = document.createElement("td")
+
+    month_title.innerHTML = '月'
+    cnt_title.innerHTML = '件'
+    month.appendChild(month_title)
+    cnt.appendChild(cnt_title)
+    
+    for(const [key,val] of Object.entries(res)){
+        let month_content = document.createElement("td")
+        let cnt_content = document.createElement("td")
+        month_content.innerHTML = `${key}`
+        cnt_content.innerHTML = `${val}`
+        month.appendChild(month_content)
+        cnt.appendChild(cnt_content)
+    }
+    already_timeline.appendChild(month)
+    already_timeline.appendChild(cnt)
+    order_today.appendChild(already_timeline)
+}
+
 async function append_schedule(check_all,cnt) {
     schedual.innerHTML = ""
     let check_user = await fetch("/api/user")
@@ -177,6 +204,9 @@ async function append_schedule(check_all,cnt) {
             member_block.appendChild(sub_member)
         }
     }
+    let get_schedule_month = await fetch(`/api/schedule_sum/${main_user}`)
+    let get_data = await get_schedule_month.json()
+    append_schedule_already_month(get_data)
     for (let i = 1; i < cnt+1; i++) {
         let today_today = new Date();
         let loop_time = new Date(
