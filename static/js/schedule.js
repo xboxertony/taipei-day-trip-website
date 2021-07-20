@@ -24,7 +24,10 @@ let schedule_now = {}
 
 let main_user = null
 
+let another_action = false
+
 window.onbeforeunload = function(e){
+    if(another_action)return
     let event = window.event||e
     event.returnValue = ("確定離開此頁面不繼續編輯嗎?")
 }
@@ -353,6 +356,7 @@ async function fcn_send_sche() {
             "Content-Type": "application/json"
         }
     })
+    another_action = true
     let data = await send.json()
     if (data["ok"]) {
         alert("班表寄送成功")
@@ -361,6 +365,7 @@ async function fcn_send_sche() {
     if(data["error"]){
         alert(data["message"])
     }
+    window.location.reload()
 }
 
 function appned_all(){
