@@ -112,6 +112,9 @@
   opacity:0;
   border-radius: 5%;
   z-index:3;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 6px solid black;
 }
 .attraction:hover::after{
   opacity: .7;
@@ -338,7 +341,7 @@ input:focus {
 .top_attraction{
   width: 1200px;
   margin: 30px auto;
-  padding: 10px 10px 20px 10px;
+  /* padding: 10px 10px 20px 10px; */
   box-sizing: border-box;
   border-radius: 10px;
   position: relative;
@@ -357,7 +360,7 @@ input:focus {
   border-radius: 10px;
 }
 .top_attr_item > a{
-  margin-right: 30px;
+  margin-right: 25px;
 }
 .font_top{
   font-size: 25px;

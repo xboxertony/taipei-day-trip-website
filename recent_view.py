@@ -29,9 +29,9 @@ def recent_view_attr(idx):
 @recent_view.route("/api/get_recent_record")
 def record():
     if 'email' not in session:
-        return jsonify({"error":True})
+        return jsonify({"error":True,"msg":"請登入觀看瀏覽紀錄"})
     data = cache.get(session['email'])
     if not data:
-        return jsonify({"error":True})
+        return jsonify({"error":True,"msg":"目前無瀏覽紀錄"})
     data = json.loads(data)
     return jsonify(data)

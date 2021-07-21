@@ -639,6 +639,10 @@ blockquote .img_blk .delete_btn {
 .score_big_board{
   text-align: center;
 }
+#select_certain_date{
+  margin-left: 10px;
+  color: #448899;
+}
 @media screen and (max-width: 1200px) {
   .order_panel{
     height: fit-content;
