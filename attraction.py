@@ -94,14 +94,20 @@ def ytb():
 @attraction_app.route("/api/score")
 def score_app():
 	sql = f'''
-	SELECT 
-    	c.attraction_id, AVG(c.min_score), COUNT(*)
-	FROM
-    	(SELECT 
-        	attraction_id, email, MIN(score) min_score
-    	FROM
-        	attraction.message
-    	GROUP BY attraction_id , email) c group by c.attraction_id
+		SELECT 
+			d.attraction_id, avg(d.score),count(*)
+		FROM
+			(SELECT 
+				attraction_id, email, MAX(time) max_time
+			FROM
+				attraction.message
+			GROUP BY attraction_id , email) c,
+			attraction.message d
+		WHERE
+			d.attraction_id = c.attraction_id
+				AND d.email = c.email
+				AND d.time = c.max_time
+		group by d.attraction_id
 	'''
 	data = db_RDS.engine.execute(sql)
 	res = {}
