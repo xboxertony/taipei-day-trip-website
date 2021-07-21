@@ -24,6 +24,14 @@ let view_score = {}
 
 let arrow_cnt_one = 0
 
+let mrt_color = null
+
+async function get_mrt_color(){
+    let get_color = await fetch("/api/mrt_color")
+    let data_color_mrt = await get_color.json()
+    mrt_color = data_color_mrt
+}
+
 fetch("/api/mrt").then((res) => {
     return res.json()
 }).then((data) => {
@@ -312,6 +320,7 @@ let right_page = document.getElementById("right_page")
 // }
 
 async function appened_data_to_top_5(){
+    await get_mrt_color()
     let view_dic_fetch = await fetch("/api/all_view")
     let res = await view_dic_fetch.json()
     view_dic = res
@@ -400,6 +409,11 @@ function create_attraction(element){
     t_content.innerHTML = element.mrt;
     transport.appendChild(mrt_img)
     transport.appendChild(t_content)
+    try{
+        transport.style.backgroundColor = mrt_color[element.mrt].color
+    }catch{
+
+    }
 
     let cate = document.createElement("a");
     cate.classList.add("cat");

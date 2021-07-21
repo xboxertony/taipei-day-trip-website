@@ -117,3 +117,24 @@ def score_app():
 			"cnt":item[2]
 		}
 	return jsonify(res)
+
+
+@attraction_app.route("/api/mrt_color")
+def color_for_mrt():
+	get_mrt = req.get("https://gist.githubusercontent.com/lackneets/f41836e7e4e938a89f73/raw/e427e8c7b58fcce1338c96bc38b890ae2db6a98a/mrt-taipei.json")
+	data = json.loads(get_mrt.text)
+	res = {}
+	color = {
+		"文山內湖線":"#c48c31",
+		"淡水、信義線":"#e3002c",
+		"小南門、新店線":"#008659",
+		"中和、蘆洲、新莊線":"#f8b61c",
+		"南港、板橋、土城線":"#0070bd"
+	}
+	for i in data:
+		res[i['name']] = {
+			"line":i['line'],
+			"color":color.get(i['line'])
+
+		}
+	return jsonify(res)
