@@ -59,9 +59,12 @@
   margin: 30px auto;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   box-sizing: border-box;
   border-radius: 10px;
+}
+.container > a:not(:nth-child(4n)){
+  margin-right: 29.3px;
 }
 .attraction {
   width: 276px;
@@ -462,6 +465,9 @@ label[for="cat_select"]{
   .container,
   .word,.div_for_mrt,.font_top,#recent_view {
     width: 90%;
+  }
+  .container > a:not(:nth-child(4n)) {
+    margin-right: unset;
   }
   #welcome {
     left: 40%;
