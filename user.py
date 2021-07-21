@@ -71,7 +71,13 @@ def user():
 				return jsonify({"error":True,"message":"註冊失敗，欄位不可以為空"}),400
 			if not re.findall(regex,email) or not re.findall(regex,email)[0]==email:
 				return jsonify({"error":True,"message":"註冊失敗，email格式錯誤"}),400
-			msg = Message(subject="This is your Reset Password Mail",sender=mail_username,recipients=[email])
+			if leader and leader==1:
+				sql_check_leader = f"select count(*) from attraction.user where name='{name}'"
+				result_fro_leader = db_RDS.engine.execute(sql_check_leader)
+				for item in result_fro_leader:
+					if item[0]>0:
+						return jsonify({"error":True,"message":"導遊名稱重複"}),400
+			msg = Message(subject="This is your create Account Mail",sender=mail_username,recipients=[email])
 			token = s.dumps({"user":name,"email":email,"leader":leader,"password":password}).decode("utf8")
 			msg.html = render_template("create_user_mail.html",user = name,token=token)
 			mail.send(msg)
