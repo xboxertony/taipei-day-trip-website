@@ -95,12 +95,13 @@ def ytb():
 def score_app():
 	sql = f'''
 	SELECT 
-    	c.attraction_id,AVG(c.score),count(*)
+    	c.attraction_id, AVG(c.min_score), COUNT(*)
 	FROM
-    	(SELECT DISTINCT
-        	attraction_id, email, score
+    	(SELECT 
+        	attraction_id, email, MIN(score) min_score
     	FROM
-        	attraction.message) c group by c.attraction_id
+        	attraction.message
+    	GROUP BY attraction_id , email) c group by c.attraction_id
 	'''
 	data = db_RDS.engine.execute(sql)
 	res = {}
