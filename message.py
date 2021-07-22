@@ -144,3 +144,11 @@ def get_photo(idx):
             for j in item[0].split(";"):
                 img_arr.append(j)
     return jsonify(img_arr)
+
+
+@message_app.route("/api/message_count/<idx>")
+def count_message(idx):
+    sql = f"SELECT count(*) FROM attraction.message where attraction_id='{idx}'"
+    get_count = db_RDS.engine.execute(sql)
+    for i in get_count:
+        return jsonify({"count":i[0]})

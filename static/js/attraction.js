@@ -279,7 +279,7 @@ async function handle_data(res) {
     ).addTo(mymap);
     var marker = L.marker([res.data.latitude, res.data.longitude]).addTo(mymap);
     marker.bindPopup(res.data.name).openPopup();
-    get_yt_video(res.data.name)
+    //get_yt_video(res.data.name)
     get_msg(page)
     get_news(res.data.name, res.data.mrt, res.data.address.slice(4, 7).trim())
 }
@@ -999,3 +999,13 @@ add_photo_to_wall()
 the_wall.addEventListener("click", function () {
     the_wall.classList.remove("show")
 })
+
+let message_count = document.getElementById("message_count")
+async function get_message_count(){
+    let get_count = await fetch(`/api/message_count/${idx}`)
+    let result = await get_count.json()
+
+    message_count.innerHTML = `(${result.count})`
+}
+
+get_message_count()
