@@ -589,7 +589,7 @@ blockquote .img_blk .delete_btn {
   position: fixed;
   height: 100%;
   width: 100%;
-  z-index: 100;
+  z-index: 99;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, .5);
@@ -730,8 +730,14 @@ blockquote .img_blk .delete_btn {
   }
   #show_data{
     width: 300px;
-    height: 350px;
+    height: 200px;
     overflow-y:scroll;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translate(0,-50%);
   }
   #show_data::-webkit-scrollbar{
     background: transparent;
