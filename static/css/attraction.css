@@ -632,9 +632,14 @@ blockquote .img_blk .delete_btn {
 .red_btn{
   background-color: orange;
 }
+.video{
+  display: flex;
+  flex-direction: column;
+}
 #yt_video{
-  margin-left: 50%;
-  transform: translateX(-50%);
+  align-self: center;
+  /* margin-left: 50%;
+  transform: translateX(-50%); */
 }
 .score_big_board{
   text-align: center;
@@ -730,17 +735,24 @@ blockquote .img_blk .delete_btn {
   }
   #show_data{
     width: 300px;
-    height: 200px;
+    height: 300px;
     overflow-y:scroll;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transform: translate(0,-50%);
+    top: 50%;
+    transform: translate(-50%,-50%);
   }
   #show_data::-webkit-scrollbar{
     background: transparent;
+  }
+  .describe_content, .address_place, .traffic, .news {
+    margin-left: unset;
+  }
+  .info_to_flex{
+    flex-direction: column;
+  }
+  .video{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 @media screen and (max-width: 450px) {
