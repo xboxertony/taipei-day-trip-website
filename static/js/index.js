@@ -263,6 +263,10 @@ get_score()
 get_data_by_page(cur_id);
 
 async function get_data_by_page(page) {
+    if(page===0){
+        console.log(1111)
+        await get_mrt_color()
+    }
     let view_dic_fetch = await fetch("/api/all_view")
     let response = await view_dic_fetch.json()
     view_dic = response
