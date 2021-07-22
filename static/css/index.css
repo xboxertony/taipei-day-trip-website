@@ -200,6 +200,39 @@ input:focus {
 .main {
   padding: 30px 0;
 }
+.arrow{
+  position: absolute;
+  z-index: 11;
+  width: 200px;
+  padding: 0 20px;
+  /* background-color: rgba(240, 250, 250, .7); */
+  height: 100%;
+  top:0;
+}
+.arrow i{
+  font-size: 50px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.left_arrow{
+  left: -5px;
+  background: linear-gradient(270deg,transparent,rgba(240, 250, 250,1));
+  text-align:start;
+  display: none;
+}
+.right_arrow{
+  right: -5px;
+  background: linear-gradient(90deg,transparent,rgba(240, 250, 250,1));
+  text-align: end;
+}
+.left_arrow.show{
+  display: block;
+}
+.right_arrow.hide{
+  display: none;
+}
 /* :root {
           --wid: 310px;
         }
@@ -356,6 +389,7 @@ input:focus {
   display: flex;
   margin: 10px 0;
   overflow-x: scroll;
+  scroll-behavior: smooth;
 }
 .top_attr_item::-webkit-scrollbar{
   height: 15px;
@@ -551,6 +585,9 @@ label[for="cat_select"]{
   #recent_record > a{
     display: block;
     margin-top: 10px;
+  }
+  .arrow{
+    width: 50px;
   }
   /* .input_text {
             width: 85%;

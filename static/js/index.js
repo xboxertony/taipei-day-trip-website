@@ -550,3 +550,44 @@ async function cancel_attr(e) {
 // }
 
 // get_recent_record()
+
+let right_arrow = document.getElementsByClassName("right_arrow")[0]
+let left_arrow = document.getElementsByClassName("left_arrow")[0]
+let parentNode = document.getElementsByClassName("top_attr_item")[0]
+
+function right_end(){
+    if(!right_arrow.classList.contains("hide")){
+        right_arrow.classList.add("hide")
+    }
+    if(!left_arrow.classList.contains("show")){
+        left_arrow.classList.add("show")
+    }
+}
+
+function left_end(){
+    if(right_arrow.classList.contains("hide")){
+        right_arrow.classList.remove("hide")
+    }
+    if(left_arrow.classList.contains("show")){
+        left_arrow.classList.remove("show")
+    }
+}
+
+right_arrow.addEventListener("click",function(){
+    parentNode.scrollTo(parentNode.scrollWidth,0)
+    right_end()
+})
+
+left_arrow.addEventListener("click",function(){
+    parentNode.scrollTo(0,0)
+    left_end()
+})
+
+parentNode.addEventListener("scroll",function(e){
+    if (e.target.scrollLeft + e.target.offsetWidth+50 >= e.target.scrollWidth){
+        right_end()
+    }
+    if(e.target.scrollLeft<50){
+        left_end()
+    }
+})
