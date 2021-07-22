@@ -632,7 +632,12 @@ blockquote .img_blk .delete_btn {
 .red_btn{
   background-color: orange;
 }
+.video{
+  display: flex;
+  flex-direction: column;
+}
 #yt_video{
+  align-self: center;
   /* margin-left: 50%;
   transform: translateX(-50%); */
 }
@@ -737,6 +742,17 @@ blockquote .img_blk .delete_btn {
   }
   #show_data::-webkit-scrollbar{
     background: transparent;
+  }
+  .describe_content, .address_place, .traffic, .news {
+    margin-left: unset;
+  }
+  .info_to_flex{
+    flex-direction: column;
+  }
+  .video{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 @media screen and (max-width: 450px) {
