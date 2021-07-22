@@ -754,6 +754,9 @@ blockquote .img_blk .delete_btn {
     flex-direction: column;
     align-items: center;
   }
+  .des_title{
+    margin: auto;
+  }
 }
 @media screen and (max-width: 450px) {
   .copyright {
