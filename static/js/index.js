@@ -574,13 +574,13 @@ function left_end(){
 }
 
 right_arrow.addEventListener("click",function(){
+    // right_end()
     parentNode.scrollTo(parentNode.scrollWidth,0)
-    right_end()
 })
 
 left_arrow.addEventListener("click",function(){
+    // left_end()
     parentNode.scrollTo(0,0)
-    left_end()
 })
 
 parentNode.addEventListener("scroll",function(e){
