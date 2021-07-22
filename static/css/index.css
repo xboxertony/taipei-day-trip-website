@@ -203,7 +203,7 @@ input:focus {
 .arrow{
   position: absolute;
   z-index: 11;
-  width: 200px;
+  width: 100px;
   padding: 0 20px;
   /* background-color: rgba(240, 250, 250, .7); */
   height: 100%;
@@ -226,12 +226,13 @@ input:focus {
   right: -5px;
   background: linear-gradient(90deg,transparent,rgba(240, 250, 250,1));
   text-align: end;
+  display: none;
 }
 .left_arrow.show{
   display: block;
 }
-.right_arrow.hide{
-  display: none;
+.right_arrow.show{
+  display: block;
 }
 /* :root {
           --wid: 310px;
