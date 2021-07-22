@@ -24,6 +24,14 @@ let view_score = {}
 
 let arrow_cnt_one = 0
 
+let mrt_color = null
+
+async function get_mrt_color(){
+    let get_color = await fetch("/api/mrt_color")
+    let data_color_mrt = await get_color.json()
+    mrt_color = data_color_mrt
+}
+
 fetch("/api/mrt").then((res) => {
     return res.json()
 }).then((data) => {
@@ -311,7 +319,12 @@ let right_page = document.getElementById("right_page")
 //     })
 // }
 
+let right_arrow = document.getElementsByClassName("right_arrow")[0]
+let left_arrow = document.getElementsByClassName("left_arrow")[0]
+let parentNode = document.getElementsByClassName("top_attr_item")[0]
+
 async function appened_data_to_top_5(){
+    await get_mrt_color()
     let view_dic_fetch = await fetch("/api/all_view")
     let res = await view_dic_fetch.json()
     view_dic = res
@@ -323,9 +336,14 @@ async function appened_data_to_top_5(){
         return
     }
 
+    
     response.data.forEach((item)=>{
         top_attr_item.appendChild(create_attraction(item))
     })
+    if(parentNode.scrollWidth>parentNode.clientWidth){
+        right_arrow.classList.add("show")
+        console.log(1)
+    }
     get_collection()
 }
 
@@ -400,6 +418,11 @@ function create_attraction(element){
     t_content.innerHTML = element.mrt;
     transport.appendChild(mrt_img)
     transport.appendChild(t_content)
+    try{
+        transport.style.backgroundColor = mrt_color[element.mrt].color
+    }catch{
+
+    }
 
     let cate = document.createElement("a");
     cate.classList.add("cat");
@@ -536,3 +559,44 @@ async function cancel_attr(e) {
 // }
 
 // get_recent_record()
+
+// let right_arrow = document.getElementsByClassName("right_arrow")[0]
+// let left_arrow = document.getElementsByClassName("left_arrow")[0]
+// let parentNode = document.getElementsByClassName("top_attr_item")[0]
+
+function right_end(){
+    if(right_arrow.classList.contains("show")){
+        right_arrow.classList.remove("show")
+    }
+    if(!left_arrow.classList.contains("show")){
+        left_arrow.classList.add("show")
+    }
+}
+
+function left_end(){
+    if(!right_arrow.classList.contains("show")){
+        right_arrow.classList.add("show")
+    }
+    if(left_arrow.classList.contains("show")){
+        left_arrow.classList.remove("show")
+    }
+}
+
+right_arrow.addEventListener("click",function(){
+    // right_end()
+    parentNode.scrollTo(parentNode.scrollWidth,0)
+})
+
+left_arrow.addEventListener("click",function(){
+    // left_end()
+    parentNode.scrollTo(0,0)
+})
+
+parentNode.addEventListener("scroll",function(e){
+    if (e.target.scrollLeft + e.target.offsetWidth+5 >= e.target.scrollWidth){
+        right_end()
+    }
+    if(e.target.scrollLeft<5){
+        left_end()
+    }
+})

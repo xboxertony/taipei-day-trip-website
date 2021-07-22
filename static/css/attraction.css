@@ -65,7 +65,7 @@
   word-wrap: break-word;
 }
 .describe > div:not(:first-of-type,:nth-last-of-type(2)) {
-  margin: 50px 0;
+  margin: 20px 0;
 }
 .point {
   position: absolute;
@@ -104,7 +104,9 @@ label {
   font-size: 20px;
   width: fit-content;
   border-bottom: 5px solid #52CBD4;
-  margin: auto;
+  white-space: nowrap;
+  height: 50px;
+  line-height: 50px;
 }
 input[type="radio"] {
   display: none;
@@ -153,6 +155,7 @@ input[type="radio"]:disabled + span{
   align-items: flex-end;
   padding: 10px 0;
   box-sizing: border-box;
+  justify-content: center;
 }
 #btn_msg{
   width: 100px;
@@ -267,7 +270,13 @@ input[type="radio"]:disabled + span{
   font-size: 20px;
 }
 .des_word{
-  word-break: keep-all;
+  /* word-break: keep-all; */
+  height: 50px;
+}
+.info_to_flex{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 .score_index{
   margin-left: 10px;
@@ -375,9 +384,9 @@ blockquote .img_blk .delete_btn {
   margin-left: 50px;
 }
 .describe_content,.address_place,.traffic,.news{
-  margin-top: 10px;
   box-shadow: 5px 5px 10px #ccc;
   padding: 10px;
+  margin-left: 30px;
 }
 #near_by{
   display: flex;
@@ -441,6 +450,7 @@ blockquote .img_blk .delete_btn {
   display: flex;
   margin-bottom: 10px;
   align-items: flex-end;
+  margin-left: 23%;
 }
 .score_board{
   display: flex;
@@ -579,7 +589,7 @@ blockquote .img_blk .delete_btn {
   position: fixed;
   height: 100%;
   width: 100%;
-  z-index: 100;
+  z-index: 99;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, .5);
@@ -625,6 +635,13 @@ blockquote .img_blk .delete_btn {
 #yt_video{
   margin-left: 50%;
   transform: translateX(-50%);
+}
+.score_big_board{
+  text-align: center;
+}
+#select_certain_date{
+  margin-left: 10px;
+  color: #448899;
 }
 @media screen and (max-width: 1200px) {
   .order_panel{
@@ -689,6 +706,7 @@ blockquote .img_blk .delete_btn {
   .message_content{
     flex-direction: column;
     padding: 0;
+    margin: auto;
   }
   #btn_msg{
     margin-top: 10px;
@@ -712,8 +730,14 @@ blockquote .img_blk .delete_btn {
   }
   #show_data{
     width: 300px;
-    height: 350px;
+    height: 200px;
     overflow-y:scroll;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translate(0,-50%);
   }
   #show_data::-webkit-scrollbar{
     background: transparent;

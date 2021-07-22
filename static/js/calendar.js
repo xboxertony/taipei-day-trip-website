@@ -111,8 +111,8 @@ async function append_calendar(cnt) {
 
     let first_one = document.getElementsByClassName("select_date_for_light")[0]
     
-    console.log(first_one)
-    console.log(check_date_time)
+    // console.log(first_one)
+    // console.log(check_date_time)
     
     first_one.dispatchEvent(new Event("click"))
 }
@@ -140,6 +140,10 @@ function fcn_select_fcn(){
             down_time_btn.checked = true
         }
     }
+
+    let select_certain_date = document.getElementById("select_certain_date")
+
+    select_certain_date.innerHTML = "已選擇 "+this.dataset.act_date
 }
 
 append_calendar(9)

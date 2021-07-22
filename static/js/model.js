@@ -421,7 +421,7 @@ async function get_recent_record(){
 
     let link_to_attr = document.createElement("a")
     recent_record.appendChild(link_to_attr)
-    link_to_attr.innerHTML = "目前無瀏覽紀錄"
+    link_to_attr.innerHTML = response["msg"]
 
 
 }
