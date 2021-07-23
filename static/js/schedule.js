@@ -64,11 +64,11 @@ async function get_Month(check_all,main_user,year, month) {
 
         if(cntttt===1){
             let bb = select_week
-            if(select_week===6){
-                bb = 0
-            }else{
-                bb = select_week
-            }
+            // if(select_week===6){
+            //     bb = 0
+            // }else{
+            //     bb = select_week
+            // }
             for(let blank_day=0;blank_day<bb;blank_day++){
                 let create_blank_day = document.createElement("div")
                 create_blank_day.classList.add("blank_div")
