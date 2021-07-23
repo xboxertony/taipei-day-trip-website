@@ -291,3 +291,13 @@
 #cover_page.show{
   display: block;
 }
+
+@media screen and  (max-width:1000px) {
+  #big_table{
+    flex-direction: column;
+    align-items: center;
+  }
+  #schedule{
+    width: 70%;
+  }
+}
