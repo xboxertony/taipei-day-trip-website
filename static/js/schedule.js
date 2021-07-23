@@ -337,12 +337,32 @@ let contact_name = document.getElementById("contact_name")
 let contact_email = document.getElementById("contact_email")
 let contact_phone = document.getElementById("contact_phone")
 let order_number = document.getElementsByClassName("order_number")[0]
+let schedule_now_select = document.getElementById("schedule_now_select")
 
 function clear_div(){
     contact_name.innerHTML = ""
     contact_email.innerHTML = ""
     contact_phone.innerHTML = ""
     trip_detail.innerHTML = ""
+}
+
+function update_sche(){
+    schedule_now_select.innerHTML = ""
+    sche.forEach(item=>{
+        let p = document.createElement("p")
+        p.classList.add("schedule_change_word")
+        p.innerHTML = `
+            <span class=${item.update?'red':'blue'}>${item.update?'新增':'取消'}</span> ${item.Time} ${item.half} 班別
+        `
+        schedule_now_select.appendChild(p)
+    })
+}
+
+let shrink_window = document.getElementById("shrink_window")
+shrink_window.addEventListener("click",shrink_window_fcn)
+
+function shrink_window_fcn(){
+    schedule_now_select.classList.toggle("hide")
 }
 
 async function send_schedule() {
@@ -373,10 +393,12 @@ async function send_schedule() {
         this.innerHTML = ""
         config["update"] = false
         sche.push(config)
+        update_sche()
         return
     }
     this.innerHTML = "O"
     sche.push(config)
+    update_sche()
     // let send = await fetch("/api/schedule",{
     //     method:"POST",
     //     body:JSON.stringify(config),
