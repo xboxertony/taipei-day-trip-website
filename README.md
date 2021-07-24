@@ -1,6 +1,12 @@
-# 台北一日遊
+<style>
+    h1{
+        text-align:center;
+    }
+</style>
+<h1>台北一日遊</h1>
 
 #### 歡迎大家光臨台北一日遊，這裡主要是提供旅遊訂購服務，網站承列各項台北熱門景點，具備以下功能：
+<hr>
 
 1. 319項景點詳細介紹
     - 詳細的景點描述及交通方式
@@ -15,3 +21,30 @@
     - 客服機器人24小時全天候服務
 6. 訂單前三天行程email通知
     - 距離出發時間三天內的訂單會做email行前通知，貼心提醒需攜帶物品及注意事項
+
+### Techonologies
+<hr/>
+<ul>
+    <li>Flask</li>
+</ul>
+<ul>
+    <li>AWS
+        <ul>
+            <li>EC2</li>
+            <li>S3</li>
+            <li>Elasticache</li>
+            <li>RDS</li>
+            <li>Cloudfront</li>
+        </ul>
+    </li>
+</ul>
+<ul>
+    <li>Web Crawer by multi-thread</li>
+    <li>Websocket</li>
+    <li>Youtube API</li>
+    <li>Google login API</li>
+    <li>Facbook Login API</li>
+    <li>linux Crontab</li>
+    <li>Responsive Web Design</li>
+    <li>leaflet</li>
+</ul>
