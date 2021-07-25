@@ -32,69 +32,206 @@ async function get_mrt_color(){
     mrt_color = data_color_mrt
 }
 
-fetch("/api/mrt").then((res) => {
-    return res.json()
-}).then((data) => {
-    let option = document.createElement("option")
-    option.value = "all"
-    option.innerHTML = "所有"
-    mrt_select.appendChild(option)
-    data.data.forEach((item) => {
-        let option = document.createElement("option")
-        option.value = item
+let select_category = document.getElementsByClassName("select_category")[0]
+let more_detail_search = document.getElementById("more_detail_search")
+
+let select_mrt = document.getElementById("select_mrt")
+let select_cat = document.getElementById("select_cat")
+
+let mrt_item = document.getElementsByClassName("mrt_item")[0]
+let cat_item = document.getElementsByClassName("cat_item")[0]
+
+let mrt_list = []
+let cat_list = []
+
+let more_detail_search_below = document.getElementById("more_detail_search_below")
+
+more_detail_search.addEventListener("click",function(){
+    more_detail_search_below.classList.toggle("show")
+})
+
+select_mrt.addEventListener("click",function(){
+    this.classList.add("click")
+    select_cat.classList.remove("click")
+    if(mrt_item.classList.contains("hide")){
+        mrt_item.classList.remove("hide")
+    }
+    if(cat_item.classList.contains("show")){
+        cat_item.classList.remove("show")
+    }
+})
+
+select_cat.addEventListener("click",function(){
+    this.classList.add("click")
+    select_mrt.classList.remove("click")
+    if(!mrt_item.classList.contains("hide")){
+        mrt_item.classList.add("hide")
+    }
+    if(!cat_item.classList.contains("show")){
+        cat_item.classList.add("show")
+    }
+})
+
+// select_mrt.addEventListener("click",append_to_below_mrt)
+// select_cat.addEventListener("click",append_to_below_cat)
+
+async function append_to_below_mrt(){
+    let cat_color = {
+        "小南門、新店線":"mrt_green",
+        "文山內湖線":"mrt_brown",
+        "淡水、信義線":"mrt_red",
+        "南港、板橋、土城線":"mrt_blue",
+        "中和、蘆洲、新莊線":"mrt_yellow"
+    }
+    let data_mrt = await fetch("/api/mrt")
+    let response = await data_mrt.json()
+
+    response.data.forEach(item=>{
+        let option = document.createElement("div")
         option.innerHTML = item
-        mrt_select.appendChild(option)
+        option.classList.add("click_for_select")
+        option.dataset.type = "mrt"
+        option.addEventListener("click",add_type_list)
+        if(mrt_color[item]){
+            let item_id = cat_color[mrt_color[item]["line"]]
+            document.getElementById(item_id).appendChild(option)
+        }
     })
-})
+}
 
-fetch("/api/cat").then((res)=>{
-    return res.json()
-}).then((data)=>{
-    let option = document.createElement("option")
-    option.value = "all"
-    option.innerHTML = "所有"
-    cat_select.appendChild(option)
-    data.data.forEach(item=>{
-        let option = document.createElement("option")
-        option.value = item
+async function append_to_below_cat(){
+    let data_cat = await fetch("/api/cat")
+    let response = await data_cat.json()
+
+    response.data.forEach(item=>{
+        let option = document.createElement("div")
         option.innerHTML = item
-        cat_select.appendChild(option)
+        option.classList.add("click_for_select")
+        option.dataset.type = "cat"
+        cat_item.appendChild(option)
+        option.addEventListener("click",add_type_list)
     })
-})
+}
 
-mrt_select.addEventListener("change", function () {
-    init()
-    mrt_mode = true
-    mrt = mrt_select.value
-    cat = cat_select.value
-    get_data_by_mrt(0,mrt,cat);
-    get_collection()
-})
+append_to_below_cat()
 
-cat_select.addEventListener("change",function(){
-    init()
-    mrt_mode = true
-    mrt = mrt_select.value
-    cat = cat_select.value
-    get_data_by_mrt(0,mrt,cat);
-    get_collection()
-})
 
-function get_data_by_mrt(page, keyword,category) {
-    fetch("/api/attractions?page=" + `${page}` + "&mrt=" + `${keyword}`+`&cat=${category}`)
-        .then((res) => {
-            return res.json();
-        })
-        .then((res) => {
-            if(page===0&res.data.length===0){
-                container.innerHTML = "目前無篩選結果喔"
-                return
+function add_type_list(){
+    this.classList.toggle("click")
+    if(this.classList.contains("click")){
+        if(this.dataset.type==="cat"){
+            cat_list.push(this.innerHTML)
+        }else{
+            mrt_list.push(this.innerHTML)
+        }
+    }
+    if(!this.classList.contains("click")){
+        if(this.dataset.type==="cat"){
+            const idx_cat = cat_list.indexOf(this.innerHTML)
+            if(idx_cat>-1){
+                cat_list.splice(idx_cat,1)
             }
-            // next_page = res.nextPage;
-            console.log(page,keyword,category)
-            render_data(res);
-            next_page = res.nextPage
-        });
+        }else{
+            const idx_mrt = mrt_list.indexOf(this.innerHTML)
+            if(idx_mrt>-1){
+                mrt_list.splice(idx_mrt,1)
+            }
+        }
+    }
+}
+
+let send_to_select = document.getElementById("send_to_select")
+
+send_to_select.addEventListener("click",function(){
+    init()
+    mrt_mode = true
+    get_data_by_mrt(0,mrt_list,cat_list)
+    get_collection()
+})
+
+// fetch("/api/mrt").then((res) => {
+//     return res.json()
+// }).then((data) => {
+//     let option = document.createElement("option")
+//     option.value = "all"
+//     option.innerHTML = "所有"
+//     mrt_select.appendChild(option)
+//     data.data.forEach((item) => {
+//         let option = document.createElement("option")
+//         option.value = item
+//         option.innerHTML = item
+//         mrt_select.appendChild(option)
+//     })
+// })
+
+// fetch("/api/cat").then((res)=>{
+//     return res.json()
+// }).then((data)=>{
+//     let option = document.createElement("option")
+//     option.value = "all"
+//     option.innerHTML = "所有"
+//     cat_select.appendChild(option)
+//     data.data.forEach(item=>{
+//         let option = document.createElement("option")
+//         option.value = item
+//         option.innerHTML = item
+//         cat_select.appendChild(option)
+//     })
+// })
+
+// mrt_select.addEventListener("change", function () {
+//     init()
+//     mrt_mode = true
+//     mrt = mrt_select.value
+//     cat = cat_select.value
+//     get_data_by_mrt(0,mrt,cat);
+//     get_collection()
+// })
+
+// cat_select.addEventListener("change",function(){
+//     init()
+//     mrt_mode = true
+//     mrt = mrt_select.value
+//     cat = cat_select.value
+//     get_data_by_mrt(0,mrt,cat);
+//     get_collection()
+// })
+
+async function get_data_by_mrt(page,mrt_list,cat_list) {
+    let config = {
+        method:"POST",
+        body:JSON.stringify({
+            "page":page,
+            "mrt":mrt_list,
+            "cat":cat_list
+        }),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    }
+    let send_select = await fetch("/api/attractions/select",config)
+    let response = await send_select.json()
+
+    if(page===0&response.data.length===0){
+        container.innerHTML = "目前無篩選結果喔"
+        return
+    }
+    render_data(response);
+    next_page = response.nextPage
+    // fetch("/api/attractions?page=" + `${page}` + "&mrt=" + `${keyword}`+`&cat=${category}`)
+    //     .then((res) => {
+    //         return res.json();
+    //     })
+    //     .then((res) => {
+    //         if(page===0&res.data.length===0){
+    //             container.innerHTML = "目前無篩選結果喔"
+    //             return
+    //         }
+    //         // next_page = res.nextPage;
+    //         console.log(page,keyword,category)
+    //         render_data(res);
+    //         next_page = res.nextPage
+    //     });
 }
 
 search.addEventListener("click", () => {
@@ -228,7 +365,7 @@ function do_this() {
             return
         }
         if (mrt_mode) {
-            get_data_by_mrt(next_page, mrt,cat)
+            get_data_by_mrt(next_page,mrt_list,cat_list)
             return
         }
         get_data_by_keyword(next_page, key)
@@ -266,6 +403,7 @@ async function get_data_by_page(page) {
     if(page===0){
         console.log(1111)
         await get_mrt_color()
+        await append_to_below_mrt()
     }
     let view_dic_fetch = await fetch("/api/all_view")
     let response = await view_dic_fetch.json()

@@ -35,7 +35,25 @@
   </div>
   <div class="div_for_mrt">
     <p class="font_top" id="all_stop">所有景點</p>
-    <div class="select_category">
+    <div id="more_detail_search">進階篩選</div>
+    <div id="more_detail_search_below">
+      <ul class="more_search">
+        <li id="select_mrt" class="click">篩選捷運站</li>
+        <li id="select_cat">篩選景點類別</li>
+      </ul>
+      <div class="select_category">
+        <div class="mrt_item">
+          <div id="mrt_red" class="mrt_element"></div>
+          <div id="mrt_green" class="mrt_element"></div>
+          <div id="mrt_blue" class="mrt_element"></div>
+          <div id="mrt_yellow" class="mrt_element"></div>
+          <div id="mrt_brown" class="mrt_element"></div>
+        </div>
+        <div class="cat_item"></div>
+      </div>
+      <div id='send_to_select'>送出篩選</div>
+    </div>
+    <!-- <div class="select_category">
       <label for="mrt_select">篩選捷運站</label>
       <select name="" id="mrt_select"></select>
       <span class="custom_arrow_index"></span>
@@ -44,7 +62,7 @@
       <label for="cat_select">篩選景點類別</label>
       <select name="" id="cat_select"></select>
       <span class="custom_arrow_index"></span>
-    </div>
+    </div> -->
   </div>
   <div class="container">
     <!-- <div class="attraction">

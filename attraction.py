@@ -138,3 +138,72 @@ def color_for_mrt():
 
 		}
 	return jsonify(res)
+
+
+
+@attraction_app.route("/api/attractions/select",methods=["GET","POST"])
+def attr_list():
+	try:
+		data_get = request.get_json()
+		page = int(data_get.get("page"))+1
+		mrt = data_get.get("mrt")
+		cat = data_get.get("cat")
+		# page = 1
+		# mrt = ['龍山寺','士林']
+		# cat = ['歷史建築']
+		s = "SELECT * FROM attraction.attractions where "
+		if not mrt and not cat:
+			ans = data_handle.filter_by_page(db_RDS,page)
+			return ans
+		if mrt:
+			s+="( "
+			mrt_temp = map(lambda x:f" mrt='{x}' ",mrt)
+			s+= " or ".join(mrt_temp)
+			s+=" )"
+		if mrt and cat:
+			s+=" and "
+		if cat:
+			s+="( "
+			cat_temp = map(lambda x:f" category='{x}' ",cat)
+			s+= " or ".join(cat_temp)
+			s+=" )"
+		if mrt or cat:
+			s+=f" limit 12 offset {max(page-1,0)*12}"
+		s_count = "SELECT count(*) FROM attraction.attractions where "
+		if not mrt and not cat:
+			s_count = "SELECT count(*) FROM attraction.attractions"
+		if mrt:
+			s_count+="( "
+			mrt_temp2 = map(lambda x:f" mrt='{x}' ",mrt)
+			s_count+= " or ".join(mrt_temp2)
+			s_count+=" )"
+		if mrt and cat:
+			s_count+=" and "
+		if cat:
+			s_count+="( "
+			cat_temp2 = map(lambda x:f" category='{x}' ",cat)
+			s_count+= " or ".join(cat_temp2)
+			s_count+=" )"
+		print(s)
+		print(s_count)
+		data = db_RDS.engine.execute(s_count)
+		cntt = 0
+		for i in data:
+			cntt = i[0]
+		# sql = f"SELECT * FROM attraction.attractions where mrt='{mrt}' limit 12 offset {max(page-1,0)*12}"
+		data = db_RDS.engine.execute(s)
+		if page*12>cntt:
+			page = None
+		ans = []
+		res = {}
+		for i in data:
+			for col,val in i.items():
+				if col=="images" or col=="images2":
+					val = val.split(";")[:-1]
+				res[col] = val
+				if col=="images2":
+					ans.append(res.copy())
+		return json.dumps({"nextPage":page,"data":ans},ensure_ascii=False)
+	except Exception as e:
+		print(e)
+		return json.dumps({"error":True,"message":"伺服器內部錯誤"},ensure_ascii=False),500
