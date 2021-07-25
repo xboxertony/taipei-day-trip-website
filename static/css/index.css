@@ -234,6 +234,38 @@ input:focus {
 .right_arrow.show{
   display: block;
 }
+.more_search{
+  display: flex;
+  justify-content: center;
+  border-bottom: 2px solid #ccc;
+}
+.more_search > li{
+  color: #ccc;
+  font-weight: 800;
+  cursor: pointer;
+  transition: .5s;
+  padding: 10px;
+  position: relative;
+}
+.more_search > li:last-child{
+  margin-left: 100px;
+}
+.more_search > li:hover{
+  color: #aa00ff;
+}
+.more_search >li.click{
+  color: purple;
+}
+.more_search >li.click::after{
+  content: "";
+  width: 50%;
+  height: 2px;
+  background-color: purple;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+}
 /* :root {
           --wid: 310px;
         }
@@ -485,6 +517,97 @@ label[for="cat_select"]{
 }
 .loading.hide{
   display: none;
+}
+#more_detail_search{
+  text-align: center;
+  cursor: pointer;
+  margin:auto;
+  width: 50%;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #6692FF;
+  color: white;
+}
+.cat_item{
+  display: none;
+}
+.cat_item.show{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#more_detail_search_below{
+  display: none;
+}
+#more_detail_search_below.show{
+  display: block;
+}
+.mrt_item{
+  margin-top: 10px;
+  border-radius: 10px;
+}
+.mrt_item.hide{
+  display: none;
+}
+.mrt_element{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.mrt_element > div{
+  color: white;
+  margin: 10px;
+  border:2px solid #66aabb;
+  border-radius: 10px;
+  padding: 10px;
+}
+.cat_item > div{
+  margin: 10px;
+  border:2px solid #66aabb;
+  border-radius: 10px;
+  padding: 10px;
+}
+#mrt_red{
+  background-color: #e3002c;
+}
+#mrt_green{
+  background-color: #008659;
+}
+#mrt_blue{
+  background-color: #0070bd;
+}
+#mrt_yellow{
+  background-color: #f8b61c;
+}
+#mrt_brown{
+  background-color: #c48c31;
+}
+.click_for_select{
+  cursor: pointer;
+}
+.click_for_select:hover{
+  color: black;
+  background-color: #ccc;
+}
+.click_for_select.click{
+  color: #448899;
+  background-color: #aaddee;
+}
+#send_to_select{
+  margin:auto;
+  width: 100px;
+  padding: 10px;
+  background-color: aliceblue;
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+  cursor: pointer;
+  border:2px solid red;
+  transition: .5s;
+}
+#send_to_select:hover{
+  background-color: red;
+  color: whitesmoke;
 }
 /* #right_page{
   position: absolute;
