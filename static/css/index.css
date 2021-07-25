@@ -531,7 +531,7 @@ label[for="cat_select"]{
 }
 #more_detail_search:hover{
   background-color: #66aabb;
-  border: 10px solid #FF7f50;
+  border: 5px solid #FF7f50;
 }
 .cat_item{
   display: none;
@@ -599,7 +599,6 @@ label[for="cat_select"]{
   background-color: #aaddee;
 }
 #send_to_select{
-  margin:auto;
   width: 100px;
   padding: 10px;
   background-color: aliceblue;
@@ -609,13 +608,13 @@ label[for="cat_select"]{
   cursor: pointer;
   border:2px solid red;
   transition: .5s;
+  margin:10px;
 }
 #send_to_select:hover{
   background-color: red;
   color: whitesmoke;
 }
 #clear_all_select{
-  margin:auto;
   width: 100px;
   padding: 10px;
   background-color: #ddd;
@@ -624,6 +623,7 @@ label[for="cat_select"]{
   cursor: pointer;
   transition: .5s;
   color: slategrey;
+  margin:10px;
 }
 #clear_all_select:hover{
   color: #fff;
@@ -631,6 +631,7 @@ label[for="cat_select"]{
 }
 #action_mode{
   display: flex;
+  justify-content: center;
 }
 /* #right_page{
   position: absolute;
