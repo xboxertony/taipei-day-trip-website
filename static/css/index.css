@@ -527,6 +527,11 @@ label[for="cat_select"]{
   border-radius: 10px;
   background-color: #6692FF;
   color: white;
+  transition: .5s;
+}
+#more_detail_search:hover{
+  background-color: #66aabb;
+  border: 10px solid #FF7f50;
 }
 .cat_item{
   display: none;
@@ -608,6 +613,24 @@ label[for="cat_select"]{
 #send_to_select:hover{
   background-color: red;
   color: whitesmoke;
+}
+#clear_all_select{
+  margin:auto;
+  width: 100px;
+  padding: 10px;
+  background-color: #ddd;
+  text-align: center;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: .5s;
+  color: slategrey;
+}
+#clear_all_select:hover{
+  color: #fff;
+  background-color: #aaa;
+}
+#action_mode{
+  display: flex;
 }
 /* #right_page{
   position: absolute;

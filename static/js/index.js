@@ -149,6 +149,18 @@ send_to_select.addEventListener("click",function(){
     get_collection()
 })
 
+let clear_all_select = document.getElementById("clear_all_select")
+clear_all_select.addEventListener("click",clear_all_select_fcn)
+
+function clear_all_select_fcn(){
+    mrt_list = []
+    cat_list = []
+    let click_for_select = document.getElementsByClassName("click_for_select")
+    Array.from(click_for_select).forEach(item=>{
+        item.classList.remove("click")
+    })
+}
+
 // fetch("/api/mrt").then((res) => {
 //     return res.json()
 // }).then((data) => {
