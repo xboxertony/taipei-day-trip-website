@@ -56,11 +56,13 @@ def order():
 		r = req.post(url,data=json.dumps(payload),headers=headers)
 		data = json.loads(r.text)
 		idx = data["bank_transaction_id"]
+		rec_trade_id = data["rec_trade_id"]
 		trip = request.get_json()["order"]["trip"]
 		main_email = session.get("email")
 		name = request.get_json()["order"]["contact"]["name"]
 		summary = 0
 		mail_dict = {}
+		phone = request.get_json()["order"]["contact"]["phone"]
 		for item in trip:
 			sql_for_attraction = f"select name from attraction.attractions where id={item['attraction']}"
 			ddddd = db_RDS.engine.execute(sql_for_attraction)
@@ -74,7 +76,7 @@ def order():
 			price = item['price']
 			summary+=price
 			order_att = item["order"]
-			sql = f"insert into attraction.order (orderid,attid,date,time,email,price,attorder,contact_email,contact_name) values ('{idx}','{attid}','{date}','{time}','{main_email}','{price}','{order_att}','{email}','{name}')"
+			sql = f"insert into attraction.order (orderid,attid,date,time,email,price,attorder,contact_email,contact_name,contact_phone,rec_trade_id) values ('{idx}','{attid}','{date}','{time}','{main_email}','{price}','{order_att}','{email}','{name}','{phone}','{rec_trade_id}')"
 			db_RDS.engine.execute(sql)
 		if data["status"]==0:
 			# name = session.get('name')
@@ -111,37 +113,39 @@ def order():
 			if not res[item[1]].get("arr"):
 				res[item[1]]["arr"]=[{
 					"attid":item[2],
-					"attname":item[11],
+					"attname":item[14],
 					"date":item[3],
 					"time":item[4],
 					"price":item[6]
 				}]
 				res[item[1]]["refund_time"]=item[8]
+				res[item[1]]["time"] = datetime.strftime(item[12]+timedelta(hours=8),"%Y-%m-%d %H:%M:%S")
 				continue
 			res[item[1]]["arr"].append({
 					"attid":item[2],
-					"attname":item[11],
+					"attname":item[14],
 					"date":item[3],
 					"time":item[4],
 					"price":item[6]
 				})
 			res[item[1]]["refund_time"]=item[8]
+			res[item[1]]["time"] = datetime.strftime(item[12]+timedelta(hours=8),"%Y-%m-%d %H:%M:%S")
 		url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
-		for order_num in res.keys():
-			payload = {
-				"partner_key": get_key(),
-				"filters":{
-					"bank_transaction_id":order_num
-				}
-			}
-			headers = {
-				'content-type': 'application/json',
-				'x-api-key': get_key()
-			}
-			r = req.post(url,data=json.dumps(payload),headers=headers)
-			data = json.loads(r.text)
+		# for order_num in res.keys():
+			# payload = {
+			# 	"partner_key": get_key(),
+			# 	"filters":{
+			# 		"bank_transaction_id":order_num
+			# 	}
+			# }
+			# headers = {
+			# 	'content-type': 'application/json',
+			# 	'x-api-key': get_key()
+			# }
+			# r = req.post(url,data=json.dumps(payload),headers=headers)
+			# data = json.loads(r.text)
 			## res[order_num]["time"] = tm.strftime('%Y-%m-%d %H:%M:%S', tm.gmtime(data["trade_records"][0]["time"]))
-			res[order_num]["time"] = datetime(1970,1,1)+ timedelta(milliseconds=data["trade_records"][0]["time"])+timedelta(hours=8)
+			# res[order_num]["time"] = datetime(1970,1,1)+ timedelta(milliseconds=data["trade_records"][0]["time"])+timedelta(hours=8)
 		return jsonify({"data":res})
 
 	# except:
@@ -152,26 +156,27 @@ def order():
 def pay_search(orderNumber):
 	# if "name" not in session:
 	# 	return jsonify({"error":True,"message":"未登入系統"}),403
-	url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
-	payload = {
-        "partner_key": get_key(),
-        "filters":{
-            "bank_transaction_id":orderNumber
-        }
-    }
-	headers = {
-        'content-type': 'application/json',
-        'x-api-key': get_key()
-    }
-	r = req.post(url,data=json.dumps(payload),headers=headers)
-	data = json.loads(r.text)
+	# url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
+	# payload = {
+    #     "partner_key": get_key(),
+    #     "filters":{
+    #         "bank_transaction_id":orderNumber
+    #     }
+    # }
+	# headers = {
+    #     'content-type': 'application/json',
+    #     'x-api-key': get_key()
+    # }
+	# r = req.post(url,data=json.dumps(payload),headers=headers)
+	# data = json.loads(r.text)
 	# trip = data["trade_records"][0]["details"].split(";")
 	# if data["trade_records"][0]["record_status"] in [0,1]:
-	sql = f"SELECT attid,date,name,images,time,email,price,attorder,refund_time,contact_name FROM attraction.order left join attraction.attractions on order.attid=attractions.id where orderid='{orderNumber}' order by attorder"
+	sql = f"SELECT attid,date,name,images,time,email,price,attorder,refund_time,contact_name,contact_email,contact_phone FROM attraction.order left join attraction.attractions on order.attid=attractions.id where orderid='{orderNumber}' order by attorder"
 	d = db_RDS.engine.execute(sql)
 	trip = []
 	refund_time = None
 	contact_name = None
+	total_price = 0
 	for i in d:
 		attr = {
 			"attraction":{
@@ -186,13 +191,16 @@ def pay_search(orderNumber):
 		trip.append(attr)
 		refund_time = i[8]
 		contact_name = i[9]
+		contact_email = i[10]
+		contact_phone = i[11]
+		total_price+=int(i[6])
 	return jsonify({"data":{
 		"order_id":orderNumber,
-		"summary":data["trade_records"][0]["amount"],
+		"summary":total_price,
 		"contact":{
-			"name":data["trade_records"][0]["cardholder"]["name"],
-			"email":data["trade_records"][0]["cardholder"]["email"],
-			"phone":data["trade_records"][0]["cardholder"]["phone_number"],
+			"name":contact_name,
+			"email":contact_email,
+			"phone":contact_phone,
 		},
 		"trip":trip,
 		"refund_time":refund_time,
@@ -244,20 +252,24 @@ def refund(order_num):
 	for i in data_check_cnt:
 		if i[0]>0:
 			return jsonify({"error":True,"msg":"時間已過或是行程三天內不得退款"})
-	query_url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
-	payload = {
-		"partner_key": get_key(),
-		"filters":{
-			"bank_transaction_id":order_num
-		}
-	}
+	sqlsql = f"select rec_trade_id from attraction.order where orderid='{order_num}'"
+	datadata = db_RDS.engine.execute(sqlsql)
+	for i in datadata:
+		rec_trade_id = i[0]
+	# query_url = "https://sandbox.tappaysdk.com/tpc/transaction/query"
+	# payload = {
+	# 	"partner_key": get_key(),
+	# 	"filters":{
+	# 		"bank_transaction_id":order_num
+	# 	}
+	# }
 	headers = {
 		'content-type': 'application/json',
 		'x-api-key': get_key()
 	}
-	r = req.post(query_url,data=json.dumps(payload),headers=headers)
-	query_data = json.loads(r.text)
-	rec_trade_id = query_data['trade_records'][0]['rec_trade_id']
+	# r = req.post(query_url,data=json.dumps(payload),headers=headers)
+	# query_data = json.loads(r.text)
+	# rec_trade_id = query_data['trade_records'][0]['rec_trade_id']
 
 	refund_url = "https://sandbox.tappaysdk.com/tpc/transaction/refund"
 	body = {

@@ -206,7 +206,8 @@ async function write_order_info(select_time){
         if(new Date(val["time"]) <= select_now)continue
         time_des.classList.add("time_des")
         time_des.addEventListener("click",toggle_contain)
-        time_des.innerHTML = `${year}/${month_list[month]}/${date} ${hr}`
+        time_des.innerHTML = `${val["time"]}`
+        // time_des.innerHTML = `${year}/${month_list[month]}/${date} ${hr}`
         
         order_history_div.appendChild(title)
         if(val.contact_name){
