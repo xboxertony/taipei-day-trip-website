@@ -413,7 +413,6 @@ get_data_by_page(cur_id);
 
 async function get_data_by_page(page) {
     if(page===0){
-        console.log(1111)
         await get_mrt_color()
         await append_to_below_mrt()
     }
@@ -496,7 +495,6 @@ async function appened_data_to_top_5(){
     })
     if(parentNode.scrollWidth>parentNode.clientWidth){
         right_arrow.classList.add("show")
-        console.log(1)
     }
     get_collection()
 }

@@ -494,6 +494,8 @@ blockquote .img_blk .delete_btn {
 #photo_message{
   display: flex;
   flex-wrap: wrap;
+  width: 650px;
+  margin: auto;
 }
 #photo_message img{
   width: 100px;
@@ -756,6 +758,10 @@ blockquote .img_blk .delete_btn {
   }
   .des_title{
     margin: auto;
+  }
+  #photo_message{
+    margin: unset;
+    width: auto;
   }
 }
 @media screen and (max-width: 450px) {

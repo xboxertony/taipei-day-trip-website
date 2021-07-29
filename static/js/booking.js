@@ -487,7 +487,6 @@ async function pay_money(prime){
             },
         },
     };
-    console.log(data)
     document.getElementById("status_code").innerHTML = "執行中..."
     let cover_page = document.getElementsByClassName("cover_page")[0]
     cover_page.classList.add("show")
@@ -502,7 +501,6 @@ async function pay_money(prime){
             return res.json();
         })
         .then((data) => {
-            console.log(data)
             if (data["error"]) {
                 document.getElementById("status_code").innerHTML = data["message"]
                 cover_page.classList.remove("show")

@@ -138,7 +138,6 @@ function resetid(target_item) {
 }
 
 async function update_order(need_data){
-    console.log(need_data)
     let res = await fetch("/api/booking",{
         method:"PATCH",
         body:need_data,
@@ -148,6 +147,5 @@ async function update_order(need_data){
     })
 
     if(res.json()["ok"]){
-        console.log("ok")
     }
 }

@@ -274,7 +274,6 @@
       return res.json();
     })
     .then((data) => {
-      console.log(data);
     });
 
   function add_copy() {
@@ -283,7 +282,6 @@
       let order_id = document.getElementById("order_id");
       let range = document.createRange();
       range.selectNode(order_id);
-      console.log(range)
       let sel = window.getSelection()
       sel.removeAllRanges()
       sel.addRange(range)
