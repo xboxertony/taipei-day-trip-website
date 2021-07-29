@@ -37,7 +37,7 @@
     - 客服機器人24小時全天候服務
 ![image](http://d3nczlg85bnjib.cloudfront.net/客服機器人.png)
 ### 6. 訂單前三天行程email通知
-    - 距離出發時間三天內的訂單會做email行前通知，貼心提醒需攜帶物品及注意事項
+    - 距離出發時間三天內的訂單會做email行前通知，貼心提醒不忘記
 
 ### Techonologies
 <hr/>
