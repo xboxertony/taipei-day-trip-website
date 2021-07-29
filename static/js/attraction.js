@@ -836,7 +836,6 @@ async function check_collect(){
     let data = await get_collect.json()
 
     data.data.forEach((item)=>{
-        console.log(item,idx)
         if(item.attid===parseInt(idx)){
             collect_btn.removeEventListener("click",collec_action)
             collect_btn.innerHTML = "已加入收藏"

@@ -52,7 +52,6 @@ async function append_calendar(cnt) {
         }
     })
     
-    console.log(check)
 
     for(let i=0;i<cnt;i++){
         let dd = new Date(new Date().setMonth(new Date().getMonth()+i))

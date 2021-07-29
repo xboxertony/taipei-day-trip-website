@@ -157,8 +157,6 @@ async function write_order_info(select_time){
         arr.push(obj)
     }
 
-    console.log(arr)
-
     arr = arr.sort(function(a,b){
         let key1 = Object.keys(a)[0]
         let key2 = Object.keys(b)[0]

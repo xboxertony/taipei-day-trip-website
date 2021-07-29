@@ -125,7 +125,6 @@ def user():
 			session.pop("img_src")
 		return jsonify({"ok":True})
 	if request.method=="GET":
-		print(session)
 		if "name" in session:
 			return jsonify({"data":{
 				"id":session.get("id"),
