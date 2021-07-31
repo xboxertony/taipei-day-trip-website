@@ -287,9 +287,9 @@ async function append_schedule(check_all,cnt) {
     append_schedule_already_month(get_data)
     for (let i = 1; i < cnt+1; i++) {
         let today_today = new Date();
-        let loop_time = new Date(
-            today_today.setMonth(today_today.getMonth() + i)
-        );
+        let loop_time = new Date(today_today.getFullYear(), today_today.getMonth()+i+1, 0);
+        // let loop_time = new Date(lastDay.setMonth(lastDay.getMonth() + i));
+        // console.log(loop_time.getMonth())
         append_month_to_selectbar(loop_time.getMonth())
         await get_Month(check_all,main_user,loop_time.getFullYear(), loop_time.getMonth()).then((res) => {
             let month_title = document.createElement("div")
