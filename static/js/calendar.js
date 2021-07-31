@@ -61,7 +61,6 @@ async function append_calendar(cnt) {
     arr.forEach((item)=>{
         ans.push(get_calendar(item.year,item.month))
     })
-    console.log(ans)
     ans.forEach((item)=>{
         if(item.length>0){
             let big_calnedar = document.createElement("div")
