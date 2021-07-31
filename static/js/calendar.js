@@ -54,58 +54,61 @@ async function append_calendar(cnt) {
     
 
     for(let i=0;i<cnt;i++){
-        let dd = new Date(new Date().setMonth(new Date().getMonth()+i))
+        let today_today = new Date()
+        let dd = new Date(today_today.getFullYear(), today_today.getMonth()+i+1, 0)
         arr.push({"year":dd.getFullYear(),"month":dd.getMonth()+1})
     }
     arr.forEach((item)=>{
         ans.push(get_calendar(item.year,item.month))
     })
     ans.forEach((item)=>{
-        let big_calnedar = document.createElement("div")
-        let div_year = document.createElement("div")
-        div_year.innerHTML = `${item[0].getFullYear()}-${item[0].getMonth()+1<10?"0"+(item[0].getMonth()+1):item[0].getMonth()+1}`
-        div_year.classList.add("div_year")
-        big_calnedar.appendChild(div_year)
-
-        let big_date = document.createElement("div")
-        big_date.classList.add("big_date")
-
-        let big_day = document.createElement("div")
-        for(let i=0;i<7;i++){
-            let day = document.createElement("div")
-            day.innerHTML = `${connect_day[i]}`
-            big_day.appendChild(day)
-        }
-        big_calnedar.appendChild(big_day)
-        big_day.classList.add("big_day")
-        for(let i=0;i<item.length;i++){
-            let date = document.createElement("div")
-            date.innerHTML = `${item[i].getDate()<10?"0"+item[i].getDate():item[i].getDate()}`
-            // let day = document.createElement("div")
-            // day.innerHTML = `${item[i].getDay()!==0?item[i].getDay():7}`
-            let select_date = document.createElement("div")
-            if(i==0){
-                for(let j=0;j<item[i].getDay();j++){
-                    let empty_date = document.createElement("div")
-                    empty_date.classList.add("select_date")
-                    empty_date.classList.add("empty_date")
-                    big_date.appendChild(empty_date)
+        if(item.length>0){
+            let big_calnedar = document.createElement("div")
+            let div_year = document.createElement("div")
+            div_year.innerHTML = `${item[0].getFullYear()}-${item[0].getMonth()+1<10?"0"+(item[0].getMonth()+1):item[0].getMonth()+1}`
+            div_year.classList.add("div_year")
+            big_calnedar.appendChild(div_year)
+    
+            let big_date = document.createElement("div")
+            big_date.classList.add("big_date")
+    
+            let big_day = document.createElement("div")
+            for(let i=0;i<7;i++){
+                let day = document.createElement("div")
+                day.innerHTML = `${connect_day[i]}`
+                big_day.appendChild(day)
+            }
+            big_calnedar.appendChild(big_day)
+            big_day.classList.add("big_day")
+            for(let i=0;i<item.length;i++){
+                let date = document.createElement("div")
+                date.innerHTML = `${item[i].getDate()<10?"0"+item[i].getDate():item[i].getDate()}`
+                // let day = document.createElement("div")
+                // day.innerHTML = `${item[i].getDay()!==0?item[i].getDay():7}`
+                let select_date = document.createElement("div")
+                if(i==0){
+                    for(let j=0;j<item[i].getDay();j++){
+                        let empty_date = document.createElement("div")
+                        empty_date.classList.add("select_date")
+                        empty_date.classList.add("empty_date")
+                        big_date.appendChild(empty_date)
+                    }
                 }
+                select_date.dataset.act_date = `${item[i].getFullYear()}-${item[i].getMonth()+1<10?"0"+(item[i].getMonth()+1):item[i].getMonth()+1}-${item[i].getDate()<10?"0"+item[i].getDate():item[i].getDate()}`
+                if(check.includes(select_date.dataset.act_date)){
+                    select_date.classList.add("hide")
+                    select_date.addEventListener("click",fcn_select_fcn)
+                }
+                select_date.appendChild(date)
+                // select_date.appendChild(day)
+                select_date.classList.add("select_date")
+                select_date.classList.add("select_date_for_light")
+                big_date.appendChild(select_date)
+                big_calnedar.appendChild(big_date)
             }
-            select_date.dataset.act_date = `${item[i].getFullYear()}-${item[i].getMonth()+1<10?"0"+(item[i].getMonth()+1):item[i].getMonth()+1}-${item[i].getDate()<10?"0"+item[i].getDate():item[i].getDate()}`
-            if(check.includes(select_date.dataset.act_date)){
-                select_date.classList.add("hide")
-                select_date.addEventListener("click",fcn_select_fcn)
-            }
-            select_date.appendChild(date)
-            // select_date.appendChild(day)
-            select_date.classList.add("select_date")
-            select_date.classList.add("select_date_for_light")
-            big_date.appendChild(select_date)
-            big_calnedar.appendChild(big_date)
+            schedule.appendChild(big_calnedar)
+            big_calnedar.classList.add("big_calnedar")
         }
-        schedule.appendChild(big_calnedar)
-        big_calnedar.classList.add("big_calnedar")
     })
 
     let first_one = document.getElementsByClassName("select_date_for_light")[0]
