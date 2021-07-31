@@ -54,12 +54,14 @@ async function append_calendar(cnt) {
     
 
     for(let i=0;i<cnt;i++){
-        let dd = new Date(new Date().setMonth(new Date().getMonth()+i))
+        let today_today = new Date()
+        let dd = new Date(today_today.getFullYear(), today_today.getMonth()+i+1, 0)
         arr.push({"year":dd.getFullYear(),"month":dd.getMonth()+1})
     }
     arr.forEach((item)=>{
         ans.push(get_calendar(item.year,item.month))
     })
+    console.log(ans)
     ans.forEach((item)=>{
         if(item.length>0){
             let big_calnedar = document.createElement("div")

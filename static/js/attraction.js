@@ -279,7 +279,7 @@ async function handle_data(res) {
     ).addTo(mymap);
     var marker = L.marker([res.data.latitude, res.data.longitude]).addTo(mymap);
     marker.bindPopup(res.data.name).openPopup();
-    get_yt_video(res.data.name)
+    // get_yt_video(res.data.name)
     get_msg(page)
     get_news(res.data.name, res.data.mrt, res.data.address.slice(4, 7).trim())
 }
