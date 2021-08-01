@@ -294,7 +294,7 @@ async function append_schedule(check_all,cnt) {
         await get_Month(check_all,main_user,loop_time.getFullYear(), loop_time.getMonth()).then((res) => {
             let month_title = document.createElement("div")
             month_title.classList.add("month_title")
-            month_title.innerHTML = `${loop_time.getMonth()}月`
+            month_title.innerHTML = `${loop_time.getMonth()===0?12:loop_time.getMonth()}月`
             let month_only = document.createElement("div")
             month_only.appendChild(month_title)
             month_only.classList.add("month_only")
