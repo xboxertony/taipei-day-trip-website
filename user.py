@@ -9,13 +9,15 @@ import re
 from flask_mail import Message
 from config import mail_username,password_key
 import jwt
+from main import bcrypt
 
 user_app = Blueprint("user_app",__name__)
 
 @user_app.route("/api/reset_password",methods=["POST"])
 def reset_password():
 	data = request.get_json()
-	password =  jwt.encode({"password":data["password"]},password_key,algorithm="HS256").decode("utf-8")
+	# password =  jwt.encode({"password":data["password"]},password_key,algorithm="HS256").decode("utf-8")
+	password = bcrypt.generate_password_hash(data["password"]).decode('utf8')
 	email = data['email']
 	sql = f"UPDATE attraction.user SET password = '{password}' WHERE (email = '{email}');"
 	db_RDS.engine.execute(sql)
@@ -61,7 +63,15 @@ def user():
 			data = request.get_json()
 			name = data["name"]
 			email = data["email"]
-			password = jwt.encode({"password":data["password"]},password_key, algorithm="HS256").decode("utf-8")
+			password = data["password"]
+			# password = jwt.encode({"password":data["password"]},password_key, algorithm="HS256").decode("utf-8")
+			password_hash = bcrypt.generate_password_hash(data["password"]).decode('utf8')
+			# print(data["password"])
+			# print(password_hash)
+			# print(type(password_hash))
+			# result = bcrypt.check_password_hash(password_hash,data["password"])
+			# print(result)
+			# return jsonify({"ok":True})
 			leader = data.get("leader")
 			sql = f"select email from attraction.user where email='{email}'"
 			replicate = db_RDS.engine.execute(sql)
@@ -78,7 +88,7 @@ def user():
 					if item[0]>0:
 						return jsonify({"error":True,"message":"導遊名稱重複"}),400
 			msg = Message(subject="This is your create Account Mail",sender=mail_username,recipients=[email])
-			token = s.dumps({"user":name,"email":email,"leader":leader,"password":password}).decode("utf8")
+			token = s.dumps({"user":name,"email":email,"leader":leader,"password":password_hash}).decode("utf8")
 			msg.html = render_template("create_user_mail.html",user = name,token=token)
 			mail.send(msg)
 			# sql = f"insert into attraction.user (name,email,password,leader) values ('{name}','{email}','{password}','{leader}')"
@@ -86,16 +96,19 @@ def user():
 			# 	sql = f"insert into attraction.user (name,email,password) values ('{name}','{email}','{password}')"
 			# db_RDS.engine.execute(sql)
 			return jsonify({"ok":True})
-		except:
+		except Exception as e:
+			print(e)
 			return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
 	if request.method=="PATCH":
 		try:
 			data = request.get_json()
 			email = data["email"]
-			password = jwt.encode({"password":data["password"]},password_key, algorithm="HS256").decode("utf-8")
-			sql = f"select id,name,email,leader,img_src from attraction.user where email='{email}' and password='{password}'"
+			# password = jwt.encode({"password":data["password"]},password_key, algorithm="HS256").decode("utf-8")
+			sql = f"select id,name,email,leader,img_src,password from attraction.user where email='{email}'"
 			result = db_RDS.engine.execute(sql)
 			for i in result:
+				if not bcrypt.check_password_hash(i[5],data["password"]):
+					return jsonify({"error":True,"message":"登入失敗，帳號或密碼錯誤"}),400
 				session["id"]=i[0]
 				session["name"]=i[1]
 				session["email"]=i[2]
@@ -223,14 +236,16 @@ def update_password():
 	sql = f"select password from attraction.user WHERE email = '{email}'"
 	pas = db_RDS.engine.execute(sql)
 	for i in pas:
-		if  jwt.encode({"password":old_password},password_key,algorithm="HS256").decode("utf-8")!=i[0]:
+		if not bcrypt.check_password_hash(i[0],old_password):
+		# if  jwt.encode({"password":old_password},password_key,algorithm="HS256").decode("utf-8")!=i[0]:
 			return jsonify({"error":"舊密碼輸入錯誤"})
 		else:
 			if new_password!=again_password:
 				return jsonify({"error":"新密碼與再次輸入密碼不一樣"})
 			if new_password==old_password:
 				return jsonify({"error":"新密碼與舊密碼一樣"})
-			new_password = jwt.encode({"password":new_password},password_key,algorithm="HS256").decode("utf-8")
+			# new_password = jwt.encode({"password":new_password},password_key,algorithm="HS256").decode("utf-8")
+			new_password = bcrypt.generate_password_hash(new_password).decode('utf8')
 			sql = f"UPDATE attraction.user SET password = '{new_password}' WHERE email = '{email}'"
 			db_RDS.engine.execute(sql)
 			return jsonify({"ok":True})

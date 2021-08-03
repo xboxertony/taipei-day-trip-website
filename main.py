@@ -8,6 +8,7 @@ from flask_mail import Mail
 from itsdangerous import TimedJSONWebSignatureSerializer
 from sqlalchemy import create_engine
 from flask_caching import Cache
+from flask_bcrypt import Bcrypt
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
@@ -36,3 +37,5 @@ config_cache = {
 
 app.config.from_mapping(config_cache)
 cache = Cache(app)
+
+bcrypt = Bcrypt(app)
