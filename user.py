@@ -61,9 +61,11 @@ def user():
 		try:
 			regex = r".+@.+"
 			data = request.get_json()
-			name = data["name"]
-			email = data["email"]
-			password = data["password"]
+			name = data.get("name")
+			email = data.get("email")
+			password = data.get("password")
+			if not name or not email or not password:
+				return jsonify({"error":True,"message":"註冊失敗，欄位不可以為空"}),400
 			# password = jwt.encode({"password":data["password"]},password_key, algorithm="HS256").decode("utf-8")
 			password_hash = bcrypt.generate_password_hash(data["password"]).decode('utf8')
 			# print(data["password"])
@@ -233,6 +235,8 @@ def update_password():
 	new_password = data.get("new_password")
 	again_password = data.get("again_password")
 	email = session.get("email")
+	if not old_password or not new_password or not again_password:
+		return jsonify({"error":"欄位不可為空"})
 	sql = f"select password from attraction.user WHERE email = '{email}'"
 	pas = db_RDS.engine.execute(sql)
 	for i in pas:

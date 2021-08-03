@@ -301,6 +301,7 @@ function open_div(){
 
 async function update_password(){
     let msg_for_update = document.getElementById("msg_for_update")
+    msg_for_update.innerHTML = "傳送中..."
     let config = {
         method:"POST",
         body:JSON.stringify({
@@ -316,6 +317,8 @@ async function update_password(){
     let result = await res.json()
     if(result['ok']){
         msg_for_update.innerHTML = "修改密碼成功!!"
+        alert("修改密碼成功!!!!!")
+        window.location.reload()
     }else{
         msg_for_update.innerHTML = `${result['error']}`
     }
