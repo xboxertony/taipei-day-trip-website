@@ -223,13 +223,13 @@ async function get_data_by_mrt(page,mrt_list,cat_list) {
     }
     let send_select = await fetch("/api/attractions/select",config)
     let response = await send_select.json()
-
+    
+    next_page = response.nextPage
     if(page===0&response.data.length===0){
         container.innerHTML = "目前無篩選結果喔"
         return
     }
     render_data(response);
-    next_page = response.nextPage
     // fetch("/api/attractions?page=" + `${page}` + "&mrt=" + `${keyword}`+`&cat=${category}`)
     //     .then((res) => {
     //         return res.json();
