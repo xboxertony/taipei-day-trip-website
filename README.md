@@ -56,6 +56,7 @@
     </li>
 </ul>
 <ul>
+    <li>Tappay金流</li>
     <li>Web Crawer by multi-thread</li>
     <li>Websocket</li>
     <li>Youtube API</li>
@@ -64,4 +65,6 @@
     <li>linux Crontab</li>
     <li>Responsive Web Design</li>
     <li>leaflet</li>
+    <li>jieba</li>
+    <li>bcrypt</li>
 </ul>
