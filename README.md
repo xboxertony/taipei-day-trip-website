@@ -2,6 +2,8 @@
 
 #### 主網站連結：https://www.taipei-attraction.com/
 
+##### 測試帳號/密碼：test@test/test
+
 ![image alt](http://d3nczlg85bnjib.cloudfront.net/台北一日.png)
 
 ### 歡迎大家光臨台北一日遊，這裡主要是提供旅遊訂購服務，網站承列各項台北熱門景點，具備以下功能：
@@ -38,6 +40,11 @@
 ![image](http://d3nczlg85bnjib.cloudfront.net/客服機器人.png)
 ### 6. 訂單前三天行程email通知
     - 距離出發時間三天內的訂單會做email行前通知，貼心提醒不忘記
+
+
+#### AWS架構
+
+![image alt](http://d3nczlg85bnjib.cloudfront.net/AWS架構.png)
 
 ### Techonologies
 <hr/>
