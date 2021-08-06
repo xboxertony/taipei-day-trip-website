@@ -42,7 +42,7 @@
     - 距離出發時間三天內的訂單會做email行前通知，貼心提醒不忘記
 
 
-#### AWS架構
+#### AWS架構圖
 
 ![image alt](http://d3nczlg85bnjib.cloudfront.net/AWS架構.png)
 
