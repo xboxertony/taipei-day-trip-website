@@ -2,7 +2,8 @@
 
 #### 主網站連結：https://www.taipei-attraction.com/
 
-##### 測試帳號/密碼：test@test/test
+##### 測試帳號：test@test
+##### 測試密碼：test
 
 ![image alt](http://d3nczlg85bnjib.cloudfront.net/台北一日.png)
 
