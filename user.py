@@ -105,6 +105,8 @@ def user():
 		try:
 			data = request.get_json()
 			email = data["email"]
+			if not data.get("password") or not data.get("email"):
+				return jsonify({"error":True,"message":"帳號或密碼不得為空"}),400
 			# password = jwt.encode({"password":data["password"]},password_key, algorithm="HS256").decode("utf-8")
 			sql = f"select id,name,email,leader,img_src,password from attraction.user where email='{email}'"
 			result = db_RDS.engine.execute(sql)
