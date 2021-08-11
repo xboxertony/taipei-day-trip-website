@@ -19,7 +19,7 @@ def search():
         db_RDS.engine.execute(sql)
         return jsonify({"ok":True})
     if request.method=="GET":
-        sql = f"SELECT attractions.id,name,category,mrt,images2 FROM attraction.search left join attraction.attractions on search.attrid=attractions.id where time=current_date() order by cnt desc limit 5"
+        sql = f"SELECT attractions.id,name,category,mrt,images2 FROM attraction.search left join attraction.attractions on search.attrid=attractions.id where time=date(date_add(current_timestamp(),interval 8 hour)) order by cnt desc limit 5"
         data = db_RDS.engine.execute(sql)
         res = []
         for item in data:
