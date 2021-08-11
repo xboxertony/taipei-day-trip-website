@@ -34,7 +34,7 @@ def search():
 
 @search_app.route("/api/all_view")
 def view():
-    sql = f"SELECT * FROM attraction.search where time=current_date()"
+    sql = f"SELECT * FROM attraction.search where time=date(date_add(current_timestamp(),interval 8 hour))"
     data = db_RDS.engine.execute(sql)
     res = {}
     for item in data:
