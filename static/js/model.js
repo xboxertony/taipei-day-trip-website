@@ -712,7 +712,7 @@ async function enter_schedule_system(e){
         }
         window.location.href = "/schedule"
     }else{
-        alert("請登入會員")
+        alert("您並非導遊")
     }
 }
 

@@ -111,12 +111,12 @@ async function append_calendar(cnt) {
         }
     })
 
-    let first_one = document.getElementsByClassName("select_date_for_light")[0]
+    //let first_one = document.getElementsByClassName("select_date_for_light")[0]
     
     // console.log(first_one)
     // console.log(check_date_time)
     
-    first_one.dispatchEvent(new Event("click"))
+    // first_one.dispatchEvent(new Event("click"))
 }
 
 function fcn_select_fcn(){
