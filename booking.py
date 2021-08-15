@@ -61,7 +61,7 @@ def api_book():
 		idx = session.get("id")
 		email = session.get("email")
 		fb_id = session.get("FB_ID")
-		sql = f"SELECT attractionId,name,address,images2,date,time,price,bookingorder,booking.id FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where userid = '{idx}' or email = '{email}' or FB_ID = '{fb_id}' and booking.date>current_date() order by bookingorder"
+		sql = f"SELECT attractionId,name,address,images2,date,time,price,bookingorder,booking.id FROM attraction.booking inner join attraction.attractions on attractionId=attractions.id where (userid = '{idx}' or email = '{email}' or FB_ID = '{fb_id}') and booking.date>current_date() order by bookingorder"
 		sql_exe = db_RDS.engine.execute(sql)
 		res = {"data":[]}
 		for i in sql_exe:
