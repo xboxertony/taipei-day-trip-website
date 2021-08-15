@@ -650,6 +650,11 @@ blockquote .img_blk .delete_btn {
   margin-left: 10px;
   color: #448899;
 }
+.order_panel .warning_form_title{
+  font-weight: 700;
+  font-size: 10px;
+  color: red;
+}
 @media screen and (max-width: 1200px) {
   .order_panel{
     height: fit-content;
