@@ -652,8 +652,8 @@ blockquote .img_blk .delete_btn {
 }
 .order_panel .warning_form_title{
   font-weight: 700;
-  font-size: 10px;
-  color: red;
+  font-size: 13px;
+  color: blue;
 }
 @media screen and (max-width: 1200px) {
   .order_panel{
