@@ -5,7 +5,7 @@
 ##### 測試帳號：tony@tony
 ##### 測試密碼：tony
 
-![image alt](http://d3nczlg85bnjib.cloudfront.net/台北一日2.png)
+![image alt](http://d3nczlg85bnjib.cloudfront.net/購物車.png)
 
 ### 歡迎大家光臨台北一日遊，這裡主要是提供旅遊訂購服務，網站承列各項台北熱門景點，具備以下功能：
 <hr>
