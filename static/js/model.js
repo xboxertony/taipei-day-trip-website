@@ -135,7 +135,7 @@ window.fbAsyncInit = function () {
         appId: "234985047958856",
         cookie: true, // Enable cookies to allow the server to access the session.
         xfbml: true, // Parse social plugins on this webpage.
-        version: "v10.0", // Use this Graph API version for this call.
+        version: "v11.0", // Use this Graph API version for this call.
     });
     FB.getLoginStatus(function (response) {
         // console.log(response);
