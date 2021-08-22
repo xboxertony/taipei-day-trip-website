@@ -132,10 +132,13 @@ def color_for_mrt():
 		"南港、板橋、土城線":"#0070bd"
 	}
 	for i in data:
-		res[i['name']] = {
+		pre = i['name'].replace("台大","臺大")
+		pre = pre.replace("台北小巨蛋","臺北小巨蛋")
+		pre = pre.replace("台北車站","臺北車站")
+		pre = pre.replace("台北101/世貿","台北101／世貿")
+		res[pre] = {
 			"line":i['line'],
 			"color":color.get(i['line'])
-
 		}
 	return jsonify(res)
 
