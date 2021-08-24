@@ -45,7 +45,7 @@
 
 #### AWS架構圖
 
-![image alt](http://d3nczlg85bnjib.cloudfront.net/AWS架構圖之二.png)
+![image alt](http://d3nczlg85bnjib.cloudfront.net/AWS架構圖之三.png)
 
 ### Techonologies
 <hr/>
