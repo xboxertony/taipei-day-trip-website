@@ -49,6 +49,10 @@ sql = "truncate table news.news_source"
 db_RDS.execute(sql)
 for i in res:
     for link,title in i:
-        title = title.replace("%","%%")
-        sql_news = f"insert into news.news_source (news_title,link) values ('{title}','{link}')"
-        db_RDS.execute(sql_news)
+        try:
+            title = title.replace("%","%%")
+            sql_news = f"insert into news.news_source (news_title,link) values ('{title}','{link}')"
+            db_RDS.execute(sql_news)
+        except Exception as e:
+            print(e)
+            pass
