@@ -1,19 +1,19 @@
 from flask import *
 from main import app,db
 
-from attraction import attraction_app
-from user import user_app
-from booking import booking_app
-from order import order_app
-from message import message_app
-from weather import weather_app
-from news import news_app
-from collect import collect_app
-from leader import leader_app
-from upload_photo import upload_photo_app
-from search import search_app
-from recent_view import recent_view
-from near_by import near_by_app
+from controllers.attraction import attraction_app
+from controllers.user import user_app
+from controllers.booking import booking_app
+from controllers.order import order_app
+from controllers.message import message_app
+from controllers.weather import weather_app
+from controllers.news import news_app
+from controllers.collect import collect_app
+from controllers.leader import leader_app
+from controllers.upload_photo import upload_photo_app
+from controllers.search import search_app
+from controllers.recent_view import recent_view
+from controllers.near_by import near_by_app
 
 app.register_blueprint(attraction_app)
 app.register_blueprint(user_app)
