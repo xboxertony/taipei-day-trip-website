@@ -1,11 +1,23 @@
 <h1 align='center'>台北一日遊</h1>
 
+<hr>
+
+本專案參考台北市政府平台，並依照其提供的資料所撰寫的電商旅遊網站
+
 #### 主網站連結：https://www.taipei-attraction.com/
 
 ##### 測試帳號：tony@tony
 ##### 測試密碼：tony
 
 ![image alt](http://d3nczlg85bnjib.cloudfront.net/購物車.png)
+
+#### AWS架構圖
+
+<hr>
+
+![image alt](http://d3nczlg85bnjib.cloudfront.net/AWS架構圖之三.png)
+
+<hr>
 
 ### 歡迎大家光臨台北一日遊，這裡主要是提供旅遊訂購服務，網站承列各項台北熱門景點，具備以下功能：
 <hr>
@@ -43,9 +55,6 @@
     - 距離出發時間三天內的訂單會做email行前通知，貼心提醒不忘記
 
 
-#### AWS架構圖
-
-![image alt](http://d3nczlg85bnjib.cloudfront.net/AWS架構圖之三.png)
 
 ### Techonologies
 <hr/>
