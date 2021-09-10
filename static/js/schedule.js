@@ -170,7 +170,7 @@ function append_schedule_already_month(res){
     let month = today.getMonth()+1
     for(let i=0;i<5;i++){
         let column_month = document.createElement("td")
-        column_month.innerHTML = `${month+i}`
+        column_month.innerHTML = `${month+i>=13?month+i-12:month+i}`
         column_for_timeline.appendChild(column_month)
     }
 
@@ -184,8 +184,8 @@ function append_schedule_already_month(res){
     total_cnt.appendChild(total_cnt_title)
     for(let i=0;i<5;i++){
         let month_block = document.createElement("td")
-        if(res[month+i]){
-            month_block.innerHTML = `${res[month+i].total_cnt}`
+        if(res[month+i>=13?month+i-12:month+i]){
+            month_block.innerHTML = `${res[month+i>=13?month+i-12:month+i].total_cnt}`
             total_cnt.appendChild(month_block)
         }else{
             month_block.innerHTML = "0"
@@ -201,11 +201,11 @@ function append_schedule_already_month(res){
     already_cnt.appendChild(already_cnt_title)
     for(let i=0;i<5;i++){
         let month_block = document.createElement("td")
-        if(res[month+i]){
-            month_block.innerHTML = `${res[month+i].arrange_cnt}`
+        if(res[month+i>=13?month+i-12:month+i]){
+            month_block.innerHTML = `${res[month+i>=13?month+i-12:month+i].arrange_cnt}`
             already_cnt.appendChild(month_block)
             month_block.dataset.month = month+i
-            if(res[month+i].arrange_cnt===0)continue
+            if(res[month+i>=13?month+i-12:month+i].arrange_cnt===0)continue
             month_block.addEventListener("click",get_schedule_for_month)
             month_block.classList.add("month_block")
         }else{
