@@ -13,9 +13,9 @@ body {
   height: 100%;
   font-family: 'Noto Sans TC', sans-serif;
 }
-p,label{
+/* p,label{
   font-family: 'Ubuntu', sans-serif;
-}
+} */
 a {
   cursor: pointer;
 }
