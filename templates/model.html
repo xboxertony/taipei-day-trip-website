@@ -19,11 +19,11 @@
     src="https://kit.fontawesome.com/b3d0241009.js"
     crossorigin="anonymous"
   ></script>
-  <link
+  <!-- <link
     rel="shortcut icon"
     type="image/x-icon"
     href="../static/taipei-102.png"
-  />
+  /> -->
   <title>台北一日遊</title>
   <link rel="stylesheet" href="../static/css/model.css" />
   {% block style %}{% endblock %}
@@ -91,14 +91,14 @@
         >
         <a id="member_center" href="/member_center">會員中心</a>
         <a id="booking">購物車</a>
-        <a id="question_center" href="http://54.199.151.196:3000/echo_test">客服中心</a>
+        <!-- <a id="question_center" href="http://54.199.151.196:3000/echo_test">客服中心</a> -->
         <a id="leader_schedule">導遊排班</a>
       </li>
     </ul>
   </nav>
   {% block content %}{% endblock %}
   <div class="copyright">Copyright &copy; 2021 台北一日遊</div>
-  <i class="fas fa-chevron-circle-up" id="up_page"></i>
+  <!-- <i class="fas fa-chevron-circle-up" id="up_page"></i> -->
 </body>
 <script>
   let src = '{{session.get("url")}}';
@@ -113,4 +113,11 @@
   src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=361104395011889&autoLogAppEvents=1"
   nonce="RkBQBAP8"
 ></script>
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="客服機器人"
+  agent-id="8c6255ab-7b31-4679-9fa7-35baa09fd5c3"
+  language-code="zh-tw"
+></df-messenger>
 {% block script %}{% endblock %}
