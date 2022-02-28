@@ -97,7 +97,9 @@ def api_attractions_id(attractionID):
       "longitude": data.latitude,
       "image": images_arr,
     }
-    return sub_data
+    return {
+      "data": sub_data
+    }
 
   except:
     return{
