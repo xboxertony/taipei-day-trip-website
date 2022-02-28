@@ -49,7 +49,7 @@ def api_attractions():
         "transport": v.transport,
         "mrt": v.mrt,
         "latitude": v.latitude,
-        "longitude": v.latitude,
+        "longitude": v.longitude,
         "image": images_arr,
       }
       data_arr.append(sub_data)
