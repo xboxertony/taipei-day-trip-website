@@ -70,7 +70,7 @@ def api_attractions():
     
 
 #------------------------------------------------
-@attractions.route('api/attractions/<attractionID>')
+@attractions.route('api/attraction/<attractionID>')
 def api_attractions_id(attractionID):
   data = Attraction.query.filter_by(id=attractionID).first()
   if not data:
