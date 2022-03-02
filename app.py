@@ -93,10 +93,10 @@ def parse_datas(infos):
                 data_list.append(data)
         if len(infos) > 10:
             total_count = infos[0][10]
-    if len(infos) > 1:
-        return (data_list, total_count)
     if len(infos) == 1:
         return (data, total_count)
+    else:
+        return (data_list, total_count)
 
 
 # Pages
@@ -123,52 +123,49 @@ def thankyou():
 # Apis
 @app.route("/api/attractions")
 def attractions():
-    # try:
-    page_num = try_parse_int(request.args.get("page"))
-    key_word = request.args.get("keyword")
-    datas_per_page = 12
-    nextPage = None
-    if page_num is None or 0:
-        page_num = 0
-    offset = (page_num) * datas_per_page
-    if key_word is None:
-        infos = get_attractions(datas_per_page, offset)
-        data = parse_datas(infos)[0]
-        total_count = parse_datas(infos)[1]
-        if total_count > offset + datas_per_page:
-            nextPage = page_num + 1
-    if key_word:
-        keyword_for_serch = "%" + key_word + "%"
-        infos = get_attractions_by_keyword(keyword_for_serch, datas_per_page, offset)
-        print(infos)
-        data = parse_datas(infos)[0]
-        total_count = parse_datas(infos)[1]
-        if total_count > offset + datas_per_page:
-            nextPage = page_num + 1
-    return jsonify({"nextPage": nextPage, "data": data})
+    try:
+        page_num = try_parse_int(request.args.get("page"))
+        key_word = request.args.get("keyword")
+        datas_per_page = 12
+        nextPage = None
+        if page_num is None or 0:
+            page_num = 0
+        offset = (page_num) * datas_per_page
+        if key_word is None:
+            infos = get_attractions(datas_per_page, offset)
+            data = parse_datas(infos)[0]
+            total_count = parse_datas(infos)[1]
+            if total_count > offset + datas_per_page:
+                nextPage = page_num + 1
+        if key_word:
+            keyword_for_serch = "%" + key_word + "%"
+            infos = get_attractions_by_keyword(keyword_for_serch, datas_per_page, offset)
+            data = parse_datas(infos)[0]
+            total_count = parse_datas(infos)[1]
+            if total_count > offset + datas_per_page:
+                nextPage = page_num + 1
+        return jsonify({"nextPage": nextPage, "data": data})
 
-
-# except:
-#     error = {"error": True, "message": "伺服器錯誤"}
-#     return jsonify(error), 500
+    except:
+        error = {"error": True, "message": "伺服器錯誤"}
+        return jsonify(error), 500
 
 
 @app.route("/api/attractions/<attractionId>")
 def attractions_id(attractionId):
-    # try:
-    if try_parse_int(attractionId) is None:
-        err = {"error": True, "message": "景點編號不正確"}
-        return jsonify(err), 400
-    else:
-        id_num = try_parse_int(attractionId)
-        info = get_attraction_by_id(id_num)
-        data = parse_datas(info)[0]
-        return jsonify({"data": data})
+    try:
+        if try_parse_int(attractionId) is None:
+            err = {"error": True, "message": "景點編號不正確"}
+            return jsonify(err), 400
+        else:
+            id_num = try_parse_int(attractionId)
+            info = get_attraction_by_id(id_num)
+            data = parse_datas(info)[0]
+            return jsonify({"data": data})
 
-
-# except:
-#     error = {"error": True, "message": "伺服器錯誤"}
-#     return jsonify(error), 500
+    except:
+        error = {"error": True, "message": "伺服器錯誤"}
+        return jsonify(error), 500
 
 
 app.run(port=3000, debug=True)
