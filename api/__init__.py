@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+
 import os
 from dotenv import load_dotenv
 
@@ -13,6 +15,8 @@ def create_app():
   app = Flask(__name__)
 
   db.init_app(app)
+  CORS(app)
+
 
 
   with app.app_context():
