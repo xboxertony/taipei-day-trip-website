@@ -1,12 +1,26 @@
 from flask import *
 import mysql.connector
+from mysql.connector import pooling
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["JSON_SORT_KEYS"] = False
 
-db = mysql.connector.connect(user="root", password="12345678", host="127.0.0.1", database="website")
+# db = mysql.connector.connect(user="root", password="12345678", host="127.0.0.1", database="website")
+connection_pool = pooling.MySQLConnectionPool(
+    pool_name="mypool",
+    pool_size=10,
+    user="root",
+    password="12345678",
+    host="127.0.0.1",
+    database="website",
+)
+
+db = connection_pool.get_connection()
+cursor = db.cursor()
+
+
 # functions
 def try_parse_int(text):
     try:
@@ -17,25 +31,34 @@ def try_parse_int(text):
 
 def get_attraction_by_id(id_num):
     get_data_by_id = "select * from attractions where id = %s"
+    db = connection_pool.get_connection()
     cursor = db.cursor()
     cursor.execute(get_data_by_id, (id_num,))
     info = cursor.fetchall()
+    cursor.close()
+    db.close()
     return info
 
 
 def get_attractions(datas_per_page, offset):
     get_datas = "with counter as (select count(*) as total_count from attractions) select * from attractions, counter order by id ASC limit %s offset %s"
+    db = connection_pool.get_connection()
     cursor = db.cursor()
     cursor.execute(get_datas, (datas_per_page, offset))
     infos = cursor.fetchall()
+    cursor.close()
+    db.close()
     return infos
 
 
 def get_attractions_by_keyword(key_word, datas_per_page, offset):
     get_datas_by_keyword = "with counter as (select count(*) as total_count from attractions where name like %s) select * from attractions, counter WHERE name like %s order by id ASC limit %s offset %s"
+    db = connection_pool.get_connection()
     cursor = db.cursor()
     cursor.execute(get_datas_by_keyword, (key_word, key_word, datas_per_page, offset))
     infos = cursor.fetchall()
+    cursor.close()
+    db.close()
     return infos
 
 
@@ -100,48 +123,52 @@ def thankyou():
 # Apis
 @app.route("/api/attractions")
 def attractions():
-    try:
-        page_num = try_parse_int(request.args.get("page"))
-        key_word = request.args.get("keyword")
-        datas_per_page = 12
-        nextPage = None
-        if page_num is None or 0:
-            page_num = 0
-        offset = (page_num) * datas_per_page
-        if key_word is None:
-            infos = get_attractions(datas_per_page, offset)
-            data = parse_datas(infos)[0]
-            total_count = parse_datas(infos)[1]
-            if total_count > offset + datas_per_page:
-                nextPage = page_num + 1
-        if key_word:
-            keyword_for_serch = "%" + key_word + "%"
-            infos = get_attractions_by_keyword(keyword_for_serch, datas_per_page, offset)
-            data = parse_datas(infos)[0]
-            total_count = parse_datas(infos)[1]
-            if total_count > offset + datas_per_page:
-                nextPage = page_num + 1
-        return jsonify({"nextPage": nextPage, "data": data})
-    except:
-        error = {"error": True, "message": "伺服器錯誤"}
-        return jsonify(error), 500
+    # try:
+    page_num = try_parse_int(request.args.get("page"))
+    key_word = request.args.get("keyword")
+    datas_per_page = 12
+    nextPage = None
+    if page_num is None or 0:
+        page_num = 0
+    offset = (page_num) * datas_per_page
+    if key_word is None:
+        infos = get_attractions(datas_per_page, offset)
+        data = parse_datas(infos)[0]
+        total_count = parse_datas(infos)[1]
+        if total_count > offset + datas_per_page:
+            nextPage = page_num + 1
+    if key_word:
+        keyword_for_serch = "%" + key_word + "%"
+        infos = get_attractions_by_keyword(keyword_for_serch, datas_per_page, offset)
+        print(infos)
+        data = parse_datas(infos)[0]
+        total_count = parse_datas(infos)[1]
+        if total_count > offset + datas_per_page:
+            nextPage = page_num + 1
+    return jsonify({"nextPage": nextPage, "data": data})
+
+
+# except:
+#     error = {"error": True, "message": "伺服器錯誤"}
+#     return jsonify(error), 500
 
 
 @app.route("/api/attractions/<attractionId>")
 def attractions_id(attractionId):
-    try:
-        if try_parse_int(attractionId) is None:
-            err = {"error": True, "message": "景點編號不正確"}
-            return jsonify(err), 400
-        else:
-            id_num = try_parse_int(attractionId)
-            info = get_attraction_by_id(id_num)
-            data = parse_datas(info)[0]
-            return jsonify({"data": data})
+    # try:
+    if try_parse_int(attractionId) is None:
+        err = {"error": True, "message": "景點編號不正確"}
+        return jsonify(err), 400
+    else:
+        id_num = try_parse_int(attractionId)
+        info = get_attraction_by_id(id_num)
+        data = parse_datas(info)[0]
+        return jsonify({"data": data})
 
-    except:
-        error = {"error": True, "message": "伺服器錯誤"}
-        return jsonify(error), 500
+
+# except:
+#     error = {"error": True, "message": "伺服器錯誤"}
+#     return jsonify(error), 500
 
 
 app.run(port=3000, debug=True)
