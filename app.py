@@ -35,7 +35,7 @@ def thankyou():
 ############
 
 
-@app.route("/api/attraction/<attractionId>")
+@app.route("/api/attraction/<int:attractionId>")
 def get_id(attractionId):
     try:
         CN1 = pool.get_connection() #get a connection with pool.
