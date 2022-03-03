@@ -1,20 +1,20 @@
 from flask import *
-import mysql.connector
 from mysql.connector import pooling
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["JSON_SORT_KEYS"] = False
+app.config.from_object("config.Config")
 
-# db = mysql.connector.connect(user="root", password="12345678", host="127.0.0.1", database="website")
+
 connection_pool = pooling.MySQLConnectionPool(
-    pool_name="mypool",
-    pool_size=10,
-    user="root",
-    password="12345678",
-    host="127.0.0.1",
-    database="website",
+    pool_name=app.config.get("DATABASE_POOL_NAME"),
+    pool_size=int(app.config.get("DATABASE_POOL_SIZE")),
+    user=app.config.get("DATABASE_USER"),
+    password=app.config.get("DATABASE_PASSWORD"),
+    host=app.config.get("DATABASE_HOST"),
+    database=app.config.get("DATABASE_DATABASE"),
 )
 
 db = connection_pool.get_connection()
