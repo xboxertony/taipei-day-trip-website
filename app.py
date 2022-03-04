@@ -1,5 +1,7 @@
 
 import json, os , mysql.connector.pooling, traceback
+from dotenv import load_dotenv
+
 from flask import *
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
@@ -7,15 +9,15 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config['JSON_SORT_KEYS'] = False
 app.secret_key = os.urandom(24)
 
+load_dotenv()
 dbconfig = {
 "host":'localhost',
 "port":'3306',
 "database":'TPE_trip',
-"user": os.environ.get('DB_USER'),
-"password": os.environ.get('DB_PASSWORD')
+"user": os.getenv('DB_USER'),
+"password": os.getenv('DB_PASSWORD')
 }
 pool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "mypool", pool_size = 3, **dbconfig) #create a pool which connect with DB
-
 
 
 # Pages
