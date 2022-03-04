@@ -13,7 +13,7 @@ load_dotenv()
 dbconfig = {
 "host":'localhost',
 "port":'3306',
-"database":'TPE_trip',
+"database":'tpe_trip',
 "user": os.getenv('DB_USER'),
 "password": os.getenv('DB_PASSWORD')
 }
