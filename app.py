@@ -1,20 +1,24 @@
 from flask import *
 from mysql.connector import pooling
+from os import environ, path
+from dotenv import load_dotenv
+
+basedir = path.abspath(path.dirname(__file__))
+load_dotenv(path.join(basedir, ".env"))
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["JSON_SORT_KEYS"] = False
-app.config.from_object("config.Config")
 
 
 connection_pool = pooling.MySQLConnectionPool(
-    pool_name=app.config.get("DATABASE_POOL_NAME"),
-    pool_size=int(app.config.get("DATABASE_POOL_SIZE")),
-    user=app.config.get("DATABASE_USER"),
-    password=app.config.get("DATABASE_PASSWORD"),
-    host=app.config.get("DATABASE_HOST"),
-    database=app.config.get("DATABASE_DATABASE"),
+    pool_name=environ.get("DB_POOL_NAME"),
+    pool_size=int(environ.get("DB_POOL_SIZE")),
+    user=environ.get("DB_USER"),
+    password=environ.get("DB_PASSWORD"),
+    host=environ.get("DB_HOST"),
+    database=environ.get("DB_DATABASE"),
 )
 
 db = connection_pool.get_connection()
