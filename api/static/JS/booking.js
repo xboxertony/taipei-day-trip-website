@@ -15,10 +15,9 @@ async function initialLoad() {
     main.innerHTML = `<h1 style="text-align: center;" >${data.message}</h1>`;
   } else {
     booksArr = data.data;
-  }
-
-  if (!booksArr) {
-    main.textContent = "目前沒有任何待預訂的行程";
+    if (!booksArr) {
+      main.textContent = "目前沒有任何待預訂的行程";
+    }
   }
 
   booksArr.forEach((v) => loadBookings(v));

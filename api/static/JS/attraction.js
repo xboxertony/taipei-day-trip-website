@@ -1,4 +1,3 @@
-// http://13.208.55.153:3000/api/attraction/1
 let data;
 let images = [];
 let imagesNums;
