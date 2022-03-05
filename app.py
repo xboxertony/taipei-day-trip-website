@@ -111,18 +111,16 @@ def page_keyword():
                 alllist = cursor.fetchall()
                 all = [tu[1] for tu in alllist]
                 data={
-                    'data':{
-                        'id' : one[0],
-                        'name' : one[1],
-                        'category' : one[2],
-                        'description': one[3],
-                        'address' : one[4],
-                        'transport' : one[5],
-                        'mrt' : one[6],
-                        'latitude' : one[7],
-                        'longitude' :one[8],
-                        'images': all 
-                        }
+                    'id' : one[0],
+                    'name' : one[1],
+                    'category' : one[2],
+                    'description': one[3],
+                    'address' : one[4],
+                    'transport' : one[5],
+                    'mrt' : one[6],
+                    'latitude' : one[7],
+                    'longitude' :one[8],
+                    'images': all 
                 }
                 datalist.append(data)
 
@@ -180,18 +178,16 @@ def page_keyword():
                 alllist = cursor.fetchall()
                 all = [tu[1] for tu in alllist]
                 data={
-                    'data':{
-                        'id' : one[0],
-                        'name' : one[1],
-                        'category' : one[2],
-                        'description': one[3],
-                        'address' : one[4],
-                        'transport' : one[5],
-                        'mrt' : one[6],
-                        'latitude' : one[7],
-                        'longitude' :one[8],
-                        'images': all 
-                        }
+                    'id' : one[0],
+                    'name' : one[1],
+                    'category' : one[2],
+                    'description': one[3],
+                    'address' : one[4],
+                    'transport' : one[5],
+                    'mrt' : one[6],
+                    'latitude' : one[7],
+                    'longitude' :one[8],
+                    'images': all 
                 }
                 datalist.append(data)
 
@@ -215,7 +211,5 @@ def page_keyword():
     return jsonify(final)
 
 
-
 app.run(host='0.0.0.0',port=3000)
-
 pool._remove_connections()
