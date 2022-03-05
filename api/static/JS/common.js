@@ -9,7 +9,7 @@ const authContainer = document.querySelector(".auth-container");
 
 //--------------------------check status------------------------------
 async function check() {
-  const response = await fetch("http://192.168.1.114:3000/api/user", {
+  const response = await fetch("http://13.208.55.153:3000/api/user", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -24,7 +24,12 @@ async function check() {
     authBtnLogin.classList.remove("none");
   }
 }
-check();
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", check());
+} else {
+  check();
+}
 
 //----------------------------open ---------------------------
 authBtnLogin.addEventListener("click", (e) => {
@@ -97,8 +102,6 @@ authBtnLogout.addEventListener("click", (e) => {
     });
     const res = await response.json();
     if (res.ok) {
-      // authBtnLogin.classList.toggle("none");
-      // authBtnLogout.classList.toggle("none");
       check();
       window.alert("登出成功");
     } else if (res.error) {
