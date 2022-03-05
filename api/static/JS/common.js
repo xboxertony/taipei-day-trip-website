@@ -9,7 +9,7 @@ const authContainer = document.querySelector(".auth-container");
 
 //--------------------------check status------------------------------
 async function check() {
-  const response = await fetch("http://13.208.55.153:3000/api/user", {
+  const response = await fetch("http://192.168.1.114:3000/api/user", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

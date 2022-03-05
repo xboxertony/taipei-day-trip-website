@@ -3,21 +3,23 @@ const items = document.querySelector(".items");
 const total = document.querySelector(".total");
 
 let totalPrice = 0;
+let booksArr;
 
 async function initialLoad() {
   console.log("ini-loading");
   const response = await fetch(`http://13.208.55.153:3000/api/booking`);
   const parsedData = await response.json();
   let data = parsedData;
-  let booksArr;
 
   if (data.error) {
     main.innerHTML = `<h1 style="text-align: center;" >${data.message}</h1>`;
   } else {
     booksArr = data.data;
-    if ((booksArr = [])) {
-      main.textContent = "目前沒有任何待預訂的行程";
-    }
+  }
+  console.log();
+  if (booksArr.length === 0) {
+    main.textContent = `目前沒有待預定的行程`;
+    return null;
   }
 
   booksArr.forEach((v) => loadBookings(v));
