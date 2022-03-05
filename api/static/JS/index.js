@@ -1,38 +1,49 @@
-let data;
+// pord:http://13.208.55.153:3000
+// dev:http://13.208.55.153:3000
+// treeful:http://192.168.50.154:3000/
+
+let data = {};
 const main = document.querySelector("main");
 const items = document.querySelector(".items");
 
 let nextPage;
 let keyword;
 function load() {
-  for (let i = 0; i < data.length; i++) {
-    const item = document.createElement("div");
-    item.classList.add("item");
+  try {
+    for (let i = 0; i < data.length; i++) {
+      const anchor = document.createElement("a");
+      // const item = document.createElement("div");
+      anchor.classList.add("item");
 
-    const img = document.createElement("img");
-    item.appendChild(img);
-    img.src = `${data[i].image[0]}`;
+      const img = document.createElement("img");
+      anchor.appendChild(img);
+      img.src = `${data[i].image[0]}`;
 
-    const title = document.createElement("div");
-    item.appendChild(title);
-    title.classList.add("title");
-    title.textContent = data[i].name;
+      const title = document.createElement("div");
+      anchor.appendChild(title);
+      title.classList.add("title");
+      title.textContent = data[i].name;
 
-    const info = document.createElement("div");
-    item.appendChild(info);
-    info.classList.add("info");
+      const info = document.createElement("div");
+      anchor.appendChild(info);
+      info.classList.add("info");
 
-    const mrt = document.createElement("div");
-    info.appendChild(mrt);
-    mrt.classList.add("mrt");
-    mrt.textContent = data[i].mrt;
+      const mrt = document.createElement("div");
+      info.appendChild(mrt);
+      mrt.classList.add("mrt");
+      mrt.textContent = data[i].mrt;
 
-    const category = document.createElement("div");
-    info.appendChild(category);
-    category.classList.add("category");
-    category.textContent = data[i].category;
+      const category = document.createElement("div");
+      info.appendChild(category);
+      category.classList.add("category");
+      category.textContent = data[i].category;
 
-    items.appendChild(item);
+      anchor.href = `http://13.208.55.153:3000/attraction/${data[i].id}`;
+
+      items.appendChild(anchor);
+    }
+  } catch (e) {
+    return null;
   }
 }
 
@@ -98,5 +109,3 @@ const options = {
 const observer = new IntersectionObserver(loadMore, options);
 const target = document.querySelector("footer");
 observer.observe(target);
-
-//------------------------signup/login-------------------------

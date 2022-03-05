@@ -2,6 +2,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
+from flask_bcrypt import Bcrypt
+
+
 import os
 from dotenv import load_dotenv
 
@@ -9,22 +12,26 @@ from dotenv import load_dotenv
 config = load_dotenv("./api/.env")
 
 db = SQLAlchemy()
+bcrypt = Bcrypt()
 
 
 def create_app(): 
   app = Flask(__name__)
 
   db.init_app(app)
+  bcrypt.init_app(app)    
   CORS(app)
 
 
 
   with app.app_context():
 
+    from api.auth.auth_routes import auth
     from api.attraction.attractions_routes import attractions
     from api.booking.booking_routes import booking
     from api.main.main_routes import main
     from api.thankyou.thankyou_routes import thankyou
+    app.register_blueprint(auth, url_prefix='')
     app.register_blueprint(attractions, url_prefix='')
     app.register_blueprint(booking, url_prefix='')
     app.register_blueprint(main, url_prefix='')

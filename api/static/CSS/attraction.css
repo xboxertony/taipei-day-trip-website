@@ -266,85 +266,6 @@ footer {
   color: white;
 }
 
-header {
-  width: 100%;
-  height: 320px;
-  background: linear-gradient(135deg, #aaddee 0%, #66aabb 100%);
-  position: relative;
-  overflow: hidden;
-}
-
-header .content {
-  position: relative;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  color: #f8f8f8;
-  height: 320px;
-  width: MIN(1200px, 100%);
-  padding: 1rem;
-  z-index: 500;
-}
-
-header .content .title {
-  font-weight: bold;
-  font-size: 28px;
-  line-height: 24px;
-}
-
-header .content .description {
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 13px;
-  margin: 1rem 0rem;
-}
-
-header .search-area {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-header .search-area input {
-  width: MIN(350px, 70%);
-  height: 2rem;
-  border: none;
-  border-radius: 5px 0px 0px 5px;
-}
-
-header .search-area button {
-  background-color: #448899;
-  background-image: url(../Images/icon_search.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 1rem;
-  cursor: pointer;
-  height: 2rem;
-  width: 2.5rem;
-  border: none;
-  border-radius: 0px 5px 5px 0px;
-}
-
-header img {
-  position: relative;
-  width: MIN(650px, 90vw);
-  height: MIN(320px, 50vw);
-  left: 50vw;
-  bottom: 0px;
-  z-index: 400;
-  top: MAX(-320px, -50vw);
-}
-
 main {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -356,82 +277,150 @@ main {
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
+  color: #666666;
 }
 
-main .items {
+main .content {
+  width: 1200px;
+}
+
+main .content .top {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 100%;
+}
+
+main .content .top .left-box {
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 50%;
+          flex: 1 1 50%;
+  margin: 1rem;
+  width: 100%;
+  height: 45vh;
+}
+
+main .content .top .left-box .image {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: fill;
+     object-fit: fill;
+  border-radius: 5px;
+}
+
+main .content .top .left-box .btn-leftArrow {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  left: 10px;
+}
+
+main .content .top .left-box .btn-rightArrow {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  right: 10px;
+}
+
+main .content .top .left-box .flow-box {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+main .content .top .left-box .flow-box .flow {
+  margin: 0.2rem;
+}
+
+main .content .top .right-box {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 50%;
+          flex: 1 1 50%;
+  margin: 1rem;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 1fr 5fr;
+      grid-template-rows: 1fr 5fr;
+}
+
+main .content .top .right-box .name-info {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+  gap: 0.3rem;
+}
+
+main .content .top .right-box .booking {
+  display: -ms-grid;
+  display: grid;
+  background: #e8e8e8;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1.4rem;
+  font-size: 1.2rem;
+}
+
+main .content .top .right-box .booking .date,
+main .content .top .right-box .booking .time,
+main .content .top .right-box .booking .price {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: MIN(1200px, 90%);
-  margin-top: 2rem;
 }
 
-main .items a {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  border: 1px solid #e8e8e8;
+main .content .top .right-box .booking .date *,
+main .content .top .right-box .booking .time *,
+main .content .top .right-box .booking .price * {
+  margin-right: 0.5rem;
+}
+
+main .content .top .right-box .booking button {
+  width: 40%;
+  height: 3rem;
+  font-size: 1rem;
   border-radius: 5px;
-  margin: 1%;
-  width: 22%;
-  height: 15%;
-  color: #757575;
-  text-decoration: none;
+  background: #448899;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 1.5rem;
 }
 
-main .items a img {
-  width: 100%;
-  height: 17vh;
-  -o-object-fit: cover;
-     object-fit: cover;
+main .content .bottom {
+  padding-bottom: 5rem;
 }
 
-main .items a .title {
-  text-align: left;
-  padding: 0.5rem;
-  font-weight: bold;
-  color: #757575;
-}
-
-main .items a .info {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding: 0rem 0.5rem 0.5rem 0.5rem;
-}
-
-@media screen and (max-width: 1200px) {
-  .item {
-    width: 44% !important;
-  }
-  .item img {
-    height: 25vh !important;
-  }
+main .content .bottom .description,
+main .content .bottom .address-info,
+main .content .bottom .transport-info {
+  padding: 1rem;
 }
 
 @media screen and (max-width: 600px) {
-  .item {
-    width: 100% !important;
+  .top {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+        -ms-flex-direction: column !important;
+            flex-direction: column !important;
   }
-  .item img {
-    height: 30vh !important;
+  .top .left-box {
+    margin: 0rem !important;
   }
 }
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=attraction.css.map */

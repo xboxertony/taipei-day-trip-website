@@ -7,23 +7,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="index,follow" />
     <meta name="description" content="Assignment for week1" />
-
+    {% block title %}
     <link
       rel="stylesheet"
       href="{{ url_for( 'static', filename = 'CSS/style.css') }}"
     />
-    {% block title %}
+
     <title>台北一日遊</title>
     {% endblock %}
   </head>
   <body>
+    <div class="overlay none"></div>
+    <div class="auth-container slide-in-top none">
+      <div class="bar"></div>
+
+      <div class="login-inner">
+        <h2>登入會員帳號</h2>
+        <img class="auth-close" src="../static/Images/icon_close.png" alt="" />
+        <input type="email" placeholder="輸入電子信箱" />
+        <input type="password" placeholder="輸入密碼" />
+        <button class="login-btn">登入帳戶</button>
+        <p class="auth-change">還沒有帳戶？點此註冊</p>
+      </div>
+
+      <div class="signup-inner none">
+        <h2>註冊會員帳號</h2>
+        <img class="auth-close" src="../static/Images/icon_close.png" alt="" />
+        <input type="text" placeholder="輸入姓名" />
+        <input type="email" placeholder="輸入電子信箱" />
+        <input type="password" placeholder="輸入密碼" />
+        <button class="signup-btn">註冊新帳戶</button>
+        <p class="auth-change">已經有帳戶了？點此登入</p>
+      </div>
+    </div>
     <nav>
       <div class="nav-inner">
         <div class="logo"><strong>台北一日遊</strong></div>
 
         <ul>
-          <li><a href="#">預定行程</a></li>
-          <li><a href="#">登入/註冊</a></li>
+          <li><a href="http://13.208.55.153:3000/booking">預定行程</a></li>
+          <li class="auth-btn-login">登入/註冊</li>
+          <li class="auth-btn-logout none">登出</li>
         </ul>
       </div>
     </nav>
@@ -45,57 +69,17 @@
         </div>
       </div>
 
-      <img
-        src="{{ url_for( 'static', filename = 'Images/welcome 1.png') }}"
-        alt=""
-      />
+      <img src="../static/Images/welcome 1.png" alt="" />
     </header>
 
     <main>
-      <div class="items">
-        <!-- <img src="{{ url_for( 'static', filename = 'Images/loading.gif') }}" alt=""> -->
-        <!-- <div class="item">
-          <img src="./pics/pic1.avif" alt="" />
-          <div class="title">平安鐘</div>
-          <div class="info">
-            <div class="mrt">忠孝復興</div>
-            <div class="category">公共藝術</div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="./pics/pic2.avif" alt="" />
-          <div class="title">title2</div>
-        </div>
-        <div class="item">
-          <img src="./pics/pic3.avif" alt="" />
-          <div class="title">title3</div>
-        </div>
-        <div class="item">
-          <img src="./pics/pic4.avif" alt="" />
-          <div class="title">title4</div>
-        </div>
-        <div class="item">
-          <img src="./pics/pic5.avif" alt="" />
-          <div class="title">title5</div>
-        </div>
-        <div class="item">
-          <img src="./pics/pic6.avif" alt="" />
-          <div class="title">title6</div>
-        </div>
-        <div class="item">
-          <img src="./pics/pic7.avif" alt="" />
-          <div class="title">title7</div>
-        </div>
-        <div class="item">
-          <img src="./pics/pic8.avif" alt="" />
-          <div class="title">title8</div> -->
-        </div>
-      </div>
+      <div class="items"></div>
     </main>
     {% endblock %}
 
     <footer>COPYRIGHT © 2021 台北一日遊</footer>
   </body>
+  <script src="{{ url_for( 'static', filename = 'JS/common.js') }}"></script>
   {% block script %}
   <script src="{{ url_for( 'static', filename = 'JS/index.js') }}"></script>
   {% endblock %}

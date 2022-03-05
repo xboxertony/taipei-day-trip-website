@@ -1,13 +1,118 @@
 {% extends 'index.html' %}
 <!--  -->
 {% block title %}
+<link rel="stylesheet" href="../static/CSS/booking.css" />
 <title>booking</title>
 {% endblock %}
 <!--  -->
 {% block content %}
-<h1>booking</h1>
+<main>
+  <div class="welcome">
+    <h3>
+      您好<sapn class="user">{{session['user']}}</sapn>，待預訂的行程如下：
+    </h3>
+  </div>
+  <!--  -->
+
+  <div class="items">
+    <!-- attraction -->
+    <!-- <div class="attraction">
+      <div class="left-box">
+        <img
+          src="https://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000376.jpg"
+          alt=""
+        />
+      </div>
+      <div class="right-box">
+        <img class="delete" src="../static/Images/icon_delete.png" alt="" />
+        <h4 class="name">台北一日遊：平安鐘</h4>
+
+        <div class="date">日期：2021-04-23</div>
+
+        <div class="time">時間：早上9點到下午4點</div>
+
+        <div class="price">費用：新台幣2000元</div>
+
+        <div class="address">地點：台北市大安區我家</div>
+      </div>
+    </div> -->
+    <!-- attraction end -->
+  </div>
+
+  <!-- contact -->
+  <div class="contact">
+    <h3>您的聯絡資訊</h3>
+
+    <div class="name-info">
+      聯絡姓名：
+      <input type="text" />
+    </div>
+
+    <div class="email-info">
+      聯絡信箱：
+      <input type="email" />
+    </div>
+
+    <div class="phone-info">
+      手機號碼：
+      <input type="tel" />
+    </div>
+
+    <h4>
+      請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。
+    </h4>
+  </div>
+  <!-- contact end -->
+  <!-- payment -->
+  <div class="payment">
+    <h3>信用卡付款資訊</h3>
+
+    <div class="cardnumber-info">
+      卡片號碼：
+      <input
+        id="ccn"
+        type="password"
+        inputmode="numeric"
+        pattern="[0-9\s]{13,19}"
+        autocomplete="cc-number"
+        placeholder="xxxx xxxx xxxx xxxx"
+      />
+    </div>
+
+    <div class="exp-info">
+      過期時間：
+      <input
+        id="cc-exp"
+        name="cc-exp"
+        autocomplete="cc-exp"
+        placeholder="MM/YY"
+        maxlength="5"
+        required
+      />
+    </div>
+
+    <div class="cvv-info">
+      驗證密碼：
+      <input
+        name="credit-cvc"
+        class="cc-cvc"
+        type="tel"
+        pattern="\d*"
+        maxlength="3"
+        placeholder="CVV"
+      />
+    </div>
+  </div>
+  <!-- payment end -->
+  <div class="total-info">
+    <h4 class="total">總價：新台幣 2000 元</h4>
+    <button>確認訂購並付款</button>
+  </div>
+  <!--  -->
+  <div class="user-info"></div>
+</main>
 {% endblock %}
 <!--  -->
 {% block script %}
-<script src=""></script>
+<script src="../static/JS/booking.js"></script>
 {% endblock %}

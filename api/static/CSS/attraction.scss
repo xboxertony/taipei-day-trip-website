@@ -1,0 +1,121 @@
+@import "./common.scss";
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color: #666666;
+
+  .content {
+    width: 1200px;
+
+    .top {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+
+      .left-box {
+        position: relative;
+        flex: 1 1 50%;
+        margin: 1rem;
+        width: 100%;
+        height: 45vh;
+
+        .image {
+          width: 100%;
+          height: 100%;
+          object-fit: fill;
+          border-radius: 5px;
+        }
+
+        .btn-leftArrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: 10px;
+        }
+        .btn-rightArrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 10px;
+        }
+
+        .flow-box {
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+
+          .flow {
+            margin: 0.2rem;
+          }
+        }
+      }
+      .right-box {
+        flex: 1 1 50%;
+        margin: 1rem;
+        display: grid;
+        grid-template-rows: 1fr 5fr;
+
+        .name-info {
+          display: grid;
+          grid-template-rows: 1fr 1fr;
+          gap: 0.3rem;
+        }
+
+        .booking {
+          display: grid;
+          background: #e8e8e8;
+          border-radius: 5px;
+          padding: 1rem;
+          margin-bottom: 1.4rem;
+
+          font-size: 1.2rem;
+          .date,
+          .time,
+          .price {
+            display: inline-flex;
+            align-items: center;
+            & * {
+              margin-right: 0.5rem;
+            }
+          }
+
+          button {
+            width: 40%;
+            height: 3rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            background: #448899;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 1.5rem;
+          }
+        }
+      }
+    }
+
+    .bottom {
+      padding-bottom: 5rem;
+      .description,
+      .address-info,
+      .transport-info {
+        padding: 1rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .top {
+    display: flex;
+    flex-direction: column !important ;
+
+    .left-box {
+      margin: 0rem !important ;
+    }
+  }
+}
