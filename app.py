@@ -132,7 +132,7 @@ def page_keyword():
             else:
                 nextpage = page + 1
 
-            final={'nextpage' : nextpage,'data' :datalist}
+            final={'nextPage' : nextpage,'data' :datalist}
         
         else:
             print('關鍵字 :',keyword)
@@ -197,7 +197,7 @@ def page_keyword():
             else:
                 nextpage = page + 1
 
-            final={'nextpage' : nextpage,'data' :datalist}
+            final={'nextPage' : nextpage,'data' :datalist}
 
     except:
         print(traceback.format_exc())
