@@ -60,10 +60,45 @@ authChange.forEach((v) => {
 });
 
 //-----------------------login-----------------------------
+const loginMessage = document.querySelector(".login-message");
 const loginBtn = document.querySelector(".login-btn");
 loginBtn.addEventListener("click", (e) => {
-  let inputEmail = e.target.parentElement.children[2].value;
-  let inputPassword = e.target.parentElement.children[3].value;
+  let inputEmail = e.target.parentElement.children[3].value;
+  let inputPassword = e.target.parentElement.children[4].value;
+
+  if (inputEmail.length === 0) {
+    e.target.parentElement.children[3].style =
+      "background-color : rgba(255, 0, 0, 0.6)";
+    loginMessage.classList.remove("none");
+    loginMessage.textContent = "請輸入信箱";
+
+    if (inputPassword.length === 0) {
+      e.target.parentElement.children[4].style =
+        "background-color : rgba(255, 0, 0, 0.6)";
+      loginMessage.classList.remove("none");
+      loginMessage.textContent = "請輸入信箱,密碼";
+      return;
+    } else {
+      e.target.parentElement.children[4].style = "background-color : white";
+      loginMessage.classList.remove("none");
+    }
+
+    return;
+  } else {
+    e.target.parentElement.children[3].style = "background-color : white";
+    loginMessage.classList.remove("none");
+  }
+
+  if (inputPassword.length === 0) {
+    e.target.parentElement.children[4].style =
+      "background-color : rgba(255, 0, 0, 0.6)";
+    loginMessage.classList.remove("none");
+    loginMessage.textContent = "請輸入密碼";
+    return;
+  } else {
+    e.target.parentElement.children[4].style = "background-color : white";
+    loginMessage.classList.remove("none");
+  }
 
   async function login() {
     const response = await fetch("http://13.208.55.153:3000/api/user", {
@@ -114,11 +149,69 @@ authBtnLogout.addEventListener("click", (e) => {
 });
 
 //-----------------------------------signup----------------------------------
+const signupMessage = document.querySelector(".signup-message");
+
 const signupBtn = document.querySelector(".signup-btn");
 signupBtn.addEventListener("click", (e) => {
-  let inputName = e.target.parentElement.children[2].value;
-  let inputEmail = e.target.parentElement.children[3].value;
-  let inputPassword = e.target.parentElement.children[4].value;
+  let inputName = e.target.parentElement.children[3].value;
+  let inputEmail = e.target.parentElement.children[4].value;
+  let inputPassword = e.target.parentElement.children[5].value;
+
+  if (inputName.length === 0) {
+    e.target.parentElement.children[3].style =
+      "background-color : rgba(255, 0, 0, 0.6)";
+    signupMessage.classList.remove("none");
+    signupMessage.textContent = "請輸入姓名";
+
+    return;
+  } else {
+    e.target.parentElement.children[3].style = "background-color : white";
+    signupMessage.classList.remove("none");
+  }
+
+  if (inputName.length > 8) {
+    e.target.parentElement.children[3].style =
+      "background-color : rgba(255, 0, 0, 0.6)";
+    signupMessage.classList.remove("none");
+    signupMessage.textContent = "姓名過長，須少於9字符";
+    return;
+  } else {
+    e.target.parentElement.children[3].style = "background-color : white";
+    signupMessage.classList.remove("none");
+  }
+
+  if (inputEmail.length === 0) {
+    e.target.parentElement.children[4].style =
+      "background-color : rgba(255, 0, 0, 0.6)";
+    signupMessage.classList.remove("none");
+    signupMessage.textContent = "請輸入信箱";
+    return;
+  } else {
+    e.target.parentElement.children[4].style = "background-color : white";
+    signupMessage.classList.remove("none");
+  }
+
+  if (inputPassword.length === 0) {
+    e.target.parentElement.children[5].style =
+      "background-color : rgba(255, 0, 0, 0.6)";
+    signupMessage.classList.remove("none");
+    signupMessage.textContent = "請輸入密碼";
+    return;
+  } else {
+    e.target.parentElement.children[3].style = "background-color : white";
+    signupMessage.classList.remove("none");
+  }
+
+  if (inputPassword.length < 4 || inputPassword.length > 8) {
+    e.target.parentElement.children[5].style =
+      "background-color : rgba(255, 0, 0, 0.6)";
+    signupMessage.classList.remove("none");
+    signupMessage.textContent = "密碼字符須5-9字符";
+    return;
+  } else {
+    e.target.parentElement.children[3].style = "background-color : white";
+    signupMessage.classList.remove("none");
+  }
 
   async function signup(ele) {
     const response = await fetch("http://13.208.55.153:3000/api/user", {
