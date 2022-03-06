@@ -48,7 +48,10 @@ async function deleteAPI(id) {
   });
   const res = await response.json();
   if (res.ok) {
+    // booksArr = [];
+    // initialLoad();
     window.alert(`成功刪除，訂單編號${id}`);
+    window.location.reload();
   } else if (res.error) {
     window.alert(res.message);
   }

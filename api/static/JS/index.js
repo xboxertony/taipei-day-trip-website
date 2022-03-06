@@ -1,6 +1,5 @@
 // pord:http://13.208.55.153:3000
-// dev:http://13.208.55.153:3000
-// treeful:http://192.168.50.154:3000/
+// dev:http://13.208.55.153:3000/
 
 let data = {};
 const main = document.querySelector("main");

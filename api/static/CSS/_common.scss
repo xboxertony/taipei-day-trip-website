@@ -30,9 +30,9 @@ body {
   justify-content: start;
   align-items: center;
   flex-direction: column;
-  position: absolute;
+  position: fixed;
   // left: 50%;
-  top: 100px;
+  top: 20vh;
   // transform: translateX(-50%);
   z-index: 4000;
 
@@ -113,15 +113,18 @@ nav {
 
     display: flex;
     width: 1200px;
-    .logo {
-      margin-left: 0;
-      flex: 1 1 50%;
-      margin: 0.5rem;
-      color: #448899;
-      font-family: Noto Sans;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 1.5rem;
+    a {
+      text-decoration: none;
+      .logo {
+        margin-left: 0;
+        flex: 1 1 50%;
+        margin: 0.5rem;
+        color: #448899;
+        font-family: Noto Sans;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
     }
 
     ul {

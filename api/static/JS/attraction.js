@@ -19,7 +19,7 @@ if (document.readyState === "loading") {
 } else {
   initialLoad();
 }
-//-----------------------------------------------------------------
+//-----------------------loading content-------------------------------
 const title = document.querySelector("title");
 const image = document.querySelector(".image");
 const name = document.querySelector(".name");
@@ -53,7 +53,7 @@ function load(d) {
   checkCurrent(current);
 }
 
-//-------------------------------------------------------
+//---------------------------image flow-------------------------
 const rightFlow = document.querySelector(".btn-rightArrow");
 const leftFlow = document.querySelector(".btn-leftArrow");
 

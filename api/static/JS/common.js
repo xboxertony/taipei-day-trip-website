@@ -84,6 +84,7 @@ loginBtn.addEventListener("click", (e) => {
       authBtnLogout.classList.toggle("none");
       check();
       window.alert("登入成功");
+      window.location.reload();
     } else if (res.error) {
       window.alert(res.message);
     }
@@ -104,6 +105,7 @@ authBtnLogout.addEventListener("click", (e) => {
     if (res.ok) {
       check();
       window.alert("登出成功");
+      window.location.reload();
     } else if (res.error) {
       window.alert(res.message);
     }
@@ -118,7 +120,7 @@ signupBtn.addEventListener("click", (e) => {
   let inputEmail = e.target.parentElement.children[3].value;
   let inputPassword = e.target.parentElement.children[4].value;
 
-  async function signup() {
+  async function signup(ele) {
     const response = await fetch("http://13.208.55.153:3000/api/user", {
       method: "POST",
       headers: {
@@ -132,11 +134,13 @@ signupBtn.addEventListener("click", (e) => {
     });
     const res = await response.json();
     if (res.ok) {
+      ele.target.parentElement.classList.add("none");
+      ele.target.parentElement.previousElementSibling.classList.remove("none");
       window.alert("註冊成功，請登入");
     } else if (res.error) {
       window.alert(res.message);
     }
   }
 
-  signup();
+  signup(e);
 });
