@@ -324,6 +324,7 @@ header .search-area input {
   height: 2rem;
   border: none;
   border-radius: 5px 0px 0px 5px;
+  padding: 0.5rem;
 }
 
 header .search-area button {

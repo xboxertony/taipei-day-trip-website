@@ -1,6 +1,3 @@
-// pord:http://13.208.55.153:3000
-// dev:http://13.208.55.153:3000/
-
 let data = {};
 const main = document.querySelector("main");
 const items = document.querySelector(".items");
@@ -56,11 +53,7 @@ async function initialLoad() {
   load();
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initialLoad());
-} else {
-  initialLoad();
-}
+document.addEventListener("DOMContentLoaded", initialLoad);
 
 //-----------for keyword searching---------------------
 
@@ -86,6 +79,9 @@ keywordInput.addEventListener("click", (e) => {
 //------------for scroll to footer and load more----------------------------
 async function loadMore() {
   let url;
+  if (!nextPage) {
+    return;
+  }
 
   if (keyword) {
     url = `http://13.208.55.153:3000/api/attractions?page=${nextPage}&keyword=${keyword}`;
