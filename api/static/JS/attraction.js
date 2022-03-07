@@ -7,9 +7,7 @@ let id = url.split("/")[4];
 
 async function initialLoad() {
   console.log("ini-loading");
-  const response = await fetch(
-    `http://13.208.55.153:3000/api/attraction/${id}`
-  );
+  const response = await fetch(`/api/attraction/${id}`);
   const parsedData = await response.json();
   data = parsedData.data;
   load(data);
@@ -127,7 +125,7 @@ bookBtn.addEventListener("click", (e) => {
   }
 
   async function book() {
-    const response = await fetch("http://13.208.55.153:3000/api/booking", {
+    const response = await fetch("/api/booking", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

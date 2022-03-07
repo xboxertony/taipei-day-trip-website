@@ -9,7 +9,7 @@ const authContainer = document.querySelector(".auth-container");
 
 //--------------------------check status------------------------------
 async function check() {
-  const response = await fetch("http://13.208.55.153:3000/api/user", {
+  const response = await fetch("/api/user", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -101,7 +101,7 @@ loginBtn.addEventListener("click", (e) => {
   }
 
   async function login() {
-    const response = await fetch("http://13.208.55.153:3000/api/user", {
+    const response = await fetch("/api/user", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -130,7 +130,7 @@ loginBtn.addEventListener("click", (e) => {
 //----------------------------------logout-----------------------------------
 authBtnLogout.addEventListener("click", (e) => {
   async function logout() {
-    const response = await fetch("http://13.208.55.153:3000/api/user", {
+    const response = await fetch("/api/user", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -214,7 +214,7 @@ signupBtn.addEventListener("click", (e) => {
   }
 
   async function signup(ele) {
-    const response = await fetch("http://13.208.55.153:3000/api/user", {
+    const response = await fetch("/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

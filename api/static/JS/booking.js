@@ -7,7 +7,7 @@ let booksArr;
 
 async function initialLoad() {
   console.log("ini-loading");
-  const response = await fetch(`http://13.208.55.153:3000/api/booking`);
+  const response = await fetch(`/api/booking`);
   const parsedData = await response.json();
   let data = parsedData;
 
@@ -40,7 +40,7 @@ async function initialLoad() {
 }
 
 async function deleteAPI(id) {
-  const response = await fetch(`http://13.208.55.153:3000/api/booking/${id}`, {
+  const response = await fetch(`/api/booking/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

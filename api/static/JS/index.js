@@ -34,7 +34,7 @@ function load() {
       category.classList.add("category");
       category.textContent = data[i].category;
 
-      anchor.href = `http://13.208.55.153:3000/attraction/${data[i].id}`;
+      anchor.href = `/attraction/${data[i].id}`;
 
       items.appendChild(anchor);
     }
@@ -46,7 +46,7 @@ function load() {
 async function initialLoad() {
   console.log("ini-loading");
 
-  const response = await fetch("http://13.208.55.153:3000/api/attractions");
+  const response = await fetch("/api/attractions");
   const parsedData = await response.json();
   nextPage = parsedData.nextPage;
   data = parsedData.data;
@@ -60,9 +60,7 @@ document.addEventListener("DOMContentLoaded", initialLoad);
 const keywordInput = document.querySelector(".inputKeywordBtn");
 
 async function loadKeyword() {
-  const response = await fetch(
-    `http://13.208.55.153:3000/api/attractions?page=0&keyword=${keyword}`
-  );
+  const response = await fetch(`/api/attractions?page=0&keyword=${keyword}`);
   const parsedData = await response.json();
   nextPage = parsedData.nextPage;
   data = parsedData.data;
@@ -84,9 +82,9 @@ async function loadMore() {
   }
 
   if (keyword) {
-    url = `http://13.208.55.153:3000/api/attractions?page=${nextPage}&keyword=${keyword}`;
+    url = `/api/attractions?page=${nextPage}&keyword=${keyword}`;
   } else {
-    url = `http://13.208.55.153:3000/api/attractions?page=${nextPage}`;
+    url = `/api/attractions?page=${nextPage}`;
   }
   const response = await fetch(url);
   const parsedData = await response.json();
