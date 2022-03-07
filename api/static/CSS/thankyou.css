@@ -48,7 +48,7 @@
 }
 
 body {
-  font-family: Noto Sans normal, Arial, sans-serif;
+  font-family: Noto Sans TC, Arial, sans-serif;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -199,9 +199,7 @@ nav .nav-inner a .logo {
           flex: 1 1 50%;
   margin: 0.5rem;
   color: #448899;
-  font-family: Noto Sans;
   font-style: normal;
-  font-weight: bold;
   font-size: 1.5rem;
 }
 
