@@ -76,6 +76,9 @@ def place_order():
               }
             }
           }
+        else:
+          print(res)
+          return 'error'
       except Exception as e:
         print(e)
         return{
