@@ -77,10 +77,11 @@ def place_order():
             }
           }
         else:
-          print(res)
-          return 'error'
+          return {
+          "error": True,
+          "message": res['msg']
+        }
       except Exception as e:
-        print(e)
         return{
           "error": True,
           "message": "付款錯誤"

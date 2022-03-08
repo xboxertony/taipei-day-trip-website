@@ -16,7 +16,6 @@ async function initialLoad() {
   } else {
     booksArr = data.data;
   }
-  console.log();
   if (booksArr.length === 0) {
     main.textContent = `目前沒有待預定的行程`;
     return null;
@@ -172,10 +171,15 @@ function onClick() {
   // 讓 button click 之後觸發 getPrime 方法
   TPDirect.card.getPrime(function (result) {
     if (result.status !== 0) {
-      console.log("getPrime 錯誤");
+      window.alert("錯誤");
       return;
     }
     var inputPrime = result.card.prime;
+
+    if (!inputEmail || !inputName || !inputTelephone) {
+      window.alert("請輸入聯絡資訊");
+      return;
+    }
 
     orderData = {
       prime: inputPrime,
@@ -189,7 +193,6 @@ function onClick() {
         },
       },
     };
-    console.log(orderData);
     order();
 
     async function order() {
@@ -201,7 +204,6 @@ function onClick() {
         body: JSON.stringify(orderData),
       });
       const res = await response.json();
-      console.log(res);
       if (res.data) {
         window.alert(res.data.payment.message);
         window.location.reload();

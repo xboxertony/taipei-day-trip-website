@@ -4,7 +4,6 @@ const items = document.querySelector(".items");
 let url = window.location.href;
 let id = url.split("/")[4];
 let ordersArr = [];
-console.log(id);
 const title = document.querySelector(".title");
 const name = document.querySelector(".name");
 const email = document.querySelector(".email");

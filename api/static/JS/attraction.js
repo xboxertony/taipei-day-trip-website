@@ -109,7 +109,6 @@ bookBtn.addEventListener("click", (e) => {
   const inputTime = document.querySelector('input[name="time"]:checked');
   const inputDate = Date.value;
   let inputPrice;
-  console.log(inputTime);
 
   if (!inputDate) {
     window.alert("請選擇日期");
@@ -118,7 +117,6 @@ bookBtn.addEventListener("click", (e) => {
     window.alert("請選擇時間");
     return null;
   } else {
-    console.log("booking");
     inputPrice = inputTime.value === "morning" ? 2000 : 2500;
 
     book();
