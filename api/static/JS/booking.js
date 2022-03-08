@@ -1,6 +1,7 @@
 const main = document.querySelector("main");
 const items = document.querySelector(".items");
 const total = document.querySelector(".total");
+const historyLink = document.querySelector(".history-link");
 
 let totalPrice = 0;
 let booksArr;
@@ -12,6 +13,7 @@ async function initialLoad() {
   let data = parsedData;
 
   if (data.error) {
+    historyLink.classList.add("none");
     main.innerHTML = `<h1 style="text-align: center;" >${data.message}</h1>`;
   } else {
     booksArr = data.data;

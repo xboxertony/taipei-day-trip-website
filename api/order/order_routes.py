@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, session, request, redirect, url_fo
 from api import db
 import os
 import requests
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from api.models.bookings import Booking
 from api.models.orders import Order
 
@@ -53,7 +53,8 @@ def place_order():
         headers = {'content-type': 'application/json', "x-api-key": os.getenv('APP_PARTNER_KEY')}
         res = requests.post('https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime', headers=headers, json=order_data).json()
         status_code = res["status"]
-        now = datetime.now()
+        tz = timezone(timedelta(hours=+8))
+        now = datetime.now(tz)
         dt_string = now.strftime("%Y%m%d%H%M%S")
         input_order_number = dt_string
 
@@ -67,6 +68,8 @@ def place_order():
           new_order = Order(order_number=input_order_number, price=data["order"]["price"], name=data["order"]["contact"]["name"], email=data["order"]["contact"]["email"], phone=data["order"]["contact"]["phone"], order_by=current_user)
           db.session.add(new_order)
           db.session.commit()
+
+          
           return {
             "data": {
               "number":input_order_number,
