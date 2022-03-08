@@ -33,7 +33,6 @@ async function initialLoad() {
       let bookingID = parseInt(
         e.target.parentElement.lastChild.textContent.split("：")[1]
       );
-      console.log(bookingID);
       deleteAPI(bookingID);
     });
   });
@@ -59,7 +58,7 @@ async function deleteAPI(id) {
 
 //---------------------------init loading-----------------------------------
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initialLoad());
+  document.addEventListener("DOMContentLoaded", initialLoad);
 } else {
   initialLoad();
 }
@@ -119,4 +118,96 @@ function loadBookings(d) {
   bookingId.classList.add("booking-id");
   rightBox.appendChild(bookingId);
   bookingId.innerHTML = `<b>預定編號：</b>${d.bookingId}`;
+}
+
+//------------------------------------------------------------
+TPDirect.setupSDK(
+  123637,
+  "app_g5Nn5pwqQazAXlYDgc3lq0tqfNSbOZEvzc3yIWLXqFXrjkulwm4QJVmiysVj",
+  "sandbox"
+);
+var defaultCardViewStyle = {
+  color: "rgb(0,0,0)",
+  fontSize: "15px",
+  lineHeight: "24px",
+  fontWeight: "300",
+  errorColor: "red",
+  placeholderColor: "",
+};
+
+// isUsedCcv default true
+const cardViewContainer = document.querySelector("#cardview-container");
+const message = document.querySelector(".message");
+TPDirect.card.setup("#cardview-container", defaultCardViewStyle);
+var submitButton = document.querySelector("#submit-button");
+
+TPDirect.card.onUpdate(function (update) {
+  if (update.canGetPrime) {
+    submitButton.removeAttribute("disabled");
+  } else {
+    submitButton.setAttribute("disabled", true);
+  }
+
+  if (update.hasError) {
+    cardViewContainer.classList.add("error");
+  } else {
+    cardViewContainer.classList.remove("error");
+  }
+
+  if (update.status.number) {
+    message.classList.remove("none");
+    message.textContent = '"Please check your credit card number"';
+  } else {
+    message.classList.add("none");
+  }
+});
+
+//-------------------------------------------------------------------
+
+let orderData;
+function onClick() {
+  const inputName = document.querySelector(".input-name").value;
+  const inputEmail = document.querySelector(".input-email").value;
+  const inputTelephone = document.querySelector(".input-telephone").value;
+  // 讓 button click 之後觸發 getPrime 方法
+  TPDirect.card.getPrime(function (result) {
+    if (result.status !== 0) {
+      console.log("getPrime 錯誤");
+      return;
+    }
+    var inputPrime = result.card.prime;
+
+    orderData = {
+      prime: inputPrime,
+      order: {
+        price: totalPrice,
+        trip: booksArr,
+        contact: {
+          name: inputName,
+          email: inputEmail,
+          phone: inputTelephone,
+        },
+      },
+    };
+    console.log(orderData);
+    order();
+
+    async function order() {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+      const res = await response.json();
+      console.log(res);
+      if (res.data) {
+        window.alert(res.data.payment.message);
+        window.location.reload();
+      } else if (res.error) {
+        window.alert(res.message);
+      }
+    }
+  });
 }

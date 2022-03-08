@@ -59,7 +59,7 @@ def api_booking_get():
   if 'email' in session:
     try:
       input_email = session['email']
-      orders = Booking.query.filter_by(user_email=input_email).all()
+      orders = Booking.query.filter_by(user_email=input_email, order_number=None).all()
       
       result = {
         'data':[]

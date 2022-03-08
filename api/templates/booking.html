@@ -6,6 +6,8 @@
 {% endblock %}
 <!--  -->
 {% block content %}
+<a href="/orders"><h3 class="history">查看我的歷史訂單</h3></a>
+
 <main>
   <div class="welcome">
     <h3>
@@ -22,17 +24,17 @@
 
     <div class="name-info">
       聯絡姓名：
-      <input type="text" />
+      <input class="input-name" type="text" />
     </div>
 
     <div class="email-info">
       聯絡信箱：
-      <input type="email" />
+      <input class="input-email" type="email" />
     </div>
 
     <div class="phone-info">
       手機號碼：
-      <input type="tel" />
+      <input class="input-telephone" type="tel" />
     </div>
 
     <h4>
@@ -43,47 +45,15 @@
   <!-- payment -->
   <div class="payment">
     <h3>信用卡付款資訊</h3>
-
-    <div class="cardnumber-info">
-      卡片號碼：
-      <input
-        id="ccn"
-        type="password"
-        inputmode="numeric"
-        pattern="[0-9\s]{13,19}"
-        autocomplete="cc-number"
-        placeholder="xxxx xxxx xxxx xxxx"
-      />
-    </div>
-
-    <div class="exp-info">
-      過期時間：
-      <input
-        id="cc-exp"
-        name="cc-exp"
-        autocomplete="cc-exp"
-        placeholder="MM/YY"
-        maxlength="5"
-        required
-      />
-    </div>
-
-    <div class="cvv-info">
-      驗證密碼：
-      <input
-        name="credit-cvc"
-        class="cc-cvc"
-        type="tel"
-        pattern="\d*"
-        maxlength="3"
-        placeholder="CVV"
-      />
+    <div>
+      <div class="message none"></div>
+      <div id="cardview-container"></div>
     </div>
   </div>
   <!-- payment end -->
   <div class="total-info">
     <h4 class="total">總價：新台幣 2000 元</h4>
-    <button>確認訂購並付款</button>
+    <button id="submit-button" onclick="onClick()">確認訂購並付款</button>
   </div>
   <!--  -->
   <div class="user-info"></div>
@@ -91,5 +61,7 @@
 {% endblock %}
 <!--  -->
 {% block script %}
+<script src="https://js.tappaysdk.com/tpdirect/v5.8.0"></script>
 <script src="../static/JS/booking.js"></script>
+
 {% endblock %}

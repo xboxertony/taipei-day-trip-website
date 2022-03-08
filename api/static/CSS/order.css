@@ -268,138 +268,16 @@ footer {
   color: white;
 }
 
-a {
-  text-decoration: none;
-  color: #666666;
-}
-
-a .history {
-  margin: 1rem;
-}
-
 main {
-  width: MIN(1200px, 100%);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+}
+
+main a {
   color: #666666;
+  text-decoration: none;
+  margin: 1rem;
+  font-size: 1.5rem;
 }
-
-main .welcome {
-  width: 100%;
-  color: #666666;
-  margin: 1rem 0rem;
-}
-
-main .items {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-main .items .attraction {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  border-bottom: 1px solid #e8e8e8;
-}
-
-main .items .attraction .left-box {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 30%;
-          flex: 1 1 30%;
-}
-
-main .items .attraction .left-box img {
-  width: 100%;
-}
-
-main .items .attraction .right-box {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 70%;
-          flex: 1 1 70%;
-  position: relative;
-  display: -ms-grid;
-  display: grid;
-  gap: 0.5rem;
-  padding: 1rem;
-}
-
-main .items .attraction .right-box .delete {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-}
-
-main .items .attraction .right-box .name {
-  color: #448899;
-}
-
-main .contact,
-main .payment {
-  padding: 1rem 0rem;
-  border-bottom: 1px solid #e8e8e8;
-}
-
-main .contact *,
-main .payment * {
-  margin: 0.5rem;
-}
-
-main .total-info {
-  margin: 1.5rem 0rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-}
-
-main .total-info * {
-  margin: 0.5rem;
-}
-
-main .total-info button {
-  width: MIN(173px, 100%);
-  height: 36px;
-  background: #448899;
-  color: white;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-.error {
-  background-color: pink;
-}
-
-@media screen and (max-width: 600px) {
-  .attraction {
-    -webkit-box-orient: vertical !important;
-    -webkit-box-direction: normal !important;
-        -ms-flex-direction: column !important;
-            flex-direction: column !important;
-  }
-}
-/*# sourceMappingURL=booking.css.map */
+/*# sourceMappingURL=order.css.map */

@@ -7,4 +7,5 @@ class User(db.Model):
   email = db.Column(db.String(100), nullable=False, unique=True)
   password = db.Column(db.String(80), nullable=False)
   bookings = db.relationship('Booking', backref='user')
+  orders = db.relationship('Order', backref='user')
 

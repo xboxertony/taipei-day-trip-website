@@ -1,5 +1,13 @@
 @import "./common.scss";
 
+a {
+  text-decoration: none;
+  color: #666666;
+
+  .history {
+    margin: 1rem;
+  }
+}
 main {
   width: MIN(1200px, 100%);
   display: flex;
@@ -79,6 +87,10 @@ main {
       font-size: 1rem;
     }
   }
+}
+
+.error {
+  background-color: pink;
 }
 
 @media screen and (max-width: 600px) {

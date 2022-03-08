@@ -10,4 +10,5 @@ class Booking(db.Model):
   date = db.Column(db.Date, nullable=False)
   time = db.Column(db.String(30), nullable=False)
   price = db.Column(db.Integer, nullable=False)
+  order_number = db.Column(db.String(50))
   user_email = db.Column(db.String(100), db.ForeignKey('user.email'))

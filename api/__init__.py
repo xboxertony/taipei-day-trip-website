@@ -31,11 +31,13 @@ def create_app():
     from api.booking.booking_routes import booking
     from api.main.main_routes import main
     from api.thankyou.thankyou_routes import thankyou
+    from api.order.order_routes import order
     app.register_blueprint(auth, url_prefix='')
     app.register_blueprint(attractions, url_prefix='')
     app.register_blueprint(booking, url_prefix='')
     app.register_blueprint(main, url_prefix='')
     app.register_blueprint(thankyou, url_prefix='')
+    app.register_blueprint(order, url_prefix='')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     

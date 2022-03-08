@@ -13,7 +13,7 @@ async function initialLoad() {
   load(data);
 }
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initialLoad());
+  document.addEventListener("DOMContentLoaded", initialLoad);
 } else {
   initialLoad();
 }

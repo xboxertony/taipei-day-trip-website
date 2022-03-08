@@ -1,0 +1,50 @@
+@import "./common.scss";
+main {
+  width: MIN(1200px, 100%);
+  display: flex;
+  flex-direction: column;
+  color: #666666;
+
+  .title {
+    margin: 1.5rem;
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+
+    .attraction {
+      display: flex;
+      flex-direction: row;
+      border-bottom: 1px solid #e8e8e8;
+      .left-box {
+        flex: 1 1 30%;
+
+        img {
+          width: 100%;
+        }
+      }
+
+      .right-box {
+        flex: 1 1 70%;
+        position: relative;
+        display: grid;
+        gap: 0.5rem;
+        padding: 1rem;
+
+        .name {
+          color: #448899;
+        }
+      }
+    }
+  }
+  .contact {
+    margin: 1rem 0rem;
+    & * {
+      margin: 0.5rem;
+    }
+    b {
+      color: #448899;
+    }
+  }
+}

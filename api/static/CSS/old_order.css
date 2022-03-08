@@ -268,15 +268,6 @@ footer {
   color: white;
 }
 
-a {
-  text-decoration: none;
-  color: #666666;
-}
-
-a .history {
-  margin: 1rem;
-}
-
 main {
   width: MIN(1200px, 100%);
   display: -webkit-box;
@@ -289,10 +280,8 @@ main {
   color: #666666;
 }
 
-main .welcome {
-  width: 100%;
-  color: #666666;
-  margin: 1rem 0rem;
+main .title {
+  margin: 1.5rem;
 }
 
 main .items {
@@ -337,69 +326,19 @@ main .items .attraction .right-box {
   padding: 1rem;
 }
 
-main .items .attraction .right-box .delete {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-}
-
 main .items .attraction .right-box .name {
   color: #448899;
 }
 
-main .contact,
-main .payment {
-  padding: 1rem 0rem;
-  border-bottom: 1px solid #e8e8e8;
+main .contact {
+  margin: 1rem 0rem;
 }
 
-main .contact *,
-main .payment * {
+main .contact * {
   margin: 0.5rem;
 }
 
-main .total-info {
-  margin: 1.5rem 0rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
+main .contact b {
+  color: #448899;
 }
-
-main .total-info * {
-  margin: 0.5rem;
-}
-
-main .total-info button {
-  width: MIN(173px, 100%);
-  height: 36px;
-  background: #448899;
-  color: white;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-.error {
-  background-color: pink;
-}
-
-@media screen and (max-width: 600px) {
-  .attraction {
-    -webkit-box-orient: vertical !important;
-    -webkit-box-direction: normal !important;
-        -ms-flex-direction: column !important;
-            flex-direction: column !important;
-  }
-}
-/*# sourceMappingURL=booking.css.map */
+/*# sourceMappingURL=old_order.css.map */
