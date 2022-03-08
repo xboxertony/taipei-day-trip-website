@@ -172,16 +172,16 @@ function onClick() {
   const inputTelephone = document.querySelector(".input-telephone").value;
   // 讓 button click 之後觸發 getPrime 方法
   TPDirect.card.getPrime(function (result) {
-    if (result.status !== 0) {
-      window.alert("錯誤");
-      return;
-    }
-    var inputPrime = result.card.prime;
-
     if (!inputEmail || !inputName || !inputTelephone) {
       window.alert("請輸入聯絡資訊");
       return;
     }
+
+    if (result.status !== 0) {
+      window.alert("錯誤，請確認信用卡是否正確輸入");
+      return;
+    }
+    var inputPrime = result.card.prime;
 
     orderData = {
       prime: inputPrime,
