@@ -1,9 +1,9 @@
-
 import json, os , mysql.connector.pooling, traceback
 from dotenv import load_dotenv
 
 from flask import *
-app=Flask(__name__)
+
+app = Flask (__name__) 
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config['JSON_SORT_KEYS'] = False
@@ -33,9 +33,9 @@ def booking():
 @app.route("/thankyou")
 def thankyou():
 	return render_template("thankyou.html")
+
+
 ############
-
-
 @app.route("/api/attraction/<int:attractionId>")
 def get_id(attractionId):
     try:
@@ -211,5 +211,5 @@ def page_keyword():
     return jsonify(final)
 
 
-app.run(host='0.0.0.0',port=3000)
+app.run(port=3000)
 pool._remove_connections()

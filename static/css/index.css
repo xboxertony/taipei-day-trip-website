@@ -1,0 +1,213 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+body{
+    margin: 0;
+    background-color: pink;
+}
+.box1{
+    margin: 0 auto ;
+    width: 1200px;
+    background-color: white;
+    height: 54px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.webisite{
+    font-family: 'Noto Sans TC';
+    font-weight: 700;
+    font-style: normal;
+    font-size: 30px;
+    line-height: 34px;
+    color: #448899;
+}
+.frame2{
+    width: 175px;
+    height: 34px;
+}
+.frame1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+button{
+    font-family: 'Noto Sans TC';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #666666;
+    mix-blend-mode: normal;
+    margin: 10px;
+    cursor: pointer;
+
+    background-color: transparent; 
+    border: none;
+    padding: 0;
+}
+
+.box2-1{
+height: 320px;
+background: linear-gradient(135deg, #AADDEE 0%, #66AABB 100%);
+display:flex;
+justify-content:center;
+align-items: center;
+}
+
+
+.banner1{
+    width: 1038px;
+}
+.banner2{
+    width: 650px;
+    height: 320px;
+}
+
+.banner3{
+    width: 232px;
+}
+
+.box2-2{
+display:flex;
+justify-content:center;
+align-items: center;
+}
+
+.out_slogan{
+    height: 169px;
+    width: 1200px;
+    background-color: lightgrey;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+}
+
+.in_slogan{
+    height: 149px;
+    width: 1180px;
+    background-color: black
+}
+
+.slogan{
+    height: 78px;
+    width: 1180px;
+}
+.upper{
+    height: 41px;
+    width: 1180px;
+
+    font-family: 'Noto Sans TC';
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #F8F8F8;
+    text-shadow: 0px 0px 30px 0px rgba(170, 187, 204, 1);
+
+}
+.bottom{
+    height: 22px;
+    width: 1180px;
+    font-family: 'Noto Sans TC';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #F8F8F8;
+    margin-top: 15px;
+}
+.search{
+    height: 46px;
+    width: 1180px;
+    background-color: peru;
+    margin-top: 25px;
+    
+}
+.desktop{
+    height: 46px;
+    width: 460px;
+    background-color: yellow;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+}
+
+
+.mytext{
+    height: 16px;
+    width: 370px;
+    /* padding: 0px; */
+    border: 0px;
+    padding:15px;
+
+    border-top-left-radius: 6px 6px;
+    border-bottom-left-radius: 6px 6px;
+}
+/* placeholder */
+::-webkit-input-placeholder {
+    font-family: 'Noto Sans TC';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+::-moz-placeholder {
+    font-family: 'Noto Sans TC';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+::-ms-placeholder {
+    font-family: 'Noto Sans TC';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+::placeholder {
+    font-family: 'Noto Sans TC';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+/* placeholder */
+
+.btn{
+    background: rgba(68, 136, 153, 1);
+    height: 46px;
+    width: 60px;
+
+    display:flex;
+    justify-content:center;
+    align-items: center;
+
+    border-top-right-radius: 6px 6px;
+    border-bottom-right-radius: 6px 6px;
+}
+img{
+    cursor: pointer;
+}
+
+
+
+
+
+
+
