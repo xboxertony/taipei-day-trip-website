@@ -23,7 +23,7 @@ async function initialLoad() {
   }
 
   ordersArr.forEach((v) => loadOrders(v));
-  title.textContent = id;
+  title.textContent = `以下為歷史訂單${id}的資訊`;
   total.innerHTML = `<b>總價：</b>${data.data.price}`;
   name.innerHTML = `<b>姓名：</b>${data.data.contact.name}`;
   email.innerHTML = `<b>信箱：</b>${data.data.contact.email}`;

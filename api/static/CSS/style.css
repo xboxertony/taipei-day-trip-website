@@ -117,6 +117,12 @@ body {
   padding: 0.5rem;
 }
 
+.auth-container .login-inner .message,
+.auth-container .signup-inner .message {
+  color: red;
+  font-weight: bold;
+}
+
 .auth-container .login-inner h2,
 .auth-container .signup-inner h2 {
   color: #666666;
@@ -148,6 +154,11 @@ body {
   color: white;
   border: none;
   cursor: pointer;
+}
+
+.auth-container .login-inner button:disabled,
+.auth-container .signup-inner button:disabled {
+  background-color: rgba(102, 133, 141, 0.508);
 }
 
 .auth-container .login-inner p,

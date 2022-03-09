@@ -26,7 +26,7 @@ async function check() {
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", check());
+  document.addEventListener("DOMContentLoaded", check);
 } else {
   check();
 }
@@ -61,44 +61,44 @@ authChange.forEach((v) => {
 
 //-----------------------login-----------------------------
 const loginMessage = document.querySelector(".login-message");
+
+const inputLoginEmail = document.querySelector(".input-login-email");
+const inputLoginPassword = document.querySelector(".input-login-password");
+
 const loginBtn = document.querySelector(".login-btn");
+
+let loginPassed = {
+  email: false,
+  password: false,
+};
+
+loginBtn.disabled = Object.values(loginPassed).includes(false);
+
+inputLoginEmail.addEventListener("input", (e) => {
+  loginPassed.email = e.target.value.length > 0;
+  if (!loginPassed.email) {
+    loginMessage.classList.remove("none");
+    loginMessage.textContent = "請輸入信箱";
+  } else {
+    loginMessage.classList.add("none");
+  }
+  loginBtn.disabled = Object.values(loginPassed).includes(false);
+});
+
+inputLoginPassword.addEventListener("input", (e) => {
+  loginPassed.password = e.target.value.length > 0;
+  if (!loginPassed.password) {
+    loginMessage.classList.remove("none");
+    loginMessage.textContent = "請輸入密碼";
+  } else {
+    loginMessage.classList.add("none");
+  }
+  loginBtn.disabled = Object.values(loginPassed).includes(false);
+});
+
 loginBtn.addEventListener("click", (e) => {
   let inputEmail = e.target.parentElement.children[3].value;
   let inputPassword = e.target.parentElement.children[4].value;
-
-  if (inputEmail.length === 0) {
-    e.target.parentElement.children[3].style =
-      "background-color : rgba(255, 0, 0, 0.6)";
-    loginMessage.classList.remove("none");
-    loginMessage.textContent = "請輸入信箱";
-
-    if (inputPassword.length === 0) {
-      e.target.parentElement.children[4].style =
-        "background-color : rgba(255, 0, 0, 0.6)";
-      loginMessage.classList.remove("none");
-      loginMessage.textContent = "請輸入信箱,密碼";
-      return;
-    } else {
-      e.target.parentElement.children[4].style = "background-color : white";
-      loginMessage.classList.remove("none");
-    }
-
-    return;
-  } else {
-    e.target.parentElement.children[3].style = "background-color : white";
-    loginMessage.classList.remove("none");
-  }
-
-  if (inputPassword.length === 0) {
-    e.target.parentElement.children[4].style =
-      "background-color : rgba(255, 0, 0, 0.6)";
-    loginMessage.classList.remove("none");
-    loginMessage.textContent = "請輸入密碼";
-    return;
-  } else {
-    e.target.parentElement.children[4].style = "background-color : white";
-    loginMessage.classList.remove("none");
-  }
 
   async function login() {
     const response = await fetch("/api/user", {
@@ -151,67 +151,58 @@ authBtnLogout.addEventListener("click", (e) => {
 //-----------------------------------signup----------------------------------
 const signupMessage = document.querySelector(".signup-message");
 
+const inputSignupName = document.querySelector(".input-signup-name");
+const inputSignupEmail = document.querySelector(".input-signup-email");
+const inputSignupPassword = document.querySelector(".input-signup-password");
+
 const signupBtn = document.querySelector(".signup-btn");
+
+let signupPassed = {
+  name: false,
+  email: false,
+  password: false,
+};
+
+signupBtn.disabled = Object.values(signupPassed).includes(false);
+
+inputSignupName.addEventListener("input", (e) => {
+  signupPassed.name = e.target.value.length < 8 && e.target.value.length > 0;
+  if (!signupPassed.name) {
+    signupMessage.classList.remove("none");
+    signupMessage.textContent = "姓名長度須介於1到7字元";
+  } else {
+    signupMessage.classList.add("none");
+  }
+  signupBtn.disabled = Object.values(signupPassed).includes(false);
+});
+
+inputSignupEmail.addEventListener("input", (e) => {
+  signupPassed.email = e.target.value.includes("@");
+  if (!signupPassed.email) {
+    signupMessage.classList.remove("none");
+    signupMessage.textContent = "信箱格式錯誤";
+  } else {
+    signupMessage.classList.add("none");
+  }
+  signupBtn.disabled = Object.values(signupPassed).includes(false);
+});
+
+inputSignupPassword.addEventListener("input", (e) => {
+  signupPassed.password =
+    e.target.value.length < 10 && e.target.value.length > 5;
+  if (!signupPassed.password) {
+    signupMessage.classList.remove("none");
+    signupMessage.textContent = "密碼長度須介於5到10字元";
+  } else {
+    signupMessage.classList.add("none");
+  }
+  signupBtn.disabled = Object.values(signupPassed).includes(false);
+});
+
 signupBtn.addEventListener("click", (e) => {
-  let inputName = e.target.parentElement.children[3].value;
-  let inputEmail = e.target.parentElement.children[4].value;
-  let inputPassword = e.target.parentElement.children[5].value;
-
-  if (inputName.length === 0) {
-    e.target.parentElement.children[3].style =
-      "background-color : rgba(255, 0, 0, 0.6)";
-    signupMessage.classList.remove("none");
-    signupMessage.textContent = "請輸入姓名";
-
-    return;
-  } else {
-    e.target.parentElement.children[3].style = "background-color : white";
-    signupMessage.classList.remove("none");
-  }
-
-  if (inputName.length > 8) {
-    e.target.parentElement.children[3].style =
-      "background-color : rgba(255, 0, 0, 0.6)";
-    signupMessage.classList.remove("none");
-    signupMessage.textContent = "姓名過長，須少於9字符";
-    return;
-  } else {
-    e.target.parentElement.children[3].style = "background-color : white";
-    signupMessage.classList.remove("none");
-  }
-
-  if (inputEmail.length === 0) {
-    e.target.parentElement.children[4].style =
-      "background-color : rgba(255, 0, 0, 0.6)";
-    signupMessage.classList.remove("none");
-    signupMessage.textContent = "請輸入信箱";
-    return;
-  } else {
-    e.target.parentElement.children[4].style = "background-color : white";
-    signupMessage.classList.remove("none");
-  }
-
-  if (inputPassword.length === 0) {
-    e.target.parentElement.children[5].style =
-      "background-color : rgba(255, 0, 0, 0.6)";
-    signupMessage.classList.remove("none");
-    signupMessage.textContent = "請輸入密碼";
-    return;
-  } else {
-    e.target.parentElement.children[3].style = "background-color : white";
-    signupMessage.classList.remove("none");
-  }
-
-  if (inputPassword.length < 4 || inputPassword.length > 8) {
-    e.target.parentElement.children[5].style =
-      "background-color : rgba(255, 0, 0, 0.6)";
-    signupMessage.classList.remove("none");
-    signupMessage.textContent = "密碼字符須5-9字符";
-    return;
-  } else {
-    e.target.parentElement.children[3].style = "background-color : white";
-    signupMessage.classList.remove("none");
-  }
+  let inputName = e.target.parentElement.children[3];
+  let inputEmail = e.target.parentElement.children[4];
+  let inputPassword = e.target.parentElement.children[5];
 
   async function signup(ele) {
     const response = await fetch("/api/user", {
@@ -220,9 +211,9 @@ signupBtn.addEventListener("click", (e) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: inputName,
-        email: inputEmail,
-        password: inputPassword,
+        name: inputName.value,
+        email: inputEmail.value,
+        password: inputPassword.value,
       }),
     });
     const res = await response.json();
