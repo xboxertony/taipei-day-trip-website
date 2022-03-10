@@ -2,6 +2,7 @@ from flask import *
 from mysql.connector import pooling
 from os import environ, path
 from dotenv import load_dotenv
+from time import sleep
 
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, ".env"))
@@ -127,6 +128,7 @@ def thankyou():
 # Apis
 @app.route("/api/attractions")
 def attractions():
+    sleep(3)
     try:
         page_num = try_parse_int(request.args.get("page"))
         key_word = request.args.get("keyword")
@@ -172,4 +174,4 @@ def attractions_id(attractionId):
         return jsonify(error), 500
 
 
-app.run(port=3000)
+app.run(port=3000, debug=True)
