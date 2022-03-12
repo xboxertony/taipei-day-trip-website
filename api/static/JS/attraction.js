@@ -19,7 +19,7 @@ if (document.readyState === "loading") {
 }
 //-----------------------loading content-------------------------------
 const title = document.querySelector("title");
-const image = document.querySelector(".image");
+// const image = document.querySelector(".image");
 const name = document.querySelector(".name");
 const info = document.querySelector(".info");
 //-------------------------------------------
@@ -28,9 +28,13 @@ const address = document.querySelector(".address");
 const transport = document.querySelector(".transport");
 const flowBox = document.querySelector(".flow-box");
 
+const leftBox = document.querySelector(".left-box");
+const rightFlow = document.querySelector(".btn-rightArrow");
+const leftFlow = document.querySelector(".btn-leftArrow");
+const loadingGIF = document.querySelector(".loading-gif");
+
 function load(d) {
   title.textContent = d.name;
-  image.src = `${d.image[0]}`;
   name.textContent = d.name;
   info.textContent = `${d.category} at ${d.mrt}`;
   description.textContent = d.description;
@@ -47,25 +51,47 @@ function load(d) {
     flow.src = "../static/Images/circle Ncurrent.png";
     flowBox.appendChild(flow);
   }
+  let num = 0;
+  images.map((v, i, arr) => {
+    const img = document.createElement("img");
+    img.addEventListener("load", (event) => {
+      leftBox.appendChild(img);
+      num = num + 1;
 
-  checkCurrent(current);
+      if (num === arr.length) {
+        loadingGIF.classList.add("none");
+
+        const imgBoxes = document.querySelectorAll(".image");
+        checkImage(imgBoxes, current);
+        checkCurrent(current);
+
+        leftFlow.addEventListener("click", () => {
+          current = current - 1;
+          checkImage(imgBoxes, current);
+          checkCurrent(current);
+        });
+
+        rightFlow.addEventListener("click", (e) => {
+          current = current + 1;
+          checkImage(imgBoxes, current);
+
+          checkCurrent(current);
+        });
+      } else {
+        loadingGIF.classList.remove("none");
+      }
+    });
+
+    img.src = v;
+    img.classList.add("image");
+    img.classList.add("fade");
+    img.classList.add("none");
+  });
+
+  // console.log(imgBoxes);
 }
 
 //---------------------------image flow-------------------------
-const rightFlow = document.querySelector(".btn-rightArrow");
-const leftFlow = document.querySelector(".btn-leftArrow");
-
-leftFlow.addEventListener("click", (e) => {
-  current = current - 1;
-  image.src = `${images[current]}`;
-  checkCurrent(current);
-});
-
-rightFlow.addEventListener("click", (e) => {
-  current = current + 1;
-  image.src = `${images[current]}`;
-  checkCurrent(current);
-});
 
 function checkCurrent(c) {
   if (c === 0) {
@@ -87,6 +113,16 @@ function checkCurrent(c) {
       flowBox.children[i].src = "../static/Images/circle Ncurrent.png";
     }
   }
+}
+
+function checkImage(arr, c) {
+  arr.forEach((v, i) => {
+    if (i === c) {
+      v.classList.remove("none");
+    } else {
+      v.classList.add("none");
+    }
+  });
 }
 
 //-------------------for price change------------------------

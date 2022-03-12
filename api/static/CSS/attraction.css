@@ -40,6 +40,31 @@
   animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.4s;
+  animation-name: fade;
+  animation-duration: 1.4s;
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 2;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 2;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -326,12 +351,24 @@ main .content .top .left-box .image {
   border-radius: 5px;
 }
 
+main .content .top .left-box .loading-gif {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 30%;
+  -o-object-fit: center;
+     object-fit: center;
+}
+
 main .content .top .left-box .btn-leftArrow {
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
   left: 10px;
+  z-index: 1000;
 }
 
 main .content .top .left-box .btn-rightArrow {
@@ -340,6 +377,7 @@ main .content .top .left-box .btn-rightArrow {
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
   right: 10px;
+  z-index: 1000;
 }
 
 main .content .top .left-box .flow-box {
@@ -348,10 +386,12 @@ main .content .top .left-box .flow-box {
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
+  z-index: 1000;
 }
 
 main .content .top .left-box .flow-box .flow {
   margin: 0.2rem;
+  z-index: 1000;
 }
 
 main .content .top .right-box {

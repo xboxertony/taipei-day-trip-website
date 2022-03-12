@@ -29,17 +29,28 @@ main {
           border-radius: 5px;
         }
 
+        .loading-gif {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 30%;
+          object-fit: center;
+        }
+
         .btn-leftArrow {
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
           left: 10px;
+          z-index: 1000;
         }
         .btn-rightArrow {
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
           right: 10px;
+          z-index: 1000;
         }
 
         .flow-box {
@@ -47,9 +58,11 @@ main {
           bottom: 0;
           left: 50%;
           transform: translateX(-50%);
+          z-index: 1000;
 
           .flow {
             margin: 0.2rem;
+            z-index: 1000;
           }
         }
       }
