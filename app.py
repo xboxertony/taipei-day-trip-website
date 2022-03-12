@@ -1,7 +1,7 @@
 import json, os , mysql.connector.pooling, traceback
 from dotenv import load_dotenv
-
 from flask import *
+
 
 app = Flask (__name__) 
 app.config["JSON_AS_ASCII"]=False
@@ -87,8 +87,11 @@ def page_keyword():
         CN1 = pool.get_connection() #get a connection with pool.
         cursor = CN1.cursor()
 
-        page = int(request.args.get('page',0))
+
+        page = int(request.args.get('page',0))        
         keyword = request.args.get('keyword',None)
+        
+        print(f'目前頁碼: {page}, 關鍵字: {keyword}')
 
         if keyword is None:
             if page > 0:
@@ -135,8 +138,6 @@ def page_keyword():
             final={'nextPage' : nextpage,'data' :datalist}
         
         else:
-            print('關鍵字 :',keyword)
-
             if '%' in keyword or '_' in keyword:
                 s = []
                 print(s[0],'關鍵字有特殊符號產生錯誤')
