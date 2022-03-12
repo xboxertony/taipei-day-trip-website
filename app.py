@@ -2,7 +2,6 @@ from flask import *
 from mysql.connector import pooling
 from os import environ, path
 from dotenv import load_dotenv
-from time import sleep
 
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, ".env"))
@@ -128,7 +127,6 @@ def thankyou():
 # Apis
 @app.route("/api/attractions")
 def attractions():
-    sleep(3)
     try:
         page_num = try_parse_int(request.args.get("page"))
         key_word = request.args.get("keyword")
@@ -143,7 +141,7 @@ def attractions():
             total_count = parse_datas(infos)[1]
             if total_count > offset + datas_per_page:
                 nextPage = page_num + 1
-        if key_word:
+        if key_word or key_word == "":
             keyword_for_serch = "%" + key_word + "%"
             infos = get_attractions_by_keyword(keyword_for_serch, datas_per_page, offset)
             data = parse_datas(infos)[0]

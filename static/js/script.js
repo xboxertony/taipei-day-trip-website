@@ -1,53 +1,84 @@
-const showMenu = () => {
-  let menuUl = document.getElementById("navbar");
-  menuUl.classList.toggle("ulMenu");
-};
-
 let url = "http://127.0.0.1:3000/api/attractions";
 
-const addCards = () => {
-  attractionsInfo.forEach(addCard);
+const searchKeyword = () => {
+  let keywordValue = document.getElementById("keywordInput").value;
+  let url = `http://127.0.0.1:3000/api/attractions?keyword=${keywordValue}`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      attractionsInfo = data.data;
+      nextPage = data.nextPage;
+    })
+    .then(() => {
+      addCards(true);
+    })
+    .then(getNextPage)
+    .catch(console.log);
 };
 
-trafficLight = true;
-const toggleTrafficLight = () => {
-  trafficLight = !trafficLight;
-  console.log(`current is traffic light ${trafficLight ? "green" : "red"}`);
+lastSendRequestTimeInMs = 0;
+resendIntervalInMs = 1500;
+const canSendRequst = () => {
+  return Date.now() > lastSendRequestTimeInMs + resendIntervalInMs;
 };
 
 const getNextPage = () => {
-  const attractionsSection = document.querySelector(".spots");
   const footer = document.querySelector("footer");
   const options = {
-    threshold: 0.1,
+    threshold: [0.2, 0.4, 0.6, 0.8, 1],
   };
-
   const loadMoreAttractions = () => {
     if (nextPage != null) {
       let url = `http://127.0.0.1:3000/api/attractions?page=${nextPage}`;
-      if (trafficLight) {
-        toggleTrafficLight();
+      let keywordValue = document.getElementById("keywordInput").value;
+      if (keywordValue) {
+        url = `http://127.0.0.1:3000/api/attractions?page=${nextPage}&keyword=${keywordValue}`;
+      }
+
+      if (canSendRequst()) {
+        lastSendRequestTimeInMs = Date.now();
         fetch(url)
           .then((res) => res.json())
-          .then((datas) => datas)
-          .then((datas) => {
-            attractionsInfo = datas.data;
-            nextPage = datas.nextPage;
+          .then((data) => {
+            attractionsInfo = data.data;
+            nextPage = data.nextPage;
           })
-          .then(addCards)
-          .then(toggleTrafficLight)
-          .catch(console.log);
+          .then(() => {
+            addCards(false);
+          });
       }
     }
   };
   const callback = ([entry]) => {
-    if (entry && entry.isIntersecting) {
+    if (entry || entry.isIntersecting) {
       loadMoreAttractions();
     }
   };
   let observer = new IntersectionObserver(callback, options);
 
   observer.observe(footer);
+};
+const removeCards = () => {
+  let el = document.getElementById("photoBox");
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+};
+const addCards = (isReplace) => {
+  if (isReplace) {
+    removeCards();
+  }
+  if (attractionsInfo.length == 0 || attractionsInfo == "") {
+    let noDataPara = document
+      .getElementById("photoBox")
+      .appendChild(document.createElement("p"));
+    noDataPara.textContent = "沒有資料唷";
+  }
+  if (Array.isArray(attractionsInfo)) {
+    attractionsInfo.forEach(addCard);
+  } else {
+    addCard(attractionsInfo);
+  }
 };
 
 const addCard = (attraction) => {
@@ -84,8 +115,8 @@ fetch(url)
   .then((datas) => {
     attractionsInfo = datas.data;
     nextPage = datas.nextPage;
-    totalCounts = datas.data.length;
   })
-  .then(addCards)
-  .then(getNextPage)
-  .catch(console.log);
+  .then(() => {
+    addCards(false);
+  })
+  .then(getNextPage);
