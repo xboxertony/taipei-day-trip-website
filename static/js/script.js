@@ -1,8 +1,8 @@
-let url = "http://127.0.0.1:3000/api/attractions";
+let url = "http://18.176.168.200:3000/api/attractions";
 
 const searchKeyword = () => {
   let keywordValue = document.getElementById("keywordInput").value;
-  let url = `http://127.0.0.1:3000/api/attractions?keyword=${keywordValue}`;
+  let url = `http://18.176.168.200:3000/api/attractions?keyword=${keywordValue}`;
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
@@ -29,10 +29,10 @@ const getNextPage = () => {
   };
   const loadMoreAttractions = () => {
     if (nextPage != null) {
-      let url = `http://127.0.0.1:3000/api/attractions?page=${nextPage}`;
+      let url = `http://18.176.168.200:3000/api/attractions?page=${nextPage}`;
       let keywordValue = document.getElementById("keywordInput").value;
       if (keywordValue) {
-        url = `http://127.0.0.1:3000/api/attractions?page=${nextPage}&keyword=${keywordValue}`;
+        url = `http://18.176.168.200:3000/api/attractions?page=${nextPage}&keyword=${keywordValue}`;
       }
 
       if (canSendRequst()) {
