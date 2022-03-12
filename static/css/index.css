@@ -254,6 +254,30 @@ button{
     text-align: right;
 }
 
+
+.box4{
+    height: 104px;
+    display: flex;
+    justify-content:center;
+    align-items: center;  
+    background-color: rgba(117, 117, 117, 1);
+
+    position: relative;
+    top: 54px;
+}
+.box4 span{
+    height: 14px;
+    width: 234px;
+    font-family: 'Noto Sans TC';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+
 @media (max-width:1480px) {
     .ba2{left: 300px;}
 }
@@ -316,7 +340,10 @@ button{
     .word{
         justify-content: space-between;
         width: 302px;
-    }   
+    }
+    .box4{
+        display: none;
+    }
 
 }
 
