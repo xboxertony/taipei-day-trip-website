@@ -207,7 +207,7 @@ nav {
   width: 100%;
   height: 54px;
   top: 0;
-  z-index: 1000;
+  z-index: 2000;
   border: 1px solid #e8e8e8;
 }
 
@@ -352,14 +352,14 @@ main .content .top .left-box .image {
 }
 
 main .content .top .left-box .loading-gif {
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   width: 30%;
-  -o-object-fit: center;
-     object-fit: center;
+  -o-object-fit: fill;
+     object-fit: fill;
 }
 
 main .content .top .left-box .btn-leftArrow {
@@ -474,6 +474,11 @@ main .content .bottom .transport-info {
   }
   .top .left-box {
     margin: 0rem !important;
+  }
+  .top .left-box .loading-gif {
+    position: relative;
+    top: 30% !important;
+    width: 50% !important;
   }
 }
 /*# sourceMappingURL=attraction.css.map */

@@ -16,6 +16,7 @@ main {
       width: 100%;
 
       .left-box {
+        // border: 1px solid black;
         position: relative;
         flex: 1 1 50%;
         margin: 1rem;
@@ -30,12 +31,13 @@ main {
         }
 
         .loading-gif {
-          position: absolute;
+          position: relative;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
           width: 30%;
-          object-fit: center;
+
+          object-fit: fill;
         }
 
         .btn-leftArrow {
@@ -129,6 +131,12 @@ main {
 
     .left-box {
       margin: 0rem !important ;
+
+      .loading-gif {
+        position: relative;
+        top: 30% !important ;
+        width: 50% !important ;
+      }
     }
   }
 }
