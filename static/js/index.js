@@ -45,24 +45,39 @@ function emptyReply(){
 
 }
 
-function ajax(url){
 
-    fetch(url).then(function(response) {return response.json()}).then(function(attra_dic){
-        let d_list = attra_dic['data']
-        nextPage = attra_dic['nextPage']
+function sendUrl(url){
+    return fetch(url)
+    .then(function(response) {
+    if (response.status === 200){
+        return response.json();}
+    return Promise.reject(response)
+    })
+    .catch((error) => {
+        console.log('Something went wrong.', error); 
+        })
+    .then(function(result){
+        attra_dic = result
+    })
+}
+async function ajax(url){
+    await sendUrl(url);
+    console.log('It has gotten',attra_dic)
+    let d_list = attra_dic['data']
+    nextPage = attra_dic['nextPage']
 
-        if (Object.keys(d_list).length > 0) {
-            for (let row of d_list ){
-                let spoturl = row['images'][0], spotname = row['name'], spotmrt = row['mrt'], spotcate = row['category'];
-                siteDiv(spoturl, spotname, spotmrt, spotcate)
-            }
+    if (Object.keys(d_list).length > 0) {
+        for (let row of d_list ){
+            let spoturl = row['images'][0], spotname = row['name'], spotmrt = row['mrt'], spotcate = row['category'];
+            siteDiv(spoturl, spotname, spotmrt, spotcate)
         }
-        else{
-            console.log('空值')
-            emptyReply()
-        };
-        console.log('AJAX DONE, nextPage:',nextPage)
-    })};
+    }
+    else{
+        console.log('空值')
+        emptyReply()
+    };
+    console.log('AJAX DONE')
+};
 
 
 console.log('start loading')
@@ -107,7 +122,7 @@ document.getElementById("magnify").addEventListener("click", function(){
 });
 
 
-var nextPage, nexturl
+var nextPage, nexturl, attra_dic
 var record = [];
 
 var ba3_id = document.getElementById('ba3_id');

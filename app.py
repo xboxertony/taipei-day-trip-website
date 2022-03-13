@@ -212,5 +212,5 @@ def page_keyword():
     return jsonify(final)
 
 
-app.run(host='0.0.0.0',port=3000)
+app.run(port=3000)
 pool._remove_connections()
