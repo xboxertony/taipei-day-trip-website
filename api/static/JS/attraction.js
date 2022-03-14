@@ -131,11 +131,11 @@ const afternoon = document.querySelector(".afternoon");
 const priceTag = document.querySelector(".price-tag");
 
 forenoon.addEventListener("input", (e) => {
-  priceTag.textContent = "新台幣2000元";
+  priceTag.textContent = "新台幣 2000 元";
 });
 
 afternoon.addEventListener("input", (e) => {
-  priceTag.textContent = "新台幣2500元";
+  priceTag.textContent = "新台幣 2500 元";
 });
 
 const bookBtn = document.querySelector(".book-btn");
