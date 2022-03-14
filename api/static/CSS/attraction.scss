@@ -93,9 +93,11 @@ main {
           .price {
             display: inline-flex;
             align-items: center;
+
             & * {
               margin-right: 0.5rem;
               accent-color: #448899;
+              line-height: 25px;
             }
           }
 
