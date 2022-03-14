@@ -97,7 +97,6 @@ main {
             & * {
               margin-right: 0.5rem;
               accent-color: #448899;
-              line-height: 25px;
             }
           }
 
@@ -121,6 +120,7 @@ main {
       .description,
       .address-info,
       .transport-info {
+        line-height: 29px;
         padding: 1rem;
       }
     }
