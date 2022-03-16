@@ -1,8 +1,8 @@
-let url = "http://18.176.168.200:3000/api/attractions";
+let url = `http://${window.location.host}/api/attractions`;
 
 const searchKeyword = () => {
   let keywordValue = document.getElementById("keywordInput").value;
-  let url = `http://18.176.168.200:3000/api/attractions?keyword=${keywordValue}`;
+  let url = `http://${window.location.host}/api/attractions?keyword=${keywordValue}`;
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
@@ -29,10 +29,10 @@ const getNextPage = () => {
   };
   const loadMoreAttractions = () => {
     if (nextPage != null) {
-      let url = `http://18.176.168.200:3000/api/attractions?page=${nextPage}`;
+      let url = `http://${window.location.host}/api/attractions?page=${nextPage}`;
       let keywordValue = document.getElementById("keywordInput").value;
       if (keywordValue) {
-        url = `http://18.176.168.200:3000/api/attractions?page=${nextPage}&keyword=${keywordValue}`;
+        url = `http://${window.location.host}/api/attractions?page=${nextPage}&keyword=${keywordValue}`;
       }
 
       if (canSendRequst()) {
@@ -82,7 +82,7 @@ const addCards = (isReplace) => {
 };
 
 const addCard = (attraction) => {
-  let { imgUrl, caption, mrt, category } = parseAttractionsInfo(attraction);
+  let { imgUrl, caption, mrt, category, id } = parseAttractionsInfo(attraction);
   let newDiv = document
     .getElementById("photoBox")
     .appendChild(document.createElement("div"));
@@ -98,6 +98,12 @@ const addCard = (attraction) => {
   titlePara.setAttribute("class", "titleName");
   mrtPara.setAttribute("class", "mrt");
   categoryPara.setAttribute("class", "category");
+  newDiv.addEventListener("click", (e) => linkAttractionId(e, id));
+};
+
+const linkAttractionId = (e, id) => {
+  let attractionIdUrl = `http://${window.location.host}/attraction/${id}`;
+  window.open(attractionIdUrl);
 };
 
 const parseAttractionsInfo = (attraction) => {
@@ -105,16 +111,16 @@ const parseAttractionsInfo = (attraction) => {
   let caption = attraction.name;
   let mrt = attraction.mrt;
   let category = attraction.category;
+  let id = attraction.id;
 
-  return { imgUrl, caption, mrt, category };
+  return { imgUrl, caption, mrt, category, id };
 };
 
 fetch(url)
   .then((res) => res.json())
-  .then((datas) => datas)
-  .then((datas) => {
-    attractionsInfo = datas.data;
-    nextPage = datas.nextPage;
+  .then((data) => {
+    attractionsInfo = data.data;
+    nextPage = data.nextPage;
   })
   .then(() => {
     addCards(false);

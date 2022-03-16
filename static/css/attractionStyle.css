@@ -85,6 +85,9 @@ main {
   border: none;
   box-sizing: border-box;
 }
+.pageDot:checked {
+  box-shadow: 0 0 0 3px orange;
+}
 
 #imgLeftBtn {
   size: 36px;
@@ -149,6 +152,12 @@ main {
   font-size: 16px;
   height: 22px;
   margin: 0 20px 15px 20px;
+}
+#attractionCategory {
+  display: inline;
+}
+#attractionMrt {
+  display: inline;
 }
 form {
   margin: 0px 20px 41px 20px;

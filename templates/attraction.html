@@ -36,8 +36,11 @@
         </div>
       </section>
       <section id="reservation">
-        <p id="attractionTitle">陽明山</p>
-        <p id="attractionCategory">景點 at <span id="attractionMrt">中山</span></p>
+        <p id="attractionTitle"></p>
+        <div>
+          <p id="attractionCategory"></p>
+                  <p id="attractionMrt"></p>
+        </div>
         <div id="reservationTable">
           <p id="reservationTableTitle">訂購導覽行程</p>
           <p id="reservationTableSlogan">以此景點為中心的一日行程，帶您探索城市角落故事</p>
@@ -48,14 +51,14 @@
               <fieldset>
                 <label for="time" id="labelTimeText"><b>選擇時間：</b></label>
                 <label for="morningHelf" class="labelHelfDay">
-                  <input type="radio" class="inputRadio" name="time" value="morningHelf" />
+                  <input type="radio" id="morningHelfBtn" class="inputRadio" onclick="changeTourFee()" name="time" value="morningHelf" />
                   上半天</label>
                   <label for="afternoonHelf" class="labelHelfDay">
-                    <input type="radio" class="inputRadio" name="time" value="afternoonHelf" />
+                    <input type="radio" id="afternoonHelfBtn" class="inputRadio" onclick="changeTourFee()" name="time" value="afternoonHelf" />
                     下半天</label><br />
               </fieldset>
               <label for="charge" id="labelFeeText"><b>導覽費用：</b>
-                <span id="tourFee">新台幣 2000 元</sapn>
+                <span id="tourFee">請選擇時段</sapn>
               </label><br>
             <input id="reservationBtn" type="submit" value="開始預訂行程" />
           </form>
@@ -77,6 +80,6 @@
     <footer>
       <p>COPYRIGHT© 2021 台北一日遊</p>
     </footer>
-    <script src="../static/js/attractionScript.js"></script>
+    <script src="../static/js/attractonScript.js"></script>
   </body>
 </html>
