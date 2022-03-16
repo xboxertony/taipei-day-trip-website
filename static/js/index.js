@@ -46,25 +46,21 @@ function emptyReply(){
 }
 
 
-function sendUrl(url){
-    return fetch(url)
-    .then(function(response) {
-    if (response.status === 200){
-        return response.json();}
-    return Promise.reject(response)
-    })
-    .catch((error) => {
-        console.log('Something went wrong.', error); 
-        })
-    .then(function(result){
-        attra_dic = result
-    })
-}
+async function getValue(url){
+    let res =  await fetch(url) // fetch(url) is a promise, so we should wait until fullfilled. res is a response object.
+    if (res.status === 200){
+        let data = await res.json() // res.json() is a promise so we should wait until fullfilled. data is the value we want.
+        return data          
+    }
+} 
+
 async function ajax(url){
-    await sendUrl(url);
-    console.log('It has gotten',attra_dic)
-    let d_list = attra_dic['data']
-    nextPage = attra_dic['nextPage']
+    console.log('fetch',url)
+    let ajaxBack = await getValue(url)
+    console.log(ajaxBack,'ajaxBack')
+
+    let d_list = ajaxBack['data']
+    nextPage = ajaxBack['nextPage']
 
     if (Object.keys(d_list).length > 0) {
         for (let row of d_list ){
@@ -76,7 +72,7 @@ async function ajax(url){
         console.log('空值')
         emptyReply()
     };
-    console.log('AJAX DONE')
+    console.log('ajaxDone')
 };
 
 
@@ -102,8 +98,7 @@ window.addEventListener('scroll',()=>{
             }
             else{
                 ajax(nexturl)
-                record.push(nextPage)
-                console.log('fetch',nexturl)
+                record.push(nextPage)                
             }
         
         }
@@ -118,11 +113,10 @@ document.getElementById("magnify").addEventListener("click", function(){
     record = []; /*清空之前搜尋紀錄*/
     ba3_id.innerHTML = '' /*清空之前載入景點*/
     ajax(nexturl) 
-    console.log('fetch',nexturl)
 });
 
 
-var nextPage, nexturl, attra_dic
+var nextPage, nexturl
 var record = [];
 
 var ba3_id = document.getElementById('ba3_id');
