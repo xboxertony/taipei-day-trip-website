@@ -3,41 +3,86 @@
   <head>
     <title>台北一日遊</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../static/css/style.css" />
+    <link rel="stylesheet" href="../static/css/attractionStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
   </head>
   <body>
     <header>
       <p class="home">台北一日遊</p>
-      <nav>
-        <img
-          onclick="showMenu()"
-          alt=""
-          src="image/menu_icon.png"
-          width="25"
-          height="25"
-        />
-        <ul id="navbar">
-          <li>
-            <a href="">預定行程</a>
-          </li>
-          <li>
-            <a href="">登入註冊</a>
-          </li>
-        </ul>
+      <nav class="nav">
+        <a href="">預定行程</a>
+        <a href="">登入/註冊</a>
       </nav>
     </header>
     <main>
-      <p>輕鬆享受台北一日遊</p>
-      <p>探索每個角落，體驗城市的深度旅遊行程</p>
-      <input type="text" name="searchKeyword" />
-      <input type="image" src="../static/images/icon_search.png" alt="search" />
+      <section id="photoGallery">
+        <img id="spotPhoto" src="" alt="" />
+        <input
+          type="image"
+          id ="imgLeftBtn"
+          onclick="clickLeftBtn()"
+          src="../static/images/btn_leftArrow.png"
+          alt="btn_leftArrow"
+        />
+        <input
+          type="image"
+          id ="imgRightBtn"
+          onclick="clickRightBtn()"
+          src="../static/images/btn_rightArrow.png"
+          alt="btn_rightArrow"
+        />
+        <div id="pageDots">
+          <!-- <input type="radio" class="pageDot"> -->
+          
+        </div>
+      </section>
+      <section id="reservation">
+        <p id="attractionTitle"></p>
+        <!-- <div id="attractionCateAndMrt"> -->
+          <p id="attractionCateAndMrt"></p>
+                  <!-- <p id="attractionMrt"></p> -->
+        <!-- </div> -->
+        <div id="reservationTable">
+          <p id="reservationTableTitle">訂購導覽行程</p>
+          <p id="reservationTableSlogan">以此景點為中心的一日行程，帶您探索城市角落故事</p>
+          <form>
+              <label for="date"><b>選擇日期：</b>
+                <input type="date" id="inputDate" name="date" />
+              </label><br>
+              <fieldset>
+                <label for="time" id="labelTimeText"><b>選擇時間：</b></label>
+                <label for="morningHelf" class="labelHelfDay">
+                  <input type="radio" id="morningHelfBtn" class="inputRadio" onclick="changeTourFee()" name="time" value="morningHelf" />
+                  上半天</label>
+                  <label for="afternoonHelf" class="labelHelfDay">
+                    <input type="radio" id="afternoonHelfBtn" class="inputRadio" onclick="changeTourFee()" name="time" value="afternoonHelf" />
+                    下半天</label><br />
+              </fieldset>
+              <label for="charge" id="labelFeeText"><b>導覽費用：</b>
+                <span id="tourFee">請選擇時段</sapn>
+              </label><br>
+            <input id="reservationBtn" type="submit" value="開始預訂行程" />
+          </form>
+        </div>
+      </section>
+      <hr id="horizon" />
+      <section id="attranctionInfo">
+        <p id="description"></p>
+        <div id="addressInfo">
+          <p id="addressTittle">景點地址：</p>
+          <p id="address"></p>
+        </div>
+        <div id="transportInfo">
+          <p id="transportTittle">交通方式：</p>
+          <p id="transport"></p>
+        </div>
+      </section>
     </main>
-    <section>
-      <div id="photoBox" class="photoBox"></div>
-    </section>
     <footer>
-      <p>COPYRIGHT© 2021 台北一日遊</p>
+      <p>COPYRIGHT © 2021 台北一日遊</p>
     </footer>
-    <script src="script.js"></script>
+    <script src="../static/js/attractonScript.js"></script>
   </body>
 </html>
