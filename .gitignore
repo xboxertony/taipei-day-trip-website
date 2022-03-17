@@ -144,3 +144,5 @@ cython_debug/
 test.py
 
 wsgi.py
+
+attractionScriptv1.js
