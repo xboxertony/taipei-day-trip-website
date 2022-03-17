@@ -93,5 +93,5 @@ const changeTourFee = () => {
 fetch(url)
   .then((res) => res.json())
   .then(setInfo)
-  .then(slideshow)
+  .then(setTimeout(slideshow, 5000))
   .catch(console.log);

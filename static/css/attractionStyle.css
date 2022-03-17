@@ -58,6 +58,7 @@ main {
   box-sizing: border-box;
   position: relative;
 }
+
 #photoGallery img {
   width: 100%;
   height: 100%;
