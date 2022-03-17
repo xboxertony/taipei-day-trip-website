@@ -1,0 +1,484 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+* {
+    font-family: 'Noto Sans TC';
+    color: #666666;
+}
+body{
+    margin: 0;
+    background-color: pink;
+    /* overflow-y: hidden;
+    overflow-x: hidden; */
+}
+.box0{
+    margin: 0 auto;
+    height: 54px;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    z-index: 99;
+    background-color: white
+}
+.box1{
+    margin: 0 auto;
+    width: 1200px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.webisite{
+    font-weight: 700;
+    font-style: normal;
+    font-size: 30px;
+    line-height: 34px;
+    color: #448899;
+    text-decoration:none;
+}
+.frame2{
+    width: 175px;
+    height: 34px;
+}
+.frame1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 34px;
+}
+button{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    mix-blend-mode: normal;
+    margin: 10px;
+    cursor: pointer;
+
+    background-color: transparent; 
+    border: none;
+    padding: 0;
+}
+.section{
+    margin: 0 auto;
+    width: 1200px;
+    background-color: yellowgreen;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    top: 94px;
+}
+
+
+
+hr{
+    border: 1px solid #E8E8E8;
+    width: 1198px;
+    position: relative;
+    top: 102px;
+
+}
+.profile{
+    width: 600px;
+    height: 400px;
+    background-color: aquamarine;
+}
+.title{
+    height: 33px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.mrt_cat{
+    height: 22px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.booking{
+    height: 302px;
+    border-radius: 5px;
+    background: #E8E8E8;
+    margin-bottom: 8px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+
+.txt1{
+    height: 22px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+
+    padding-top: 15px;
+}
+.txt2{
+    height: 24px;
+    width: 560px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    padding-top: 15px;
+}
+
+.txt3{
+    height: 35px;
+    width: 560px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 15px;
+}
+.txtB{
+    height: 17px;
+    width: 81px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+
+    margin-right: 5px;
+}
+.txtC{
+    height: 22px;
+    width: 81px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.txt4{
+    height: 22px;
+    width: 560px;
+    padding-top: 15px;
+
+    display: flex;
+    justify-content: start;
+    align-items: normal;  
+}
+#date{
+    height: 31px;
+    width: 189px;
+    padding: 0px;
+}
+.half{
+    height: 22px;
+    width: 87px;
+    margin-left: 5px;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.day{
+    height: 14px;
+    width: 48px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.dot {
+  height: 22px;
+  width: 22px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  cursor: pointer;
+  display: block;
+
+  margin:auto;
+}
+.choose{
+    height: 18px;
+    width: 18px;
+    background-color: #448899;
+    border-radius: 50%;
+    cursor: pointer;
+    display: block;
+
+    position: relative;
+    top: 2px;
+    left: 2px;
+}
+
+.money{
+    height: 14px;
+    width: 115px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left: 5px;
+}
+
+#btn {
+    height: 36px;
+    width: 154px;
+    left: 20px;
+    top: 225px;
+    border-radius: 5px;
+    margin-top: 25px;
+    background-color: #448899;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+}
+
+#btn span{
+    height: 16px;
+    width: 114px;
+
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.current{
+    width: 540px;
+    height: 400px;
+    background-color:  royalblue;
+}
+.infors{
+    background-color: aqua;
+    margin: 0 auto;
+    width: 1180px;
+    position: relative;
+    top: 110px;
+    padding: 10px;
+}
+.infors div{
+    width: 1180px;
+}
+
+.des{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.bold{
+    height: 32px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 20px;
+
+    /* display: table-cell;
+    vertical-align: bottom; */
+}
+
+.addr_des{
+    height: 24px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.traf_des{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.footer{
+    height: 104px;
+    display: flex;
+    justify-content:center;
+    align-items: center;  
+    background-color: rgba(117, 117, 117, 1);
+
+    position: relative;
+    top: 150px;
+}
+.footer span{
+    height: 14px;
+    width: 234px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: white;
+}
+
+
+@media (max-width: 1220px) {
+    .webisite{margin-left: 10px;}
+    .section{ 
+        width: 90%;
+        flex-wrap: wrap;
+        justify-content:center;
+        align-items: center;  
+    }
+    .profile{
+        margin-top: 20px;
+    }
+    hr{
+        width: 95%;
+    }
+    .infors{
+        width: 95%;
+    }
+    .infors div{
+        width: 95%;
+    }
+    .footer{
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 620px) {
+    .webisite{margin-left: 10px;}
+    .section{ 
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content:center;
+        align-items: center;
+        }
+    .current{
+        width: 100%;
+        height: 350px;
+        background-color:  royalblue;
+    }
+      
+    .profile{
+        width: 340px;
+        height: 390px;
+        background-color: aquamarine;
+    }
+
+    .title{
+        height: 33px;
+        width: 340px;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+
+    }
+    .mrt_cat{
+        height: 22px;
+        width: 340px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 13px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+    .booking{
+        width: 300px;
+        height: 300px;
+        margin-bottom: 0px;
+    }
+
+    .txt1{
+        height: 22px;
+        width: 300px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 13px;
+        letter-spacing: 0em;
+        text-align: left;
+    
+        padding-top: 15px;
+    }
+
+    .txt2{
+        height: 48px;
+        width: 300px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 23px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+    .txt3{
+        height: 35px;
+        width: 300px;
+    }
+
+    .txt4{
+        height: 22px;
+        width: 300px;
+        padding-top: 15px;
+    
+        display: flex;
+        justify-content: start;
+        align-items: normal; 
+    }
+    
+
+    hr{
+        width: 338px;
+    }
+
+    .infors{
+        width: 340px;
+    }
+    .infors div{
+        width: 330px;
+    }
+    .footer{
+        width: 100%;
+    }
+
+
+}
+
+

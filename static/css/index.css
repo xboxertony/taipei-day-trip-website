@@ -61,7 +61,6 @@ button{
     padding: 0;
     
 }
-
 .box2{
     height: 320px;
     background: linear-gradient(135deg, #AADDEE 0%, #66AABB 100%);
@@ -70,7 +69,6 @@ button{
     position: relative;
     top: 54px;
 }
-
 .ba1{
     display:flex;
     justify-content:center;
@@ -223,6 +221,14 @@ button{
 
 #w2{display: none;}
 
+a{
+    cursor: pointer;
+    color: #757575;
+    text-decoration:none;
+}
+a :hover{
+    border-color: black;
+}
 .box3{
     margin:55px auto 40px auto;
     width: 1200px;
@@ -232,14 +238,12 @@ button{
     position: relative;
     top: 54px;
 }
-
 .ba3{
     width: 1170px;
     display: grid;
     grid-template-columns:1fr 1fr 1fr 1fr;
     grid-gap: 30px;
 }
-
 .site{
     height: 240px;
     width: 268px;
@@ -250,7 +254,6 @@ button{
     border-width: 1px;
     border-radius: 6px;
 }
-
 .img_embed{
     width: 100%;
     height: 160px;

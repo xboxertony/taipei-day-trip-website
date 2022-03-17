@@ -1,5 +1,10 @@
-function siteDiv(picture,spot,station,catagory){
-    let site =document.createElement('div')
+function siteDiv(id,picture,spot,station,catagory){
+    let a_tag = document.createElement('a')
+//
+    a_tag.setAttribute('href', `/attraction/${id}`);
+
+//
+    let site = document.createElement('div')
     site.className='site'
 
     let img_embed = document.createElement('div')
@@ -10,7 +15,7 @@ function siteDiv(picture,spot,station,catagory){
     img_embed.appendChild(photo)
 
     let stname = document.createElement('div')
-    stname.className='stname'
+    stname.className ='stname'
     let st_span = document.createElement('span')
     let st_Text = document.createTextNode(spot)
     st_span.appendChild(st_Text)
@@ -19,14 +24,14 @@ function siteDiv(picture,spot,station,catagory){
     let word = document.createElement('div')
     word.className='word'
 
-    let mrt =document.createElement('span')
+    let mrt = document.createElement('span')
     mrt.className='mrt'
     let m_text = document.createTextNode(station)
     mrt.appendChild(m_text)
     word.appendChild(mrt)
 
-    let cate =document.createElement('span')
-    cate.className='cate'
+    let cate = document.createElement('span')
+    cate.className ='cate'
     let c_text = document.createTextNode(catagory)
     cate.appendChild(c_text)
     word.appendChild(cate)
@@ -34,7 +39,8 @@ function siteDiv(picture,spot,station,catagory){
     site.appendChild(img_embed)
     site.appendChild(stname)
     site.appendChild(word)
-    ba3_id.appendChild(site)
+    a_tag.appendChild(site)
+    ba3_id.appendChild(a_tag)
 };
 
 function emptyReply(){
@@ -47,11 +53,14 @@ function emptyReply(){
 
 
 async function getValue(url){
-    let res =  await fetch(url) // fetch(url) is a promise, so we should wait until fullfilled. res is a response object.
-    if (res.status === 200){
-        let data = await res.json() // res.json() is a promise so we should wait until fullfilled. data is the value we want.
-        return data          
-    }
+    try{
+        let res =  await fetch(url) // fetch(url) is a promise, so we should wait until fullfilled. res is a response object.
+        if (res.status === 200){
+            let data = await res.json() // res.json() is a promise so we should wait until fullfilled. data is the value we want.
+            return data          
+        }        
+    }catch(e){console.log('產生錯誤',e)}
+
 } 
 
 async function ajax(url){
@@ -64,8 +73,8 @@ async function ajax(url){
 
     if (Object.keys(d_list).length > 0) {
         for (let row of d_list ){
-            let spoturl = row['images'][0], spotname = row['name'], spotmrt = row['mrt'], spotcate = row['category'];
-            siteDiv(spoturl, spotname, spotmrt, spotcate)
+            let spotID = row['id'], spoturl = row['images'][0], spotname = row['name'], spotmrt = row['mrt'], spotcate = row['category'];
+            siteDiv(spotID, spoturl, spotname, spotmrt, spotcate)
         }
     }
     else{
@@ -122,3 +131,5 @@ var record = [];
 var ba3_id = document.getElementById('ba3_id');
 
 document.getElementById("search").value = ''
+
+window.onload = ajax('/api/attractions/')

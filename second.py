@@ -16,7 +16,7 @@ dbconfig = {
 pool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "mypool", pool_size = 3, **dbconfig) #create a pool which connect with DB
 
 
-@api.route("/attraction/<int:attractionId>")
+@api.route("/api/attraction/<int:attractionId>")
 def get_id(attractionId):
     try:
         CN1 = pool.get_connection() #get a connection with pool.
@@ -61,7 +61,7 @@ def get_id(attractionId):
     return jsonify(data)
 
 
-@api.route("/attractions/")
+@api.route("/api/attractions/")
 def page_keyword():
     try:
         CN1 = pool.get_connection() #get a connection with pool.
