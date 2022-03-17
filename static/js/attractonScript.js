@@ -20,8 +20,9 @@ const setInfo = (attraction) => {
   let { caption, mrt, category, address, description, transport } =
     parseAttractionsInfo(attraction);
   document.getElementById("attractionTitle").textContent = caption;
-  document.getElementById("attractionCategory").textContent = `${category} at `;
-  document.getElementById("attractionMrt").textContent = mrt;
+  document.getElementById(
+    "attractionCateAndMrt"
+  ).textContent = `${category} at ${mrt}`;
   document.getElementById("description").textContent = description;
   document.getElementById("address").textContent = address;
   document.getElementById("transport").textContent = transport;
@@ -76,6 +77,11 @@ const clickLeftBtn = () => {
   replaceImgSrc(calIndex(-1));
 };
 
+const slideshow = () => {
+  clickRightBtn();
+  setTimeout(slideshow, 5000);
+};
+
 const changeTourFee = () => {
   if (document.getElementById("morningHelfBtn").checked) {
     document.getElementById("tourFee").textContent = "新台幣 2000 元";
@@ -87,4 +93,5 @@ const changeTourFee = () => {
 fetch(url)
   .then((res) => res.json())
   .then(setInfo)
+  .then(slideshow)
   .catch(console.log);
