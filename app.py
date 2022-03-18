@@ -141,7 +141,7 @@ def attractions():
             total_count = parse_datas(infos)[1]
             if total_count > offset + datas_per_page:
                 nextPage = page_num + 1
-        if key_word:
+        if key_word or key_word == "":
             keyword_for_serch = "%" + key_word + "%"
             infos = get_attractions_by_keyword(keyword_for_serch, datas_per_page, offset)
             data = parse_datas(infos)[0]
@@ -172,4 +172,4 @@ def attractions_id(attractionId):
         return jsonify(error), 500
 
 
-app.run(port=3000)
+app.run(port=3000, debug=True)
