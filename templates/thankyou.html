@@ -4,14 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"  type= "text/css" href="static/css/index.css?v=0.0.20">
+    <link rel="stylesheet"  type= "text/css" href="static/css/thankyou.css?v=0.0.334">
     <link rel="shortcut icon" href="#"></link>
-    <title>Document</title>
+    <title>SlideShow</title>
 </head>
 <body>
-test
+    <div id="slider" class="slider">
+        <div id="slider_scroll" class="slider_scroll" >
+            <div id="slider_main" class='slider_main'> <!-- main也可不包，主要是想把item跟span區別出來 -->
+                <div class="item"><img src = "/static/img/snowwite.jpg"/></div>
+                <div class="item"><img src = "/static/img/Cinderella.jpg"/></div>
+                <div class="item"><img src = "static/img/SleepingBeauty.jpg"/></div>
+                <div class="item"><img src = "/static/img/ThelittleMermaid.jpg"/></div>
+            </div>
 
+            <div id="prev" class="prev"></div>
+            <div id="next" class="next"></div>
+        </div>
 
+        <div id="slider_index" class="slider_index">
+            <div class="deactive"></div>
+            <div class="deactive"></div>
+            <div class="active"></div>
+        </div>
+        </div> <!-- 通過JS來動態生成 -->
+        
+    </div>
 <script type="text/javascript" src="../static/js/1.js"></script>   
 </body>
 </html>
