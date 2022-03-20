@@ -87,8 +87,6 @@ function load(d) {
     img.classList.add("fade");
     img.classList.add("none");
   });
-
-  // console.log(imgBoxes);
 }
 
 //---------------------------image flow-------------------------
@@ -158,6 +156,14 @@ bookBtn.addEventListener("click", (e) => {
     book();
   }
 
+  const overlay = document.querySelector(".overlay");
+  const authContainer = document.querySelector(".auth-container");
+
+  const messageInner = document.querySelector(".message-inner");
+  const alertMessage = document.querySelector(".alert");
+
+  const loginInner = document.querySelector(".login-inner");
+
   async function book() {
     const response = await fetch("/api/booking", {
       method: "POST",
@@ -173,10 +179,19 @@ bookBtn.addEventListener("click", (e) => {
     });
     const res = await response.json();
     if (res.ok) {
-      overlay.classList.add("none");
-      window.alert(`訂購成功，${data.name}，${inputDate}-${inputTime.value}`);
+      loginInner.classList.add("none");
+
+      overlay.classList.remove("none");
+      authContainer.classList.remove("none");
+      messageInner.classList.remove("none");
+      alertMessage.textContent = `訂購成功，${data.name}，${inputDate}-${inputTime.value}`;
     } else if (res.error) {
-      window.alert(res.message);
+      loginInner.classList.add("none");
+
+      overlay.classList.remove("none");
+      authContainer.classList.remove("none");
+      messageInner.classList.remove("none");
+      alertMessage.textContent = res.message;
     }
   }
 });

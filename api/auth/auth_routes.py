@@ -18,7 +18,6 @@ def signup():
   
   user = User.query.filter_by(email=input_email).first()
   if user:
-    print('使用者已存在')
     return{
       "error": True,
       "message": "重複的 Email"
@@ -85,7 +84,6 @@ def get_user():
   if 'email' in session:
     input_email = session['email']
     user = User.query.filter_by(email=input_email).first()
-    print(user.name)
     return {
       "data": {
         "id": user.id,

@@ -15,10 +15,11 @@ async function initialLoad() {
   if (data.error) {
     historyLink.classList.add("none");
     main.innerHTML = `<h1 style="text-align: center;" >${data.message}</h1>`;
+    return null;
   } else {
     booksArr = data.data;
   }
-  if (booksArr.length === 0) {
+  if (!booksArr) {
     main.textContent = `目前沒有待預定的行程`;
     return null;
   }
@@ -47,13 +48,27 @@ async function deleteAPI(id) {
     },
   });
   const res = await response.json();
+  const overlay = document.querySelector(".overlay");
+  const authContainer = document.querySelector(".auth-container");
+
+  const messageInner = document.querySelector(".message-inner");
+  const alertMessage = document.querySelector(".alert");
+
+  const loginInner = document.querySelector(".login-inner");
   if (res.ok) {
-    // booksArr = [];
-    // initialLoad();
-    window.alert(`成功刪除，訂單編號${id}`);
-    window.location.reload();
+    loginInner.classList.add("none");
+
+    overlay.classList.remove("none");
+    authContainer.classList.remove("none");
+    messageInner.classList.remove("none");
+    alertMessage.textContent = `成功刪除，訂單編號${id}`;
   } else if (res.error) {
-    window.alert(res.message);
+    loginInner.classList.add("none");
+
+    overlay.classList.remove("none");
+    authContainer.classList.remove("none");
+    messageInner.classList.remove("none");
+    alertMessage.textContent = res.message;
   }
 }
 

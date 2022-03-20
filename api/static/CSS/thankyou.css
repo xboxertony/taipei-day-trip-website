@@ -130,39 +130,51 @@ body {
 }
 
 .auth-container .login-inner,
-.auth-container .signup-inner {
+.auth-container .signup-inner,
+.auth-container .message-inner {
   position: relative;
   width: 100%;
   display: -ms-grid;
   display: grid;
-  -ms-grid-rows: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 1fr 1fr 1fr 1fr;
   justify-items: center;
   gap: 0.5em;
   padding: 0.5rem;
 }
 
+.auth-container .login-inner .alert,
+.auth-container .signup-inner .alert,
+.auth-container .message-inner .alert {
+  padding: 3rem 0rem;
+}
+
 .auth-container .login-inner .message,
-.auth-container .signup-inner .message {
+.auth-container .signup-inner .message,
+.auth-container .message-inner .message {
+  width: 80%;
   color: red;
-  font-weight: bold;
+  font-size: 0.8rem;
+  text-align: left;
 }
 
 .auth-container .login-inner h2,
-.auth-container .signup-inner h2 {
+.auth-container .signup-inner h2,
+.auth-container .message-inner h2 {
   color: #666666;
+  padding: 0.5rem;
 }
 
 .auth-container .login-inner img,
-.auth-container .signup-inner img {
+.auth-container .signup-inner img,
+.auth-container .message-inner img {
   position: absolute;
-  top: 20px;
+  top: 28px;
   right: 50px;
   cursor: pointer;
 }
 
 .auth-container .login-inner input,
-.auth-container .signup-inner input {
+.auth-container .signup-inner input,
+.auth-container .message-inner input {
   width: 80%;
   height: 3rem;
   border-radius: 5px;
@@ -170,7 +182,8 @@ body {
 }
 
 .auth-container .login-inner button,
-.auth-container .signup-inner button {
+.auth-container .signup-inner button,
+.auth-container .message-inner button {
   width: 80%;
   height: 3rem;
   font-size: 1rem;
@@ -182,12 +195,14 @@ body {
 }
 
 .auth-container .login-inner button:disabled,
-.auth-container .signup-inner button:disabled {
+.auth-container .signup-inner button:disabled,
+.auth-container .message-inner button:disabled {
   background-color: rgba(102, 133, 141, 0.508);
 }
 
 .auth-container .login-inner p,
-.auth-container .signup-inner p {
+.auth-container .signup-inner p,
+.auth-container .message-inner p {
   color: #666666;
   cursor: pointer;
 }

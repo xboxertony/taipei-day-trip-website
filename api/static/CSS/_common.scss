@@ -49,27 +49,35 @@ body {
   }
 
   .login-inner,
-  .signup-inner {
+  .signup-inner,
+  .message-inner {
     position: relative;
     width: 100%;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    // grid-template-rows: 1fr 1fr 1fr 1fr;
     justify-items: center;
     gap: 0.5em;
     padding: 0.5rem;
 
+    .alert {
+      padding: 3rem 0rem;
+    }
+
     .message {
+      width: 80%;
       color: red;
-      font-weight: bold;
+      font-size: 0.8rem;
+      text-align: left;
     }
 
     h2 {
       color: #666666;
+      padding: 0.5rem;
     }
 
     img {
       position: absolute;
-      top: 20px;
+      top: 28px;
       right: 50px;
       cursor: pointer;
     }

@@ -7,6 +7,11 @@ const username = document.querySelector(".username");
 const overlay = document.querySelector(".overlay");
 const authContainer = document.querySelector(".auth-container");
 
+const messageInner = document.querySelector(".message-inner");
+const alertMessage = document.querySelector(".alert");
+
+const loginInner = document.querySelector(".login-inner");
+
 //--------------------------check status------------------------------
 async function check() {
   const response = await fetch("/api/user", {
@@ -43,6 +48,7 @@ authClose.forEach((v) => {
   v.addEventListener("click", (e) => {
     overlay.classList.add("none");
     authContainer.classList.add("none");
+    location.reload();
   });
 });
 
@@ -60,7 +66,8 @@ authChange.forEach((v) => {
 });
 
 //-----------------------login-----------------------------
-const loginMessage = document.querySelector(".login-message");
+const loginEmailMessage = document.querySelector(".login-email-message");
+const loginPasswordMessage = document.querySelector(".login-password-message");
 
 const inputLoginEmail = document.querySelector(".input-login-email");
 const inputLoginPassword = document.querySelector(".input-login-password");
@@ -77,10 +84,10 @@ loginBtn.disabled = Object.values(loginPassed).includes(false);
 inputLoginEmail.addEventListener("input", (e) => {
   loginPassed.email = e.target.value.length > 0;
   if (!loginPassed.email) {
-    loginMessage.classList.remove("none");
-    loginMessage.textContent = "請輸入信箱";
+    loginEmailMessage.classList.remove("none");
+    loginEmailMessage.textContent = "請輸入信箱";
   } else {
-    loginMessage.classList.add("none");
+    loginEmailMessage.classList.add("none");
   }
   loginBtn.disabled = Object.values(loginPassed).includes(false);
 });
@@ -88,16 +95,16 @@ inputLoginEmail.addEventListener("input", (e) => {
 inputLoginPassword.addEventListener("input", (e) => {
   loginPassed.password = e.target.value.length > 0;
   if (!loginPassed.password) {
-    loginMessage.classList.remove("none");
-    loginMessage.textContent = "請輸入密碼";
+    loginPasswordMessage.classList.remove("none");
+    loginPasswordMessage.textContent = "請輸入密碼";
   } else {
-    loginMessage.classList.add("none");
+    loginPasswordMessage.classList.add("none");
   }
   loginBtn.disabled = Object.values(loginPassed).includes(false);
 });
 
 loginBtn.addEventListener("click", (e) => {
-  let inputEmail = e.target.parentElement.children[3].value;
+  let inputEmail = e.target.parentElement.children[2].value;
   let inputPassword = e.target.parentElement.children[4].value;
 
   async function login() {
@@ -115,13 +122,20 @@ loginBtn.addEventListener("click", (e) => {
     if (res.ok) {
       overlay.classList.add("none");
       authContainer.classList.add("none");
-      authBtnLogin.classList.toggle("none");
-      authBtnLogout.classList.toggle("none");
+      loginInner.classList.add("none");
+
       check();
-      window.alert("登入成功");
-      window.location.reload();
+      overlay.classList.remove("none");
+      authContainer.classList.remove("none");
+      messageInner.classList.remove("none");
+      alertMessage.innerHTML = "<h3>登入成功</h3>";
     } else if (res.error) {
-      window.alert(res.message);
+      loginInner.classList.add("none");
+
+      overlay.classList.remove("none");
+      authContainer.classList.remove("none");
+      messageInner.classList.remove("none");
+      alertMessage.textContent = "<h3>登入失敗</h3>";
     }
   }
   login();
@@ -139,17 +153,28 @@ authBtnLogout.addEventListener("click", (e) => {
     const res = await response.json();
     if (res.ok) {
       check();
-      window.alert("登出成功");
-      window.location.reload();
+      loginInner.classList.add("none");
+      overlay.classList.remove("none");
+      authContainer.classList.remove("none");
+      messageInner.classList.remove("none");
+      alertMessage.innerHTML = "<h3>登出成功</h3>";
     } else if (res.error) {
-      window.alert(res.message);
+      loginInner.classList.add("none");
+      overlay.classList.remove("none");
+      authContainer.classList.remove("none");
+      messageInner.classList.remove("none");
+      alertMessage.textContent = res.error;
     }
   }
   logout();
 });
 
 //-----------------------------------signup----------------------------------
-const signupMessage = document.querySelector(".signup-message");
+const signupNameMessage = document.querySelector(".signup-name-message");
+const signupEmailMessage = document.querySelector(".signup-email-message");
+const signupPasswordMessage = document.querySelector(
+  ".signup-password-message"
+);
 
 const inputSignupName = document.querySelector(".input-signup-name");
 const inputSignupEmail = document.querySelector(".input-signup-email");
@@ -164,45 +189,49 @@ let signupPassed = {
 };
 
 signupBtn.disabled = Object.values(signupPassed).includes(false);
+signupBtn.style.cursor = signupBtn.disabled ? "not-allowed" : "pointer";
 
 inputSignupName.addEventListener("input", (e) => {
   signupPassed.name = e.target.value.length < 8 && e.target.value.length > 0;
   if (!signupPassed.name) {
-    signupMessage.classList.remove("none");
-    signupMessage.textContent = "姓名長度須介於1到7字元";
+    signupNameMessage.classList.remove("none");
+    signupNameMessage.textContent = "姓名長度須介於1到7字元";
   } else {
-    signupMessage.classList.add("none");
+    signupNameMessage.classList.add("none");
   }
   signupBtn.disabled = Object.values(signupPassed).includes(false);
+  signupBtn.style.cursor = signupBtn.disabled ? "not-allowed" : "pointer";
 });
 
 inputSignupEmail.addEventListener("input", (e) => {
   signupPassed.email = e.target.value.includes("@");
   if (!signupPassed.email) {
-    signupMessage.classList.remove("none");
-    signupMessage.textContent = "信箱格式錯誤";
+    signupEmailMessage.classList.remove("none");
+    signupEmailMessage.textContent = "信箱格式錯誤";
   } else {
-    signupMessage.classList.add("none");
+    signupEmailMessage.classList.add("none");
   }
   signupBtn.disabled = Object.values(signupPassed).includes(false);
+  signupBtn.style.cursor = signupBtn.disabled ? "not-allowed" : "pointer";
 });
 
 inputSignupPassword.addEventListener("input", (e) => {
   signupPassed.password =
     e.target.value.length < 10 && e.target.value.length > 5;
   if (!signupPassed.password) {
-    signupMessage.classList.remove("none");
-    signupMessage.textContent = "密碼長度須介於5到10字元";
+    signupPasswordMessage.classList.remove("none");
+    signupPasswordMessage.textContent = "密碼長度須介於5到10字元";
   } else {
-    signupMessage.classList.add("none");
+    signupPasswordMessage.classList.add("none");
   }
   signupBtn.disabled = Object.values(signupPassed).includes(false);
+  signupBtn.style.cursor = signupBtn.disabled ? "not-allowed" : "pointer";
 });
 
 signupBtn.addEventListener("click", (e) => {
-  let inputName = e.target.parentElement.children[3];
+  let inputName = e.target.parentElement.children[2];
   let inputEmail = e.target.parentElement.children[4];
-  let inputPassword = e.target.parentElement.children[5];
+  let inputPassword = e.target.parentElement.children[6];
 
   async function signup(ele) {
     const response = await fetch("/api/user", {
