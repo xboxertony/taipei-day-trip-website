@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet"  type= "text/css" href="/static/css/attraction.css?v=0.0.0.392">
+<link rel="stylesheet"  type= "text/css" href="/static/css/attraction.css?v=0.0.0.424">
 <link rel="shortcut icon" href="#"></link>
 <title></title>
 </head>
@@ -14,7 +14,7 @@
 
 <div class="box0">
 <div class="box1">
-    <div ><a href="/" class="webisite">台北一日遊</a></div>
+    <div class="webisite"><a href="/" >台北一日遊</a></div>
     <div></div>
     <div class="frame2">
         <div class="frame1">
@@ -27,7 +27,27 @@
 
 
 <div class="section">
-<div class="current"></div>
+<div id="slider" class="slider">
+    <div id="slider_scroll" class="slider_scroll" >
+        <div id="slider_main" class='slider_main'> 
+            <!-- <div class="item"><img src = "/static/img/Cinderella.jpg"/></div>
+            <div class="item" ><img src = "static/img/SleepingBeauty.jpg"/></div>
+            <div class="item"><img src = "/static/img/ThelittleMermaid.jpg"/></div> -->
+            <!-- 透過JS自動生成 -->
+
+        </div>
+
+        <div id="prev" class="prev"></div>
+        <div id="next" class="next"></div>
+    </div>
+
+    <div id="slider_index" class="slider_index">
+        <!-- <div data="0" class="current"></div>
+        <div data="1" class="not_current"></div>
+        <div data="2" class="not_current"></div> -->
+        <!-- 透過JS自動生成 -->
+    </div>
+</div>
 <div class="profile">
     <div class="title"></div>
     <div class="mrt_cat"></div>
@@ -59,14 +79,14 @@
 
 <div class="infors">
     <div class="des"></div>
-    <div class="bold">景點地址：</div>
+    <div class="bold"><span>景點地址：</span></div>
     <div class="addr_des"></div>
-    <div class="bold">交通方式：</div>
+    <div class="bold"><span>交通方式：</span></div>
     <div class="traf_des"></div> 
 </div>  
 
 <div class="footer"><span>COPYRIGHT © 2021 台北一日遊</span></div>
 
-<script type="text/javascript" src="/static/js/attraction.js?v=0.06"></script>
+<script type="text/javascript" src="/static/js/attraction.js?v=0.10"></script>
 </body>
 </html>

@@ -5,7 +5,6 @@
 }
 body{
     margin: 0;
-    background-color: pink;
     /* overflow-y: hidden;
     overflow-x: hidden; */
 }
@@ -17,7 +16,7 @@ body{
     position: fixed;
     width: 100%;
     z-index: 99;
-    background-color: white
+    background-color: white;
 }
 .box1{
     margin: 0 auto;
@@ -27,13 +26,17 @@ body{
     justify-content: space-between;
     align-items: center;
 }
-.webisite{
+.box1 .webisite a{
+    letter-spacing: 0em;
+    text-align: left;
     font-weight: 700;
     font-style: normal;
     font-size: 30px;
     line-height: 34px;
     color: #448899;
     text-decoration:none;
+    width: 150px;
+    height: 34px;
 }
 .frame2{
     width: 175px;
@@ -63,7 +66,6 @@ button{
 .section{
     margin: 0 auto;
     width: 1200px;
-    background-color: yellowgreen;
     display: flex;
     justify-content: space-around;
     position: relative;
@@ -82,7 +84,6 @@ hr{
 .profile{
     width: 600px;
     height: 400px;
-    background-color: aquamarine;
 }
 .title{
     height: 33px;
@@ -270,13 +271,11 @@ hr{
     color: #FFFFFF;
 }
 
-.current{
+.slider{
     width: 540px;
     height: 400px;
-    background-color:  royalblue;
 }
 .infors{
-    background-color: aqua;
     margin: 0 auto;
     width: 1180px;
     position: relative;
@@ -305,10 +304,14 @@ hr{
     letter-spacing: 0em;
     text-align: left;
     margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 
     /* display: table-cell;
     vertical-align: bottom; */
 }
+
 
 .addr_des{
     height: 24px;
@@ -350,7 +353,82 @@ hr{
     text-align: left;
     color: white;
 }
+/*below is SlideShow*/
+.slider{
+    width: 540px;
+    height: 400px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.slider_scroll{
+    width: 100%;
+    height: 100%;
+}
+.slider_main{
+    width: 100%;
+    height: 100%;
+}
+.item{
+    width: 100%;
+    height: 100%;    
+}
+.item img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;   
+}
+.slider_index{
+    width: 72px;
+    height: 12px;
+    position: relative;
+    bottom:22px;
+    left: 234px;
 
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.not_current{
+    height: 12px;
+    width: 12px;
+    background-color: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.current{
+    background-color: black;
+    height: 8px;
+    width: 8px;
+    border:2px solid white; 
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.prev{
+    position: relative;
+    top:-218px;
+    left:10px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    background: no-repeat center /100% url('/static/img/btn_leftArrow.jpg');
+    opacity: 0.6;
+}
+.next{
+    position: relative;
+    top:-254px;
+    left:494px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    background: no-repeat center /100% url('/static/img/btn_rightArrow.jpg');
+    opacity: 0.6;
+}
+
+/*above is SlideShow*/
 
 @media (max-width: 1220px) {
     .webisite{margin-left: 10px;}
@@ -386,16 +464,30 @@ hr{
         justify-content:center;
         align-items: center;
         }
-    .current{
-        width: 100%;
+
+    .slider{
+        width: 360px;
         height: 350px;
-        background-color:  royalblue;
     }
+
+    /**/
+    .slider_index{
+        left: 144px;
+    }
+
+    .prev{
+        top:-193px;
+        left: 10px;
+    }
+    .next{
+        top:-229px;
+        left: 314px;
+    }
+    /**/
       
     .profile{
         width: 340px;
         height: 390px;
-        background-color: aquamarine;
     }
 
     .title{
