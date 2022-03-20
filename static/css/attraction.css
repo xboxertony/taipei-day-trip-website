@@ -2,7 +2,9 @@
 * {
     font-family: 'Noto Sans TC';
     color: #666666;
+    word-break: break-all
 }
+
 body{
     margin: 0;
     /* overflow-y: hidden;
@@ -563,7 +565,7 @@ hr{
     .infors{
         width: 340px;
     }
-    .infors div{
+    .infors{
         width: 330px;
     }
     .footer{

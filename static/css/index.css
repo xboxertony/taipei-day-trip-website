@@ -1,6 +1,7 @@
 @import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
 * {
     font-family: 'Noto Sans TC';
+    word-break: break-all
 }
  
 body{
