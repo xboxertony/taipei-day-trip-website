@@ -65,6 +65,8 @@ async function getValue(url){
 
 async function ajax(url){
     console.log('fetch',url)
+
+    while (true){
     let ajaxBack = await getValue(url)
     console.log(ajaxBack,'ajaxBack')
 
@@ -76,11 +78,17 @@ async function ajax(url){
             let spotID = row['id'], spoturl = row['images'][0], spotname = row['name'], spotmrt = row['mrt'], spotcate = row['category'];
             siteDiv(spotID, spoturl, spotname, spotmrt, spotcate)
         }
+        break
     }
-    else{
+    else if (Object.keys(d_list).length === 0 && nextPage === null){
         console.log('空值')
         emptyReply()
-    };
+        break
+    }
+    else{
+        console.log(`ajax 有誤須重抓, nextPage是${nextPage}, d_list是${d_list}`)
+    }
+    }
     console.log('ajaxDone')
 };
 
