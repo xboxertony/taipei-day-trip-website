@@ -1,106 +1,58 @@
+from select import select
 from flask import *
-from mysql.connector import pooling
-from os import environ, path
-from dotenv import load_dotenv
+from api.api import api
+from db_connection import connection_pool, db, cursor
+import os
 
-basedir = path.abspath(path.dirname(__file__))
-load_dotenv(path.join(basedir, ".env"))
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["JSON_SORT_KEYS"] = False
+app.config["SECRET_KEY"] = os.urandom(24)
 
-
-connection_pool = pooling.MySQLConnectionPool(
-    pool_name=environ.get("DB_POOL_NAME"),
-    pool_size=int(environ.get("DB_POOL_SIZE")),
-    user=environ.get("DB_USER"),
-    password=environ.get("DB_PASSWORD"),
-    host=environ.get("DB_HOST"),
-    database=environ.get("DB_DATABASE"),
-)
-
-db = connection_pool.get_connection()
-cursor = db.cursor()
-
+app.register_blueprint(api)
 
 # functions
-def try_parse_int(text):
-    try:
-        return int(text)
-    except:
-        return None
 
 
-def get_attraction_by_id(id_num):
-    get_data_by_id = "select * from attractions where id = %s"
+def is_email(email):
+    is_email_sql = "select email from member where email = %s"
     db = connection_pool.get_connection()
     cursor = db.cursor()
-    cursor.execute(get_data_by_id, (id_num,))
-    info = cursor.fetchall()
+    cursor.execute(is_email_sql, (email,))
+    result = False
+    for email in cursor:
+        result = True
     cursor.close()
     db.close()
-    return info
+    return result
 
 
-def get_attractions(datas_per_page, offset):
-    get_datas = "with counter as (select count(*) as total_count from attractions) select * from attractions, counter order by id ASC limit %s offset %s"
+def sign_up(name, email, password):
+    insert_user_ssql = "INSERT INTO member (name, email, password) VALUES (%s, %s, %s)"
     db = connection_pool.get_connection()
     cursor = db.cursor()
-    cursor.execute(get_datas, (datas_per_page, offset))
-    infos = cursor.fetchall()
+    # row_count = cursor.rowcount
+    cursor.execute(insert_user_ssql, (name, email, password))
+    db.commit()
     cursor.close()
     db.close()
-    return infos
 
 
-def get_attractions_by_keyword(key_word, datas_per_page, offset):
-    get_datas_by_keyword = "with counter as (select count(*) as total_count from attractions where name like %s) select * from attractions, counter WHERE name like %s order by id ASC limit %s offset %s"
+def authenticate_member(email, member_password):
+    check_member_sql = "SELECT id,name, email, password FROM member WHERE email = %s"
     db = connection_pool.get_connection()
     cursor = db.cursor()
-    cursor.execute(get_datas_by_keyword, (key_word, key_word, datas_per_page, offset))
-    infos = cursor.fetchall()
-    cursor.close()
+    cursor.execute(check_member_sql, (email,))
+    result = False
+    for id, name, email, passsword in cursor:
+        if member_password == passsword:
+            result = {"id": id, "email": email, "name": name}
+        else:
+            result = False
     db.close()
-    return infos
-
-
-def parse_datas(infos):
-    data_list = []
-    total_count = 0
-    if infos:
-        for num in range(len(infos)):
-            id = infos[num][0]
-            name = infos[num][1]
-            category = infos[num][2]
-            description = infos[num][3]
-            address = infos[num][4]
-            transport = infos[num][5]
-            mrt = infos[num][6]
-            latitude = float(infos[num][7])
-            longitude = float(infos[num][8])
-            images = infos[num][9].split(" | ")
-            data = {
-                "id": id,
-                "name": name,
-                "category": category,
-                "description": description,
-                "address": address,
-                "transport": transport,
-                "mrt": mrt,
-                "latitude": latitude,
-                "longitude": longitude,
-                "images": images,
-            }
-            if len(infos) > 1:
-                data_list.append(data)
-        if len(infos) > 10:
-            total_count = infos[0][10]
-    if len(infos) == 1:
-        return (data, total_count)
-    else:
-        return (data_list, total_count)
+    return result
 
 
 # Pages
@@ -124,52 +76,51 @@ def thankyou():
     return render_template("thankyou.html")
 
 
-# Apis
-@app.route("/api/attractions")
-def attractions():
-    try:
-        page_num = try_parse_int(request.args.get("page"))
-        key_word = request.args.get("keyword")
-        datas_per_page = 12
-        nextPage = None
-        if page_num is None or 0:
-            page_num = 0
-        offset = (page_num) * datas_per_page
-        if key_word is None:
-            infos = get_attractions(datas_per_page, offset)
-            data = parse_datas(infos)[0]
-            total_count = parse_datas(infos)[1]
-            if total_count > offset + datas_per_page:
-                nextPage = page_num + 1
-        if key_word or key_word == "":
-            keyword_for_serch = "%" + key_word + "%"
-            infos = get_attractions_by_keyword(keyword_for_serch, datas_per_page, offset)
-            data = parse_datas(infos)[0]
-            total_count = parse_datas(infos)[1]
-            if total_count > offset + datas_per_page:
-                nextPage = page_num + 1
-        return jsonify({"nextPage": nextPage, "data": data})
-
-    except:
-        error = {"error": True, "message": "伺服器錯誤"}
-        return jsonify(error), 500
-
-
-@app.route("/api/attractions/<attractionId>")
-def attractions_id(attractionId):
-    try:
-        if try_parse_int(attractionId) is None:
-            err = {"error": True, "message": "景點編號不正確"}
-            return jsonify(err), 400
+@app.route("/api/user", methods=["GET", "POST", "PATCH", "DELETE"])
+def auth():
+    if request.method == "GET":
+        id = session.get("id")
+        email = session.get("email")
+        name = session.get("name")
+        if not id or not email or not name:
+            return jsonify(None)
         else:
-            id_num = try_parse_int(attractionId)
-            info = get_attraction_by_id(id_num)
-            data = parse_datas(info)[0]
-            return jsonify({"data": data})
-
-    except:
-        error = {"error": True, "message": "伺服器錯誤"}
-        return jsonify(error), 500
+            data = {"id": id, "name": name, "email": email}
+            return jsonify(data)
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        print(name, email, password)
+        if not name:
+            return jsonify({"error": True, "message": "請輸入姓名"}), 400
+        if not email:
+            return jsonify({"error": True, "message": "請輸入Email"}), 400
+        if not password:
+            return jsonify({"error": True, "message": "請輸入密碼"}), 400
+        if is_email(email):
+            return jsonify({"error": True, "message": "email已存在"}), 400
+        else:
+            sign_up(name, email, password)
+            return jsonify({"ok": True})
+    if request.method == "PATCH":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        if not email:
+            return jsonify({"error": True, "message": "請輸入Email"}), 400
+        if not password:
+            return jsonify({"error": True, "message": "請輸入密碼"}), 400
+        member = authenticate_member(email, password)
+        if member is False:
+            return jsonify({"error": True, "message": "帳號密碼錯誤"}), 400
+        else:
+            session["id"] = member["id"]
+            session["name"] = member["name"]
+            session["email"] = member["email"]
+            return jsonify({"ok": True})
+    if request.method == "DELETE":
+        session.clear()
+        return jsonify({"ok": True})
 
 
 app.run(port=3000, debug=True)

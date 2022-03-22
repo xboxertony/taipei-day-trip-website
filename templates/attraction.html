@@ -34,16 +34,12 @@
           alt="btn_rightArrow"
         />
         <div id="pageDots">
-          <!-- <input type="radio" class="pageDot"> -->
           
         </div>
       </section>
       <section id="reservation">
         <p id="attractionTitle"></p>
-        <!-- <div id="attractionCateAndMrt"> -->
           <p id="attractionCateAndMrt"></p>
-                  <!-- <p id="attractionMrt"></p> -->
-        <!-- </div> -->
         <div id="reservationTable">
           <p id="reservationTableTitle">訂購導覽行程</p>
           <p id="reservationTableSlogan">以此景點為中心的一日行程，帶您探索城市角落故事</p>
@@ -83,6 +79,30 @@
     <footer>
       <p>COPYRIGHT © 2021 台北一日遊</p>
     </footer>
+    <div id="modal">
+      <div id="authTable">
+<div id="authTavbleBar"></div>
+<div id="authBody">
+  <form id="loginTable" action="/api/user" method="PATCH">
+<input type="text" id="loginEmail" name="login" placeholder="輸入電子信箱">
+<input type="text" id="loginPassword" name="login" placeholder="輸入密碼">
+<input type="submit" value="登入帳戶">
+  </form>
+<p>還沒有帳戶？<span>點此註冊</span></p>  
+</div>
+      </div>
+      <div id="authTable">
+        <div id="authTavbleBar"></div>
+        <div id="authBody">
+          <form id="loginTable" action="/api/user" method="PATCH">
+        <input type="text" id="loginEmail" name="login" placeholder="輸入電子信箱">
+        <input type="text" id="loginPassword" name="login" placeholder="輸入密碼">
+        <input type="submit" value="登入帳戶">
+          </form>
+        <p>還沒有帳戶？<span>點此註冊</span></p>  
+        </div>
+              </div>
+    </div>
     <script src="../static/js/attractonScript.js"></script>
   </body>
 </html>

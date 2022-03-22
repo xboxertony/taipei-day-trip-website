@@ -178,6 +178,7 @@ form {
   margin: 0px 20px 41px 20px;
 }
 #inputDate {
+  border: none;
   width: 193px;
   height: 35px;
 }
@@ -289,6 +290,10 @@ footer {
 @media screen and (min-width: 1201px) {
   header {
     grid-template-columns: auto 600px 600px auto;
+    box-sizing: border-box;
+    z-index: 2;
+    position: fixed;
+    top: 0;
   }
   .nav {
     grid-column: 3/ 4;
@@ -323,6 +328,9 @@ footer {
   header {
     grid-template-columns: auto 45% 45% auto;
     box-sizing: border-box;
+    z-index: 2;
+    position: fixed;
+    top: 0;
   }
 
   .nav {
