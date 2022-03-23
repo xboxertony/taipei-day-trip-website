@@ -174,7 +174,7 @@ main {
 #attractionMrt {
   display: inline;
 }
-form {
+#reservationFrom {
   margin: 0px 20px 41px 20px;
 }
 #inputDate {
@@ -182,7 +182,7 @@ form {
   width: 193px;
   height: 35px;
 }
-form fieldset {
+#reservationFrom fieldset {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -410,12 +410,6 @@ footer {
     right: 10px;
     top: 157px;
   }
-  /* #attractionTitle {
-    padding-left: 10px;
-  }
-  #attractionCateAndMrt {
-    padding-left: 10px;
-  } */
   #reservation {
     /* grid-row: 2/3; */
     padding: 0 10px;
@@ -428,7 +422,7 @@ footer {
   #reservationTableSlogan {
     height: auto;
   }
-  form {
+  #reservationFrom {
     margin-bottom: 15px;
     height: 190px;
     box-sizing: border-box;
