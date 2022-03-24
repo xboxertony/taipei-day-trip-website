@@ -15,8 +15,8 @@
   <header>
     <p class="home">台北一日遊</p>
     <nav class="nav">
-      <a href="">預定行程</a>
-      <a href="" id="loginOrSingup">登入/註冊</a>
+      <a >預定行程</a>
+      <a id="loginOrSignup"></a>
     </nav>
   </header>
   <main>
@@ -76,30 +76,35 @@
   </footer>
   <div id="modal">
     <div id="loginTable" class="modalContent">
-      <div class="authBody" id="loginBody">
+      <div class="authBody" id="loginBody" style="display: block;">
         <p class="modalTableTitle">登入會員帳號</p>
-        <form class="authForm" id="loginTable" action="/api/user" method="PATCH">
-          <input type="text" id="loginEmail" name="login" placeholder="輸入電子信箱">
-          <input type="text" id="loginPassword" name="login" placeholder="輸入密碼">
+        <button type="button" class="closeIconBtn" onclick="closeModal()"></button>
+        <form class="authForm" id="loginForm" action="/api/user" method="PATCH">
+          <input type="text" id="loginEmail" name="email" placeholder="輸入電子信箱">
+          <input type="password" id="loginPassword" name="password" placeholder="輸入密碼">
           <input type="submit" value="登入帳戶">
         </form>
-        <p>還沒有帳戶？<span>點此註冊</span></p>
+        <p class="showResult"></p>
+        <p id="toSignupText" class="loginOrSignupText">還沒有帳戶？<span onclick="toggleAuthTable()" id="clickToSignup" >點此註冊</span></p>
       </div>
     </div>
     <div id="signupTable" class="modalContent">
-      <div class="authBody" id="signupBody">
+      <div class="authBody" id="signupBody" style="display: none;">
         <p class="modalTableTitle">註冊會員帳號</p>
-        <form class="authForm" id="signupble" action="/api/user" method="POST">
-          <input type="text" id="signupName" name="signup" placeholder="輸入姓名">
-          <input type="text" id="signupEmail" name="signup" placeholder="輸入電子信箱">
-          <input type="text" id="signupPassword" name="signup" placeholder="輸入密碼">
+        <button type="button" class="closeIconBtn" onclick="closeModal()"></button>
+        <form class="authForm" id="signupForm" action="/api/user">
+          <input type="text" id="signupName" name="name" placeholder="輸入姓名">
+          <input type="text" id="signupEmail" name="email" placeholder="輸入電子信箱">
+          <input type="password" id="signupPassword" name="password" placeholder="輸入密碼">
           <input type="submit" value="註冊新帳戶">
         </form>
-        <p>已經有帳戶？<span>點此登入</span></p>
+        <p class="showResult"></p>
+        <p id="toLoginText" class="loginOrSignupText" >已經有帳戶？<span onclick="toggleAuthTable()" id="clickToLogin" >點此登入</span></p>
       </div>
     </div>
   </div>
   <script src="../static/js/attractonScript.js"></script>
+  <script src="../static/js/authentication.js"></script>
 </body>
 
 </html>

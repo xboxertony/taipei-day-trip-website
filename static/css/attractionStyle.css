@@ -31,6 +31,7 @@ header {
   color: #666666;
   justify-self: center;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .home {
@@ -42,6 +43,7 @@ header {
   font-weight: bold;
   font-size: 1.875rem;
   line-height: 34px;
+  cursor: pointer;
 }
 
 main {
@@ -76,6 +78,7 @@ main {
   margin-bottom: 13px;
 }
 .pageDot {
+  cursor: pointer;
   appearance: none;
   display: grid;
   place-content: center;
@@ -178,9 +181,15 @@ main {
   margin: 0px 20px 41px 20px;
 }
 #inputDate {
+  border-radius: 5px;
   border: none;
   width: 193px;
   height: 35px;
+}
+#inputDate:focus {
+  outline: none;
+  border: 1px solid #448899;
+  box-shadow: 0 0 5px #66aabb;
 }
 #reservationFrom fieldset {
   display: flex;
@@ -199,6 +208,7 @@ main {
   margin-right: 14px;
 }
 .inputRadio {
+  cursor: pointer;
   display: grid;
   place-content: center;
   appearance: none;
@@ -222,6 +232,7 @@ main {
 }
 
 #reservationBtn {
+  cursor: pointer;
   margin: 25px 0 0 0;
   padding: 0;
   width: 154px;

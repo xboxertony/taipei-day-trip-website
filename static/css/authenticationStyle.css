@@ -10,7 +10,7 @@
 }
 .modalContent {
   position: fixed;
-  top: 0;
+  top: 80px;
   left: 50%;
   margin-left: -170px;
   width: 340px;
@@ -21,30 +21,41 @@
   display: flex;
   text-align: center;
 }
-/* #signupTable {
-  display: none;
-} */
 
 .modalTableTitle {
+  color: #666666;
+  font-weight: 700;
+  font-size: 1.5rem;
   margin-top: 15px;
 }
 
-.authBody {
-  box-sizing: border-box;
-  margin: 0;
+.closeIconBtn {
+  cursor: pointer;
   padding: 0;
-  width: 340px;
-  background: #ffffff;
-  border-radius: 5px;
-  border-top: solid 10px;
-  border-image: linear-gradient(270deg, #66aabb, #337788) 1;
+  position: absolute;
+  top: 17px;
+  right: 17px;
+  z-index: 4;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  background: url("../images/icon_close.png");
+  background-color: #fff;
+  border-style: none;
 }
 
-#loginBody {
-  height: 275px;
-}
-#signupBody {
-  height: 332px;
+.authBody {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  width: 340px;
+  height: auto;
+  border-radius: 5px;
+  border-top: solid 10px transparent;
+  background-image: linear-gradient(#ffffff, #ffffff),
+    linear-gradient(270deg, #66aabb, #337788);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
 }
 
 .authForm {
@@ -53,13 +64,23 @@
   flex-direction: column;
   align-items: center;
 }
+
+.authForm input:focus {
+  outline: none;
+  border: 1px solid #448899;
+  box-shadow: 0 0 5px #66aabb;
+}
+
 .authForm input[type="submit"] {
+  cursor: pointer;
   color: #fff;
+  font-size: 1.1875rem;
   background: #448899;
   border-radius: 5px;
   border: none;
 }
-.authForm input[type="text"] {
+.authForm input[type="text"],
+.authForm input[type="password"] {
   text-indent: 15px;
   color: #666666;
   border-radius: 5px;
@@ -72,6 +93,22 @@
   box-sizing: border-box;
 }
 
-.authBody p {
+#clickToSignup,
+#clickToLogin {
+  cursor: pointer;
+}
+#clickToSignup:hover,
+#clickToLogin:hover {
+  border-radius: 8px;
+  box-shadow: 0 0 5px #66aabb;
+}
+
+.loginOrSignupText {
   color: #666666;
+  margin: 10px 0 16px 0;
+}
+.showResult {
+  display: none;
+  color: #b32208;
+  margin: 10px 0 0 0;
 }

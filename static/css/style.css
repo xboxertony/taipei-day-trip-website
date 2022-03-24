@@ -31,6 +31,7 @@ header {
   color: #666666;
   justify-self: center;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .home {
@@ -43,6 +44,7 @@ header {
   font-weight: bold;
   font-size: 1.875rem;
   line-height: 34px;
+  cursor: pointer;
 }
 
 main {
@@ -155,6 +157,7 @@ main {
   border: 1px solid #e8e8e8;
   box-sizing: border-box;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 footer {
