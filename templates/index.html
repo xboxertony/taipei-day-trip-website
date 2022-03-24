@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"  type= "text/css" href="/static/css/index.css?v=0.0.28">
+    <link rel="stylesheet"  type= "text/css" href="/static/css/index.css?v=0.0.219">
     <link rel="shortcut icon" href="#"></link>
     <title>首頁</title>
 </head>
 <body>
+
+
+<div class="overlay"></div>
+
 
 <div class="box0">
     <div class="box1">
@@ -16,11 +20,44 @@
         <div class="frame2">
             <div class="frame1">
             <button>預定行程</button>
-            <button>登入/註冊</button>
+            <button id="logreg">登入/註冊</button>
             </div>
         </div>
     </div> 
 </div>
+
+
+<div class = "window">
+<div class="login">   
+    <div class="decorate"></div> 
+    <form class="main" data="1">
+        <div class="header">登入會員帳號<div class = "close">&times;</div></div>
+        
+        <input type='text' class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' pattern= "^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$" />
+        <input type='password'  class="password" placeholder="輸入密碼" title='須為長度4至8的文字字元' pattern="^[\w]{4,8}$" />
+        <input type='submit' class="enter"  value="登入帳戶"/>
+        <div class= "prompt"><span>您非會員</span></div>
+        <div class="inform"><span>還沒有帳戶？<span class = "another" id = "toReg">點此註冊</span></span></div>
+    </form> 
+</div>
+
+<div class="register">   
+    <div class="decorate"></div> 
+    <form class="master" data="2">
+        <div class="header">註冊會員帳號<div class = "close">&times;</div></div>
+
+        <input type='text'  class="name" placeholder="輸入姓名" title='開頭須為長度3至8的英文字母' pattern="^([A-za-z]{3,8})([0-9])?$" />
+        <input type='text' class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' pattern= "^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$" />
+        <input type='password'  class="password" placeholder="輸入密碼" title='須為長度4至8的文字字元' pattern="^[\w]{4,8}$" />
+        <input type='submit' class="enter"  value="註冊新帳戶"/>
+        <div class= "prompt" style="display: none;"><span>Email 已經註冊帳戶</span></div>
+        <div class="inform"><span>已經有帳戶了？<span class = "another" id = "toLog">點此登入</span></span></div>
+    </form> 
+</div>
+</div>
+
+
+
 
 <div class="box2">
 <div class="ba1">
@@ -44,7 +81,6 @@
 </div> 
 
 
-
 <div class="box3"> 
 <div class="ba3" id="ba3_id"></div>
 </div>
@@ -53,6 +89,9 @@
 
 
 
-<script type="text/javascript" src="/static/js/index.js?v=0.01"></script>
+
+
+<script type="text/javascript" src="/static/js/index.js?v=0.07"></script>
+<script type="text/javascript" src="/static/js/index_popup.js?v=0.20"></script>
 </body>
 </html>

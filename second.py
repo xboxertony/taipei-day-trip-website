@@ -1,5 +1,7 @@
 import json, os , mysql.connector.pooling, traceback
 from dotenv import load_dotenv
+from dotenv import dotenv_values
+
 from flask import *
 
 api = Blueprint('api',__name__)
@@ -190,3 +192,11 @@ def page_keyword():
             CN1.close()
 
     return jsonify(final)
+
+
+
+@api.route('/api/user')
+def get_user():
+    data = {'name': 'amy'}
+    return jsonify(data)
+

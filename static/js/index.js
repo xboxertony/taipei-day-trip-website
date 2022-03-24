@@ -51,7 +51,6 @@ function emptyReply(){
 
 }
 
-
 async function getValue(url){
     try{
         let res =  await fetch(url) // fetch(url) is a promise, so we should wait until fullfilled. res is a response object.
@@ -123,21 +122,19 @@ window.addEventListener('scroll',()=>{
     }
 })
 
-
-document.getElementById("magnify").addEventListener("click", function(){
+function search_func(){
     console.log('輸入景點名稱',document.getElementById("search").value)
     nexturl = `/api/attractions/?keyword=${document.getElementById("search").value}`
     record = []; /*清空之前搜尋紀錄*/
     ba3_id.innerHTML = '' /*清空之前載入景點*/
     ajax(nexturl) 
-});
-
+}
 
 var nextPage, nexturl
 var record = [];
-
 var ba3_id = document.getElementById('ba3_id');
-
 document.getElementById("search").value = ''
+document.getElementById("magnify").addEventListener('click', search_func)
+
 
 window.onload = ajax('/api/attractions/')
