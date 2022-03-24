@@ -3,13 +3,18 @@ from api.api import api
 from api.user import user
 from db_connection import connection_pool, db, cursor
 import os
+from dotenv import load_dotenv
+from os import environ, path
+
+basedir = path.abspath(path.dirname(__file__))
+load_dotenv(path.join(basedir, ".env"))
 
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["JSON_SORT_KEYS"] = False
-app.config["SECRET_KEY"] = os.urandom(24)
+app.config["SECRET_KEY"] = environ.get("SECRET_KEY")
 
 app.register_blueprint(api)
 app.register_blueprint(user)
@@ -36,4 +41,5 @@ def thankyou():
     return render_template("thankyou.html")
 
 
-app.run(port=3000, debug=True)
+if __name__ == "__main__":
+    app.run(port=3000, debug=True)

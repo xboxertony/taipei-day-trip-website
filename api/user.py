@@ -2,6 +2,7 @@ from flask import *
 import bcrypt
 from db_connection import connection_pool, cursor, db
 
+
 user = Blueprint("user", __name__)
 
 
