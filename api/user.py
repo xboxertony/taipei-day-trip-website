@@ -1,4 +1,5 @@
 from flask import *
+import bcrypt
 from db_connection import connection_pool, cursor, db
 
 user = Blueprint("user", __name__)
@@ -18,24 +19,24 @@ def is_email(email):
 
 
 def sign_up(name, email, password):
+    hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
     insert_user_ssql = "INSERT INTO member (name, email, password) VALUES (%s, %s, %s)"
     db = connection_pool.get_connection()
     cursor = db.cursor()
-    # row_count = cursor.rowcount
-    cursor.execute(insert_user_ssql, (name, email, password))
+    cursor.execute(insert_user_ssql, (name, email, hashed))
     db.commit()
     cursor.close()
     db.close()
 
 
-def authenticate_member(email, member_password):
+def authenticate_member(email, password):
     check_member_sql = "SELECT id,name, email, password FROM member WHERE email = %s"
     db = connection_pool.get_connection()
     cursor = db.cursor()
     cursor.execute(check_member_sql, (email,))
     result = False
-    for id, name, email, passsword in cursor:
-        if member_password == passsword:
+    for id, name, email, hashed in cursor:
+        if bcrypt.checkpw(password.encode("utf-8"), hashed.encode()):
             result = {"id": id, "email": email, "name": name}
         else:
             result = False
