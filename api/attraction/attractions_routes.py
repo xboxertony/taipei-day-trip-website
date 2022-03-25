@@ -63,6 +63,7 @@ def api_attractions():
       "data": data_arr
     }
   except Exception as e:
+    print(e)
     return{
       "error": True,
       "message": "錯誤"

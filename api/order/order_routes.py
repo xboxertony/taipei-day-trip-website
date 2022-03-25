@@ -27,6 +27,11 @@ def place_order():
       current_user = session['email']
       try:
         data = request.get_json()
+        if not data['order']['contact']['name'] or not data['order']['contact']['email'] or not data["order"]["contact"]["phone"]:
+          return {
+          "error": True,
+          "message": '請完整資訊'
+        }
         total_num = len(data['order']["trip"])
         
         for attraction in data['order']["trip"]:

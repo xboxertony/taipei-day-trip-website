@@ -4,21 +4,21 @@ const items = document.querySelector(".items");
 
 let nextPage;
 let keyword;
-function load() {
+function load(d) {
   try {
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < d.length; i++) {
       const anchor = document.createElement("a");
       // const item = document.createElement("div");
       anchor.classList.add("item");
 
       const img = document.createElement("img");
       anchor.appendChild(img);
-      img.src = `${data[i].image[0]}`;
+      img.src = `${d[i].image[0]}`;
 
       const title = document.createElement("div");
       anchor.appendChild(title);
       title.classList.add("title");
-      title.textContent = data[i].name;
+      title.textContent = d[i].name;
 
       const info = document.createElement("div");
       anchor.appendChild(info);
@@ -27,14 +27,14 @@ function load() {
       const mrt = document.createElement("div");
       info.appendChild(mrt);
       mrt.classList.add("mrt");
-      mrt.textContent = data[i].mrt;
+      mrt.textContent = d[i].mrt;
 
       const category = document.createElement("div");
       info.appendChild(category);
       category.classList.add("category");
-      category.textContent = data[i].category;
+      category.textContent = d[i].category;
 
-      anchor.href = `/attraction/${data[i].id}`;
+      anchor.href = `/attraction/${d[i].id}`;
 
       items.appendChild(anchor);
     }
@@ -50,7 +50,8 @@ async function initialLoad() {
   const parsedData = await response.json();
   nextPage = parsedData.nextPage;
   data = parsedData.data;
-  load();
+
+  load(data);
 }
 
 document.addEventListener("DOMContentLoaded", initialLoad);
@@ -90,7 +91,7 @@ async function loadMore() {
   const parsedData = await response.json();
   nextPage = parsedData.nextPage;
   data = parsedData.data;
-  load();
+  load(data);
 }
 
 const options = {

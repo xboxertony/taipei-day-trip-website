@@ -6,7 +6,7 @@ async function initialLoad() {
   let data = parsedData;
 
   if (data.error) {
-    main.innerHTML = `<h1 style="text-align: center;" >${data.message}</h1>`;
+    location.href = "/";
   } else {
     ordersArr = data.data;
   }

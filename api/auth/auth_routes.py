@@ -20,7 +20,7 @@ def signup():
   if user:
     return{
       "error": True,
-      "message": "重複的 Email"
+      "message": "此Email已有人使用"
     }
   if not user:
     try:

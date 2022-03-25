@@ -11,6 +11,7 @@ const messageInner = document.querySelector(".message-inner");
 const alertMessage = document.querySelector(".alert");
 
 const loginInner = document.querySelector(".login-inner");
+const returnBtn = document.querySelector(".return");
 
 //--------------------------check status------------------------------
 async function check() {
@@ -40,6 +41,9 @@ if (document.readyState === "loading") {
 authBtnLogin.addEventListener("click", (e) => {
   overlay.classList.remove("none");
   authContainer.classList.remove("none");
+  loginInner.classList.remove("none");
+  signupInner.classList.add("none");
+  messageInner.classList.add("none");
 });
 
 //-----------------------close and change--------------------------
@@ -48,7 +52,9 @@ authClose.forEach((v) => {
   v.addEventListener("click", (e) => {
     overlay.classList.add("none");
     authContainer.classList.add("none");
-    location.reload();
+    alertMessage.innerHTML = "";
+
+    // location.reload();
   });
 });
 
@@ -79,7 +85,11 @@ let loginPassed = {
   password: false,
 };
 
+loginPassed.email = inputLoginEmail.value.length > 0;
+loginPassed.password = inputLoginPassword.value.length > 0;
+
 loginBtn.disabled = Object.values(loginPassed).includes(false);
+loginBtn.style.cursor = loginBtn.disabled ? "not-allowed" : "pointer";
 
 inputLoginEmail.addEventListener("input", (e) => {
   loginPassed.email = e.target.value.length > 0;
@@ -90,6 +100,7 @@ inputLoginEmail.addEventListener("input", (e) => {
     loginEmailMessage.classList.add("none");
   }
   loginBtn.disabled = Object.values(loginPassed).includes(false);
+  loginBtn.style.cursor = loginBtn.disabled ? "not-allowed" : "pointer";
 });
 
 inputLoginPassword.addEventListener("input", (e) => {
@@ -101,6 +112,7 @@ inputLoginPassword.addEventListener("input", (e) => {
     loginPasswordMessage.classList.add("none");
   }
   loginBtn.disabled = Object.values(loginPassed).includes(false);
+  loginBtn.style.cursor = loginBtn.disabled ? "not-allowed" : "pointer";
 });
 
 loginBtn.addEventListener("click", (e) => {
@@ -120,22 +132,29 @@ loginBtn.addEventListener("click", (e) => {
     });
     const res = await response.json();
     if (res.ok) {
-      overlay.classList.add("none");
-      authContainer.classList.add("none");
-      loginInner.classList.add("none");
-
       check();
-      overlay.classList.remove("none");
-      authContainer.classList.remove("none");
+
+      loginInner.classList.add("none");
       messageInner.classList.remove("none");
       alertMessage.innerHTML = "<h3>登入成功</h3>";
+      authClose[0].classList.remove("none");
+      signupInner.classList.add("none");
+      returnBtn.classList.add("none");
     } else if (res.error) {
       loginInner.classList.add("none");
-
-      overlay.classList.remove("none");
-      authContainer.classList.remove("none");
       messageInner.classList.remove("none");
-      alertMessage.textContent = "<h3>登入失敗</h3>";
+      alertMessage.innerHTML = res.message;
+      authClose[0].classList.add("none");
+      signupInner.classList.add("none");
+      returnBtn.classList.remove("none");
+
+      function backToLogin() {
+        console.log("123");
+        signupInner.classList.add("none");
+        messageInner.classList.add("none");
+        loginInner.classList.remove("none");
+      }
+      returnBtn.addEventListener("click", backToLogin);
     }
   }
   login();
@@ -158,6 +177,7 @@ authBtnLogout.addEventListener("click", (e) => {
       authContainer.classList.remove("none");
       messageInner.classList.remove("none");
       alertMessage.innerHTML = "<h3>登出成功</h3>";
+      returnBtn.classList.add("none");
     } else if (res.error) {
       loginInner.classList.add("none");
       overlay.classList.remove("none");
@@ -179,6 +199,7 @@ const signupPasswordMessage = document.querySelector(
 const inputSignupName = document.querySelector(".input-signup-name");
 const inputSignupEmail = document.querySelector(".input-signup-email");
 const inputSignupPassword = document.querySelector(".input-signup-password");
+const signupInner = document.querySelector(".signup-inner");
 
 const signupBtn = document.querySelector(".signup-btn");
 
@@ -187,6 +208,12 @@ let signupPassed = {
   email: false,
   password: false,
 };
+signupPassed.name =
+  inputSignupName.value.length < 8 && inputSignupName.value.length > 0;
+signupPassed.email = inputSignupEmail.value.includes("@");
+signupPassed.password =
+  inputSignupPassword.value.length < 10 &&
+  inputSignupPassword.value.length >= 5;
 
 signupBtn.disabled = Object.values(signupPassed).includes(false);
 signupBtn.style.cursor = signupBtn.disabled ? "not-allowed" : "pointer";
@@ -217,7 +244,7 @@ inputSignupEmail.addEventListener("input", (e) => {
 
 inputSignupPassword.addEventListener("input", (e) => {
   signupPassed.password =
-    e.target.value.length < 10 && e.target.value.length > 5;
+    e.target.value.length < 10 && e.target.value.length >= 5;
   if (!signupPassed.password) {
     signupPasswordMessage.classList.remove("none");
     signupPasswordMessage.textContent = "密碼長度須介於5到10字元";
@@ -247,11 +274,31 @@ signupBtn.addEventListener("click", (e) => {
     });
     const res = await response.json();
     if (res.ok) {
-      ele.target.parentElement.classList.add("none");
-      ele.target.parentElement.previousElementSibling.classList.remove("none");
-      window.alert("註冊成功，請登入");
+      signupInner.classList.add("none");
+      messageInner.classList.remove("none");
+      alertMessage.textContent = "註冊成功，請登入。";
+      authClose[0].classList.add("none");
+      loginInner.classList.add("none");
+      function goToLogin() {
+        console.log("123");
+        signupInner.classList.add("none");
+        messageInner.classList.add("none");
+        loginInner.classList.remove("none");
+      }
+      returnBtn.addEventListener("click", goToLogin);
     } else if (res.error) {
-      window.alert(res.message);
+      loginInner.classList.add("none");
+      signupInner.classList.add("none");
+      messageInner.classList.remove("none");
+      alertMessage.innerHTML = res.message;
+      authClose[0].classList.add("none");
+      function backToSignup() {
+        console.log("123");
+        messageInner.classList.add("none");
+        loginInner.classList.add("none");
+        signupInner.classList.remove("none");
+      }
+      returnBtn.addEventListener("click", backToSignup);
     }
   }
 

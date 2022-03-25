@@ -13,8 +13,7 @@ async function initialLoad() {
   let data = parsedData;
 
   if (data.error) {
-    historyLink.classList.add("none");
-    main.innerHTML = `<h1 style="text-align: center;" >${data.message}</h1>`;
+    location.href = "/";
     return null;
   } else {
     booksArr = data.data;
@@ -188,12 +187,20 @@ function onClick() {
   // 讓 button click 之後觸發 getPrime 方法
   TPDirect.card.getPrime(function (result) {
     if (!inputEmail || !inputName || !inputTelephone) {
-      window.alert("請輸入聯絡資訊");
+      loginInner.classList.add("none");
+      overlay.classList.remove("none");
+      authContainer.classList.remove("none");
+      messageInner.classList.remove("none");
+      alertMessage.innerHTML = "<h3>請輸入聯絡資訊</h3>";
       return;
     }
 
     if (result.status !== 0) {
-      window.alert("錯誤，請確認信用卡是否正確輸入");
+      loginInner.classList.add("none");
+      overlay.classList.remove("none");
+      authContainer.classList.remove("none");
+      messageInner.classList.remove("none");
+      alertMessage.innerHTML = "<h3>請確認信用卡資訊是否正確</h3>";
       return;
     }
     var inputPrime = result.card.prime;
