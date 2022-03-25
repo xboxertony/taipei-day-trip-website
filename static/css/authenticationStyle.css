@@ -1,0 +1,114 @@
+#modal {
+  display: none;
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modalContent {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  margin-left: -170px;
+  width: 340px;
+  height: auto;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: 0px 4px 60px #aaaaaa;
+  display: flex;
+  text-align: center;
+}
+
+.modalTableTitle {
+  color: #666666;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-top: 15px;
+}
+
+.closeIconBtn {
+  cursor: pointer;
+  padding: 0;
+  position: absolute;
+  top: 17px;
+  right: 17px;
+  z-index: 4;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  background: url("../images/icon_close.png");
+  background-color: #fff;
+  border-style: none;
+}
+
+.authBody {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  width: 340px;
+  height: auto;
+  border-radius: 5px;
+  border-top: solid 10px transparent;
+  background-image: linear-gradient(#ffffff, #ffffff),
+    linear-gradient(270deg, #66aabb, #337788);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.authForm {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.authForm input:focus {
+  outline: none;
+  border: 1px solid #448899;
+  box-shadow: 0 0 5px #66aabb;
+}
+
+.authForm input[type="submit"] {
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.1875rem;
+  background: #448899;
+  border-radius: 5px;
+  border: none;
+}
+.authForm input[type="text"],
+.authForm input[type="password"] {
+  text-indent: 15px;
+  color: #666666;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+}
+
+.authForm input {
+  width: 310px;
+  height: 47px;
+  box-sizing: border-box;
+}
+
+#clickToSignup,
+#clickToLogin {
+  cursor: pointer;
+}
+#clickToSignup:hover,
+#clickToLogin:hover {
+  border-radius: 8px;
+  box-shadow: 0 0 5px #66aabb;
+}
+
+.loginOrSignupText {
+  color: #666666;
+  margin: 10px 0 16px 0;
+}
+.showResult {
+  display: none;
+  color: #b32208;
+  margin: 10px 0 0 0;
+}

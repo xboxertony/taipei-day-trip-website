@@ -2,6 +2,7 @@ let windowUrl = new URL(`${window.location.href}`);
 let url = `${windowUrl.protocol}//${windowUrl.host}/api/attractions/${
   windowUrl.pathname.split("/")[2]
 }`;
+let images;
 
 const parseAttractionsInfo = (data) => {
   let attraction = data.data;
@@ -93,5 +94,5 @@ const changeTourFee = () => {
 fetch(url)
   .then((res) => res.json())
   .then(setInfo)
-  .then(setTimeout(slideshow, 5000))
+  // .then(setTimeout(slideshow, 5000))
   .catch(console.log);

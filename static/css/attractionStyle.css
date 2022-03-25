@@ -31,6 +31,7 @@ header {
   color: #666666;
   justify-self: center;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .home {
@@ -42,6 +43,7 @@ header {
   font-weight: bold;
   font-size: 1.875rem;
   line-height: 34px;
+  cursor: pointer;
 }
 
 main {
@@ -76,6 +78,7 @@ main {
   margin-bottom: 13px;
 }
 .pageDot {
+  cursor: pointer;
   appearance: none;
   display: grid;
   place-content: center;
@@ -174,14 +177,21 @@ main {
 #attractionMrt {
   display: inline;
 }
-form {
+#reservationFrom {
   margin: 0px 20px 41px 20px;
 }
 #inputDate {
+  border-radius: 5px;
+  border: none;
   width: 193px;
   height: 35px;
 }
-form fieldset {
+#inputDate:focus {
+  outline: none;
+  border: 1px solid #448899;
+  box-shadow: 0 0 5px #66aabb;
+}
+#reservationFrom fieldset {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -198,6 +208,7 @@ form fieldset {
   margin-right: 14px;
 }
 .inputRadio {
+  cursor: pointer;
   display: grid;
   place-content: center;
   appearance: none;
@@ -221,6 +232,7 @@ form fieldset {
 }
 
 #reservationBtn {
+  cursor: pointer;
   margin: 25px 0 0 0;
   padding: 0;
   width: 154px;
@@ -289,6 +301,10 @@ footer {
 @media screen and (min-width: 1201px) {
   header {
     grid-template-columns: auto 600px 600px auto;
+    box-sizing: border-box;
+    z-index: 2;
+    position: fixed;
+    top: 0;
   }
   .nav {
     grid-column: 3/ 4;
@@ -323,6 +339,9 @@ footer {
   header {
     grid-template-columns: auto 45% 45% auto;
     box-sizing: border-box;
+    z-index: 2;
+    position: fixed;
+    top: 0;
   }
 
   .nav {
@@ -402,12 +421,6 @@ footer {
     right: 10px;
     top: 157px;
   }
-  /* #attractionTitle {
-    padding-left: 10px;
-  }
-  #attractionCateAndMrt {
-    padding-left: 10px;
-  } */
   #reservation {
     /* grid-row: 2/3; */
     padding: 0 10px;
@@ -420,7 +433,7 @@ footer {
   #reservationTableSlogan {
     height: auto;
   }
-  form {
+  #reservationFrom {
     margin-bottom: 15px;
     height: 190px;
     box-sizing: border-box;

@@ -8,22 +8,9 @@
   <body>
     <header>
       <p class="home">台北一日遊</p>
-      <nav>
-        <img
-          onclick="showMenu()"
-          alt=""
-          src="image/menu_icon.png"
-          width="25"
-          height="25"
-        />
-        <ul id="navbar">
-          <li>
-            <a href="">預定行程</a>
-          </li>
-          <li>
-            <a href="">登入註冊</a>
-          </li>
-        </ul>
+      <nav class="nav">
+        <a>預定行程</a>
+        <a id="loginOrSignup"></a>
       </nav>
     </header>
     <section>
@@ -67,6 +54,81 @@
     <footer>
       <p>COPYRIGHT© 2021 台北一日遊</p>
     </footer>
+    <div id="modal">
+      <div id="loginTable" class="modalContent">
+        <div class="authBody" id="loginBody" style="display: block">
+          <p class="modalTableTitle">登入會員帳號</p>
+          <button
+            type="button"
+            class="closeIconBtn"
+            onclick="closeModal()"
+          ></button>
+          <form
+            class="authForm"
+            id="loginForm"
+            action="/api/user"
+            method="PATCH"
+          >
+            <input
+              type="text"
+              id="loginEmail"
+              name="email"
+              placeholder="輸入電子信箱"
+            />
+            <input
+              type="password"
+              id="loginPassword"
+              name="password"
+              placeholder="輸入密碼"
+            />
+            <input type="submit" value="登入帳戶" />
+          </form>
+          <p class="showResult"></p>
+          <p id="toSignupText" class="loginOrSignupText">
+            還沒有帳戶？<span onclick="toggleAuthTable()" id="clickToSignup"
+              >點此註冊</span
+            >
+          </p>
+        </div>
+      </div>
+      <div id="signupTable" class="modalContent">
+        <div class="authBody" id="signupBody" style="display: none">
+          <p class="modalTableTitle">註冊會員帳號</p>
+          <button
+            type="button"
+            class="closeIconBtn"
+            onclick="closeModal()"
+          ></button>
+          <form class="authForm" id="signupForm" action="/api/user">
+            <input
+              type="text"
+              id="signupName"
+              name="name"
+              placeholder="輸入姓名"
+            />
+            <input
+              type="text"
+              id="signupEmail"
+              name="email"
+              placeholder="輸入電子信箱"
+            />
+            <input
+              type="password"
+              id="signupPassword"
+              name="password"
+              placeholder="輸入密碼"
+            />
+            <input type="submit" value="註冊新帳戶" />
+          </form>
+          <p class="showResult"></p>
+          <p id="toLoginText" class="loginOrSignupText">
+            已經有帳戶？<span onclick="toggleAuthTable()" id="clickToLogin"
+              >點此登入</span
+            >
+          </p>
+        </div>
+      </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>
