@@ -190,7 +190,7 @@ def get_id(attractionId):
         if CN1.is_connected():
             cursor.close()
             CN1.close()
-        return jsonify(data)
+    return jsonify(data)
 
 
 @api.route("/api/attractions/")
@@ -320,4 +320,4 @@ def page_keyword():
             cursor.close()
             CN1.close()
 
-        return jsonify(final)
+    return jsonify(final)
