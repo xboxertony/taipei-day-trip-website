@@ -118,7 +118,7 @@ function setTimer(){
 // 輪播函式
 async function animation(){
     console.log(`Now url is ${window.location.href}`)
-    await loadItem(`/api/attraction/${window.location.href.substring(33)}`)
+    await loadItem(`/api/attraction/${window.location.href.substring(38)}`)
     allBoxes = slider_main.children
     dot_list = slider_index.children
     //
