@@ -11,7 +11,7 @@ app.config['JSON_SORT_KEYS'] = False
 app.secret_key = os.urandom(24)
 
 app.register_blueprint(api, url_prefix='')
-app.config["JWT_SECRET_KEY"] = os.getenv('tokenKey')
+app.config["JWT_SECRET_KEY"] = os.getenv('TOKENKEY')
 jwt = JWTManager(app)
 
 
