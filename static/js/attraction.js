@@ -40,7 +40,7 @@ async function loadItem(url){
     let ajaxBack = await getValue(url)
     let data = ajaxBack['data']
     let name = data['name'], cate = data['category'], descp = data['description'], address = data['address'], transport = data['transport']
-    let mrt = data['mrt'],  images = data['images'].slice(0,3);
+    let mrt = data['mrt'],  images = data['images'].slice(0,9);
 
     document.title = name
     makeDiv(name, cate, descp, address, transport, mrt,images)
@@ -118,10 +118,9 @@ function setTimer(){
 // 輪播函式
 async function animation(){
     console.log(`Now url is ${window.location.href}`)
-    await loadItem(`/api/attraction/${window.location.href.substring(38)}`)
+    await loadItem(`/api/attraction/${window.location.href.substring(33)}`)
     allBoxes = slider_main.children
     dot_list = slider_index.children
-    console.log("after",allBoxes,dot_list)
     //
     setTimer()
     //游標點擊事件: 獲取所有圓點，綁定事件
@@ -199,7 +198,6 @@ let next = document.getElementById('next');
 let prev = document.getElementById('prev');
 let iNow
 let num = 0, timer;
-console.log("before",allBoxes,dot_list)
 
 
 //ajax

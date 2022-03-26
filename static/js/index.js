@@ -92,7 +92,7 @@ async function ajax(url){
 };
 
 
-console.log('start loading')
+console.log('- - - START LOADING - - -')
 
 window.addEventListener('scroll',()=>{
     let ajaxHeight = document.documentElement.scrollHeight;

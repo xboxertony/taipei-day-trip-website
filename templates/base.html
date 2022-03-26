@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#"></link>
+    <link rel="stylesheet"  type= "text/css" href="/static/css/base.css?v=0.0.04">
+    {% block link%}{% endblock link%}
+    {% block title%}{% endblock title%}
+</head>
+<body>
+
+
+<div class="overlay"></div>
+
+<div class="box0">
+    <div class="box1">
+        <div class="webisite"><a href="/" >台北一日遊</a></div>
+        <div></div>
+        <div class="frame2">
+            <div class="frame1">
+            <button id ='book'>預定行程</button>
+            <button id="upright"></button>
+            </div>
+        </div>
+    </div> 
+</div>
+
+
+<div class = "window">
+<div class="login">   
+    <div class="decorate"></div> 
+    <form id ='baseform' class="main" data="1" method="POST">
+        <div class="header">登入會員帳號<div class = "close">&times;</div></div>
+        
+        <input type='text'  name = "email_f1" class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' pattern= "^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$" />
+        <input type='password'  name = "password_f1" class="password" placeholder="輸入密碼" title='須為長度4至8的文字字元' pattern="^[\w]{4,8}$" />
+        <input type='submit' class="enter"  value="登入帳戶"/>
+        <div class= "prompt"><span></span></div>
+        <div class="inform"><span>還沒有帳戶？<span class = "another" id = "register">點此註冊</span></span></div>
+    </form> 
+</div>
+
+<div class="register">   
+    <div class="decorate"></div> 
+    <form  id ='baseform' class="master" data="2" method="POST">
+        <div class="header">註冊會員帳號<div class = "close">&times;</div></div>
+
+        <input type='text' name = "name_f2" class="name" placeholder="輸入姓名" title='開頭需為長度3至8的英文字母，數字長度不可超過3' pattern="^([A-za-z]{3,8})([0-9]{0,3})?$" />
+        <input type='text' name = "email_f2" class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' pattern= "^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$" />
+        <input type='password' name = "password_f2" class="password" placeholder="輸入密碼" title='須為長度4至8的文字字元' pattern="^[\w]{4,8}$" />
+        <input type='submit' class="enter"  value="註冊新帳戶"/>
+        <div class= "prompt" style="display: none;"><span></span></div>
+        <div class="inform"><span>已經有帳戶了？<span class = "another" id = "login">點此登入</span></span></div>
+    </form> 
+</div>
+</div>
+
+
+{% block content%}{% endblock content%}
+
+
+{% block script %}{% endblock  script%}
+<script type="text/javascript" src="/static/js/base.js?v=0.0.01"></script>
+</body>
+</html>

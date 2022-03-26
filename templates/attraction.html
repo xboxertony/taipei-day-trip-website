@@ -1,31 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet"  type= "text/css" href="/static/css/attraction.css?v=0.0.0.429">
-<link rel="shortcut icon" href="#"></link>
+{% extends 'base.html' %}
+
+
+{% block link%}
+<link rel="stylesheet"  type= "text/css" href="/static/css/attraction.css?v=0.0.230">
+{% endblock link%}
+
+
+{% block title%}
 <title></title>
-</head>
-
-<body>
+{% endblock title%}
 
 
-<div class="box0">
-<div class="box1">
-    <div class="webisite"><a href="/" >台北一日遊</a></div>
-    <div></div>
-    <div class="frame2">
-        <div class="frame1">
-        <button>預定行程</button>
-        <button>登入/註冊</button>
-        </div>
-    </div>
-</div> 
-</div>
 
-
+{% block content%}
 <div class="section">
 <div id="slider" class="slider">
     <div id="slider_scroll" class="slider_scroll" >
@@ -86,7 +73,12 @@
 </div>  
 
 <div class="footer"><span>COPYRIGHT © 2021 台北一日遊</span></div>
+{% endblock content%}
 
-<script type="text/javascript" src="/static/js/attraction.js?v=0.11"></script>
+
+
+{% block script %}
+<script type="text/javascript" src="/static/js/attraction.js?v=0.09"></script>
+{% endblock  script%}
 </body>
 </html>
