@@ -1,6 +1,8 @@
 from flask import *
 import bcrypt
 from db_connection import connection_pool, cursor, db
+import jwt
+from datetime import timedelta, datetime
 
 
 user = Blueprint("user", __name__)
@@ -48,14 +50,21 @@ def authenticate_member(email, password):
 @user.route("/api/user", methods=["GET", "POST", "PATCH", "DELETE"])
 def auth():
     if request.method == "GET":
-        id = session.get("id")
-        email = session.get("email")
-        name = session.get("name")
-        if not id or not email or not name:
+        if not request.cookies.get("cookie"):
             return jsonify(None)
         else:
-            data = {"id": id, "name": name, "email": email}
-            return jsonify(data)
+            cookie = request.cookies.get("cookie")
+            try:
+                decode_jwt = jwt.decode(
+                    cookie, current_app.config["SECRET_KEY"], algorithms="HS256"
+                )
+                id = decode_jwt["data"]["id"]
+                email = decode_jwt["data"]["email"]
+                name = decode_jwt["data"]["name"]
+                resp = {"data": {"id": id, "name": name, "email": email}}
+                return jsonify(resp)
+            except jwt.ExpiredSignatureError:
+                return jsonify(None)
     if request.method == "POST":
         try:
             name = request.get_json()["name"]
@@ -80,12 +89,29 @@ def auth():
             if member is False:
                 return jsonify({"error": True, "message": "帳號密碼錯誤"}), 400
             else:
-                session["id"] = member["id"]
-                session["name"] = member["name"]
-                session["email"] = member["email"]
-                return jsonify({"ok": True})
-        except:
+                token = jwt.encode(
+                    {
+                        "data": {
+                            "id": member["id"],
+                            "name": member["name"],
+                            "email": member["email"],
+                        },
+                        "exp": datetime.utcnow() + timedelta(hours=24),
+                    },
+                    current_app.config["SECRET_KEY"],
+                    algorithm="HS256",
+                )
+                result = jsonify({"ok": True})
+                response = make_response(result)
+                response.set_cookie(
+                    "cookie", token, expires=datetime.utcnow() + timedelta(hours=24)
+                )
+                return response
+        except Exception as e:
+            print(e)
             return jsonify({"error": True, "message": "伺服器錯誤"}), 500
     if request.method == "DELETE":
-        session.clear()
-        return jsonify({"ok": True})
+        result = jsonify({"ok": True})
+        response = make_response(result)
+        response.set_cookie("cookie", expires=0)
+        return response
