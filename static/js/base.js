@@ -217,29 +217,23 @@ function focus(){
 let form_list = document.querySelectorAll("form"), prompt_list = document.querySelectorAll(".prompt");
 
 for (let i = 0; i < form_list.length; i++) {
-    
     document.querySelectorAll(".email")[i].addEventListener("focus", focus);
     document.querySelectorAll(".email")[i].addEventListener("input", function(){
         validate(this);
     }, false);
-
     document.querySelectorAll(".password")[i].addEventListener("focus", focus);
     document.querySelectorAll(".password")[i].addEventListener("input", function(){
         validate(this);
     }, false);
-}
 
-for (let i = 0; i < form_list.length; i++) {
+    
     document.querySelectorAll(".another")[i].addEventListener("mouseover", function(){
         hover(i);
     }, false);
-
     document.querySelectorAll(".another")[i].addEventListener("mouseout",  function(){
         hoverout(i);
     }, false);
-
     document.querySelectorAll(".close")[i].addEventListener("click", close);
-
     form_list[i].addEventListener("submit", function(e){
         e.preventDefault()
         prompt(i)
