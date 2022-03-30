@@ -63,8 +63,8 @@ async function getValue(url){
 } 
 
 async function ajax(url){
-    console.log('fetch',url)
 
+    console.log('fetch',url)
     while (true){
     let ajaxBack = await getValue(url)
     console.log(ajaxBack,'ajaxBack')
@@ -72,16 +72,20 @@ async function ajax(url){
     let d_list = ajaxBack['data']
     nextPage = ajaxBack['nextPage']
 
+    
+
     if (Object.keys(d_list).length > 0) {
         for (let row of d_list ){
             let spotID = row['id'], spoturl = row['images'][0], spotname = row['name'], spotmrt = row['mrt'], spotcate = row['category'];
             siteDiv(spotID, spoturl, spotname, spotmrt, spotcate)
         }
+        document.getElementById("load").remove()
         break
     }
     else if (Object.keys(d_list).length === 0 && nextPage === null){
         console.log('空值')
         emptyReply()
+        document.getElementById("load").remove()
         break
     }
     else{
@@ -101,7 +105,7 @@ window.addEventListener('scroll',()=>{
     let scrolled =document.documentElement.scrollTop
 
     console.log('捲動',ajaxHeight,deviseHeight,scrollable,',',scrolled )
-    if (scrolled + 10 >= scrollable){
+    if (scrolled >= scrollable){
         if (nextPage){
             
             if (document.getElementById("search").value == '') {nexturl = `/api/attractions/?page=${nextPage}`;}
@@ -113,7 +117,20 @@ window.addEventListener('scroll',()=>{
                 console.log('已送出連線不再重覆發送',nextPage)
             }
             else{
-                ajax(nexturl)
+                if (nexturl.includes("?page=")){// 代表它非首頁ajax
+                    let g_box = document.createElement('div')
+                    g_box.className = 'secondPage'
+            
+                    let g_img = document.createElement('img')
+                    g_img.src = '/static/img/load.gif'
+                    g_img.className ='gif'
+                    g_box.appendChild(g_img)
+                    g_box.id ='load'
+                    box3.appendChild(g_box) 
+                }
+
+                setTimeout("ajax(`${nexturl}`)",700);
+
                 record.push(nextPage)                
             }
         
@@ -132,9 +149,9 @@ function search_func(){
 
 var nextPage, nexturl
 var record = [];
-var ba3_id = document.getElementById('ba3_id');
+var ba3_id = document.getElementById('ba3_id'), box3 = document.querySelector('.box3');
+
 document.getElementById("search").value = ''
 document.getElementById("magnify").addEventListener('click', search_func)
 
-
-window.onload = ajax('/api/attractions/')
+setTimeout("ajax('/api/attractions')",700);

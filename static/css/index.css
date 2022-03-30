@@ -165,6 +165,28 @@ a{
 a :hover{
     border-color: black;
 }
+
+
+.secondPage{
+    position: relative;
+    top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.frontPage{
+    position: relative;
+    top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gif{
+    height: 40px;
+    width: 40px;
+}
+
 .box3{
     margin:55px auto 40px auto;
     width: 1200px;

@@ -2,6 +2,12 @@ function clean(){
     for (let i = 0; i < form_list.length; i++){
         form_list[i].reset()
     }
+
+    let label_len = document.getElementsByTagName('label').length
+    for (let i = 0; i < label_len; i++) {
+        document.querySelectorAll('.valid')[i].style.display ='none'
+        document.querySelectorAll('.invalid')[i].style.display ='none'
+    }
 }
 
 function login(){
@@ -41,12 +47,10 @@ function hoverout(i){
     console.log(i,'hoverout')
 }
 
-
-let account = 0
 function prompt(i){
     let email_str = document.querySelectorAll(".email")[i].value
     let password_str = document.querySelectorAll(".password")[i].value
-    let name_str = document.querySelectorAll(".name")[0].value
+    let name_str = document.querySelector(".name").value
 
     if (i === 0 &&(email_str === "" || password_str === "")){  //登入資料不全
         document.querySelector(".login").style.height = '307px';
@@ -111,7 +115,7 @@ function prompt(i){
                     prompt_list[i].innerHTML = `${name_str} 註冊成功`
                     document.querySelectorAll(".email")[i].value = ''
                     document.querySelectorAll(".password")[i].value = ''
-                    document.querySelectorAll(".name")[0].value = ''
+                    document.querySelector(".name").value = ''
                 }
                 else{
                     prompt_list[i].innerHTML = dict['message']
@@ -126,6 +130,8 @@ function register(){
     document.querySelector(".register").style.height = '332px'
     document.querySelector(".register").style.display = 'block';
     prompt_list[1].style.display = 'none';
+
+
 }
 
 function RegisterToLogin(){
@@ -137,26 +143,89 @@ function RegisterToLogin(){
 }
 
 
-function fucus(){
+
+function validate(target){
+    let pat_email = /^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
+    let pat_password = /^[\w]{4,8}$/
+    let pat_name = /^([A-za-z]{3,8})([0-9]{0,3})?$/
+
+    let ta_name = target.name
+    let at_i = parseInt(target.parentNode.getAttribute('data').substring('4'))
+
+    console.log(at_i,`驗證 ${ta_name}`)
+    if(ta_name == 'email'){
+        if(target.value.match(pat_email)){
+            document.querySelectorAll('.valid')[at_i].style.display ='block'
+            document.querySelectorAll('.invalid')[at_i].style.display ='none'
+        }
+        else{
+            if (target.value === ''){
+                document.querySelectorAll('.valid')[at_i].style.display ='none'
+                document.querySelectorAll('.invalid')[at_i].style.display ='none'
+            }
+            else{
+                document.querySelectorAll('.valid')[at_i].style.display ='none'
+                document.querySelectorAll('.invalid')[at_i].style.display ='block'
+            }
+        }
+    }
+    else if(ta_name == 'password'){
+        if(target.value.match(pat_password)){
+            document.querySelectorAll('.valid')[at_i].style.display ='block'
+            document.querySelectorAll('.invalid')[at_i].style.display ='none'
+        }
+        else{
+            if (target.value === ''){
+                document.querySelectorAll('.valid')[at_i].style.display ='none'
+                document.querySelectorAll('.invalid')[at_i].style.display ='none'
+            }
+            else{
+                document.querySelectorAll('.valid')[at_i].style.display ='none'
+                document.querySelectorAll('.invalid')[at_i].style.display ='block'
+            }
+        }
+    }
+    else if(ta_name == 'name'){
+        if(target.value.match(pat_name)){
+            document.querySelectorAll('.valid')[at_i].style.display ='block'
+            document.querySelectorAll('.invalid')[at_i].style.display ='none'
+        }
+        else{
+            if (target.value === ''){
+                document.querySelectorAll('.valid')[at_i].style.display ='none'
+                document.querySelectorAll('.invalid')[at_i].style.display ='none'
+            }
+            else{
+                document.querySelectorAll('.valid')[at_i].style.display ='none'
+                document.querySelectorAll('.invalid')[at_i].style.display ='block'
+            }
+        }
+    }
+}
+
+function focus(){
+    //清空所有警示
     document.querySelector(".login").style.height = '275px';
     document.querySelector(".register").style.height = '332px'
-    for (let i = 0; i < form_list.length; i++) {
-        prompt_list[i].style.display = 'none';
+    for (let j = 0; j < form_list.length; j++) {
+        prompt_list[j].style.display = 'none';
     }
+    console.log('聚焦')
 }
 
 
 let form_list = document.querySelectorAll("form"), prompt_list = document.querySelectorAll(".prompt");
 
 for (let i = 0; i < form_list.length; i++) {
-    document.querySelectorAll(".email")[i].addEventListener("focus", function(){
-        fucus();
+    
+    document.querySelectorAll(".email")[i].addEventListener("focus", focus);
+    document.querySelectorAll(".email")[i].addEventListener("input", function(){
+        validate(this);
     }, false);
-    document.querySelectorAll(".password")[i].addEventListener("focus",  function(){
-        fucus();
-    }, false);
-    document.querySelectorAll(".name")[0].addEventListener("focus",  function(){
-        fucus();
+
+    document.querySelectorAll(".password")[i].addEventListener("focus", focus);
+    document.querySelectorAll(".password")[i].addEventListener("input", function(){
+        validate(this);
     }, false);
 }
 
@@ -178,8 +247,15 @@ for (let i = 0; i < form_list.length; i++) {
 }
 
 
-document.getElementById("login").addEventListener('click',RegisterToLogin)
-document.getElementById("register").addEventListener('click',register)
+if (1 === 1){
+    document.getElementById("login").addEventListener('click',RegisterToLogin)
+    document.getElementById("register").addEventListener('click',register)
+    document.querySelector(".name").addEventListener("focus", focus);
+    document.querySelector(".name").addEventListener("input", function(){
+    validate(this);
+    }, false);
+}
+
 
 console.log("Now cookie's length",document.cookie.length)
 
@@ -200,16 +276,13 @@ if (document.cookie.length === 0){
             if (dict['data'] === null){
                document.getElementById("upright").innerHTML ='登入/註冊' 
             }
-        }); 
-    
+        });     
 }
+
 else{
     document.getElementById("upright").addEventListener('click',logout) 
     let access_token = document.cookie.replace('access_token=','')
-
     console.log('access_token >>', access_token)
-
-
     fetch("/api/user",{
         'method':'GET',
         headers: {

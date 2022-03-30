@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="#"></link>
-    <link rel="stylesheet"  type= "text/css" href="/static/css/base.css?v=0.0.04">
+    <link rel="stylesheet"  type= "text/css" href="/static/css/base.css?v=0.0.304">
     {% block link%}{% endblock link%}
     {% block title%}{% endblock title%}
 </head>
 <body>
-
 
 <div class="overlay"></div>
 
@@ -33,8 +32,18 @@
     <form class="main" data="1" method="POST">
         <div class="header">登入會員帳號<div class = "close">&times;</div></div>
         
-        <input type='text'  name = "email_f1" class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' pattern= "^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$" />
-        <input type='password'  name = "password_f1" class="password" placeholder="輸入密碼" title='須為長度4至8的文字字元' pattern="^[\w]{4,8}$" />
+        <label data="lab_0">
+            <input type='text' name="email" class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' pattern= "^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$" />
+            <img class='invalid' src='/static/img/cross.png'/>
+            <img class='valid' src='/static/img/tick.png'/>
+        </label>
+        
+        <label data="lab_1">
+            <input type='password' name ="password" class="password" placeholder="輸入密碼" title='須為長度4至8的文字字元' pattern="^[\w]{4,8}$" />
+            <img class='invalid' src='/static/img/cross.png'/>
+            <img class='valid' src='/static/img/tick.png'/>
+        </label>
+
         <input type='submit' class="enter"  value="登入帳戶"/>
         <div class= "prompt"><span></span></div>
         <div class="inform"><span>還沒有帳戶？<span class = "another" id = "register">點此註冊</span></span></div>
@@ -46,9 +55,24 @@
     <form  class="master" data="2" method="POST">
         <div class="header">註冊會員帳號<div class = "close">&times;</div></div>
 
-        <input type='text' name = "name_f2" class="name" placeholder="輸入姓名" title='開頭需為長度3至8的英文字母，數字長度不可超過3' pattern="^([A-za-z]{3,8})([0-9]{0,3})?$" />
-        <input type='text' name = "email_f2" class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' pattern= "^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$" />
-        <input type='password' name = "password_f2" class="password" placeholder="輸入密碼" title='須為長度4至8的文字字元' pattern="^[\w]{4,8}$" />
+        <label data="lab_2">
+            <input type='text' name ="name" class="name" placeholder="輸入姓名" title='開頭需為長度3至8的英文字母，數字長度不可超過3' pattern="^([A-za-z]{3,8})([0-9]{0,3})?$" />
+            <img class='invalid' src='/static/img/cross.png'/>
+            <img class='valid' src='/static/img/tick.png'/>
+        </label>
+
+        <label data="lab_3">
+            <input type='text' name="email" class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' pattern= "^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$" />
+            <img class='invalid' src='/static/img/cross.png'/>
+            <img class='valid' src='/static/img/tick.png'/>
+        </label>
+        
+        <label data="lab_4">
+            <input type='password' name ="password" class="password" placeholder="輸入密碼" title='須為長度4至8的文字字元' pattern="^[\w]{4,8}$" />
+            <img class='invalid' src='/static/img/cross.png'/>
+            <img class='valid' src='/static/img/tick.png'/>
+        </label>
+
         <input type='submit' class="enter"  value="註冊新帳戶"/>
         <div class= "prompt" style="display: none;"><span></span></div>
         <div class="inform"><span>已經有帳戶了？<span class = "another" id = "login">點此登入</span></span></div>
@@ -57,10 +81,14 @@
 </div>
 
 
+
+
+
+
 {% block content%}{% endblock content%}
 
 
 {% block script %}{% endblock  script%}
-<script type="text/javascript" src="/static/js/base.js?v=0.0.01"></script>
+<script type="text/javascript" src="/static/js/base.js?v=0.0.03"></script>
 </body>
 </html>

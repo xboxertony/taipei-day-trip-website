@@ -26,6 +26,7 @@ def my_invalid_token_callback(invalid_token):
 	return jsonify(data = None), 200
 
 
+
 # Pages
 @app.route("/")
 def index():
@@ -47,5 +48,5 @@ def base():
 	return render_template("base.html")
 
 
-app.run(host='0.0.0.0',port=3000)
+app.run(port=3000)
 pool._remove_connections()
