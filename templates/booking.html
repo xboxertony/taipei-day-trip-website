@@ -3,52 +3,98 @@
   <head>
     <title>台北一日遊</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../static/css/style.css" />
+    <link rel="stylesheet" href="../static/css/bookingStyle.css" />
+    <link rel="stylesheet" href="../static/css/authenticationStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      const checkPermission = async () => {
+        let data = await fetch("/api/user").then((res) => res.json());
+        if (data == null) {
+          location.href = "/";
+        }
+      };
+      checkPermission();
+    </script>
   </head>
   <body>
     <header>
-      <p class="home">台北一日遊</p>
+      <a href="/" class="home">台北一日遊</a>
       <nav class="nav">
-        <a>預定行程</a>
+        <a id="bookingTour" onclick="loginOrBooking()">預定行程</a>
         <a id="loginOrSignup"></a>
       </nav>
     </header>
     <section>
-      <div>
-        <img src="" alt="" />
-        <input
-          type="image"
-          src="../static/images/btn_leftArrow.png"
-          alt="btn_leftArrow"
-        />
-        <input
-          type="image"
-          src="../static/images/btn_rightArrow.png"
-          alt="btn_rightArrow"
-        />
+      <div id="bookingInfo">
+        <p id="bookingTitle">您好，，待預訂的行程如下：</p>
+        <div id="tourImgAndInfo">
+          <div id="tourImgDiv">
+            <img id="tourImg" />
+          </div>
+          <div id="tourInfoDiv">
+            <p id="tourTitle"></p>
+            <p id="tourDate"><b>日期：</b><span id="dateSpan"></span></p>
+            <p id="tourTime"><b>時間：</b><span id="timeSpan"></span></p>
+            <p id="tourFee"><b>費用：</b><span id="feeSpan"></span></p>
+            <p id="tourLocation">
+              <b>地點：</b><span id="locationSpan"></span>
+            </p>
+          </div>
+        </div>
+        <hr />
       </div>
-      <div id="attraction_title"><p></p></div>
-      <div id="attraction_category"><p></p></div>
-      <div>
-        <p>訂購導覽行程</p>
-        <p>以此景點為中心的一日行程，帶您探索城市角落故事</p>
-        <form>
-          <label for="date"><b>選擇日期</b></label>
-          <input type="date" name="date" />
-          <label for="time"><b>選擇時間</b></label>
-            <input type="radio" name="time" value="morningHelf" />  
-          <label for="morningHelf">上半天</label>  
-          <input type="radio" name="time" value="afternoonHelf" />  
-          <label for="afternoonHelf">下半天</label>
-          <label for="charge"><b>導覽費用</b></label>
-          <p>新台幣 2000 元</p>
-          <input type="submit" value="開始預訂行程" />
+      <div id="paymentInfo">
+        <form id="paymentForm">
+          <fieldset id="contactInfo">
+            <p id="userInfoTitle">您的聯絡資訊</p>
+            <label id="contactPersonLabel" for="contactPerson"
+              >聯絡姓名：</label
+            >
+            <input
+              id="contactPersonInput"
+              type="text"
+              name="contactPerson"
+            /><br />
+            <label id="contactEmailLabel" for="contactEmail">聯絡信箱：</label>
+            <input id="contactEmailInput" type="email" /><br />
+            <label id="contactNumberLabel" for="contactNumber"
+              >連絡電話：</label
+            >
+            <input id="contactNumberInput" type="tel" name="contactNumber" />
+            <p>
+              請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。
+            </p>
+          </fieldset>
+          <hr />
+          <fieldset id="creditInfo">
+            <p id="creditInfoTitle">信用卡付款資訊</p>
+            <label for="cardNumber">卡片號碼：</label>
+            <input
+              inputmode="numeric"
+              pattern="[0-9]*"
+              type="text"
+              name="cardNumber"
+            /><br />
+            <label for="expDate">過期時間：</label>
+            <input type="month" name="expDate" /><br />
+            <label for="CSC">驗證密碼：</label>
+            <input type="number" name="CSC" />
+          </fieldset>
+          <hr />
+
+          <p id="totalPrice">總價：</p>
+          <input
+            id="bookingConfirmBtn"
+            type="submit"
+            name="submit"
+            value="確認訂購並付款"
+          />
         </form>
-        <p id="description"></p>
-        <p>景點地址：</p>
-        <p id="address"></p>
-        <p>交通方式：</p>
-        <p id="info"></p>
       </div>
     </section>
     <footer>
@@ -129,6 +175,7 @@
         </div>
       </div>
     </div>
-    <script src="script.js"></script>
+    <script src="../static/js/bookingScript.js"></script>
+    <script src="../static/js/authentication.js"></script>
   </body>
 </html>

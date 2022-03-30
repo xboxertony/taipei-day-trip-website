@@ -13,18 +13,18 @@
 
 <body>
   <header>
-    <p class="home">台北一日遊</p>
+    <a href="/" class="home">台北一日遊</a>
     <nav class="nav">
-      <a >預定行程</a>
+      <a id="bookingTour" onclick="loginOrBooking()">預定行程</a>
       <a id="loginOrSignup"></a>
     </nav>
   </header>
   <main>
     <section id="photoGallery">
       <img id="spotPhoto" src="" alt="" />
-      <input type="image" id="imgLeftBtn" onclick="clickLeftBtn()" src="../static/images/btn_leftArrow.png"
+      <input type="image" id="imgLeftBtn" onclick="nextImgBtn()" src="../static/images/btn_leftArrow.png"
         alt="btn_leftArrow" />
-      <input type="image" id="imgRightBtn" onclick="clickRightBtn()" src="../static/images/btn_rightArrow.png"
+      <input type="image" id="imgRightBtn" onclick="preImgBtn()" src="../static/images/btn_rightArrow.png"
         alt="btn_rightArrow" />
       <div id="pageDots">
 
@@ -36,24 +36,25 @@
       <div id="reservationTable">
         <p id="reservationTableTitle">訂購導覽行程</p>
         <p id="reservationTableSlogan">以此景點為中心的一日行程，帶您探索城市角落故事</p>
-        <form id ="reservationFrom">
+        <form id="reservationFrom" action="/api/booking">
+          <input id="reservationId" type="hidden" name="attractionId">
           <label for="date"><b>選擇日期：</b>
             <input type="date" id="inputDate" name="date" />
           </label><br>
           <fieldset>
             <label for="time" id="labelTimeText"><b>選擇時間：</b></label>
-            <label for="morningHelf" class="labelHelfDay">
+            <label for="morning" class="labelHelfDay">
               <input type="radio" id="morningHelfBtn" class="inputRadio" onclick="changeTourFee()" name="time"
-                value="morningHelf" />
+                value="morning" />
               上半天</label>
-            <label for="afternoonHelf" class="labelHelfDay">
+            <label for="afternoon" class="labelHelfDay">
               <input type="radio" id="afternoonHelfBtn" class="inputRadio" onclick="changeTourFee()" name="time"
-                value="afternoonHelf" />
+                value="afternoon" />
               下半天</label><br />
           </fieldset>
-          <label for="charge" id="labelFeeText"><b>導覽費用：</b>
+          <label for="price" id="labelFeeText"><b>導覽費用：</b>
             <span id="tourFee">請選擇時段</sapn>
-          </label><br>
+          </label><input type="hidden" id="tourPrice" name="price"><br>
           <input id="reservationBtn" type="submit" value="開始預訂行程" />
         </form>
       </div>
@@ -85,7 +86,8 @@
           <input type="submit" value="登入帳戶">
         </form>
         <p class="showResult"></p>
-        <p id="toSignupText" class="loginOrSignupText">還沒有帳戶？<span onclick="toggleAuthTable()" id="clickToSignup" >點此註冊</span></p>
+        <p id="toSignupText" class="loginOrSignupText">還沒有帳戶？<span onclick="toggleAuthTable()"
+            id="clickToSignup">點此註冊</span></p>
       </div>
     </div>
     <div id="signupTable" class="modalContent">
@@ -99,7 +101,8 @@
           <input type="submit" value="註冊新帳戶">
         </form>
         <p class="showResult"></p>
-        <p id="toLoginText" class="loginOrSignupText" >已經有帳戶？<span onclick="toggleAuthTable()" id="clickToLogin" >點此登入</span></p>
+        <p id="toLoginText" class="loginOrSignupText">已經有帳戶？<span onclick="toggleAuthTable()"
+            id="clickToLogin">點此登入</span></p>
       </div>
     </div>
   </div>

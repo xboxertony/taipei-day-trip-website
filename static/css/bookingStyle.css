@@ -1,0 +1,247 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: "Noto Sans TC", sans-serif;
+}
+
+header {
+  padding: auto;
+  display: grid;
+  height: 54px;
+  background: #ffffff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  border-bottom: 1px solid #e8e8e8;
+}
+.nav {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  justify-self: end;
+  grid-auto-flow: column;
+  align-self: center;
+}
+.nav a {
+  margin: 0;
+  padding: 0 10px;
+  display: grid;
+  font-size: 1rem;
+  color: #666666;
+  justify-self: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.home {
+  text-decoration: none;
+  margin: 0;
+  color: #448899;
+  display: grid;
+  align-self: center;
+  justify-self: start;
+  font-weight: bold;
+  font-size: 1.875rem;
+  line-height: 34px;
+  cursor: pointer;
+}
+section {
+  margin-top: 54px;
+}
+
+#bookingTitle {
+  margin: 46px 0 35px 0;
+  font-size: 19px;
+  height: 14px;
+}
+#tourImgAndInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+#tourDate,
+#tourTime,
+#tourFee,
+#tourLocation {
+  line-height: 13px;
+  margin: 8px 0 8px 0;
+}
+
+#tourLocation {
+  margin-bottom: 35px;
+}
+
+#tourTitle {
+  line-height: 13px;
+  margin: 5px 0 15px 0;
+  color: #448899;
+  font-size: 19px;
+  font-weight: 700;
+}
+#tourImgDiv {
+  width: 250px;
+  height: 200px;
+}
+#tourImgDiv img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#tourInfoDiv {
+  color: #666666;
+  height: 200px;
+  display: grid;
+}
+
+#contactInfo label,
+#creditInfo label {
+  color: #666666;
+  width: 81px;
+  height: 24px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+#contactInfo input,
+#creditInfo input {
+  border-radius: 5px;
+  border: #e8e8e8 solid 1px;
+  width: 200px;
+  height: 38px;
+  margin: 0 0 15px 0;
+}
+
+#contactInfo input:focus,
+#creditInfo input:focus {
+  outline: none;
+  border: 1px solid #448899;
+  box-shadow: 0 0 5px #66aabb;
+}
+#paymentInfo {
+  margin-bottom: 180px;
+}
+#paymentForm fieldset {
+  color: #666666;
+  border: none;
+}
+#bookingTitle,
+#userInfoTitle,
+#creditInfoTitle {
+  color: #666666;
+  font-size: 19px;
+  font-weight: 700;
+  width: 100%;
+}
+hr {
+  border: 1px solid #e8e8e8;
+  background-color: #e8e8e8;
+}
+#totalPrice {
+  color: #666666;
+  font-weight: 700;
+}
+#bookingConfirmBtn {
+  font-size: 19px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  width: 176px;
+  height: 36px;
+  border: none;
+  color: #fff;
+  background-color: #448899;
+}
+
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  background: #757575;
+  height: 104px;
+  font-weight: bold;
+  line-height: 13px;
+}
+@media screen and (min-width: 1201px) {
+  header {
+    grid-template-columns: auto 600px 600px auto;
+    box-sizing: border-box;
+    z-index: 2;
+    position: fixed;
+    top: 0;
+  }
+  .nav {
+    grid-column: 3/ 4;
+  }
+  .home {
+    grid-column: 2/ 3;
+  }
+
+  section {
+    display: grid;
+    grid-template-columns: auto 1200px auto;
+  }
+
+  #bookingInfo {
+    display: grid;
+    width: 1200px;
+    grid-column: 2/3;
+  }
+  hr {
+    width: 1200px;
+  }
+  #paymentInfo {
+    position: relative;
+    width: 1200px;
+    grid-column: 2/3;
+  }
+  #bookingConfirmBtn {
+    position: absolute;
+    top: 657px;
+    right: 110px;
+  }
+  #totalPrice {
+    position: absolute;
+    top: 618px;
+    right: 110px;
+    margin: 0;
+  }
+}
+
+@media screen and (min-width: 751px) and (max-width: 1200px) {
+  header {
+    grid-template-columns: auto 45% 45% auto;
+    box-sizing: border-box;
+    z-index: 2;
+    position: fixed;
+    top: 0;
+  }
+
+  .nav {
+    grid-column: 3/ 4;
+  }
+  .home {
+    grid-column: 2/ 3;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  header {
+    position: fixed;
+    padding: 0;
+    grid-template-columns: auto auto;
+    z-index: 2;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .nav {
+    grid-column: 2/ 3;
+  }
+  .home {
+    margin-left: 10px;
+    grid-column: 1/ 2;
+  }
+}

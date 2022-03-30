@@ -17,7 +17,7 @@ const parseAttractionsInfo = (data) => {
   return { caption, mrt, category, address, description, transport };
 };
 
-const setInfo = (attraction) => {
+const renderInfo = (attraction) => {
   let { caption, mrt, category, address, description, transport } =
     parseAttractionsInfo(attraction);
   document.getElementById("attractionTitle").textContent = caption;
@@ -71,28 +71,68 @@ const clickDotChangeImg = (e) => {
   replaceImgSrc(index);
 };
 
-const clickRightBtn = () => {
+const nextImgBtn = () => {
   replaceImgSrc(calIndex(1));
 };
-const clickLeftBtn = () => {
+const preImgBtn = () => {
   replaceImgSrc(calIndex(-1));
 };
 
 const slideshow = () => {
-  clickRightBtn();
+  nextImgBtn();
   setTimeout(slideshow, 5000);
 };
 
 const changeTourFee = () => {
   if (document.getElementById("morningHelfBtn").checked) {
     document.getElementById("tourFee").textContent = "新台幣 2000 元";
+    document.getElementById("tourPrice").value = "2000";
   } else {
     document.getElementById("tourFee").textContent = "新台幣 2500 元";
+    document.getElementById("tourPrice").value = "2500";
   }
 };
 
+const sendReservation = async () => {
+  document.getElementById("reservationId").value =
+    windowUrl.pathname.split("/")[2];
+  const formData = new FormData(bookingForm);
+  await fetch(bookingForm.action, {
+    body: JSON.stringify(Object.fromEntries(formData.entries())),
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+  }).then((res) => res.json());
+};
+
+// const isReservation = async () => {
+//   let result = await fetch("/api/booking").then((res) => res.json());
+//   return result;
+// };
+
+const reserveTour = async (e) => {
+  e.preventDefault();
+  let isLoginResult = await isLogin();
+  // let isReservationResult = await isReservation();
+  if (!isLoginResult) {
+    popupModal();
+  } else {
+    sendReservation();
+    location.href = "/booking";
+    // if (isReservationResult == null) {
+    //   sendReservation();
+    //   location.href = "/booking";
+    // } else {
+    //   await fetch("/api/booking", { method: "DELETE" });
+    //   sendReservation();
+    //   location.href = "/booking";
+    // }
+  }
+};
+const bookingForm = document.getElementById("reservationFrom");
+bookingForm.addEventListener("submit", reserveTour);
+// init
 fetch(url)
   .then((res) => res.json())
-  .then(setInfo)
+  .then(renderInfo)
   // .then(setTimeout(slideshow, 5000))
   .catch(console.log);
