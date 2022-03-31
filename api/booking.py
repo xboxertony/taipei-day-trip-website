@@ -33,19 +33,22 @@ def booking_attraction():
             }
             return jsonify(response)
     if request.method == "POST":
-        attraction_id = request.get_json()["attractionId"]
-        date = request.get_json()["date"]
-        time = request.get_json()["time"]
-        price = request.get_json()["price"]
-        if not attraction_id or not date or not time or not price:
-            error = {"error": True, "message": "建立失敗，輸入不正確或其他原因"}
-            return jsonify(error), 400
-        else:
-            session["attraction_id"] = attraction_id
-            session["date"] = date
-            session["time"] = time
-            session["price"] = price
-            return jsonify({"ok": True}), 200
+        try:
+            attraction_id = request.get_json()["attractionId"]
+            date = request.get_json()["date"]
+            time = request.get_json()["time"]
+            price = request.get_json()["price"]
+            if not attraction_id or not date or not time or not price:
+                error = {"error": True, "message": "建立失敗，輸入不正確或其他原因"}
+                return jsonify(error), 400
+            else:
+                session["attraction_id"] = attraction_id
+                session["date"] = date
+                session["time"] = time
+                session["price"] = price
+                return jsonify({"ok": True}), 200
+        except:
+            return jsonify({"error": True, "message": "伺服器錯誤"}), 500
     if request.method == "DELETE":
         session.clear()
         return jsonify({"ok": True}), 200
