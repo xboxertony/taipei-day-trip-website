@@ -63,7 +63,8 @@ function prompt(i){
         prompt_list[i].innerHTML = '資料輸入不齊全'
     }
 
-    else if (i === 0 && email_str !== "" && password_str !== "") { //登入
+
+    else if (i === 0 && email_str.match(pat_email) && password_str.match(pat_password)) { //登入
 
         fetch("/api/user",{
             'method':'PATCH',
@@ -86,13 +87,12 @@ function prompt(i){
                     document.querySelector(".login").style.height = '307px';
                     prompt_list[i].style.display = 'flex';
                     prompt_list[i].innerHTML = dict['message']
+                    
                 }
-
-            }); 
-        
+            });         
     }
 
-    else if (i === 1 && name_str !== "" && email_str !== "" && password_str !== "") { //註冊
+    else if (i === 1 && name_str.match(pat_name) && email_str.match(pat_email) && password_str.match(pat_password)) { //註冊
         let data = {"name": name_str,"email": email_str,"password": password_str}
 
         fetch("/api/user",{
@@ -113,6 +113,7 @@ function prompt(i){
                 prompt_list[i].style.display = 'flex';
                 if ('ok' in dict){
                     prompt_list[i].innerHTML = `${name_str} 註冊成功`
+                    clean()
                     document.querySelectorAll(".email")[i].value = ''
                     document.querySelectorAll(".password")[i].value = ''
                     document.querySelector(".name").value = ''
@@ -130,8 +131,6 @@ function register(){
     document.querySelector(".register").style.height = '332px'
     document.querySelector(".register").style.display = 'block';
     prompt_list[1].style.display = 'none';
-
-
 }
 
 function RegisterToLogin(){
@@ -142,13 +141,7 @@ function RegisterToLogin(){
     prompt_list[0].style.display = 'none';
 }
 
-
-
 function validate(target){
-    let pat_email = /^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
-    let pat_password = /^[\w]{4,8}$/
-    let pat_name = /^([A-za-z]{3,8})([0-9]{0,3})?$/
-
     let ta_name = target.name
     let at_i = parseInt(target.parentNode.getAttribute('data').substring('4'))
 
@@ -214,6 +207,64 @@ function focus(){
 }
 
 
+function fetchGet_in(para){
+    fetch("/api/user",{
+        'method':'GET',
+        headers: {
+            Authorization: `Bearer ${para}`,
+          }
+    })
+    .then(function(response){
+        if(response.ok) {
+            return response.json();
+          }
+        })
+    .catch(error => {
+        console.error('GET token /api/user 錯誤 >>', error)
+    })
+    .then(function(dict){
+        console.log('GET token /api/user 回傳值',dict)
+        if (typeof(dict) === 'object'){
+            if (dict['data'] === false || dict['data'] === null){
+               document.getElementById("upright").innerHTML ='登入/註冊'  
+               document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+               console.log('invalid token, clean cookie',document.cookie.length)
+            }
+            else{
+                document.getElementById("upright").innerHTML ='登出系統' 
+                userName = dict['data']['name'],  userEmail = dict['data']['email']
+
+            }
+        }
+        else{
+            console.log('!!!其他不明情況')
+        }
+    });
+}
+
+function fetchGet_out(){
+    fetch("/api/user",{'method':'GET'})
+        .then(function(response){
+            if(response.ok) {
+                return response.json();
+              }
+            })
+        .catch(error => {
+            console.error('GET /api/user Error:', error)
+        })
+        .then(function(dict){
+            console.log('GET /api/user 回傳值',dict)
+            if (dict['data'] === false || dict['data'] === null){
+               document.getElementById("upright").innerHTML ='登入/註冊' 
+            }
+        });  
+}
+
+
+let pat_email = /^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
+let pat_password = /^[\w]{4,8}$/
+let pat_name = /^([a-zA-Z0-9_]{3,8}|[\u4e00-\u9fa5]{2,8})$/
+
 let form_list = document.querySelectorAll("form"), prompt_list = document.querySelectorAll(".prompt");
 
 for (let i = 0; i < form_list.length; i++) {
@@ -240,7 +291,6 @@ for (let i = 0; i < form_list.length; i++) {
     }, false);
 }
 
-
 if (1 === 1){
     document.getElementById("login").addEventListener('click',RegisterToLogin)
     document.getElementById("register").addEventListener('click',register)
@@ -251,60 +301,27 @@ if (1 === 1){
 }
 
 
-console.log("Now cookie's length",document.cookie.length)
+if (document.cookie.includes('access_token')){
+    document.getElementById("book").addEventListener('click',()=>{location.href='/booking'})
+    document.getElementById("upright").addEventListener('click',logout) //已登入狀態點登出
 
-if (document.cookie.length === 0){
-    console.log('access_token >>', '無')
-    document.getElementById("upright").addEventListener('click',login)    
-    fetch("/api/user",{'method':'GET'})
-        .then(function(response){
-            if(response.ok) {
-                return response.json();
-              }
-            })
-        .catch(error => {
-            console.error('GET /api/user Error:', error)
-        })
-        .then(function(dict){
-            console.log('GET /api/user 回傳值',dict)
-            if (dict['data'] === null){
-               document.getElementById("upright").innerHTML ='登入/註冊' 
-            }
-        });     
+    // take token out
+    const myArray = document.cookie.split(";");
+    console.log('Token Array',myArray)
+    for (let i = 0 ;i < myArray.length; i++){
+        if (myArray[i].includes('access_token')){
+            access_token = myArray[i].replace('access_token=','').replace(/\s/g,'')
+        }
+    }
+    fetchGet_in(access_token)
 }
 
 else{
-    document.getElementById("upright").addEventListener('click',logout) 
-    let access_token = document.cookie.replace('access_token=','')
-    console.log('access_token >>', access_token)
-    fetch("/api/user",{
-        'method':'GET',
-        headers: {
-            Authorization: `Bearer ${access_token}`,
-          }
-    })
-    .then(function(response){
-        if(response.ok) {
-            return response.json();
-          }
-        })
-    .catch(error => {
-        console.error('GET token /api/user 錯誤 >>', error)
-    })
-    .then(function(dict){
-        console.log('GET token /api/user 回傳值',dict)
-        if (typeof(dict) === 'object'){
-            if (dict['data'] === null){
-               document.getElementById("upright").innerHTML ='登入/註冊'  
-               document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-               console.log('invalid token, clean cookie',document.cookie.length)
-            }
-            else{
-                document.getElementById("upright").innerHTML ='登出系統' 
-            }
-        }
-        else{
-            console.log('!!!其他不明情況')
-        }
-    }); 
+    document.getElementById("book").addEventListener('click',login)
+    document.getElementById("upright").addEventListener('click',login)
+
+    console.log('no Token Array',document.cookie.split(";"))
+    fetchGet_out()
 }
+
+var access_token, userName, userEmail;

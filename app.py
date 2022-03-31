@@ -18,12 +18,12 @@ jwt = JWTManager(app)
 
 @jwt.expired_token_loader
 def my_expired_token_callback(jwt_header, jwt_payload):
-    return jsonify(data = None), 200
+    return jsonify(data = False), 200
 
 
 @jwt.invalid_token_loader
 def my_invalid_token_callback(invalid_token):
-	return jsonify(data = None), 200
+	return jsonify(data = False), 200
 
 
 

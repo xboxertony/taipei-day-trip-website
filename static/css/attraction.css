@@ -1,3 +1,21 @@
+
+.template{
+    display: none
+}
+
+.load{
+    position: relative;
+    top: 54px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.load img{
+    margin-top: 54px;
+    height: 40px;
+    width: 40px;
+}
+
 .section{
     margin: 0 auto;
     width: 1200px;

@@ -2,7 +2,7 @@
 
 
 {% block link%}
-<link rel="stylesheet"  type= "text/css" href="/static/css/attraction.css?v=0.0.230">
+<link rel="stylesheet"  type= "text/css" href="/static/css/attraction.css?v=0.0.256">
 {% endblock link%}
 
 
@@ -13,6 +13,11 @@
 
 
 {% block content%}
+<div class='load'><img src="/static/img/load.gif" class='gif'/></div>
+
+
+<div class="template">
+
 <div class="section">
 <div id="slider" class="slider">
     <div id="slider_scroll" class="slider_scroll" >
@@ -42,7 +47,7 @@
         <div class="txt1">訂購導覽行程</div>
         <div class="txt2">以此景點為中心的一日行程，帶您探索城市角落故事</div>
          
-        <div class="txt3"><span class="txtB">選擇日期：</span><input id="date" type="date"></div>
+        <div class="txt3"><span class="txtB">選擇日期：</span><input id="date" type="date" min="<?= date('Y-m-d'); ?>"></div>
 
         <div class="txt4"><span class="txtC">選擇時間：</span>
             <div class="half">
@@ -72,13 +77,17 @@
     <div class="traf_des"></div>
 </div>  
 
+
+ 
+</div> 
+<!-- 上面的/div是template的尾巴 -->
 <div class="footer"><span>COPYRIGHT © 2021 台北一日遊</span></div>
+
 {% endblock content%}
 
 
-
 {% block script %}
-<script type="text/javascript" src="/static/js/attraction.js?v=0.09"></script>
+<script type="text/javascript" src="/static/js/attraction.js?v=0.11"></script>
 {% endblock  script%}
 </body>
 </html>

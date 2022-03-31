@@ -1,0 +1,53 @@
+.whole{
+    position: relative; 
+    top: 94px;
+    width: 1200px;
+    background-color: aqua;
+    margin: 0 auto;
+
+    /* display: flex;
+    justify-content: start; */
+}
+.bookHeader{
+    height: 27px;
+    width: 1000px;
+
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.noData{
+    height: 24px;
+    width: 980px;
+
+    margin-top: 30px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.footer{
+    position: relative; 
+    top: 94px;
+    height: 865px;
+    margin-top: 40px;
+    background-color: #757575;
+}
+.footer span{
+    height: 14px;
+    width: 234px;
+
+    margin: 0 auto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+}

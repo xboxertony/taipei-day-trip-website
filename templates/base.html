@@ -56,19 +56,19 @@
         <div class="header">註冊會員帳號<div class = "close">&times;</div></div>
 
         <label data="lab_2">
-            <input type='text' name ="name" class="name" placeholder="輸入姓名" title='開頭需為長度3至8的英文字母，數字長度不可超過3' pattern="^([A-za-z]{3,8})([0-9]{0,3})?$" />
+            <input type='text' name ="name" class="name" placeholder="輸入姓名" title='3~8個英文字母、數字、底線，或2~8個中文字' />
             <img class='invalid' src='/static/img/cross.png'/>
             <img class='valid' src='/static/img/tick.png'/>
         </label>
 
         <label data="lab_3">
-            <input type='text' name="email" class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' pattern= "^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$" />
+            <input type='text' name="email" class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式'/>
             <img class='invalid' src='/static/img/cross.png'/>
             <img class='valid' src='/static/img/tick.png'/>
         </label>
         
         <label data="lab_4">
-            <input type='password' name ="password" class="password" placeholder="輸入密碼" title='須為長度4至8的文字字元' pattern="^[\w]{4,8}$" />
+            <input type='password' name ="password" class="password" placeholder="輸入密碼" title='須為長度4至8的文字字元'/>
             <img class='invalid' src='/static/img/cross.png'/>
             <img class='valid' src='/static/img/tick.png'/>
         </label>
@@ -88,7 +88,7 @@
 {% block content%}{% endblock content%}
 
 
-{% block script %}{% endblock  script%}
 <script type="text/javascript" src="/static/js/base.js?v=0.0.03"></script>
+{% block script %}{% endblock  script%}
 </body>
 </html>

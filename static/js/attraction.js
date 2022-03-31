@@ -44,7 +44,7 @@ async function loadItem(url){
 
     document.title = name
     makeDiv(name, cate, descp, address, transport, mrt,images)
-    console.log(`${name}, ${cate}, ${mrt}`, images)
+    console.log(`${name}, ${cate}, ${mrt}`)
     console.log('loadItem done')
 
 
@@ -118,7 +118,12 @@ function setTimer(){
 // 輪播函式
 async function animation(){
     console.log(`Now url is ${window.location.href}`)
-    await loadItem(`/api/attraction/${window.location.href.substring(38)}`)
+    siteId = parseInt(`${window.location.href.substring(33)}`)
+
+    await loadItem(`/api/attraction/${siteId}`)
+
+
+
     allBoxes = slider_main.children
     dot_list = slider_index.children
     //
@@ -176,15 +181,61 @@ async function animation(){
     })
 
 
-
-
+    //去掉loading圖示，展示template
+    document.querySelector('.template').style.display ='block';
+    document.querySelector('.load').remove()
+    ///
 }
 
-//選擇上半、下半天方案
-console.log('GO !')
-document.getElementById('_1pick').addEventListener('click',first)
-document.getElementById('_2pick').addEventListener('click',second)
-window.onload = first
+
+function greenBtn(){
+    let myDate = document.getElementById('date').value // 日期
+    let price = parseInt(document.getElementById('dollar').innerText.replace(',','')) //價格
+    let dot_list = document.querySelectorAll('.dot') // 時段
+    for (let i = 0; i < dot_list.length; i++){
+        if (dot_list[i].childNodes.length > 0){
+            if (i > 0){
+                var period = '下午2點到6點'
+            }
+            else{
+                var period = '早上9點到中午12點'
+            }
+        }
+    }
+
+    //未登入情況
+    if (! document.cookie.includes('access_token')){
+        login()
+    }
+    //未選擇日期
+    else if (myDate.length === 0){
+        alert('請選擇日期')
+    }
+    //已登入情況
+    else{
+        let data = {"attractionId": siteId, "date": myDate, "time": period, "price": price}
+
+        fetch("/api/booking",{
+            'method':'POST',
+            body:JSON.stringify(data),
+            headers:{
+                "Content-Type":"application/json; charset=UTF-8",
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+            })
+            .then(function(response){
+                return response.json();
+                })
+            .catch(error => console.error('Error:', error))
+            .then(function(dict){
+                console.log('POST /api/booking 回傳值',dict)
+                window.location.href ='/booking'
+            });
+    }
+}
+
+
 
 //獲取標籤
 let slider = document.getElementById('slider');
@@ -198,10 +249,25 @@ let next = document.getElementById('next');
 let prev = document.getElementById('prev');
 let iNow
 let num = 0, timer;
+var siteId;
+
+//set tommorow
+let today = new Date()
+let tomorrow = new Date(today)
+tomorrow.setDate(tomorrow.getDate() + 1)
+tomorrow = tomorrow.toISOString().slice(0, 10);
+document.getElementById('date').setAttribute('min',tomorrow)
+
+//選擇上半、下半天方案
+console.log('GO !')
+document.getElementById('_1pick').addEventListener('click',first)
+document.getElementById('_2pick').addEventListener('click',second)
+window.onload = first
+
+//點擊綠色按鈕預定行程
+document.getElementById('btn').addEventListener('click',greenBtn)
+
 
 
 //ajax
-animation()
-
-
-
+setTimeout(animation,700);
