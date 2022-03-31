@@ -1,5 +1,35 @@
 let bookingUrl = `http://${window.location.host}/api/booking`;
 
+const deleteReservation = async () => {
+  await fetch("/api/booking", { method: "DELETE" });
+  reloadPage();
+};
+const isReservation = async () => {
+  let result = await fetch("/api/booking").then((res) => res.json());
+  return result;
+};
+
+const whichRender = async (data) => {
+  let result = await isReservation();
+  if (result == null) {
+    renderNoneBoonking();
+  } else renderBookingPage(data);
+};
+
+const renderNoneBoonking = () => {
+  document.getElementById("tourImgAndInfo").style.display = "none";
+  document.getElementById("paymentInfo").style.display = "none";
+  document.getElementById("underBooking").style.display = "none";
+  const noTourText = document
+    .getElementById("bookingInfo")
+    .appendChild(document.createElement("p"));
+  noTourText.textContent = "目前沒有任何待預訂的行程";
+  noTourText.setAttribute("id", "bookinTitleNoReservation");
+  document
+    .getElementById("bookingFooter")
+    .setAttribute("id", "noBookingFooter");
+};
+
 const renderUserName = async () => {
   let data = await fetch("/api/user").then((res) => res.json());
   const userName = data.data.name;
@@ -54,7 +84,7 @@ const renderBookingPage = (bookingInfo) => {
 const init = async () => {
   await fetch(bookingUrl)
     .then((res) => res.json())
-    .then(renderBookingPage);
+    .then(whichRender);
   renderUserName();
 };
 init();

@@ -95,9 +95,33 @@
         <p class="modalTableTitle">註冊會員帳號</p>
         <button type="button" class="closeIconBtn" onclick="closeModal()"></button>
         <form class="authForm" id="signupForm" action="/api/user">
-          <input type="text" id="signupName" name="name" placeholder="輸入姓名" required>
-          <input type="text" id="signupEmail" name="email" placeholder="輸入電子信箱" required>
-          <input type="password" id="signupPassword" name="password" placeholder="輸入密碼" required>
+          <input
+              type="text"
+              id="signupName"
+              name="name"
+              placeholder="輸入姓名"
+              required
+            />
+            <input
+              type="text"
+              id="signupEmail"
+              name="email"
+              placeholder="輸入電子信箱"
+              pattern=".+@.+\..+"
+              oninvalid="this.setCustomValidity('Email格式：example@mail.com')"
+              onchange="this.setCustomValidity('')"
+              required
+            />
+            <input
+              type="password"
+              id="signupPassword"
+              name="password"
+              placeholder="輸入密碼"
+              pattern="[a-zA-Z0-9]{8,}$"
+              oninvalid="this.setCustomValidity('請輸入至少8碼英數字')"
+              onchange="this.setCustomValidity('')"
+              required
+            >
           <input type="submit" value="註冊新帳戶">
         </form>
         <p class="showResult"></p>

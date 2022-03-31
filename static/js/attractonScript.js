@@ -104,11 +104,6 @@ const sendReservation = async () => {
   }).then((res) => res.json());
 };
 
-// const isReservation = async () => {
-//   let result = await fetch("/api/booking").then((res) => res.json());
-//   return result;
-// };
-
 const reserveTour = async (e) => {
   e.preventDefault();
   let isLoginResult = await isLogin();

@@ -111,7 +111,7 @@ const loginOrBooking = async () => {
   if (!(await isLogin())) {
     popupModal();
   } else {
-    location.href = "../booking";
+    location.href = "/booking";
   }
 };
 

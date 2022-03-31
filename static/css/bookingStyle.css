@@ -53,7 +53,10 @@ section {
 #bookingTitle {
   margin: 46px 0 35px 0;
   font-size: 19px;
-  height: 14px;
+}
+#bookinTitleNoReservation {
+  color: #666666;
+  margin: 0 0 40px 0;
 }
 #tourImgAndInfo {
   display: flex;
@@ -94,6 +97,16 @@ section {
   color: #666666;
   height: 200px;
   display: grid;
+}
+#deleteIconBtn {
+  cursor: pointer;
+
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  background: url("../images/icon_delete.png");
+  background-color: #fff;
+  border-style: none;
 }
 
 #contactInfo label,
@@ -153,7 +166,7 @@ hr {
   background-color: #448899;
 }
 
-footer {
+#bookingFooter {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -165,6 +178,17 @@ footer {
   font-weight: bold;
   line-height: 13px;
 }
+
+#noBookingFooter {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  background: #757575;
+}
+
 @media screen and (min-width: 1201px) {
   header {
     grid-template-columns: auto 600px 600px auto;
@@ -190,6 +214,22 @@ footer {
     width: 1200px;
     grid-column: 2/3;
   }
+  #bookingTitle,
+  #tourImgAndInfo,
+  #bookinTitleNoReservation {
+    padding-left: 110px;
+  }
+  #tourImgAndInfo {
+    position: relative;
+    margin-bottom: 40px;
+  }
+  #deleteIconBtn {
+    padding: 0;
+    position: absolute;
+    top: 0;
+    right: 110px;
+    z-index: 1;
+  }
   hr {
     width: 1200px;
   }
@@ -198,14 +238,19 @@ footer {
     width: 1200px;
     grid-column: 2/3;
   }
+  #paymentForm fieldset {
+    padding-left: 110px;
+    margin: 0 0 42px 0;
+  }
+
   #bookingConfirmBtn {
     position: absolute;
-    top: 657px;
+    top: 757px;
     right: 110px;
   }
   #totalPrice {
     position: absolute;
-    top: 618px;
+    top: 718px;
     right: 110px;
     margin: 0;
   }
@@ -226,6 +271,55 @@ footer {
   .home {
     grid-column: 2/ 3;
   }
+  section {
+    display: grid;
+    grid-template-columns: auto 90% auto;
+  }
+
+  #bookingInfo {
+    display: grid;
+    width: 100%;
+    grid-column: 2/3;
+  }
+  #bookingTitle,
+  #tourImgAndInfo,
+  #bookinTitleNoReservation {
+    margin-left: 50px;
+  }
+  #tourImgAndInfo {
+    position: relative;
+    margin-bottom: 40px;
+  }
+  #deleteIconBtn {
+    padding: 0;
+    position: absolute;
+    top: 0;
+    right: 30px;
+    z-index: 1;
+  }
+  hr {
+    width: 100%;
+  }
+  #paymentInfo {
+    position: relative;
+    width: 100%;
+    grid-column: 2/3;
+  }
+  #paymentForm fieldset {
+    margin: 0 0 42px 50px;
+  }
+
+  #bookingConfirmBtn {
+    position: absolute;
+    top: 757px;
+    right: 30px;
+  }
+  #totalPrice {
+    position: absolute;
+    top: 718px;
+    right: 30px;
+    margin: 0;
+  }
 }
 
 @media screen and (max-width: 750px) {
@@ -243,5 +337,56 @@ footer {
   .home {
     margin-left: 10px;
     grid-column: 1/ 2;
+  }
+  #bookingInfo {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+  }
+
+  #tourImgAndInfo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  #tourImgDiv {
+    width: 100%;
+    max-height: 350px;
+    height: auto;
+  }
+  #tourImg {
+    max-height: 350px;
+  }
+  hr {
+    width: 100%;
+  }
+  #paymentInfo {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 10px;
+  }
+  #paymentForm {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  /* #tourInfoDiv {
+    margin-top: 35px;
+  } */
+  #deleteIconBtn {
+    position: absolute;
+    bottom: 0px;
+    right: 10px;
+  }
+  #bookingConfirmBtn {
+    position: absolute;
+    bottom: -120px;
+    right: 10px;
+  }
+  #totalPrice {
+    position: absolute;
+    bottom: -70px;
+    right: 11px;
+    margin: 0;
   }
 }

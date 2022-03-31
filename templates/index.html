@@ -106,6 +106,9 @@
               id="signupEmail"
               name="email"
               placeholder="輸入電子信箱"
+              pattern=".+@.+\..+"
+              oninvalid="this.setCustomValidity('Email格式：example@mail.com')"
+              onchange="this.setCustomValidity('')"
               required
             />
             <input
@@ -113,6 +116,9 @@
               id="signupPassword"
               name="password"
               placeholder="輸入密碼"
+              pattern="[a-zA-Z0-9]{8,}$"
+              oninvalid="this.setCustomValidity('請輸入至少8碼英數字')"
+              onchange="this.setCustomValidity('')"
               required
             />
             <input type="submit" value="註冊新帳戶" />
