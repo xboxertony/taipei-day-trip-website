@@ -473,6 +473,10 @@ main .content .top .right-box .booking .price * {
   accent-color: #448899;
 }
 
+main .content .top .right-box .booking .date input {
+  padding: 0.4rem;
+}
+
 main .content .top .right-box .booking button {
   width: 40%;
   height: 3rem;

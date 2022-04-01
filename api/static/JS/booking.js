@@ -6,13 +6,14 @@ const historyLink = document.querySelector(".history-link");
 let totalPrice = 0;
 let booksArr;
 
-if (!isLogin) {
-  historyLink.classList.add("none");
-  main.textContent = "未登入，3秒後即將導回首頁";
-  setTimeout(() => {
-    location.href = "/";
-  }, 3000);
-}
+// check();
+// if (!isLogin) {
+// historyLink.classList.add("none");
+//   main.textContent = "未登入，3秒後即將導回首頁";
+//   setTimeout(() => {
+//     location.href = "/";
+//   }, 3000);
+// }
 
 async function initialLoad() {
   console.log("ini-loading");
@@ -21,13 +22,16 @@ async function initialLoad() {
   let data = parsedData;
 
   if (data.error) {
-    // console.log(data.error);
-    // overlay.classList.remove("none");
-    // authContainer.classList.remove("none");
-    // loginInner.classList.add("none");
-    // signupInner.classList.add("none");
-    // messageInner.classList.remove("none");
-    // alertMessage.textContent = data.message;
+    historyLink.classList.add("none");
+
+    main.textContent = "";
+    console.log(data.error);
+    overlay.classList.remove("none");
+    authContainer.classList.remove("none");
+    loginInner.classList.add("none");
+    signupInner.classList.add("none");
+    messageInner.classList.remove("none");
+    alertMessage.textContent = data.message;
 
     return null;
   } else {

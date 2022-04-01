@@ -26,6 +26,7 @@ async function check() {
   if (res.data) {
     authBtnLogin.classList.add("none");
     authBtnLogout.classList.remove("none");
+    console.log("call");
     isLogin = true;
   } else {
     authBtnLogout.classList.add("none");
@@ -143,6 +144,7 @@ loginBtn.addEventListener("click", (e) => {
       authClose[0].classList.remove("none");
       signupInner.classList.add("none");
       returnBtn.classList.add("none");
+      isLogin = true;
     } else if (res.error) {
       loginInner.classList.add("none");
       messageInner.classList.remove("none");
@@ -181,6 +183,7 @@ authBtnLogout.addEventListener("click", (e) => {
       messageInner.classList.remove("none");
       alertMessage.innerHTML = "<h3>登出成功</h3>";
       returnBtn.classList.add("none");
+      isLogin = false;
     } else if (res.error) {
       loginInner.classList.add("none");
       overlay.classList.remove("none");
