@@ -11,7 +11,7 @@ let booksArr;
 // historyLink.classList.add("none");
 //   main.textContent = "未登入，3秒後即將導回首頁";
 //   setTimeout(() => {
-//     location.href = "/";
+// location.href = "/";
 //   }, 3000);
 // }
 
@@ -32,6 +32,11 @@ async function initialLoad() {
     signupInner.classList.add("none");
     messageInner.classList.remove("none");
     alertMessage.textContent = data.message;
+
+    function backToBooking() {
+      location.href = "/";
+    }
+    returnBtn.addEventListener("click", backToBooking);
 
     return null;
   } else {

@@ -183,6 +183,10 @@ authBtnLogout.addEventListener("click", (e) => {
       messageInner.classList.remove("none");
       alertMessage.innerHTML = "<h3>登出成功</h3>";
       returnBtn.classList.add("none");
+      authClose[0].addEventListener("click", () => {
+        location.reload();
+      });
+
       isLogin = false;
     } else if (res.error) {
       loginInner.classList.add("none");
