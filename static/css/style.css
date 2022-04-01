@@ -113,7 +113,13 @@ main {
   font-size: 1rem;
   /* line-height: 13px; */
 }
+.searchInput:focus {
+  outline: none;
+  border: 1px solid #448899;
+  box-shadow: 0 0 5px #66aabb;
+}
 .searchBtn {
+  cursor: pointer;
   box-sizing: border-box;
   width: 60px;
   background: url("../images/icon_search.png") no-repeat 15px center;

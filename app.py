@@ -4,7 +4,6 @@ from api.user import user
 from api.booking import booking_api
 
 from db_connection import connection_pool, db, cursor
-import os
 from dotenv import load_dotenv
 from os import environ, path
 
