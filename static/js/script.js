@@ -1,5 +1,14 @@
 let url = `http://${window.location.host}/api/attractions`;
 
+const searchKeywordPressEnter = (e) => {
+  if (e.keyCode === 13) {
+    searchKeyword();
+  }
+};
+document
+  .getElementById("keywordInput")
+  .addEventListener("keydown", searchKeywordPressEnter);
+
 const searchKeyword = () => {
   let keywordValue = document.getElementById("keywordInput").value;
   let url = `http://${window.location.host}/api/attractions?keyword=${keywordValue}`;

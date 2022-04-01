@@ -9,18 +9,18 @@ const closeModal = () => {
 };
 
 const showSignupResult = (data) => {
-  let PTags = document.getElementsByClassName("showResult");
+  const PTags = document.getElementsByClassName("showResult");
   if (data.ok) {
     Array.prototype.forEach.call(PTags, (p) => {
       p.style.display = "block";
       p.textContent = "註冊成功";
     });
   } else {
-    showResultv1(data, PTags);
+    showResult(data, PTags);
   }
 };
 
-const showResultv1 = (data, PTags) => {
+const showResult = (data, PTags) => {
   Array.prototype.forEach.call(PTags, (p) => {
     p.style.display = "block";
     p.textContent = data.message;
@@ -32,11 +32,11 @@ const reloadPage = () => {
 };
 
 const showLoginResult = (data) => {
-  let PTags = document.getElementsByClassName("showResult");
+  const PTags = document.getElementsByClassName("showResult");
   if (data.ok) {
     reloadPage();
   } else {
-    showResultv1(data, PTags);
+    showResult(data, PTags);
   }
 };
 
@@ -84,8 +84,17 @@ const logout = () => {
   fetch(authUrl, { method: "DELETE" }).then(reloadPage);
 };
 
-const isLogin = (data) => {
-  let loginOrSignup = document.getElementById("loginOrSignup");
+const isLogin = async () => {
+  let data = await fetch(authUrl).then((res) => res.json());
+  if (data == null) {
+    return false;
+  } else {
+    return data;
+  }
+};
+
+const showLoginOrSignup = (data) => {
+  const loginOrSignup = document.getElementById("loginOrSignup");
   if (data == null) {
     loginOrSignup.textContent = "登入/註冊";
     loginOrSignup.addEventListener("click", popupModal);
@@ -96,7 +105,17 @@ const isLogin = (data) => {
     loginOrSignup.removeEventListener("click", popupModal);
   }
 };
+const loginOrBooking = async () => {
+  // await isLogin()
+  const bookinBtn = document.getElementById("bookingTour");
+  if (!(await isLogin())) {
+    popupModal();
+  } else {
+    location.href = "/booking";
+  }
+};
 
+// init
 fetch(authUrl)
   .then((res) => res.json())
-  .then(isLogin);
+  .then(showLoginOrSignup);
