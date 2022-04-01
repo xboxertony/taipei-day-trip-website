@@ -184,6 +184,8 @@ bookBtn.addEventListener("click", (e) => {
       overlay.classList.remove("none");
       authContainer.classList.remove("none");
       messageInner.classList.remove("none");
+      returnBtn.classList.add("none");
+
       alertMessage.textContent = `訂購成功，${data.name}，${inputDate}-${inputTime.value}`;
     } else if (res.error) {
       loginInner.classList.add("none");
