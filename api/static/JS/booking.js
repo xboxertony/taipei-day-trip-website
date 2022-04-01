@@ -80,6 +80,12 @@ async function deleteAPI(id) {
     authContainer.classList.remove("none");
     messageInner.classList.remove("none");
     alertMessage.textContent = `成功刪除，訂單編號${id}`;
+    authClose[0].classList.add("none");
+
+    function backToBooking() {
+      location.reload();
+    }
+    returnBtn.addEventListener("click", backToBooking);
   } else if (res.error) {
     loginInner.classList.add("none");
 
