@@ -12,6 +12,7 @@ const alertMessage = document.querySelector(".alert");
 
 const loginInner = document.querySelector(".login-inner");
 const returnBtn = document.querySelector(".return");
+let isLogin = false;
 
 //--------------------------check status------------------------------
 async function check() {
@@ -25,9 +26,11 @@ async function check() {
   if (res.data) {
     authBtnLogin.classList.add("none");
     authBtnLogout.classList.remove("none");
+    isLogin = true;
   } else {
     authBtnLogout.classList.add("none");
     authBtnLogin.classList.remove("none");
+    isLogin = false;
   }
 }
 
@@ -303,4 +306,18 @@ signupBtn.addEventListener("click", (e) => {
   }
 
   signup(e);
+});
+
+//-------------go booking--------------------------------
+const bookingBtn = document.querySelector(".booking");
+bookingBtn.addEventListener("click", () => {
+  if (isLogin) {
+    location.href = "/booking";
+  } else {
+    overlay.classList.remove("none");
+    authContainer.classList.remove("none");
+    loginInner.classList.remove("none");
+    signupInner.classList.add("none");
+    messageInner.classList.add("none");
+  }
 });
