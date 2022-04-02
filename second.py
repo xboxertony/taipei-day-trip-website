@@ -1,7 +1,5 @@
 import json, os , mysql.connector.pooling, traceback,hashlib
 from time import sleep
-from numpy import insert
-from pyrsistent import b
 from dotenv import load_dotenv
 from dotenv import dotenv_values
 from datetime import timedelta
