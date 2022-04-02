@@ -26,7 +26,6 @@ async function check() {
   if (res.data) {
     authBtnLogin.classList.add("none");
     authBtnLogout.classList.remove("none");
-    console.log("call");
     isLogin = true;
   } else {
     authBtnLogout.classList.add("none");
@@ -40,14 +39,41 @@ if (document.readyState === "loading") {
 } else {
   check();
 }
+//-----------------------handle different popup---------------------------
+
+const popup = (v, msg, func) => {
+  overlay.classList.remove("none");
+  authContainer.classList.remove("none");
+  if (v === "login") {
+    loginInner.classList.remove("none");
+    signupInner.classList.add("none");
+    messageInner.classList.add("none");
+  } else if (v === "signup") {
+    messageInner.classList.add("none");
+    loginInner.classList.add("none");
+    signupInner.classList.remove("none");
+  } else if (v === "success") {
+    loginInner.classList.add("none");
+    returnBtn.classList.add("none");
+    signupInner.classList.add("none");
+    messageInner.classList.remove("none");
+    alertMessage.innerHTML = msg;
+    authClose[0].classList.remove("none");
+  } else if (v === "return") {
+    loginInner.classList.add("none");
+    signupInner.classList.add("none");
+    messageInner.classList.remove("none");
+    alertMessage.innerHTML = msg;
+    authClose[0].classList.add("none");
+    returnBtn.classList.remove("none");
+
+    returnBtn.addEventListener("click", func);
+  }
+};
 
 //----------------------------open ---------------------------
 authBtnLogin.addEventListener("click", (e) => {
-  overlay.classList.remove("none");
-  authContainer.classList.remove("none");
-  loginInner.classList.remove("none");
-  signupInner.classList.add("none");
-  messageInner.classList.add("none");
+  popup("login");
 });
 
 //-----------------------close and change--------------------------
@@ -57,8 +83,6 @@ authClose.forEach((v) => {
     overlay.classList.add("none");
     authContainer.classList.add("none");
     alertMessage.innerHTML = "";
-
-    // location.reload();
   });
 });
 
@@ -137,29 +161,13 @@ loginBtn.addEventListener("click", (e) => {
     const res = await response.json();
     if (res.ok) {
       check();
+      popup("success", "<h3>登入成功</h3>");
 
-      loginInner.classList.add("none");
-      messageInner.classList.remove("none");
-      alertMessage.innerHTML = "<h3>登入成功</h3>";
-      authClose[0].classList.remove("none");
-      signupInner.classList.add("none");
-      returnBtn.classList.add("none");
       isLogin = true;
     } else if (res.error) {
-      loginInner.classList.add("none");
-      messageInner.classList.remove("none");
-      alertMessage.innerHTML = res.message;
-      authClose[0].classList.add("none");
-      signupInner.classList.add("none");
-      returnBtn.classList.remove("none");
-
-      function backToLogin() {
-        console.log("123");
-        signupInner.classList.add("none");
-        messageInner.classList.add("none");
-        loginInner.classList.remove("none");
-      }
-      returnBtn.addEventListener("click", backToLogin);
+      popup("return", res.message, () => {
+        popup("login");
+      });
     }
   }
   login();
@@ -177,23 +185,13 @@ authBtnLogout.addEventListener("click", (e) => {
     const res = await response.json();
     if (res.ok) {
       check();
-      loginInner.classList.add("none");
-      overlay.classList.remove("none");
-      authContainer.classList.remove("none");
-      messageInner.classList.remove("none");
-      alertMessage.innerHTML = "<h3>登出成功</h3>";
-      returnBtn.classList.add("none");
+      popup("success", "<h3>登出成功</h3>");
       authClose[0].addEventListener("click", () => {
         location.reload();
       });
-
       isLogin = false;
     } else if (res.error) {
-      loginInner.classList.add("none");
-      overlay.classList.remove("none");
-      authContainer.classList.remove("none");
-      messageInner.classList.remove("none");
-      alertMessage.textContent = res.error;
+      popup("return", res.error, null);
     }
   }
   logout();
@@ -284,31 +282,13 @@ signupBtn.addEventListener("click", (e) => {
     });
     const res = await response.json();
     if (res.ok) {
-      signupInner.classList.add("none");
-      messageInner.classList.remove("none");
-      alertMessage.textContent = "註冊成功，請登入。";
-      authClose[0].classList.add("none");
-      loginInner.classList.add("none");
-      function goToLogin() {
-        console.log("123");
-        signupInner.classList.add("none");
-        messageInner.classList.add("none");
-        loginInner.classList.remove("none");
-      }
-      returnBtn.addEventListener("click", goToLogin);
+      popup("return", "註冊成功，請登入。", () => {
+        popup("login");
+      });
     } else if (res.error) {
-      loginInner.classList.add("none");
-      signupInner.classList.add("none");
-      messageInner.classList.remove("none");
-      alertMessage.innerHTML = res.message;
-      authClose[0].classList.add("none");
-      function backToSignup() {
-        console.log("123");
-        messageInner.classList.add("none");
-        loginInner.classList.add("none");
-        signupInner.classList.remove("none");
-      }
-      returnBtn.addEventListener("click", backToSignup);
+      popup("return", res.message, () => {
+        popup("signup");
+      });
     }
   }
 
@@ -321,10 +301,6 @@ bookingBtn.addEventListener("click", () => {
   if (isLogin) {
     location.href = "/booking";
   } else {
-    overlay.classList.remove("none");
-    authContainer.classList.remove("none");
-    loginInner.classList.remove("none");
-    signupInner.classList.add("none");
-    messageInner.classList.add("none");
+    popup("login");
   }
 });

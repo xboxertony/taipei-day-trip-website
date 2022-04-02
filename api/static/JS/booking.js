@@ -6,15 +6,6 @@ const historyLink = document.querySelector(".history-link");
 let totalPrice = 0;
 let booksArr;
 
-// check();
-// if (!isLogin) {
-// historyLink.classList.add("none");
-//   main.textContent = "未登入，3秒後即將導回首頁";
-//   setTimeout(() => {
-// location.href = "/";
-//   }, 3000);
-// }
-
 async function initialLoad() {
   console.log("ini-loading");
   const response = await fetch(`/api/booking`);
@@ -23,21 +14,10 @@ async function initialLoad() {
 
   if (data.error) {
     historyLink.classList.add("none");
-
     main.textContent = "";
-    console.log(data.error);
-    overlay.classList.remove("none");
-    authContainer.classList.remove("none");
-    loginInner.classList.add("none");
-    signupInner.classList.add("none");
-    messageInner.classList.remove("none");
-    alertMessage.textContent = data.message;
-
-    function backToBooking() {
+    popup("return", data.message, () => {
       location.href = "/";
-    }
-    returnBtn.addEventListener("click", backToBooking);
-
+    });
     return null;
   } else {
     booksArr = data.data;
@@ -71,33 +51,15 @@ async function deleteAPI(id) {
     },
   });
   const res = await response.json();
-  const overlay = document.querySelector(".overlay");
-  const authContainer = document.querySelector(".auth-container");
 
-  const messageInner = document.querySelector(".message-inner");
-  const alertMessage = document.querySelector(".alert");
-
-  const loginInner = document.querySelector(".login-inner");
   if (res.ok) {
-    loginInner.classList.add("none");
-
-    overlay.classList.remove("none");
-    authContainer.classList.remove("none");
-    messageInner.classList.remove("none");
-    alertMessage.textContent = `成功刪除，訂單編號${id}`;
-    authClose[0].classList.add("none");
-
-    function backToBooking() {
+    popup("return", `成功刪除，訂單編號${id}`, () => {
       location.reload();
-    }
-    returnBtn.addEventListener("click", backToBooking);
+    });
   } else if (res.error) {
-    loginInner.classList.add("none");
-
-    overlay.classList.remove("none");
-    authContainer.classList.remove("none");
-    messageInner.classList.remove("none");
-    alertMessage.textContent = res.message;
+    popup("return", res.message, () => {
+      location.reload();
+    });
   }
 }
 
@@ -217,20 +179,13 @@ function onClick() {
   // 讓 button click 之後觸發 getPrime 方法
   TPDirect.card.getPrime(function (result) {
     if (!inputEmail || !inputName || !inputTelephone) {
-      loginInner.classList.add("none");
-      overlay.classList.remove("none");
-      authContainer.classList.remove("none");
-      messageInner.classList.remove("none");
-      alertMessage.innerHTML = "<h3>請輸入聯絡資訊</h3>";
+      popup("success", "<h3>請輸入聯絡資訊</h3>");
       return;
     }
 
     if (result.status !== 0) {
-      loginInner.classList.add("none");
-      overlay.classList.remove("none");
-      authContainer.classList.remove("none");
-      messageInner.classList.remove("none");
-      alertMessage.innerHTML = "<h3>請確認信用卡資訊是否正確</h3>";
+      popup("success", "<h3>請確認信用卡資訊是否正確</h3>");
+
       return;
     }
     var inputPrime = result.card.prime;
@@ -259,10 +214,13 @@ function onClick() {
       });
       const res = await response.json();
       if (res.data) {
-        window.alert(res.data.payment.message);
-        window.location.reload();
+        popup("return", res.data.payment.message, () => {
+          location.reload();
+        });
       } else if (res.error) {
-        window.alert(res.message);
+        popup("return", res.message, () => {
+          location.reload();
+        });
       }
     }
   });

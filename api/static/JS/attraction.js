@@ -41,7 +41,7 @@ function load(d) {
   address.textContent = d.address;
   transport.textContent = d.transport;
 
-  //-----------------------------------------------------
+  //-----------------------img preload-------------------------
 
   images = d.image;
   imagesNums = images.length;
@@ -145,10 +145,10 @@ bookBtn.addEventListener("click", (e) => {
   let inputPrice;
 
   if (!inputDate) {
-    window.alert("請選擇日期");
+    popup("success", "請選擇日期");
     return null;
   } else if (!inputTime) {
-    window.alert("請選擇時間");
+    popup("success", "請選擇時間");
     return null;
   } else {
     inputPrice = inputTime.value === "morning" ? 2000 : 2500;
@@ -179,22 +179,14 @@ bookBtn.addEventListener("click", (e) => {
     });
     const res = await response.json();
     if (res.ok) {
-      loginInner.classList.add("none");
-
-      overlay.classList.remove("none");
-      authContainer.classList.remove("none");
-      messageInner.classList.remove("none");
-      returnBtn.classList.add("none");
-
-      alertMessage.textContent = `訂購成功，${data.name}，${inputDate}-${inputTime.value}`;
+      popup(
+        "success",
+        `訂購成功，${data.name}，${inputDate}-${inputTime.value}`
+      );
     } else if (res.error) {
-      loginInner.classList.add("none");
-      returnBtn.classList.add("none");
-
-      overlay.classList.remove("none");
-      authContainer.classList.remove("none");
-      messageInner.classList.remove("none");
-      alertMessage.textContent = res.message;
+      popup("return", res.message, () => {
+        location.reload();
+      });
     }
   }
 });
