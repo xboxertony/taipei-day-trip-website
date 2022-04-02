@@ -27,9 +27,8 @@ function logout(){
       .catch(error => console.error('Error:', error))
       .then(function(dict){
         console.log('DELETE /api/user 回傳值',dict)
-        window.location.reload() 
+        window.location.reload()
     });
-
 }
 
 function close(){
@@ -265,9 +264,13 @@ let pat_email = /^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
 let pat_password = /^[\w]{4,8}$/
 let pat_name = /^([a-zA-Z0-9_]{3,8}|[\u4e00-\u9fa5]{2,8})$/
 
-let form_list = document.querySelectorAll("form"), prompt_list = document.querySelectorAll(".prompt");
+let form_list = document.querySelector(".window").getElementsByTagName('form')
+let prompt_list = document.querySelectorAll(".prompt");
+
+
 
 for (let i = 0; i < form_list.length; i++) {
+
     document.querySelectorAll(".email")[i].addEventListener("focus", focus);
     document.querySelectorAll(".email")[i].addEventListener("input", function(){
         validate(this);
@@ -302,7 +305,7 @@ if (1 === 1){
 
 
 if (document.cookie.includes('access_token')){
-    document.getElementById("book").addEventListener('click',()=>{location.href='/booking'})
+    document.getElementById("book").addEventListener('click',()=>{window.location.href='/booking'})
     document.getElementById("upright").addEventListener('click',logout) //已登入狀態點登出
 
     // take token out

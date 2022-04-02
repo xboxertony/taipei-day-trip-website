@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="#"></link>
-    <link rel="stylesheet"  type= "text/css" href="/static/css/base.css?v=0.0.304">
+    <link rel="stylesheet"  type= "text/css" href="/static/css/base.css?v=0.0.308">
     {% block link%}{% endblock link%}
     {% block title%}{% endblock title%}
 </head>
@@ -33,7 +33,7 @@
         <div class="header">登入會員帳號<div class = "close">&times;</div></div>
         
         <label data="lab_0">
-            <input type='text' name="email" class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' pattern= "^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$" />
+            <input type='text' name="email" class="email" placeholder="輸入電子信箱"  title='須為電子信箱格式' />
             <img class='invalid' src='/static/img/cross.png'/>
             <img class='valid' src='/static/img/tick.png'/>
         </label>

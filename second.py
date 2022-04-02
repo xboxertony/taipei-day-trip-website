@@ -1,7 +1,6 @@
 import json, os , mysql.connector.pooling, traceback,hashlib
-
+from time import sleep
 from numpy import insert
-
 from pyrsistent import b
 from dotenv import load_dotenv
 from dotenv import dotenv_values
@@ -21,8 +20,7 @@ dbconfig = {
 "user": os.getenv('DB_USER'),
 "password": os.getenv('DB_PASSWORD')
 }
-pool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "mypool", pool_size = 3, **dbconfig) #create a pool which connect with DB
-
+pool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "mypool", pool_size = 5, **dbconfig) #create a pool which connect with DB
 
 
 #// /api/booking'
@@ -30,9 +28,10 @@ pool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "mypool", pool_si
 @jwt_required(optional=True)
 def book_get():
     try:
-        CN1 = pool.get_connection() #get a connection with pool.
-        cursor = CN1.cursor()
-
+        print('get_connection > book GET')
+        CN1 = pool.get_connection() #get a connection with pool.  
+        print(CN1.connection_id,'book GET pool ID create')   
+        cursor = CN1.cursor(buffered=True)
         if request.method == 'GET': #取得當前登入的使用者資訊
             decrypt = get_jwt_identity()
             if decrypt is None:
@@ -43,7 +42,7 @@ def book_get():
                     """
                 cursor.execute(sql, (decrypt['email'],))
                 bk = cursor.fetchone() #tuple or None
-                print('bk',bk)
+                print('預定資訊',bk)
                 if bk is None:
                     data = {"data": None}
                 else:
@@ -53,15 +52,15 @@ def book_get():
                         """
                     cursor.execute(_2sql, (bk[1],))
                     two = cursor.fetchone() #tuple or None
-                    print('two',two)
+                    print('預定行程:',two[1])
 
                     ##
                     _3sql = """SELECT * FROM `images`
-                            WHERE `img_id` = %s
+                            WHERE `img_id` = %s LIMIT 1
                         """
                     cursor.execute(_3sql, (bk[1],))
                     third = cursor.fetchone() #tuple or None
-                    print('third',third)
+                    print('圖片:',third[1])
                     ##
                     data = {"data":{
                         "attraction":{
@@ -75,14 +74,13 @@ def book_get():
                         "price":bk[4]
                 }}
     except:
-        print('發生錯誤',traceback.format_exc())
+        print('/api/booking GET 發生錯誤',traceback.format_exc())
         CN1.rollback()
         data = {"error": True,"message": "伺服器內部錯誤"}
     finally:
-        print('booking GET close')
-        if CN1.is_connected():
-            cursor.close()
-            CN1.close()
+        print(CN1.connection_id,'book GET close...', CN1.is_connected())
+        cursor.close()
+        CN1.close()
         return jsonify(data)
 
 
@@ -91,7 +89,9 @@ def book_get():
 @jwt_required(optional=True)
 def book_post():
     try:
+        print('get_connection > book POST')
         CN1 = pool.get_connection() #get a connection with pool.
+        print(CN1.connection_id,'book POST pool ID create')  
         cursor = CN1.cursor()
         if request.method =='POST': #預定行程
             attractionId, date ,time, price = request.get_json()['attractionId'], request.get_json()['date'], request.get_json()['time'], request.get_json()['price']
@@ -129,7 +129,7 @@ def book_post():
                     data = {"ok": True}
 
     except:
-        print('發生錯誤',traceback.format_exc())
+        print('/api/booking POST 發生錯誤',traceback.format_exc())
         CN1.rollback()
         data = {"error": True,"message": "伺服器內部錯誤"}
     else:
@@ -137,10 +137,9 @@ def book_post():
         CN1.commit()
 
     finally:
-        print('book POST close')
-        if CN1.is_connected():
-            cursor.close()
-            CN1.close()
+        print(CN1.connection_id, 'book POST close...', CN1.is_connected())
+        cursor.close()
+        CN1.close()
         return jsonify(data)
 
 
@@ -149,7 +148,9 @@ def book_post():
 @jwt_required(optional=True)
 def book_delete():
     try:
+        print('get_connection > book DELETE')
         CN1 = pool.get_connection() #get a connection with pool.
+        print(CN1.connection_id,'book DELETE pool ID create')  
         cursor = CN1.cursor()
         if request.method =='DELETE': #刪除預定行程
             decrypt = get_jwt_identity()
@@ -169,17 +170,16 @@ def book_delete():
 
                 data = {"ok": True}
     except:
-        print('發生錯誤',traceback.format_exc())
+        print('/api/booking DELETE 發生錯誤',traceback.format_exc())
         CN1.rollback()
         data = {"error": True,"message": "伺服器內部錯誤"}
     else:
         print('book delete commit')
         CN1.commit()
     finally:
-        print('book delete close')
-        if CN1.is_connected():
-            cursor.close()
-            CN1.close()
+        print(CN1.connection_id, 'book delete close...', CN1.is_connected())
+        cursor.close()
+        CN1.close()
         return jsonify(data)
 
 
@@ -189,9 +189,10 @@ def book_delete():
 @jwt_required(optional=True)
 def get():
     try:
+        print('get_connection > user GET')
         CN1 = pool.get_connection() #get a connection with pool.
+        print(CN1.connection_id,'user GET pool ID create')  
         cursor = CN1.cursor()
-
         if request.method =='GET': #取得當前登入的使用者資訊
 
             decrypt = get_jwt_identity()
@@ -208,24 +209,25 @@ def get():
                                 "name": one[1],
                                 "email": one[2]}}
     except:
-        print('發生錯誤',traceback.format_exc())
+        print('/api/user GET 發生錯誤',traceback.format_exc())
         CN1.rollback()
         data = {"error": True,"message": "伺服器內部錯誤"}
     
     finally:
-        print('GET close')
-        if CN1.is_connected():
-            cursor.close()
-            CN1.close()
+        print(CN1.connection_id, 'user GET close...', CN1.is_connected())
+        cursor.close()
+        CN1.close()
         return jsonify(data)
 
 
 @api.route('/api/user',methods=["POST"])
 def post():
     try:
-        anchor = 'normal' 
+        print('get_connection > user POST')
         CN1 = pool.get_connection() #get a connection with pool.
+        print(CN1.connection_id,'user POST pool ID create') 
         cursor = CN1.cursor()
+        anchor = 'normal' 
         if request.method =='POST': #註冊一個新的使用者
             name_f2, email_f2,password_f2 = request.get_json()['name'], request.get_json()['email'], request.get_json()['password']
             password_f2 = hashlib.sha256(password_f2.encode("utf-8")).hexdigest()
@@ -241,7 +243,7 @@ def post():
                 anchor = 'duplicate'
     except:
         anchor = 'serverError'
-        print('發生錯誤',traceback.format_exc())
+        print('/api/user POST 發生錯誤',traceback.format_exc())
         CN1.rollback()
         data = {"error": True,"message": "伺服器內部錯誤"}
     else:
@@ -254,20 +256,20 @@ def post():
             print('此Email已註冊過帳戶')
             data = {"error": True,"message":"此Email已註冊過帳戶"}
     finally:
-        print('POST close')
-        if CN1.is_connected():
-            cursor.close()
-            CN1.close()
-
+        print(CN1.connection_id, 'user POST close...', CN1.is_connected())
+        cursor.close()
+        CN1.close()
         return jsonify(data)
 
 
 @api.route('/api/user',methods=["PATCH"])
 def patch():
-    try:
-        anchor = 0
+    try: 
+        print('get_connection > user PATCH')
         CN1 = pool.get_connection() #get a connection with pool.
+        print(CN1.connection_id,'user PATCH pool ID create') 
         cursor = CN1.cursor()
+        anchor = 0
         if request.method =='PATCH': #登入一個使用者
             email_f1, password_f1 = request.get_json()['email'], request.get_json()['password']
             password_f1 = hashlib.sha256(password_f1.encode("utf-8")).hexdigest()
@@ -282,21 +284,20 @@ def patch():
                 data = {"error": True,"message": "登入失敗"}
             else:
                 anchor += 1
-                access_token = create_access_token(identity = {"email": email_f1},expires_delta = timedelta(seconds = 3600))
+                access_token = create_access_token(identity = {"email": email_f1},expires_delta = timedelta(seconds = 1800))
                 print(access_token)
                 resp = make_response({"ok":True})
                 resp.set_cookie('access_token', access_token)
                 return resp
 
     except:
-        print('發生錯誤',traceback.format_exc())
+        print('/api/user PATCH 發生錯誤',traceback.format_exc())
         CN1.rollback()
         data = {"error": True,"message": "伺服器內部錯誤"}
     finally:
-        print('PATCH close')
-        if CN1.is_connected():
-            cursor.close()
-            CN1.close()
+        print(CN1.connection_id, 'user PATCH close...', CN1.is_connected())
+        cursor.close()
+        CN1.close()
         if anchor == 0:
             return jsonify(data)
         
@@ -312,9 +313,10 @@ def delete():
 @api.route("/api/attraction/<int:attractionId>")
 def get_id(attractionId):
     try:
+        print('get_connection > INT GET')
         CN1 = pool.get_connection() #get a connection with pool.
+        print(CN1.connection_id,'<int> GET pool ID create') 
         cursor = CN1.cursor()
-
         sql = """SELECT * FROM `site`
                     WHERE `id` = %s
                 """
@@ -347,19 +349,19 @@ def get_id(attractionId):
     except:
         data={'error' : True, 'message': "自訂的錯誤訊息"}
     finally:
-        if CN1.is_connected():
-            cursor.close()
-            CN1.close()
+        print(CN1.connection_id, '<int> GET close...', CN1.is_connected())
+        cursor.close()
+        CN1.close()
         return jsonify(data)
 
 
 @api.route("/api/attractions/")
 def page_keyword():
     try:
+        print('get_connection > attractions GET')
         CN1 = pool.get_connection() #get a connection with pool.
+        print(CN1.connection_id,'attractions GET pool ID create') 
         cursor = CN1.cursor()
-
-
         page = int(request.args.get('page',0))        
         keyword = request.args.get('keyword',None)
         
@@ -476,8 +478,7 @@ def page_keyword():
         print(traceback.format_exc())
         final = {'error' : True, 'message': "自訂的錯誤訊息"}
     finally:
-        if CN1.is_connected():
-            cursor.close()
-            CN1.close()
-
+        print(CN1.connection_id, 'attractions GET close...', CN1.is_connected())
+        cursor.close()
+        CN1.close()
         return jsonify(final)

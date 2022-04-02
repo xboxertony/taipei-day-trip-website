@@ -1,16 +1,23 @@
+.body{
+    display:flex;
+    flex-direction:column;
+}
+
+.html{
+    height: 100%;
+}
+
 .whole{
     position: relative; 
-    top: 94px;
+    top: 96px;
     width: 1200px;
-    background-color: aqua;
     margin: 0 auto;
-
-    /* display: flex;
-    justify-content: start; */
 }
-.bookHeader{
-    height: 27px;
-    width: 1000px;
+.Bheader{
+    height: 24px;
+    width: 980px;
+    margin: 0 auto;
+    margin-bottom: 30px;
 
     font-size: 19px;
     font-style: normal;
@@ -22,32 +29,276 @@
 .noData{
     height: 24px;
     width: 980px;
+    margin: 0 auto;
 
-    margin-top: 30px;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
+    display: none;
 }
 
-.footer{
+.Bsection{
+    height: 200px;
+    width: 980px;
+    display: flex;
+    margin: 0 auto;
+    gap:30px;
+}
+
+.Bpicture{
+    width: 250px;
+    height: 200px;
+}
+.Bpicture img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.Bdescrip{
+    width: 700px;
+}
+.Bdescrip .item_t{
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    
+    color: rgba(68, 136, 153, 1);
+    padding-bottom: 15px;
+}
+
+.Bdescrip .item{
+    height: 24px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+
+    color: rgba(102, 102, 102, 1);
+    padding-bottom: 10px;
+}
+
+.Bdescrip .item span{
+    font-weight: 700;
+}
+
+.cancel{
+    width: 30px;
+    height: 30px;    
+    cursor: pointer;
+}
+
+
+form div:first-child{
+    height: 24px;
+
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:rgba(102, 102, 102, 1);
+    margin-bottom: 20px; 
+}
+
+.phone{
+    margin-bottom: 20px; 
+
+}
+.Bcontact div:last-child{
+    height: 24px;
+
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:rgba(102, 102, 102, 1);  
+    margin-bottom: 0px;  
+}
+
+form div {
+    height: 38px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:rgba(102, 102, 102, 1);  
+    margin-bottom: 15px;  
+}
+form input{
+    height: 100%;
+    width: 200px;
+    border: 1px solid rgba(232, 232, 232, 1);
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+
+
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: black;
+    
+}
+
+hr{
+    width: 1198px;
+    margin: 40px auto 40px auto;
+    border: 1px solid rgba(232, 232, 232, 1)
+}
+
+.Bcontact{
+    width: 980px;
+    height: 227px;
+    margin: 0 auto;
+}
+
+.Bpayment{
+    width: 980px;
+    height: 188px;
+    margin: 0 auto;
+}
+
+.Bconfirm{
+    width: 980px;
+    height: 100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: auto 174px;
+}
+
+.rightBox{
+    width: 174px;
+    height: 100px;
+}
+.confirmPrice{
+    height: 20px;
+    width: 174px;
+    margin-right: 0px;
+
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: right;
+
+    color:rgba(102, 102, 102, 1);
+}
+.confirmBtn{
+    margin: 22px auto 22px auto;
+
+    height: 36px;
+    width: 173px;
+    border-radius: 5px;
+    background-color: rgba(68, 136, 153, 1);
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: white;
+}
+
+
+.full{
+    flex: 1;
+    margin-top: 136px;
+}
+
+.notfull{
     position: relative; 
-    top: 94px;
-    height: 865px;
+    top: 96px;
     margin-top: 40px;
+    height: 104px;
+    display: flex;
+    justify-content: center;
+}
+
+#footer{
     background-color: #757575;
 }
-.footer span{
+
+#footer div{
     height: 14px;
     width: 234px;
-
-    margin: 0 auto;
+    margin: 45px auto auto auto;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
+    color: #FFFFFF;    
+}
+
+@media (max-width: 1220px){
+    .whole{width: 100%;}
+    .Bheader{width: 90%;}
+    .noData{width: 90%;}
+
+    hr{width: 90%;}
+
+    .Bsection{width: 90%;}
+    .Bcontact{width: 90%;}
+    .Bpayment{width: 90%;}
+    .Bconfirm{width: 90%;}
+}
+
+@media (max-width: 700px){
+    .Bheader{
+        width: 340px;
+        margin-bottom: 20px;
+    }
+    .noData{width: 340px;}
+    .Bsection{
+        width: 100%;
+        height: 430px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .Bpicture{
+        width: 340px;
+    }
+    .Bdescrip{
+        width: 340px;
+    }
+    .cancel{
+        position: relative;
+        top: 170px;
+    }
+    .Bcontact{
+        width: 340px;
+        height: 256px;
+    }
+    .Bcontact div:last-child{
+        height: 48px;
+        line-height: 23px;
+    }
+    .Bpayment{
+        width: 340px;
+    }
+    .Bconfirm{
+        width: 340px;
+    }
+
+
+
 }

@@ -2,7 +2,7 @@
 
 
 {% block link%}
-<link rel="stylesheet"  type= "text/css" href="/static/css/booking.css?v=0.0.244">
+<link rel="stylesheet"  type= "text/css" href="/static/css/booking.css?v=0.0.387">
 {% endblock link%}
 
 
@@ -13,21 +13,58 @@
 
 
 {% block content%}
-
 <div class="whole">
-<div class="bookHeader"></div>
+<div class="Bheader"></div>
 <div class="noData">目前沒有任何待預訂的行程</div>
+
+<div class="Bsection">
+<div class="Bpicture"></div>
+<div class="Bdescrip">
+    <div class="item_t"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+</div>
 </div>
 
-<div class="footer"><span>COPYRIGHT © 2021 台北一日遊</span></div>
+<hr>
 
+<form class="Bcontact">
+    <div>您的聯絡資訊</div>
+    <div>聯絡姓名：<input class='name' type='text'/></div>
+    <div>連絡信箱：<input class='email' type='text'/></div>
+    <div class="phone">手機號碼：<input type='text'/></div>
+    <div>請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+</form>
+
+<hr>
+<form class="Bpayment">
+    <div>信用卡付款資訊</div>
+    <div>卡片號碼：<input type='text' placeholder="**** **** **** ****"/></div>
+    <div>過期時間：<input type='text' placeholder="MM / YY"/></div>
+    <div>驗證密碼：<input type='text' placeholder="CVV"/></div>
+</form>
+<hr>
+
+<div class="Bconfirm">
+    <div></div>
+    <div class="rightBox">
+    <div class="confirmPrice"></div>
+    <button class="confirmBtn">確認訂購並付款</button>
+    </div>
+</div>
+
+
+</div> 
+<!-- 上面是whole的/div -->
+
+
+
+<div id = 'footer' class="notfull"><div>COPYRIGHT © 2021 台北一日遊</div></div>
 {% endblock content%}
 
 
-
-
 {% block script %}
-<script type="text/javascript" src="/static/js/booking.js?v=0.09"></script>
+<script type="text/javascript" src="/static/js/booking.js?v=0.15"></script>
 {% endblock  script%}
-</body>
-</html>
