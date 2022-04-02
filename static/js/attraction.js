@@ -118,7 +118,7 @@ function setTimer(){
 // 輪播函式
 async function animation(){
     console.log(`Now url is ${window.location.href}`)
-    siteId = parseInt(`${window.location.href.substring(33)}`)
+    siteId = parseInt(`${window.location.href.substring(38)}`)
 
     await loadItem(`/api/attraction/${siteId}`)
 
