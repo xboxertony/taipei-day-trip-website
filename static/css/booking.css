@@ -7,11 +7,25 @@
     height: 100%;
 }
 
+.frontPage{
+    position: relative;
+    top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gif{
+    height: 40px;
+    width: 40px;
+}
+
 .whole{
     position: relative; 
     top: 96px;
     width: 1200px;
     margin: 0 auto;
+
+    display: none;
 }
 .Bheader{
     height: 24px;

@@ -1,10 +1,7 @@
 //未登入情況
-if (!document.cookie.includes('access_token' || userName === undefined)){
-    window.location.href = "/";
-}
+console.log('正在booking...', userName , userEmail)
 
 
-console.log('導到booking頁面')
 
 async function cancel(){
     let dict = await getFetch("/api/booking",'DELETE')
@@ -27,9 +24,20 @@ async function getFetch(url,method){
     }catch(e){console.log('GET token /api/booking 錯誤 >>', e)};
 }
 
-
-
 async function bookGet(){
+    console.log('booking完畢', userName !== undefined, userEmail !== undefined)
+
+    if (!document.cookie.includes('access_token')){
+        window.location.href = "/";
+    }
+    else if (userName === undefined || userEmail === undefined){
+            document.getElementById("upright").innerHTML ='登入/註冊'  
+            document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            console.log('invalid token, clean cookie',document.cookie.length)
+    
+            window.location.href = "/";
+    }
+    ////
     let dict = await getFetch("/api/booking",'GET')
     console.log('GET token /api/booking 回傳值',dict)
     document.querySelector('.Bheader').innerHTML =`您好，${userName}，待預訂的行程如下：`
@@ -40,6 +48,9 @@ async function bookGet(){
     }
 
     else if(dict['data'] === null){
+        document.getElementById("load").remove()
+        document.querySelector('.whole').style.display = 'block'
+
         console.log(dict['data'],'無預定紀錄')
         document.querySelector('.noData').style.display = 'block'
         document.querySelector('.Bsection').style.display = 'none'
@@ -60,8 +71,10 @@ async function bookGet(){
     }
 
     else if (typeof(dict['data'] === 'Object')){////主要程式碼
-        console.log(dict['data'],'有預定紀錄')
+        document.getElementById("load").remove()
+        document.querySelector('.whole').style.display = 'block'
 
+        console.log(dict['data'],'有預定紀錄')
         document.querySelector('.noData').style.display = 'none'
         document.querySelector('.Bsection').style.display = 'flex'
 
@@ -105,13 +118,14 @@ async function bookGet(){
         console.log('bookGet有不明情況')
 
     }
-
-
 };
 
 
+setTimeout(bookGet,800)
+
+///等待載入頁面...
 let whole = document.querySelector('.whole')
-
-
-bookGet(access_token)
-
+document.getElementsByTagName('body')[0].classList.add('body')
+document.getElementsByTagName('html')[0].classList.add('html')
+document.getElementById('footer').classList.add('full')
+document.getElementById('footer').classList.remove('notfull')

@@ -229,14 +229,16 @@ function fetchGet_in(para){
                document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                console.log('invalid token, clean cookie',document.cookie.length)
             }
-            else{
+            else if (typeof(dict['data'] === 'object') ){
                 document.getElementById("upright").innerHTML ='登出系統' 
                 userName = dict['data']['name'],  userEmail = dict['data']['email']
-
+            }
+            else{
+                console.log('!!!其他不明情況一', dict, typeof(dict))
             }
         }
         else{
-            console.log('!!!其他不明情況')
+            console.log('!!!其他不明情況二',dict, typeof(dict))
         }
     });
 }
