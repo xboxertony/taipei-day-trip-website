@@ -2,7 +2,7 @@
 
 
 {% block link%}
-<link rel="stylesheet"  type= "text/css" href="/static/css/attraction.css?v=0.0.256">
+<link rel="stylesheet"  type= "text/css" href="/static/css/attraction.css?v=0.0.258">
 {% endblock link%}
 
 
@@ -13,6 +13,7 @@
 
 
 {% block content%}
+<div class="wrapper">
 <div class='load'><img src="/static/img/load.gif" class='gif'/></div>
 
 
@@ -79,9 +80,12 @@
 
 
  
-</div> 
-<!-- 上面的/div是template的尾巴 -->
-<div class="footer"><span>COPYRIGHT © 2021 台北一日遊</span></div>
+</div>
+
+</div>
+<!-- above is wrapper bootom -->
+
+<div id = 'footer' class="notfull"><div>COPYRIGHT © 2021 台北一日遊</div></div>
 
 {% endblock content%}
 

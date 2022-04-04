@@ -1,6 +1,9 @@
 
 .template{
-    display: none
+    display: none;
+}
+.wrapper{
+    min-height: 100%;
 }
 
 .load{

@@ -6,7 +6,7 @@
     word-break: break-all
 }
  
-body{
+html, body{
     height: 100%;
     margin:0;
     /* overflow-y: hidden;
@@ -294,6 +294,63 @@ label{
     color:#666666;
     background-color: white;
 }
+
+/*以下是footer至底及loading */
+
+.body{
+    display:flex;
+    flex-direction:column;
+}
+
+.html{
+    height: 100%;
+}
+
+.frontPage{
+    position: relative;
+    top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gif{
+    height: 40px;
+    width: 40px;
+}
+
+
+.full{
+    flex: 1;
+    margin-top: 136px;
+}
+
+.notfull{
+    position: relative; 
+    top: 96px;
+    margin-top: 40px;
+    height: 104px;
+    display: flex;
+    justify-content: center;
+}
+
+#footer{
+    background-color: #757575;
+}
+
+#footer div{
+    height: 14px;
+    width: 234px;
+    margin: 45px auto auto auto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;    
+}
+
+/*以上是footer至底及loading */
 
 
 @media (max-width:1280px) {

@@ -175,17 +175,6 @@ a :hover{
     align-items: center;
 }
 
-.frontPage{
-    position: relative;
-    top: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.gif{
-    height: 40px;
-    width: 40px;
-}
 
 .box3{
     margin:55px auto 40px auto;
@@ -268,6 +257,45 @@ a :hover{
     text-align: right;
 }
 
+/*以下是footer至底及loading */
+.frontPage{
+    position: relative;
+    top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gif{
+    height: 40px;
+    width: 40px;
+}
+.wrapper{
+    min-height: 100%;
+}
+.notfull{
+    position: relative; 
+    top: 54px;
+    margin-top: 0px;
+    height: 104px;
+    display: flex;
+    justify-content: center;
+}
+#footer{
+    background-color: #757575;
+}
+#footer div{
+    height: 14px;
+    width: 234px;
+    margin: 45px auto auto auto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;    
+}
+/*以上是footer至底及loading */
 
 .box4{
     height: 104px;
@@ -353,8 +381,6 @@ a :hover{
         justify-content: space-between;
         width: 302px;
     }
-    .box4{
-        display: none;
-    }
+
 }
 

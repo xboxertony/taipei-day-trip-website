@@ -53,9 +53,9 @@ function emptyReply(){
 
 async function getValue(url){
     try{
-        let res =  await fetch(url) // fetch(url) is a promise, so we should wait until fullfilled. res is a response object.
+        let res =  await fetch(url) 
         if (res.status === 200){
-            let data = await res.json() // res.json() is a promise so we should wait until fullfilled. data is the value we want.
+            let data = await res.json()
             return data          
         }        
     }catch(e){console.log('產生錯誤',e)}
@@ -71,6 +71,7 @@ async function ajax(url){
 
     let d_list = ajaxBack['data']
     nextPage = ajaxBack['nextPage']
+    document.querySelector(".frontPage").style.display = 'none'
 
     
 
@@ -79,13 +80,16 @@ async function ajax(url){
             let spotID = row['id'], spoturl = row['images'][0], spotname = row['name'], spotmrt = row['mrt'], spotcate = row['category'];
             siteDiv(spotID, spoturl, spotname, spotmrt, spotcate)
         }
-        document.getElementById("load").remove()
+
+        if (document.querySelector(".secondPage")){
+            document.querySelector(".secondPage").remove()
+        }
+
         break
     }
     else if (Object.keys(d_list).length === 0 && nextPage === null){
         console.log('空值')
         emptyReply()
-        document.getElementById("load").remove()
         break
     }
     else{
@@ -105,7 +109,7 @@ window.addEventListener('scroll',()=>{
     let scrolled =document.documentElement.scrollTop
 
     console.log('捲動',ajaxHeight,deviseHeight,scrollable,',',scrolled )
-    if (scrolled + 5 >= scrollable){
+    if (scrolled + 10 >= scrollable){
         if (nextPage){
             
             if (document.getElementById("search").value == '') {nexturl = `/api/attractions/?page=${nextPage}`;}
@@ -117,7 +121,7 @@ window.addEventListener('scroll',()=>{
                 console.log('已送出連線不再重覆發送',nextPage)
             }
             else{
-                if (nexturl.includes("?page=")){// 代表它非首頁ajax
+                if (nexturl.includes("page=")){// 代表它非首頁ajax
                     let g_box = document.createElement('div')
                     g_box.className = 'secondPage'
             
@@ -144,8 +148,13 @@ function search_func(){
     nexturl = `/api/attractions/?keyword=${document.getElementById("search").value}`
     record = []; /*清空之前搜尋紀錄*/
     ba3_id.innerHTML = '' /*清空之前載入景點*/
-    ajax(nexturl) 
+    //跑出loading gif
+    document.querySelector(".frontPage").style.display = 'flex'
+    //載入頁面
+    setTimeout("ajax(`${nexturl}`)",700);
 }
+
+
 
 var nextPage, nexturl
 var record = [];
@@ -154,4 +163,6 @@ var ba3_id = document.getElementById('ba3_id'), box3 = document.querySelector('.
 document.getElementById("search").value = ''
 document.getElementById("magnify").addEventListener('click', search_func)
 
+
+//載入頁面
 setTimeout("ajax('/api/attractions')",700);

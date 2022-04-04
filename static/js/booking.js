@@ -31,11 +31,25 @@ async function bookGet(){
         window.location.href = "/";
     }
     else if (userName === undefined || userEmail === undefined){
-            document.getElementById("upright").innerHTML ='登入/註冊'  
-            document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            console.log('invalid token, clean cookie',document.cookie.length)
-    
-            window.location.href = "/";
+            let dict = await getFetch("/api/user",'GET')
+            console.log('booking 重抓 !!! GET token /api/user 回傳值',dict)
+            if (typeof(dict) === 'object'){
+                if (dict['data'] === false || dict['data'] === null){
+                   document.getElementById("upright").innerHTML ='登入/註冊'  
+                   document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                   console.log('invalid token, clean cookie',document.cookie.length)
+                }
+                else if (typeof(dict['data'] === 'object') ){
+                    document.getElementById("upright").innerHTML ='登出系統' 
+                    userName = dict['data']['name'],  userEmail = dict['data']['email']
+                }
+                else{
+                    console.log('!!!其他不明情況一', dict, typeof(dict))
+                }
+            }
+            else{
+                console.log('!!!其他不明情況二',dict, typeof(dict))
+            }
     }
     ////
     let dict = await getFetch("/api/booking",'GET')
