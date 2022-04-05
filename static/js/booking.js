@@ -27,6 +27,11 @@ async function getFetch(url,method){
 async function bookGet(){
     console.log('booking完畢', userName !== undefined, userEmail !== undefined)
 
+    //清空form表單內容
+    for (let i = 0; i < Bform_list.length; i++){
+        Bform_list[i].reset()
+    }
+
     if (!document.cookie.includes('access_token')){
         window.location.href = "/";
     }
@@ -137,9 +142,66 @@ async function bookGet(){
 
 setTimeout(bookGet,800)
 
-///等待載入頁面...
+
 let whole = document.querySelector('.whole')
+let Bform_list = whole.getElementsByTagName('form')
+//點擊付款
+document.querySelector('.confirmBtn').addEventListener('click',clickPay)
+
+///等待載入頁面...
 document.getElementsByTagName('body')[0].classList.add('body')
 document.getElementsByTagName('html')[0].classList.add('html')
 document.getElementById('footer').classList.add('full')
 document.getElementById('footer').classList.remove('notfull')
+
+
+// 設置好等等 GetPrime 所需要的金鑰
+TPDirect.setupSDK(124024,'app_8PZWHViTnDMvcfP62JynEsRUVkoXu2Wf5R7tneWZtDtGJLjDbKkzFqka66fM', 'sandbox')
+// 把 TapPay 內建輸入卡號的表單給植入到 div 中
+let fields;
+TPDirect.card.setup({
+    // Display ccv field
+    fields : {
+        number: {
+            // css selector
+            element: '#card-number',
+            placeholder: '**** **** **** ****'
+        },
+        expirationDate: {
+            // DOM object
+            element: document.getElementById('card-expiration-date'),
+            placeholder: 'MM / YY'
+        },
+        ccv: {
+            element: '#card-ccv',
+            placeholder: 'CVV'
+        }
+    }
+})
+
+
+// call TPDirect.card.getPrime when user submit form to get tappay prime
+function clickPay(event) {
+    event.preventDefault()
+
+    // 取得 TapPay Fields 的 status
+    const tappayStatus = TPDirect.card.getTappayFieldsStatus()
+
+    // 確認是否可以 getPrime
+    if (tappayStatus.canGetPrime === false) {
+        alert('can not get prime')
+        return
+    }
+
+    // Get prime
+    TPDirect.card.getPrime((result) => {
+        if (result.status !== 0) {
+            alert('get prime error ' + result.msg)
+            return
+        }
+        alert('get prime 成功，prime: ' + result.card.prime)
+
+        // send prime to your server, to pay with Pay by Prime API .
+        // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
+    })
+}

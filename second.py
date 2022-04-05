@@ -59,6 +59,8 @@ def book_get():
                     cursor.execute(_3sql, (bk[1],))
                     third = cursor.fetchone() #tuple or None
                     print('圖片:',third[1])
+                    print('日期',bk[2],type(bk[2]))
+                    print('===' * 10)
                     ##
                     data = {"data":{
                         "attraction":{
@@ -67,7 +69,7 @@ def book_get():
                             "address":two[4],
                             "image":third[1]
                         },
-                        "date":bk[2],
+                        "date":str(bk[2]),
                         "time":bk[3],
                         "price":bk[4]
                 }}

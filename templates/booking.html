@@ -2,7 +2,7 @@
 
 
 {% block link%}
-<link rel="stylesheet"  type= "text/css" href="/static/css/booking.css?v=0.0.388">
+<link rel="stylesheet"  type= "text/css" href="/static/css/booking.css?v=0.0.393">
 {% endblock link%}
 
 
@@ -43,9 +43,22 @@
 <hr>
 <form class="Bpayment">
     <div>信用卡付款資訊</div>
-    <div>卡片號碼：<input type='text' placeholder="**** **** **** ****"/></div>
-    <div>過期時間：<input type='text' placeholder="MM / YY"/></div>
-    <div>驗證密碼：<input type='text' placeholder="CVV"/></div>
+    <div class="spaceRow"></div>
+    <div class="pay">
+        <div>卡片號碼：</div>
+        <div class="tpfield" id = "card-number"></div>
+    </div>
+
+    <div class="pay">
+        <div>過期時間：</div>
+        <div class="tpfield" id = "card-expiration-date"></div>
+    </div>
+    
+    <div class="pay">
+        <div>驗證密碼：</div>
+        <div class="tpfield" id = "card-ccv"></div>
+    </div>
+
 </form>
 <hr>
 
@@ -68,5 +81,7 @@
 
 
 {% block script %}
+<script src="https://js.tappaysdk.com/tpdirect/v5.8.0"></script>
 <script type="text/javascript" src="/static/js/booking.js?v=0.16"></script>
+
 {% endblock  script%}

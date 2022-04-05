@@ -1,3 +1,24 @@
+.body{
+    display:flex;
+    flex-direction:column;
+}
+
+.html{
+    height: 100%;
+}
+
+.frontPage{
+    position: relative;
+    top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gif{
+    height: 40px;
+    width: 40px;
+}
+
 .whole{
     position: relative; 
     top: 96px;
@@ -165,6 +186,39 @@ hr{
     margin: 0 auto;
 }
 
+/**/
+
+.tpfield {
+    height: 38px;
+    width: 200px;
+    border: 1px solid rgba(232, 232, 232, 1);
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.pay{
+    display: flex;
+    align-items: flex-end;
+}
+
+.pay div:first-child{
+    width: 81px;
+    height: 24px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: rgba(102, 102, 102, 1);
+}
+
+.spaceRow{
+    height: 0.5px;
+}
+
+/**/
+
 .Bconfirm{
     width: 980px;
     height: 100px;
@@ -207,29 +261,12 @@ hr{
     color: white;
 }
 
-/*以下是footer至底及loading */
-.body{
-    display:flex;
-    flex-direction:column;
-}
-.html{
-    height: 100%;
-}
-.frontPage{
-    position: relative;
-    top: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.gif{
-    height: 40px;
-    width: 40px;
-}
+
 .full{
     flex: 1;
     margin-top: 136px;
 }
+
 .notfull{
     position: relative; 
     top: 96px;
@@ -238,9 +275,11 @@ hr{
     display: flex;
     justify-content: center;
 }
+
 #footer{
     background-color: #757575;
 }
+
 #footer div{
     height: 14px;
     width: 234px;
@@ -253,7 +292,6 @@ hr{
     text-align: left;
     color: #FFFFFF;    
 }
-/*以上是footer至底及loading */
 
 @media (max-width: 1220px){
     .whole{width: 100%;}
