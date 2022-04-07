@@ -1,10 +1,3 @@
-TPDirect.setupSDK(
-  124015,
-  "app_JlS8e2AO4Yza0XLE6d27gU073ScIr8MrFkJUDh5BpLMOIEaoOWb9htvaYUfB",
-  "sandbox"
-);
-
-// Display ccv field
 let fields = {
   number: {
     element: ".form-control.card-number",
@@ -16,28 +9,27 @@ let fields = {
   },
   ccv: {
     element: ".form-control.cvc",
-    placeholder: "後三碼",
+    placeholder: "CVV",
   },
 };
 TPDirect.card.setup({
   fields: fields,
   styles: {
-    // style valid state
-    ".valid": {
-      color: "green",
+    ":focus": {
+      color: "#666666",
     },
-    // style invalid state
+
+    ".valid": {
+      color: "#448899",
+    },
     ".invalid": {
       color: "red",
     },
   },
 });
 
-const sendPayData = async (prime) => {
-  const formData = new FormData(document.getElementById("paymentForm"));
-  let contact = Object.fromEntries(formData.entries());
-  let trip = await isReservation();
-  let requestBody = {
+const getBodyDataForPayment = (prime, contact, trip) => {
+  let data = {
     prime: prime,
     order: {
       price: trip.data.price,
@@ -53,14 +45,25 @@ const sendPayData = async (prime) => {
       },
     },
   };
-  let data = await fetch("api/orders", {
+  return data;
+};
+
+const sendPaymentData = async (prime) => {
+  const formData = new FormData(document.getElementById("paymentForm"));
+  let contact = Object.fromEntries(formData.entries());
+  let trip = await isReservation();
+  let requestBody = getBodyDataForPayment(prime, contact, trip);
+  let orderResponse = await fetch("api/orders", {
     method: "post",
     body: JSON.stringify(requestBody),
     headers: { "Content-Type": "application/json" },
   }).then((res) => res.json());
-  return data;
+  return orderResponse;
 };
 
+const deleteBooking = async () => {
+  await fetch("/api/booking", { method: "DELETE" });
+};
 const redirectThankyou = (response) => {
   window.location.href = `/thankyou?number=${response}`;
 };
@@ -68,29 +71,16 @@ const redirectThankyou = (response) => {
 const bookingAndPay = async (event) => {
   event.preventDefault();
   const tappayStatus = TPDirect.card.getTappayFieldsStatus();
-  //   console.log(tappayStatus);
 
-  // Check TPDirect.card.getTappayFieldsStatus().canGetPrime before TPDirect.card.getPrime
-  if (tappayStatus.canGetPrime === false) {
-    alert("can not get prime");
-    return;
-  }
-
-  // Get prime
   TPDirect.card.getPrime(async function (result) {
     try {
-      let response = await sendPayData(result.card.prime);
+      let response = await sendPaymentData(result.card.prime);
       redirectThankyou(response);
+      deleteBooking();
     } catch (error) {
       console.log(error);
     }
-    // if (data.status !== 0) {
-    //   alert("get prime error " + result.msg);
-    //   return;
-    // }
   });
-
-  //   console.log(p);
 };
 const payForm = document.getElementById("paymentForm");
 payForm.addEventListener("submit", bookingAndPay);

@@ -11,15 +11,6 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap"
       rel="stylesheet"
     />
-    <script>
-      const checkPermission = async () => {
-        let data = await fetch("/api/user").then((res) => res.json());
-        if (data == null) {
-          location.href = "/";
-        }
-      };
-      checkPermission();
-    </script>
   </head>
   <body>
     <header>
@@ -95,40 +86,35 @@
           <hr />
           <fieldset id="creditInfo">
             <p id="creditInfoTitle">信用卡付款資訊</p>
-            <div class="form-group card-number-group">
-              <label for="card-number" class="control-label"
-                ><span id="cardtype"></span>卡號</label
-              >
-              <div class="form-control card-number"></div>
+            <div id="creditCardForm">
+              <div class="form-group card-number-group">
+                <label
+                  for="card-number"
+                  class="control-label"
+                  id="creditCardNumberLabel"
+                  ><span id="cardtype"></span>卡片號碼：</label
+                >
+                <div class="form-control card-number"></div>
+              </div>
+              <div class="form-group expiration-date-group">
+                <label
+                  for="expiration-date"
+                  class="control-label"
+                  id="creditCardExpLabel"
+                  >過期時間：</label
+                >
+                <div
+                  class="form-control expiration-date"
+                  id="tappay-expiration-date"
+                ></div>
+              </div>
+              <div class="form-group cvc-group">
+                <label for="cvc" class="control-label" id="creditCardCvcLabel"
+                  >驗證密碼：</label
+                >
+                <div class="form-control cvc"></div>
+              </div>
             </div>
-            <div class="form-group expiration-date-group">
-              <label for="expiration-date" class="control-label"
-                >卡片到期日</label
-              >
-              <div
-                class="form-control expiration-date"
-                id="tappay-expiration-date"
-              ></div>
-            </div>
-            <div class="form-group cvc-group">
-              <label for="cvc" class="control-label">卡片後三碼</label>
-              <div class="form-control cvc"></div>
-            </div>
-            <!-- <label for="cardNumber">卡片號碼：</label>
-            <input
-              class="tpfield"
-              id="card-number"
-              inputmode="numeric"
-              name="cardNumber"
-            /><br />
-            <label for="expDate">過期時間：</label>
-            <input
-              class="tpfield"
-              id="card-expiration-date"
-              name="expDate"
-            /><br />
-            <label for="CSC">驗證密碼：</label>
-            <input class="tpfield" id="card-ccv" type="text" name="CSC" /> -->
           </fieldset>
           <hr id="bottomLine" />
 
@@ -232,6 +218,7 @@
     <script src="../static/js/bookingScript.js"></script>
     <script src="../static/js/authentication.js"></script>
     <script src="https://js.tappaysdk.com/tpdirect/v5.9.0"></script>
+    <script src="../static/js/config.js"></script>
     <script src="../static/js/TapPay.js"></script>
   </body>
 </html>

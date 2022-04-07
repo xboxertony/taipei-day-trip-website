@@ -16,31 +16,44 @@ load_dotenv(path.join(basedir, ".env"))
 orders = Blueprint("orders", __name__)
 
 
-@orders.route("/api/orders", methods=["GET", "POST"])
-def order():
+@orders.route("/api/orders", methods=["POST"])
+def post_request_order():
     if not request.cookies.get("cookie"):
         error = {"error": True, "message": "未登入系統，拒絕存取"}
         return jsonify(error), 403
     if request.method == "POST":
-        member_id = get_member_id(request)
-        prime = get_prime(request)
-        tour_order = get_tour_order(request, member_id)
-        tour_order.insert()
-        tappay_response = post_to_tappay(prime, tour_order)
-
-        if tappay_response["status"] == 0:
-            tour_order.payment_status = "paid"
-            tour_order.update(tappay_response)
-        else:
-            tour_order.update(tappay_response)
-        return jsonify(tour_order.order_number)
-    if request.method == "GET":
-        if not request.args.get("orderNumber"):
-            pass
-        else:
+        try:
+            if not request.get_json():
+                error = {"error": True, "message": "訂單建立失敗，輸入不正確或其他原因"}
+                return jsonify(error), 400
             member_id = get_member_id(request)
-            order_number = request.args.get("orderNumber")
-            response = Order.search_by_order_number(order_number)
+            prime = get_prime(request)
+            tour_order = get_tour_order(request, member_id)
+            tour_order.insert()
+            tappay_response = post_to_tappay(prime, tour_order)
+
+            if tappay_response["status"] == 0:
+                tour_order.payment_status = "paid"
+                tour_order.update(tappay_response)
+            else:
+                tour_order.update(tappay_response)
+            return jsonify(tour_order.order_number)
+        except:
+            error = {"error": True, "message": "伺服器內部錯誤"}
+            return jsonify(error), 500
+
+
+@orders.route("/api/orders/<orderNumber>", methods=["GET"])
+def get_request_order(orderNumber):
+    if not request.cookies.get("cookie"):
+        error = {"error": True, "message": "未登入系統，拒絕存取"}
+        return jsonify(error), 403
+    if request.method == "GET":
+        if not orderNumber:
+            error = {"error": True, "message": "輸入不正確或其他原因"}
+            return jsonify(error), 400
+        else:
+            response = Order.search_by_order_number(orderNumber)
             if response is None:
                 return jsonify(response)
             else:
