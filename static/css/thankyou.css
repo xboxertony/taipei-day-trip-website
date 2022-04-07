@@ -52,3 +52,7 @@
     height: 40px;
     width: 40px;
 }
+
+
+@media (max-width: 600px) {
+    .template{width: 85%;}}
