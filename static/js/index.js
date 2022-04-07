@@ -109,7 +109,7 @@ window.addEventListener('scroll',()=>{
     let scrolled =document.documentElement.scrollTop
 
     console.log('捲動',ajaxHeight,deviseHeight,scrollable,',',scrolled )
-    if (scrolled + 10 >= scrollable){
+    if (scrolled + 100 >= scrollable){
         if (nextPage){
             
             if (document.getElementById("search").value == '') {nexturl = `/api/attractions/?page=${nextPage}`;}
