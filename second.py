@@ -72,6 +72,7 @@ def orderResponse(cursor,orderNumber,attEmail,attId,attDate,attTime, price,name,
     """
     cursor.execute(sqlF, (attId,))
     sqlF = cursor.fetchone() #tuple or None
+    attDate = attDate.strftime("%Y-%m-%d")
 
     orderResp ={
         'number':orderNumber,
@@ -83,7 +84,7 @@ def orderResponse(cursor,orderNumber,attEmail,attId,attDate,attTime, price,name,
             'address':sqlE[4],
             'image':sqlF[1]
         },
-            'date':attDate.strftime("%Y-%m-%d"),
+            'date':attDate,
             'time':attTime
         },
         'contact':{
