@@ -248,6 +248,9 @@ def book_get():
                     print('圖片:',third[1])
                     print('日期',bk[2],type(bk[2]))
                     print('===' * 10)
+
+                    time = bk[2].strftime("%Y-%m-%d")
+                    print(time,type(time),'&&&&&')
                     ##
                     data = {"data":{
                         "attraction":{
