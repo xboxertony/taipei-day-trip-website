@@ -69,6 +69,7 @@
             <label id="contactEmailLabel" for="contactEmail">聯絡信箱：</label>
             <input
               id="contactEmailInput"
+              name="contactEmail"
               type="email"
               pattern=".+@.+\..+"
               oninvalid="this.setCustomValidity('Email格式：example@mail.com')"
@@ -94,18 +95,40 @@
           <hr />
           <fieldset id="creditInfo">
             <p id="creditInfoTitle">信用卡付款資訊</p>
-            <label for="cardNumber">卡片號碼：</label>
+            <div class="form-group card-number-group">
+              <label for="card-number" class="control-label"
+                ><span id="cardtype"></span>卡號</label
+              >
+              <div class="form-control card-number"></div>
+            </div>
+            <div class="form-group expiration-date-group">
+              <label for="expiration-date" class="control-label"
+                >卡片到期日</label
+              >
+              <div
+                class="form-control expiration-date"
+                id="tappay-expiration-date"
+              ></div>
+            </div>
+            <div class="form-group cvc-group">
+              <label for="cvc" class="control-label">卡片後三碼</label>
+              <div class="form-control cvc"></div>
+            </div>
+            <!-- <label for="cardNumber">卡片號碼：</label>
             <input
+              class="tpfield"
+              id="card-number"
               inputmode="numeric"
-              pattern="[0-9]{16}"
-              type="text"
               name="cardNumber"
-              required
             /><br />
             <label for="expDate">過期時間：</label>
-            <input type="month" name="expDate" required /><br />
+            <input
+              class="tpfield"
+              id="card-expiration-date"
+              name="expDate"
+            /><br />
             <label for="CSC">驗證密碼：</label>
-            <input type="text" name="CSC" pattern="[0-9]{3}" required />
+            <input class="tpfield" id="card-ccv" type="text" name="CSC" /> -->
           </fieldset>
           <hr id="bottomLine" />
 
@@ -208,5 +231,7 @@
     </div>
     <script src="../static/js/bookingScript.js"></script>
     <script src="../static/js/authentication.js"></script>
+    <script src="https://js.tappaysdk.com/tpdirect/v5.9.0"></script>
+    <script src="../static/js/TapPay.js"></script>
   </body>
 </html>

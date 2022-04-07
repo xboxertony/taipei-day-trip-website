@@ -33,7 +33,7 @@ def sign_up(name, email, password):
 
 
 def authenticate_member(email, password):
-    check_member_sql = "SELECT id,name, email, password FROM member WHERE email = %s"
+    check_member_sql = "SELECT id, name, email, password FROM member WHERE email = %s"
     db = connection_pool.get_connection()
     cursor = db.cursor()
     cursor.execute(check_member_sql, (email,))
