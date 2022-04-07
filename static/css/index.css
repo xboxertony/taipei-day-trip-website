@@ -272,6 +272,7 @@ a :hover{
 .wrapper{
     min-height: 100%;
 }
+
 .notfull{
     position: relative; 
     top: 54px;

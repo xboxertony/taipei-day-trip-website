@@ -1,4 +1,4 @@
-import os
+import os, datetime
 from flask import *
 from second import api, pool
 from flask_jwt_extended import (create_access_token,get_jwt_identity, jwt_required, JWTManager )
@@ -48,5 +48,5 @@ def base():
 	return render_template("base.html")
 
 
-app.run(port=3000)
+app.run(host='0.0.0.0',port=3000)
 pool._remove_connections()

@@ -2,7 +2,6 @@
 console.log('正在booking...', userName , userEmail)
 
 
-
 async function cancel(){
     let dict = await getFetch("/api/booking",'DELETE')
     console.log('DELETE token /api/booking 回傳值',dict)
@@ -16,7 +15,7 @@ async function cancel(){
 
 async function getFetch(url,method){
     try{
-            let res =  await fetch(url,{'method':method,headers: {Authorization: `Bearer ${access_token}`}})
+            let res =  await fetch(url,{'method':method,headers: {'Authorization': `Bearer ${access_token}`}})
             if (res.status === 200){
                 let data = await res.json() 
                 return data          
@@ -94,43 +93,52 @@ async function bookGet(){
         document.querySelector('.whole').style.display = 'block'
 
         console.log(dict['data'],'有預定紀錄')
+
+        attId = dict['data']['attraction']['id'], attName = dict['data']['attraction']['name'] 
+        attAddress = dict['data']['attraction']['address'], attImage = dict['data']['attraction']['image']
+        attDate = dict['data']['date'], attPrice = dict['data']['price'], attTime = dict['data']['time']
+
+        ///
         document.querySelector('.noData').style.display = 'none'
         document.querySelector('.Bsection').style.display = 'flex'
 
         let item_img = document.createElement('img')
-        item_img.src = dict['data']['attraction']['image']
+        item_img.src = attImage
         document.querySelector('.Bpicture').appendChild(item_img)
 
         let trash ='<div class="cancel"><img src="/static/img/icon_delete.jpg"></div>'
-        document.querySelector('.item_t').innerHTML=`台北一日遊：${dict['data']['attraction']['name']}${trash}`
+        document.querySelector('.item_t').innerHTML=`台北一日遊：${attName}${trash}`
 
         whole.querySelector('.cancel').addEventListener('click',cancel)
 
         for(let i =0; i<whole.querySelectorAll('.item').length;i++){
             if (i === 0){
-            whole.querySelectorAll('.item')[i].innerHTML=`<span>日期：</span>${dict['data']['date']}`
+            whole.querySelectorAll('.item')[i].innerHTML=`<span>日期：</span>${attDate}`
             }
             else if(i === 1){
-            whole.querySelectorAll('.item')[i].innerHTML=`<span>時間：</span>${dict['data']['time']}`
+            whole.querySelectorAll('.item')[i].innerHTML=`<span>時間：</span>${attTime}`
             }
             else if(i === 2){
-            whole.querySelectorAll('.item')[i].innerHTML=`<span>費用：</span>新台幣 ${dict['data']['price']} 元`
+            whole.querySelectorAll('.item')[i].innerHTML=`<span>費用：</span>新台幣 ${attPrice} 元`
             }
             else if(i === 3) {
-            whole.querySelectorAll('.item')[i].innerHTML=`<span>地點：</span>${dict['data']['attraction']['address']}`
+            whole.querySelectorAll('.item')[i].innerHTML=`<span>地點：</span>${attAddress}`
             }
 
         }
 
         whole.querySelector('.name').value = `${userName}`
         whole.querySelector('.email').value = `${userEmail}`
-        whole.querySelector('.confirmPrice').innerHTML = `總價：新台幣 ${dict['data']['price']} 元`
+        whole.querySelector('.confirmPrice').innerHTML = `總價：新台幣 ${attPrice} 元`
 
         //footer change
         document.getElementsByTagName('body')[0].classList.remove('body')
         document.getElementsByTagName('html')[0].classList.remove('html')
         document.getElementById('footer').classList.remove('full')
         document.getElementById('footer').classList.add('notfull')
+
+        //點擊付款
+        document.querySelector('.confirmBtn').addEventListener('click',clickPay)
     }////主要程式碼
 
     else{
@@ -145,8 +153,8 @@ setTimeout(bookGet,800)
 
 let whole = document.querySelector('.whole')
 let Bform_list = whole.getElementsByTagName('form')
-//點擊付款
-document.querySelector('.confirmBtn').addEventListener('click',clickPay)
+let attPrice, attId, attName, attAddress, attImage, attDate, attTime, conName, conEmail, conPhone;
+
 
 ///等待載入頁面...
 document.getElementsByTagName('body')[0].classList.add('body')
@@ -158,6 +166,9 @@ document.getElementById('footer').classList.remove('notfull')
 // 設置好等等 GetPrime 所需要的金鑰
 TPDirect.setupSDK(124024,'app_8PZWHViTnDMvcfP62JynEsRUVkoXu2Wf5R7tneWZtDtGJLjDbKkzFqka66fM', 'sandbox')
 // 把 TapPay 內建輸入卡號的表單給植入到 div 中
+
+
+
 let fields;
 TPDirect.card.setup({
     // Display ccv field
@@ -184,12 +195,21 @@ TPDirect.card.setup({
 function clickPay(event) {
     event.preventDefault()
 
+    conName = document.querySelector('.Bcontact').querySelector('.name').value
+    conEmail = document.querySelector('.Bcontact').querySelector('.email').value
+    conPhone = document.querySelector('.phone').value
+
+    if (! (conName.match(pat_name) && conEmail.match(pat_email) && conPhone.match(/^09\d{8}$/))){
+        alert('您的聯絡資訊格式不正確')
+        return
+
+    }
     // 取得 TapPay Fields 的 status
     const tappayStatus = TPDirect.card.getTappayFieldsStatus()
 
     // 確認是否可以 getPrime
     if (tappayStatus.canGetPrime === false) {
-        alert('can not get prime')
+        alert('信用卡付款資訊輸入有誤')
         return
     }
 
@@ -199,9 +219,60 @@ function clickPay(event) {
             alert('get prime error ' + result.msg)
             return
         }
-        alert('get prime 成功，prime: ' + result.card.prime)
-
         // send prime to your server, to pay with Pay by Prime API .
         // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
+
+        console.log(result.card.prime,'Prime')
+        let payDt={
+            "prime": result.card.prime,
+            "order": {
+              "price": attPrice,
+              "trip": {
+                "attraction": {
+                  "id": attId,
+                  "name": attName,
+                  "address":attAddress,
+                  "image": attImage
+                },
+                "date": attDate,
+                "time": attTime
+              },
+              "contact": {
+                "name": userName,
+                "email": userEmail,
+                "phone": conPhone
+              }
+            }
+          }
+        sendPrimetoBack(payDt)
     })
+}
+
+function sendPrimetoBack(payDt){
+    fetch("/api/orders",{
+        'method':'POST',
+        body:JSON.stringify(payDt),
+        headers:{
+            "Content-Type":"application/json; charset=UTF-8",
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${access_token}`
+        }
+        })
+        .then(function(response){
+            return response.json();
+            })
+        .catch(error => console.error('Error:', error))
+        .then(function(dict){
+            console.log('POST /api/orders 回傳值',dict)
+            if ('message' in dict){
+                alert(dict['message'])
+            }
+
+            else{
+                let number= dict['data']['number'], msg = dict['data']['payment']['message']
+                console.log(number,msg)
+                window.location.href = `/thankyou?number=${number}`;
+            }
+
+        });   
 }

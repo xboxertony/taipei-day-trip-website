@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+{% block link%}
+<link rel="stylesheet"  type= "text/css" href="/static/css/thankyou.css?v=0.0.289">
+{% endblock link%}
+
+
+{% block title%}
+<title>booking</title>
+{% endblock title%}
+
+
+
+{% block content%}
+
+
+<div class='load'><img src="/static/img/load.gif" class='gif'/></div>
+
+<div class="template">
+    <div>
+    <div class="message"></div>
+    <div class="remind">
+        <div>請保持手機暢通，準時到達</div>
+        <div class="spot">地點:</div>
+        <div class="spot">地址:</div>
+        <div class="spot">日期:</div>
+        <div class="spot">時段:</div>
+    </div>
+    ​​​​​​​​​​</div>
+
+</div>
+
+
+ 
+<!-- above is wrapper bootom -->
+<div id = 'footer' class="full"><div>COPYRIGHT © 2021 台北一日遊</div></div>
+
+
+{% endblock content%}
+
+
+{% block script %}
+<script type="text/javascript" src="/static/js/thankyou.js"></script>
+{% endblock  script%}

@@ -1,0 +1,54 @@
+
+.template{
+    position: relative;
+    top: 94px;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+.template div{
+    margin: 0 auto;
+}
+.message{
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.remind{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 15px;
+    display: none;
+}
+
+.remind div{
+    margin-top: 15px;
+}
+
+.remind :first-child{
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.load{
+    position: relative;
+    top: 54px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.load img{
+    margin-top: 54px;
+    height: 40px;
+    width: 40px;
+}
