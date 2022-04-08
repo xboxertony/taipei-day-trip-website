@@ -1,5 +1,3 @@
-let url = `http://${window.location.host}/api/attractions`;
-
 const searchKeywordPressEnter = (e) => {
   if (e.keyCode === 13) {
     searchKeyword();
@@ -11,8 +9,7 @@ document
 
 const searchKeyword = () => {
   let keywordValue = document.getElementById("keywordInput").value;
-  let url = `http://${window.location.host}/api/attractions?keyword=${keywordValue}`;
-  fetch(url)
+  fetch(`/api/attractions?keyword=${keywordValue}`)
     .then((res) => res.json())
     .then((data) => {
       attractionsInfo = data.data;
@@ -25,10 +22,13 @@ const searchKeyword = () => {
     .catch(console.log);
 };
 
-lastSendRequestTimeInMs = 0;
-resendIntervalInMs = 1500;
-const canSendRequst = () => {
-  return Date.now() > lastSendRequestTimeInMs + resendIntervalInMs;
+let fetchFlag = true;
+const switchFetch = () => {
+  if (fetchFlag) {
+    fetchFlag = false;
+  } else {
+    fetchFlag = true;
+  }
 };
 
 const getNextPage = () => {
@@ -36,7 +36,7 @@ const getNextPage = () => {
   const options = {
     threshold: [0.2, 0.4, 0.6, 0.8, 1],
   };
-  const loadMoreAttractions = () => {
+  const loadMoreAttractions = async () => {
     if (nextPage != null) {
       let url = `http://${window.location.host}/api/attractions?page=${nextPage}`;
       let keywordValue = document.getElementById("keywordInput").value;
@@ -44,9 +44,9 @@ const getNextPage = () => {
         url = `http://${window.location.host}/api/attractions?page=${nextPage}&keyword=${keywordValue}`;
       }
 
-      if (canSendRequst()) {
-        lastSendRequestTimeInMs = Date.now();
-        fetch(url)
+      if (fetchFlag) {
+        switchFetch();
+        await fetch(url)
           .then((res) => res.json())
           .then((data) => {
             attractionsInfo = data.data;
@@ -55,6 +55,7 @@ const getNextPage = () => {
           .then(() => {
             addCards(false);
           });
+        switchFetch();
       }
     }
   };
@@ -124,7 +125,7 @@ const parseAttractionsInfo = (attraction) => {
   return { imgUrl, caption, mrt, category, id };
 };
 
-fetch(url)
+fetch("/api/attractions")
   .then((res) => res.json())
   .then((data) => {
     attractionsInfo = data.data;

@@ -1,5 +1,3 @@
-let authUrl = `http://${window.location.host}/api/user`;
-
 const popupModal = () => {
   document.getElementById("modal").style.display = "block";
 };
@@ -81,11 +79,11 @@ const signUpForm = document.getElementById("signupForm");
 signUpForm.addEventListener("submit", signUp);
 
 const logout = () => {
-  fetch(authUrl, { method: "DELETE" }).then(reloadPage);
+  fetch("/api/user", { method: "DELETE" }).then(reloadPage);
 };
 
 const isLogin = async () => {
-  let data = await fetch(authUrl).then((res) => res.json());
+  let data = await fetch("/api/user").then((res) => res.json());
   if (data == null) {
     return false;
   } else {
@@ -106,7 +104,6 @@ const showLoginOrSignup = (data) => {
   }
 };
 const loginOrBooking = async () => {
-  // await isLogin()
   const bookinBtn = document.getElementById("bookingTour");
   if (!(await isLogin())) {
     popupModal();
@@ -116,6 +113,6 @@ const loginOrBooking = async () => {
 };
 
 // init
-fetch(authUrl)
+fetch("/api/user")
   .then((res) => res.json())
   .then(showLoginOrSignup);

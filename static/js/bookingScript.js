@@ -1,5 +1,3 @@
-let bookingUrl = `http://${window.location.host}/api/booking`;
-
 const checkPermission = async () => {
   let data = await fetch("/api/user").then((res) => res.json());
   if (data == null) {
@@ -90,7 +88,7 @@ const renderBookingPage = (bookingInfo) => {
 };
 
 const init = async () => {
-  await fetch(bookingUrl)
+  await fetch("/api/booking")
     .then((res) => res.json())
     .then(whichRender);
   renderUserName();

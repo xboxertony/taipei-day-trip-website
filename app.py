@@ -3,7 +3,6 @@ from api.api import api
 from api.user import user
 from api.booking import booking_api
 from api.orders import orders
-from db_connection import connection_pool, db, cursor
 from dotenv import load_dotenv
 from os import environ, path
 
