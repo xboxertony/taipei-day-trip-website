@@ -141,9 +141,9 @@ cython_debug/
 .vscode
 
 #test file
-test.py
-
-wsgi.py
-
-attractionScriptv1.js
 test.*
+
+#config
+config.js
+#wsgi
+wsgi.py

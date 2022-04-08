@@ -2,7 +2,7 @@ from flask import *
 from api.api import api
 from api.user import user
 from api.booking import booking_api
-
+from api.orders import orders
 from db_connection import connection_pool, db, cursor
 from dotenv import load_dotenv
 from os import environ, path
@@ -20,6 +20,7 @@ app.config["SECRET_KEY"] = environ.get("SECRET_KEY")
 app.register_blueprint(api)
 app.register_blueprint(user)
 app.register_blueprint(booking_api)
+app.register_blueprint(orders)
 
 
 # Pages

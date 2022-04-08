@@ -1,5 +1,13 @@
 let bookingUrl = `http://${window.location.host}/api/booking`;
 
+const checkPermission = async () => {
+  let data = await fetch("/api/user").then((res) => res.json());
+  if (data == null) {
+    location.href = "/";
+  }
+};
+checkPermission();
+
 const deleteReservation = async () => {
   await fetch("/api/booking", { method: "DELETE" });
   reloadPage();

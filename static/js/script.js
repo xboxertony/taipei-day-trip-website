@@ -111,8 +111,7 @@ const addCard = (attraction) => {
 };
 
 const linkAttractionId = (e, id) => {
-  let attractionIdUrl = `http://${window.location.host}/attraction/${id}`;
-  window.open(attractionIdUrl);
+  location.href = `/attraction/${id}`;
 };
 
 const parseAttractionsInfo = (attraction) => {

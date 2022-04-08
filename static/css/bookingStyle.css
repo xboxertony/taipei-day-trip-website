@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-size: 16px;
+  box-sizing: border-box;
   font-family: "Noto Sans TC", sans-serif;
 }
 
@@ -114,7 +115,7 @@ section {
   color: #666666;
   width: 81px;
   height: 24px;
-  display: inline-block;
+  display: inline;
   box-sizing: border-box;
 }
 #contactInfo input,
@@ -129,8 +130,8 @@ section {
 #contactInfo input:focus,
 #creditInfo input:focus {
   outline: none;
-  border: 1px solid #448899;
-  box-shadow: 0 0 5px #66aabb;
+  /* border: 1px solid #448899;
+  box-shadow: 0 0 5px #66aabb; */
 }
 #paymentInfo {
   margin-bottom: 180px;
@@ -139,6 +140,41 @@ section {
   color: #666666;
   border: none;
 }
+#creditCardForm {
+  display: grid;
+  grid-template-rows: 38px 38px;
+  gap: 15px;
+}
+.card-number-group {
+  grid-row: 1/2;
+}
+.expiration-date-group {
+  grid-row: 2/3;
+}
+.cvc-group {
+  grid-row: 3/4;
+}
+.control-label {
+  align-self: center;
+}
+
+.form-control {
+  display: flex;
+  justify-content: space-around;
+  width: 200px;
+  height: 40px;
+  border: #e8e8e8 solid 1px;
+  border-radius: 5px;
+}
+.form-group {
+  /* display: inline-block; */
+  display: grid;
+  grid-template-columns: 81px 200px;
+  /* width: 200px;
+  height: 38px; */
+  margin: 0 0 15px 0;
+}
+
 #bookingTitle,
 #userInfoTitle,
 #creditInfoTitle {

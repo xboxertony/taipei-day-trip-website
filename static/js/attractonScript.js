@@ -113,14 +113,6 @@ const reserveTour = async (e) => {
   } else {
     sendReservation();
     location.href = "/booking";
-    // if (isReservationResult == null) {
-    //   sendReservation();
-    //   location.href = "/booking";
-    // } else {
-    //   await fetch("/api/booking", { method: "DELETE" });
-    //   sendReservation();
-    //   location.href = "/booking";
-    // }
   }
 };
 const bookingForm = document.getElementById("reservationFrom");
