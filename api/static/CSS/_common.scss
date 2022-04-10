@@ -58,7 +58,10 @@ body {
     justify-items: center;
     gap: 0.5em;
     padding: 0.5rem;
-
+    a {
+      text-decoration: underline;
+      color: #337788;
+    }
     .alert {
       padding: 3rem 0rem;
     }
@@ -132,7 +135,7 @@ nav {
   display: flex;
 
   position: fixed;
-  width: 100%;
+  width: 100vw;
   height: 54px;
   top: 0;
   z-index: 2000;

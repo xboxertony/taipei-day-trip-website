@@ -141,6 +141,13 @@ body {
   padding: 0.5rem;
 }
 
+.auth-container .login-inner a,
+.auth-container .signup-inner a,
+.auth-container .message-inner a {
+  text-decoration: underline;
+  color: #337788;
+}
+
 .auth-container .login-inner .alert,
 .auth-container .signup-inner .alert,
 .auth-container .message-inner .alert {
@@ -236,7 +243,7 @@ nav {
   display: -ms-flexbox;
   display: flex;
   position: fixed;
-  width: 100%;
+  width: 100vw;
   height: 54px;
   top: 0;
   z-index: 2000;
@@ -431,8 +438,44 @@ main .payment * {
 
 main .contact * input,
 main .payment * input {
+  height: 2rem;
+  width: 250px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   padding: 0.3rem;
+  border-radius: 5px;
+}
+
+main .contact * input:focus,
+main .payment * input:focus {
+  outline: none !important;
+}
+
+main .payment .zone {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+main .payment .zone .tpfield {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 2rem;
+  width: 250px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  margin: 0.5rem;
+  padding: 0.3rem;
+  border-radius: 5px;
 }
 
 main .total-info {

@@ -181,7 +181,10 @@ bookBtn.addEventListener("click", (e) => {
     if (res.ok) {
       popup(
         "success",
-        `訂購成功，${data.name}，${inputDate}-${inputTime.value}`
+        `訂購成功，${data.name}，${inputDate}-${inputTime.value}
+        <br/>
+        <a href="/booking" >前往購物車查看</a>
+        `
       );
     } else if (res.error) {
       popup("return", res.message, () => {

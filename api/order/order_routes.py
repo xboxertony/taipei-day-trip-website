@@ -80,7 +80,10 @@ def place_order():
               "number":input_order_number,
               "payment": {
                 "status":status_code,
-                "message":"付款成功，共" + str(total_num) + "筆，訂單編號：" + str(input_order_number)
+                "message":{
+                  "total":total_num,
+                  "orderNumber":input_order_number
+                }
               }
             }
           }

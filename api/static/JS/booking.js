@@ -22,7 +22,7 @@ async function initialLoad() {
   } else {
     booksArr = data.data;
   }
-  if (!booksArr) {
+  if (booksArr.length === 0) {
     main.textContent = `目前沒有待預定的行程`;
     return null;
   }
@@ -133,40 +133,61 @@ TPDirect.setupSDK(
   "app_g5Nn5pwqQazAXlYDgc3lq0tqfNSbOZEvzc3yIWLXqFXrjkulwm4QJVmiysVj",
   "sandbox"
 );
-var defaultCardViewStyle = {
-  color: "rgb(0,0,0)",
-  fontSize: "15px",
-  lineHeight: "24px",
-  fontWeight: "300",
-  errorColor: "red",
-  placeholderColor: "",
+
+let fields = {
+  number: {
+    // css selector
+    element: "#card-number",
+    placeholder: "**** **** **** ****",
+  },
+  expirationDate: {
+    // DOM object
+    element: document.getElementById("card-expiration-date"),
+    placeholder: "MM / YY",
+  },
+  ccv: {
+    element: "#card-ccv",
+    placeholder: "ccv",
+  },
 };
 
-// isUsedCcv default true
-const cardViewContainer = document.querySelector("#cardview-container");
-const message = document.querySelector(".message");
-TPDirect.card.setup("#cardview-container", defaultCardViewStyle);
-var submitButton = document.querySelector("#submit-button");
-
-TPDirect.card.onUpdate(function (update) {
-  if (update.canGetPrime) {
-    submitButton.removeAttribute("disabled");
-  } else {
-    submitButton.setAttribute("disabled", true);
-  }
-
-  if (update.hasError) {
-    cardViewContainer.classList.add("error");
-  } else {
-    cardViewContainer.classList.remove("error");
-  }
-
-  if (update.status.number) {
-    message.classList.remove("none");
-    message.textContent = '"Please check your credit card number"';
-  } else {
-    message.classList.add("none");
-  }
+TPDirect.card.setup({
+  fields: fields,
+  styles: {
+    // Style all elements
+    input: {},
+    // Styling ccv field
+    "input.ccv": {
+      "font-size": "16px",
+    },
+    // Styling expiration-date field
+    "input.expiration-date": {
+      "font-size": "16px",
+    },
+    // Styling card-number field
+    "input.card-number": {
+      "font-size": "16px",
+    },
+    // style focus state
+    ":focus": {
+      color: "#337788",
+    },
+    // style valid state
+    ".valid": {
+      color: "gray",
+    },
+    // style invalid state
+    ".invalid": {
+      color: "red",
+    },
+    // Media queries
+    // Note that these apply to the iframe, not the root window.
+    "@media screen and (max-width: 400px)": {
+      input: {
+        color: "gray",
+      },
+    },
+  },
 });
 
 //--------------------------------pay-------------------------------
@@ -214,9 +235,14 @@ function onClick() {
       });
       const res = await response.json();
       if (res.data) {
-        popup("return", res.data.payment.message, () => {
-          location.reload();
-        });
+        let { total, orderNumber } = res.data.payment.message;
+        popup(
+          "return",
+          `付款成功，共${total}筆，訂單編號：<a href="order/${orderNumber}" >${orderNumber}</a>`,
+          () => {
+            location.href = "/";
+          }
+        );
       } else if (res.error) {
         popup("return", res.message, () => {
           location.reload();
