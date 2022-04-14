@@ -1,12 +1,9 @@
 from flask import *
 import jwt
-from api.api import attractions_id, get_attraction_by_id, parse_datas
 from models.order import *
 from urllib.request import Request, urlopen
 from os import environ, path
 from dotenv import load_dotenv
-
-# from db_connection import connection_pool, cursor, db
 
 
 basedir = path.abspath(path.dirname(__file__))
@@ -16,7 +13,7 @@ load_dotenv(path.join(basedir, ".env"))
 orders = Blueprint("orders", __name__)
 
 
-@orders.route("/api/orders", methods=["POST"])
+@orders.route("/api/orders", methods=["POST", "GET"])
 def post_request_order():
     if not request.cookies.get("cookie"):
         error = {"error": True, "message": "未登入系統，拒絕存取"}
@@ -41,6 +38,9 @@ def post_request_order():
         except:
             error = {"error": True, "message": "伺服器內部錯誤"}
             return jsonify(error), 500
+    if request.method == "GET":
+        member_id = get_member_id(request)
+        return jsonify(Order.search_by_member_id(member_id))
 
 
 @orders.route("/api/orders/<orderNumber>", methods=["GET"])

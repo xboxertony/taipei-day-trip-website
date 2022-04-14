@@ -43,5 +43,10 @@ def thankyou():
     return render_template("thankyou.html")
 
 
+@app.route("/member")
+def member():
+    return render_template("member.html")
+
+
 if __name__ == "__main__":
     app.run(port=3000, debug=True)

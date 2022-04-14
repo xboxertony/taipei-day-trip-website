@@ -103,11 +103,9 @@ const sendReservation = async () => {
     method: "POST",
   }).then((res) => res.json());
 };
-
 const reserveTour = async (e) => {
   e.preventDefault();
   let isLoginResult = await isLogin();
-  // let isReservationResult = await isReservation();
   if (!isLoginResult) {
     popupModal();
   } else {
@@ -123,3 +121,5 @@ fetch(url)
   .then(renderInfo)
   // .then(setTimeout(slideshow, 5000))
   .catch(console.log);
+
+//TODO slideshow image loading need optimize

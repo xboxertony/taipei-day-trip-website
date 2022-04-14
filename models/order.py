@@ -1,3 +1,4 @@
+from time import strftime
 from flask import *
 from db_connection import connection_pool
 import datetime
@@ -95,6 +96,51 @@ class Order:
         cursor = db.cursor()
         cursor.execute(sql, (order_number,))
         infos = cursor.fetchone()
+        cursor.close()
+        db.close()
+        return infos
+
+    def search_by_member_id(member_id):
+        sql = """select orders.order_number, orders.order_time, orders.booking_price, orders.payment_status, attractions.name,
+        orders.booking_date, orders.booking_time from orders
+        inner join attractions
+        on orders.attraction_id = attractions.id
+        where member_id = %s"""
+        db = connection_pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute(sql, (member_id,))
+        infos = []
+        for (
+            order_number,
+            order_time,
+            price,
+            payment_status,
+            attraction_name,
+            booking_date,
+            booking_time,
+        ) in cursor:
+            order_time.strftime("%Y-%m-%d %H:%M:%S")
+            booking_date.strftime("%Y-%m-%d")
+            if booking_time == "morning":
+                booking_time = "上午 8 時至中午 12 時"
+            else:
+                booking_time = "下午 2 時至晚上 7 時"
+            if payment_status == "paid":
+                payment_status = "付款完成"
+            else:
+                payment_status = "未付款"
+            data = [
+                order_number,
+                order_time.strftime("%Y-%m-%d %H:%M:%S"),
+                price,
+                payment_status,
+                attraction_name,
+                booking_date.strftime("%Y-%m-%d"),
+                booking_time,
+            ]
+            infos.append(data)
+        if not infos:
+            infos = None
         cursor.close()
         db.close()
         return infos

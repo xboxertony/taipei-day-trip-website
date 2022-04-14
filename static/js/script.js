@@ -23,7 +23,7 @@ const searchKeyword = () => {
 };
 
 let fetchFlag = true;
-const switchFetch = () => {
+const toggleFetchSwitch = () => {
   if (fetchFlag) {
     fetchFlag = false;
   } else {
@@ -45,7 +45,7 @@ const getNextPage = () => {
       }
 
       if (fetchFlag) {
-        switchFetch();
+        toggleFetchSwitch();
         await fetch(url)
           .then((res) => res.json())
           .then((data) => {
@@ -55,7 +55,7 @@ const getNextPage = () => {
           .then(() => {
             addCards(false);
           });
-        switchFetch();
+        toggleFetchSwitch();
       }
     }
   };

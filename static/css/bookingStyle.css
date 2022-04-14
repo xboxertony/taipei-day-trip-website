@@ -47,6 +47,11 @@ header {
   line-height: 34px;
   cursor: pointer;
 }
+#memberIcon {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
 section {
   margin-top: 54px;
 }

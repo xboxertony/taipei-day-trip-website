@@ -1,3 +1,7 @@
+const toMemberPage = () => {
+  location.href = "/member";
+};
+
 const popupModal = () => {
   document.getElementById("modal").style.display = "block";
 };
