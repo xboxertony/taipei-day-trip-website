@@ -1,6 +1,5 @@
 from flask import *
 from api.api import get_attraction_by_id, parse_datas
-from db_connection import connection_pool, cursor, db
 
 
 booking_api = Blueprint("booking", __name__)

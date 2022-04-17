@@ -81,10 +81,20 @@
               type="tel"
               name="contactNumber"
               pattern="[0-9]{10}"
-              oninvalid="this.setCustomValidity('請輸入正確格式ex:09XXXXXXXX')"
+              oninvalid="this.setCustomValidity('請輸入10碼數字')"
               onchange="this.setCustomValidity('')"
               required
-            />
+            /><br />
+            <div id="contactStorage" onclick="useContactInfo()">
+              <div id="checkCircle">
+                <img
+                  id="checkTick"
+                  src="../static/images/icon_tick.png"
+                  style="display: none"
+                />
+              </div>
+              <p>同常用聯絡人資訊</p>
+            </div>
             <p>
               請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。
             </p>
@@ -205,8 +215,8 @@
               id="signupPassword"
               name="password"
               placeholder="輸入密碼"
-              pattern="[a-zA-Z0-9]{8,}$"
-              oninvalid="this.setCustomValidity('請輸入至少8碼英數字')"
+              pattern="[a-zA-Z0-9]{8,}"
+              oninvalid="this.setCustomValidity('請輸入英數字至少8碼')"
               onchange="this.setCustomValidity('')"
               required
             />
