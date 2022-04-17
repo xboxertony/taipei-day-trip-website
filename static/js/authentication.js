@@ -1,7 +1,3 @@
-const toMemberPage = () => {
-  location.href = "/member";
-};
-
 const popupModal = () => {
   document.getElementById("modal").style.display = "block";
 };
@@ -92,6 +88,14 @@ const isLogin = async () => {
     return false;
   } else {
     return data;
+  }
+};
+
+const toMemberPage = async () => {
+  if (!(await isLogin())) {
+    popupModal();
+  } else {
+    location.href = "/member";
   }
 };
 

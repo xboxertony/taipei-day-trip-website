@@ -96,7 +96,7 @@ def edit_password():
             update_password(new_password, member_id)
             return jsonify({"ok": True})
         else:
-            return jsonify({"error": True, "message": "密碼確認不相符"}), 400
+            return jsonify({"error": True, "message": "確認新密碼不相符"}), 400
 
 
 @user.route("/api/user/contact", methods=["GET", "PATCH"])

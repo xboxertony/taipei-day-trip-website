@@ -1,3 +1,8 @@
+import { loading, removeLoading } from "./loadingScript.js";
+
+let attractionsInfo;
+let nextPage;
+
 const searchKeywordPressEnter = (e) => {
   if (e.keyCode === 13) {
     searchKeyword();
@@ -125,13 +130,18 @@ const parseAttractionsInfo = (attraction) => {
   return { imgUrl, caption, mrt, category, id };
 };
 
-fetch("/api/attractions")
-  .then((res) => res.json())
-  .then((data) => {
-    attractionsInfo = data.data;
-    nextPage = data.nextPage;
-  })
-  .then(() => {
-    addCards(false);
-  })
-  .then(getNextPage);
+const initIndex = async () => {
+  let spotsSection = document.getElementById("spotsSection");
+  let photoBox = document.getElementById("photoBox");
+  photoBox.style.visibility = "hidden";
+  loading(spotsSection);
+  let data = await fetch("/api/attractions").then((res) => res.json());
+
+  attractionsInfo = data.data;
+  nextPage = data.nextPage;
+  addCards(false);
+  removeLoading();
+  document.getElementById("photoBox").style.visibility = "visible";
+  getNextPage();
+};
+initIndex();
