@@ -359,8 +359,7 @@ main {
 }
 
 main .content {
-  width: 1200px;
-  padding: 1rem;
+  width: MIN(1200px, 100%);
 }
 
 main .content .top {
@@ -393,11 +392,9 @@ main .content .top .left-box .image {
 }
 
 main .content .top .left-box .loading {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -411,6 +408,7 @@ main .content .top .left-box .loading {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  margin: 3rem 0rem;
 }
 
 main .content .top .left-box .loading .loading-gif {
@@ -548,7 +546,7 @@ main .content .bottom .transport-info {
   .top .left-box .loading-gif {
     position: relative;
     top: 30% !important;
-    width: 50% !important;
+    width: 20% !important;
   }
 }
 /*# sourceMappingURL=attraction.css.map */
