@@ -70,6 +70,7 @@
   padding: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  font-family: Noto Sans TC, Arial, sans-serif;
 }
 
 body {
@@ -359,6 +360,7 @@ main {
 
 main .content {
   width: 1200px;
+  padding: 1rem;
 }
 
 main .content .top {
@@ -390,15 +392,37 @@ main .content .top .left-box .image {
   border-radius: 5px;
 }
 
-main .content .top .left-box .loading-gif {
+main .content .top .left-box .loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+main .content .top .left-box .loading .loading-gif {
   position: relative;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  width: 30%;
+  width: 20%;
   -o-object-fit: fill;
      object-fit: fill;
+}
+
+main .content .top .left-box .loading .loadingTxt {
+  margin-top: 1rem;
+  color: #448899;
 }
 
 main .content .top .left-box .btn-leftArrow {
@@ -471,12 +495,13 @@ main .content .top .right-box .booking .price {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  padding: 0.5rem;
 }
 
 main .content .top .right-box .booking .date *,
 main .content .top .right-box .booking .time *,
 main .content .top .right-box .booking .price * {
-  margin-right: 0.5rem;
+  padding-right: 0.5rem;
   accent-color: #448899;
 }
 

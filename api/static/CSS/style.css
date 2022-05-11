@@ -70,6 +70,7 @@
   padding: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  font-family: Noto Sans TC, Arial, sans-serif;
 }
 
 body {
@@ -400,6 +401,10 @@ header .search-area input {
   padding: 0.5rem;
 }
 
+header .search-area input:focus {
+  outline: none !important;
+}
+
 header .search-area button {
   background-color: #448899;
   background-image: url(../Images/icon_search.png);
@@ -427,6 +432,10 @@ main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -437,6 +446,11 @@ main {
 }
 
 main .items {
+  width: MIN(1200px, 90%);
+  margin-top: 2rem;
+}
+
+main .items .item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -448,11 +462,9 @@ main .items {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: MIN(1200px, 90%);
-  margin-top: 2rem;
 }
 
-main .items a {
+main .items .item a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -465,27 +477,40 @@ main .items a {
   border: 1px solid #e8e8e8;
   border-radius: 5px;
   margin: 1%;
+  overflow: hidden;
   width: 23%;
   height: 15%;
   color: #757575;
   text-decoration: none;
 }
 
-main .items a img {
+main .items .item a img {
   width: 100%;
   height: 17vh;
   -o-object-fit: cover;
      object-fit: cover;
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+  transition: transform 0.5s, -webkit-transform 0.5s;
 }
 
-main .items a .title {
+main .items .item a img:hover {
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+}
+
+main .items .item a .title {
   text-align: left;
   padding: 0.5rem;
   font-weight: bold;
   color: #757575;
+  background-color: white;
+  z-index: 100;
 }
 
-main .items a .info {
+main .items .item a .info {
+  background-color: white;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -493,22 +518,50 @@ main .items a .info {
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding: 0rem 0.5rem 0.5rem 0.5rem;
+  z-index: 100;
+}
+
+main .loading {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: #448899;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 20vh;
+}
+
+main .loading img {
+  width: 5%;
+}
+
+main .loading .loadingTxt {
+  margin-top: 1rem;
 }
 
 @media screen and (max-width: 1200px) {
-  .item {
+  .item a {
     width: 44% !important;
   }
-  .item img {
+  .item a img {
     height: 25vh !important;
   }
 }
 
 @media screen and (max-width: 600px) {
-  .item {
+  .item a {
     width: 100% !important;
   }
-  .item img {
+  .item a img {
     height: 30vh !important;
   }
 }

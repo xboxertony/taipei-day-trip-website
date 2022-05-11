@@ -206,7 +206,6 @@ function onClick() {
 
     if (result.status !== 0) {
       popup("success", "<h3>請確認信用卡資訊是否正確</h3>");
-
       return;
     }
     var inputPrime = result.card.prime;

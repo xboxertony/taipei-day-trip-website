@@ -1,19 +1,46 @@
 let data = {};
 const main = document.querySelector("main");
 const items = document.querySelector(".items");
+const loading = document.querySelector(".loading");
+const loadingTxt = document.querySelector(".loadingTxt");
 
 let nextPage;
 let keyword;
+let isItemLoading = false;
 function load(d) {
+  isItemLoading = true;
+  loading.classList.remove("none");
+  let imgLoadCount = 0;
+  const item = document.createElement("div");
+  item.classList.add("item");
+  item.classList.add("none");
+
   try {
     for (let i = 0; i < d.length; i++) {
       const anchor = document.createElement("a");
-      // const item = document.createElement("div");
-      anchor.classList.add("item");
 
       const img = document.createElement("img");
-      anchor.appendChild(img);
       img.src = `${d[i].image[0]}`;
+      img.addEventListener("load", (event) => {
+        imgLoadCount = imgLoadCount + 1;
+
+        if (imgLoadCount === d.length) {
+          items.appendChild(item);
+          item.classList.remove("none");
+          loading.classList.add("none");
+          loadingTxt.textContent = `0%`;
+          isItemLoading = false;
+
+          if (!nextPage) {
+            loading.classList.add("none");
+          }
+        } else {
+          loadingTxt.textContent = `${Math.round(
+            (imgLoadCount / d.length) * 100
+          )}%`;
+        }
+      });
+      anchor.appendChild(img);
 
       const title = document.createElement("div");
       anchor.appendChild(title);
@@ -36,7 +63,7 @@ function load(d) {
 
       anchor.href = `/attraction/${d[i].id}`;
 
-      items.appendChild(anchor);
+      item.appendChild(anchor);
     }
   } catch (e) {
     return null;
@@ -44,13 +71,10 @@ function load(d) {
 }
 
 async function initialLoad() {
-  console.log("ini-loading");
-
   const response = await fetch("/api/attractions");
   const parsedData = await response.json();
   nextPage = parsedData.nextPage;
   data = parsedData.data;
-
   load(data);
 }
 
@@ -66,7 +90,7 @@ async function loadKeyword() {
   nextPage = parsedData.nextPage;
   data = parsedData.data;
   items.textContent = "";
-  load();
+  load(data);
 }
 
 keywordInput.addEventListener("click", (e) => {
@@ -78,7 +102,7 @@ keywordInput.addEventListener("click", (e) => {
 //------------for scroll to footer and load more----------------------------
 async function loadMore() {
   let url;
-  if (!nextPage) {
+  if (!nextPage || isItemLoading) {
     return;
   }
 
@@ -93,10 +117,10 @@ async function loadMore() {
   data = parsedData.data;
   load(data);
 }
-
+const vh = window.innerHeight;
 const options = {
   root: null,
-  rootMargin: "0px",
+  rootMargin: `-${vh - 64}px 20px 30px 40px`,
   threshold: 0.5,
 };
 

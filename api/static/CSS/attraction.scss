@@ -9,6 +9,7 @@ main {
 
   .content {
     width: 1200px;
+    padding: 1rem;
 
     .top {
       display: flex;
@@ -30,14 +31,27 @@ main {
           border-radius: 5px;
         }
 
-        .loading-gif {
-          position: relative;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 30%;
+        .loading {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
 
-          object-fit: fill;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          .loading-gif {
+            position: relative;
+            width: 20%;
+            object-fit: fill;
+          }
+
+          .loadingTxt {
+            margin-top: 1rem;
+            color: #448899;
+          }
         }
 
         .btn-leftArrow {
@@ -93,9 +107,10 @@ main {
           .price {
             display: inline-flex;
             align-items: center;
+            padding: 0.5rem;
 
             & * {
-              margin-right: 0.5rem;
+              padding-right: 0.5rem;
               accent-color: #448899;
             }
           }

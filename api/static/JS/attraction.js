@@ -4,6 +4,7 @@ let imagesNums;
 let current = 0;
 let url = window.location.href;
 let id = url.split("/")[4];
+let inputPrice;
 
 async function initialLoad() {
   console.log("ini-loading");
@@ -19,7 +20,6 @@ if (document.readyState === "loading") {
 }
 //-----------------------loading content-------------------------------
 const title = document.querySelector("title");
-// const image = document.querySelector(".image");
 const name = document.querySelector(".name");
 const info = document.querySelector(".info");
 //-------------------------------------------
@@ -31,7 +31,16 @@ const flowBox = document.querySelector(".flow-box");
 const leftBox = document.querySelector(".left-box");
 const rightFlow = document.querySelector(".btn-rightArrow");
 const leftFlow = document.querySelector(".btn-leftArrow");
-const loadingGIF = document.querySelector(".loading-gif");
+const loading = document.querySelector(".loading");
+const loadingTxt = document.querySelector(".loadingTxt");
+const map = document.querySelector("iframe");
+const inputTime = document.querySelector('input[name="time"]:checked');
+const priceTag = document.querySelector(".price-tag");
+
+if (inputTime) {
+  inputPrice = inputTime.value === "morning" ? 2000 : 2500;
+  priceTag.textContent = `新台幣 ${inputPrice} 元`;
+}
 
 function load(d) {
   title.textContent = d.name;
@@ -39,8 +48,9 @@ function load(d) {
   info.textContent = `${d.category} at ${d.mrt}`;
   description.textContent = d.description;
   address.textContent = d.address;
+  let addressStr = d.address.replace(/ /g, "");
+  map.src = `https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=${addressStr}&z=16&output=embed&t=`;
   transport.textContent = d.transport;
-
   //-----------------------img preload-------------------------
 
   images = d.image;
@@ -59,7 +69,7 @@ function load(d) {
       num = num + 1;
 
       if (num === arr.length) {
-        loadingGIF.classList.add("none");
+        loading.classList.add("none");
 
         const imgBoxes = document.querySelectorAll(".image");
         checkImage(imgBoxes, current);
@@ -78,7 +88,8 @@ function load(d) {
           checkCurrent(current);
         });
       } else {
-        loadingGIF.classList.remove("none");
+        loading.classList.remove("none");
+        loadingTxt.textContent = `${Math.round((num / arr.length) * 100)}%`;
       }
     });
 
@@ -126,43 +137,35 @@ function checkImage(arr, c) {
 //-------------------for price change------------------------
 const forenoon = document.querySelector(".morning");
 const afternoon = document.querySelector(".afternoon");
-const priceTag = document.querySelector(".price-tag");
 
 forenoon.addEventListener("input", (e) => {
+  inputPrice = 2000;
   priceTag.textContent = "新台幣 2000 元";
 });
 
 afternoon.addEventListener("input", (e) => {
+  inputPrice = 2500;
   priceTag.textContent = "新台幣 2500 元";
 });
 
 const bookBtn = document.querySelector(".book-btn");
 
 bookBtn.addEventListener("click", (e) => {
+  const dateBox = document.querySelector(".date");
+  const timeBox = document.querySelector(".time");
   const Date = document.querySelector(".input-date");
-  const inputTime = document.querySelector('input[name="time"]:checked');
   const inputDate = Date.value;
-  let inputPrice;
+
+  dateBox.style.backgroundColor = inputDate ? "" : "rgba(255, 128, 128, 0.3)";
+  timeBox.style.backgroundColor = inputPrice ? "" : "rgba(255, 128, 128, 0.3)";
 
   if (!inputDate) {
-    popup("success", "請選擇日期");
     return null;
-  } else if (!inputTime) {
-    popup("success", "請選擇時間");
+  } else if (!inputPrice) {
     return null;
   } else {
-    inputPrice = inputTime.value === "morning" ? 2000 : 2500;
-
     book();
   }
-
-  const overlay = document.querySelector(".overlay");
-  const authContainer = document.querySelector(".auth-container");
-
-  const messageInner = document.querySelector(".message-inner");
-  const alertMessage = document.querySelector(".alert");
-
-  const loginInner = document.querySelector(".login-inner");
 
   async function book() {
     const response = await fetch("/api/booking", {
@@ -187,9 +190,13 @@ bookBtn.addEventListener("click", (e) => {
         `
       );
     } else if (res.error) {
-      popup("return", res.message, () => {
-        location.reload();
-      });
+      if (res.message === "沒登入") {
+        authBtnLogin.click();
+      } else {
+        popup("return", res.message, () => {
+          location.reload();
+        });
+      }
     }
   }
 });

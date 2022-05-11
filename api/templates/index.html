@@ -109,6 +109,13 @@
 
     <main>
       <div class="items"></div>
+      <div class="loading">
+        <img
+          src="{{ url_for( 'static', filename = 'Images/loading.gif') }}"
+          alt=""
+        />
+        <div class="loadingTxt">0%</div>
+      </div>
     </main>
     {% endblock %}
 
