@@ -155,6 +155,7 @@ bookBtn.addEventListener("click", (e) => {
   const timeBox = document.querySelector(".time");
   const Date = document.querySelector(".input-date");
   const inputDate = Date.value;
+  const inputTime = document.querySelector('input[name="time"]:checked');
 
   dateBox.style.backgroundColor = inputDate ? "" : "rgba(255, 128, 128, 0.3)";
   timeBox.style.backgroundColor = inputPrice ? "" : "rgba(255, 128, 128, 0.3)";
