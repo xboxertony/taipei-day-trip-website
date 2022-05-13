@@ -9,8 +9,6 @@ Test account and password:
 <br/>
 <br/>
 
-![image](https://github.com/jenniehuang/Co-Edit/blob/master/Demo-v1.gif?raw=true)
-
 ## Table of Contents
 
 - [Main Features](#main-features)
