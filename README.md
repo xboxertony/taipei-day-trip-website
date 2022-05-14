@@ -1,9 +1,9 @@
 # [Taipei-day-trip-website](http://13.208.55.153:3000/)
 
-Taipei-day-trip-website is an e-commerce website allows you to find, compare, and book one-day sightseeing tours, attractions in Taipei city.
+Taipei-day-trip-website is an e-commerce website that allows you to find, compare, and book one-day sightseeing tours at attractions in Taipei city.
 <br/>
 
-This is my first project in the [WeHelp boot camp](https://training.pada-x.com/wehelp/), built with vanilla javascript and flask, and designed with designated [figma prototype](https://www.figma.com/file/CeFwqBSbNWZbWz2ih4YS6z) and [API documentation](https://app.swaggerhub.com/apis-docs/padax/taipei-trip/1.0.0), creating new PR after finished the feature, and merging to master branch after mentor's approval.
+This is my first project in the [WeHelp boot camp](https://training.pada-x.com/wehelp/), built with vanilla javascript and flask, and designed according to this [figma prototype](https://www.figma.com/file/CeFwqBSbNWZbWz2ih4YS6z) and [API documentation](https://app.swaggerhub.com/apis-docs/padax/taipei-trip/1.0.0).
 
 <br/>
 
@@ -31,13 +31,14 @@ Test account and password: ply@ply.com / 12345678
 
 ## Main Features
 
-- Member system, login and signup with password hashed.
-- Use keyword search related attractions.
+- Member system, login and signup.
+- Use keyword to search for related attractions.
 - Responsive Web Design.
-- Preloading image and carousel.
-- Order product and add to cart.
+- Infinite scroll/lazy loading.
+- Custom image carousel.
+- Shopping cart system.
 - Online payment system with [Tappay](https://github.com/TapPay).
-- Check out old order history.
+- Review order history.
 
 ## Backend Technique
 
@@ -62,11 +63,6 @@ Test account and password: ply@ply.com / 12345678
 
 - Git/GitHub
 
-### Key Points
-
-- socket.io
-- MVC Pattern
-
 ## Architecture
 
 - Server Architecture
@@ -80,7 +76,7 @@ Test account and password: ply@ply.com / 12345678
 ## Frontend Technique
 
 - HTML
-- CSS
+- CSS (SCSS)
 - Javascript
 
 ## API Doc
