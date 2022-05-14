@@ -2,6 +2,8 @@
 
 Taipei-day-trip-website is an e-commerce website allows you to find, compare, and book one-day sightseeing tours, attractions in Taipei city.
 <br/>
+Designed with designated [figma prototype](https://www.figma.com/file/CeFwqBSbNWZbWz2ih4YS6z) and [API documentation](https://app.swaggerhub.com/apis-docs/padax/taipei-trip/1.0.0), creating new PR after finished the feature, and merging to master branch after mentor's approval.
+<br/>
 <br/>
 🔗Website URL:
 <br/>
@@ -36,7 +38,7 @@ Test account and password:
 - Responsive Web Design.
 - Preloading image and carousel.
 - Order product and add to cart.
-- Online payment system with Tappay
+- Online payment system with [Tappay](https://github.com/TapPay).
 - Check out old order history.
 
 ## Backend Technique
@@ -76,6 +78,7 @@ Test account and password:
 ## Architecture
 
 - Server Architecture
+
   ![image](https://github.com/jenniehuang/taipei-day-trip-website/blob/main/taipei-day-trip%20archi.png?raw=true)
 
 ## Database Schema
