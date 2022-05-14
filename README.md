@@ -1,11 +1,10 @@
-# Taipei-day-trip-website
+# [Taipei-day-trip-website](http://13.208.55.153:3000/)
 
 Taipei-day-trip-website is an e-commerce website allows you to find, compare, and book one-day sightseeing tours, attractions in Taipei city.
 <br/>
 Designed with designated [figma prototype](https://www.figma.com/file/CeFwqBSbNWZbWz2ih4YS6z) and [API documentation](https://app.swaggerhub.com/apis-docs/padax/taipei-trip/1.0.0), creating new PR after finished the feature, and merging to master branch after mentor's approval.
 <br/>
-<br/>
-🔗Website URL:
+
 <br/>
 Test account and password:
 <br/>
@@ -23,7 +22,6 @@ Test account and password:
   - [Environment](#environment)
   - [Database](#database)
   - [Cloud Services](#cloud-services)
-  - [Networking](#networking)
   - [Version Control](#version-control)
 - [Architecture](#architecture)
 - [Database Schema](#database-schema)
@@ -54,12 +52,6 @@ Test account and password:
 ### Cloud Services
 
 - EC2
-
-### Networking
-
-- HTTP & HTTPS
-- Domain Name System (DNS)
-- SSL (Let's Encrypt)
 
 ### Third Party Library
 
