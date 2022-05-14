@@ -7,9 +7,11 @@ Taipei-day-trip-website is an e-commerce website allows you to find, compare, an
 <br/>
 Test account and password:
 <br/>
+<br/>
 
-![image](https://github.com/jenniehuang/taipei-day-trip-website/blob/main/demo0.png?raw=true)
+![image](https://github.com/jenniehuang/taipei-day-trip-website/blob/main/demo0.gif?raw=true)
 
+<br/>
 <br/>
 
 ## Table of Contents
