@@ -7,6 +7,9 @@ Taipei-day-trip-website is an e-commerce website allows you to find, compare, an
 <br/>
 Test account and password:
 <br/>
+
+![image](https://github.com/jenniehuang/taipei-day-trip-website/blob/main/demo0.png?raw=true)
+
 <br/>
 
 ## Table of Contents
@@ -26,9 +29,12 @@ Test account and password:
 
 ## Main Features
 
-- Member system, login and signup with password hashed
-- Use keyword search related attractions
+- Member system, login and signup with password hashed.
+- Use keyword search related attractions.
+- Responsive Web Design.
+- Preloading image and carousel.
 - Order product and add to cart.
+- Online payment system with Tappay
 - Check out old order history.
 
 ## Backend Technique
