@@ -2,7 +2,7 @@
 
 Taipei-day-trip-website is an e-commerce website allows you to find, compare, and book one-day sightseeing tours, attractions in Taipei city.
 <br/>
-Designed with designated [figma prototype](https://www.figma.com/file/CeFwqBSbNWZbWz2ih4YS6z) and [API documentation](https://app.swaggerhub.com/apis-docs/padax/taipei-trip/1.0.0), creating new PR after finished the feature, and merging to master branch after mentor's approval.
+This is my first project in the [WeHelp boot camp](https://training.pada-x.com/wehelp/), built with vanilla javascript and flask, and designed with designated [figma prototype](https://www.figma.com/file/CeFwqBSbNWZbWz2ih4YS6z) and [API documentation](https://app.swaggerhub.com/apis-docs/padax/taipei-trip/1.0.0), creating new PR after finished the feature, and merging to master branch after mentor's approval.
 <br/>
 
 <br/>
