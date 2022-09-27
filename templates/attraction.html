@@ -1,107 +1,165 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>台北一日遊</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="../static/css/attractionStyle.css" />
-  <link rel="stylesheet" href="../static/css/authenticationStyle.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
-</head>
-
-<body>
-  <header>
-    <a href="/" class="home">台北一日遊</a>
-    <nav class="nav">
-      <a id="bookingTour" onclick="loginOrBooking()">預定行程</a>
-      <a id="loginOrSignup"></a>
-      <input
-      id="memberIcon"
-      type="image"
-      onclick="toMemberPage()"
-      src="../static/images/icon_user.png"
+  <head>
+    <title>台北一日遊</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../static/css/attractionStyle.css" />
+    <link rel="stylesheet" href="../static/css/authenticationStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap"
+      rel="stylesheet"
     />
-    </nav>
-  </header>
-  <main>
-    <section id="photoGallery">
-      <img id="spotPhoto" src="" alt="" />
-      <input type="image" id="imgLeftBtn" onclick="preImgBtn()" src="../static/images/btn_leftArrow.png"
-        alt="btn_leftArrow" />
-      <input type="image" id="imgRightBtn" onclick="nextImgBtn()" src="../static/images/btn_rightArrow.png"
-        alt="btn_rightArrow" />
-      <div id="pageDots">
+  </head>
 
+  <body>
+    <header>
+      <a href="/" class="home">台北一日遊</a>
+      <nav class="nav">
+        <a id="bookingTour" onclick="loginOrBooking()">預定行程</a>
+        <a id="loginOrSignup"></a>
+        <input
+          id="memberIcon"
+          type="image"
+          onclick="toMemberPage()"
+          src="../static/images/icon_user.png"
+        />
+      </nav>
+    </header>
+    <main>
+      <section id="photoGallery">
+        <div class="slideshow-container">
+          <!-- <img id="spotPhoto" src="" alt="" /> -->
+        </div>
+        <input
+          type="image"
+          id="imgLeftBtn"
+          onclick="preImgBtn()"
+          src="../static/images/btn_leftArrow.png"
+          alt="btn_leftArrow"
+        />
+        <input
+          type="image"
+          id="imgRightBtn"
+          onclick="nextImgBtn()"
+          src="../static/images/btn_rightArrow.png"
+          alt="btn_rightArrow"
+        />
+        <div id="pageDots"></div>
+      </section>
+      <section id="reservation">
+        <p id="attractionTitle"></p>
+        <p id="attractionCateAndMrt"></p>
+        <div id="reservationTable">
+          <p id="reservationTableTitle">訂購導覽行程</p>
+          <p id="reservationTableSlogan">
+            以此景點為中心的一日行程，帶您探索城市角落故事
+          </p>
+          <form id="reservationFrom" action="/api/booking">
+            <input id="reservationId" type="hidden" name="attractionId" />
+            <label for="date"
+              ><b>選擇日期：</b>
+              <input type="date" id="inputDate" name="date" /> </label
+            ><br />
+            <fieldset>
+              <label for="time" id="labelTimeText"><b>選擇時間：</b></label>
+              <label for="morning" class="labelHelfDay">
+                <input
+                  type="radio"
+                  id="morningHelfBtn"
+                  class="inputRadio"
+                  onclick="changeTourFee()"
+                  name="time"
+                  value="morning"
+                />
+                上半天</label
+              >
+              <label for="afternoon" class="labelHelfDay">
+                <input
+                  type="radio"
+                  id="afternoonHelfBtn"
+                  class="inputRadio"
+                  onclick="changeTourFee()"
+                  name="time"
+                  value="afternoon"
+                />
+                下半天</label
+              ><br />
+            </fieldset>
+            <label for="price" id="labelFeeText"
+              ><b>導覽費用：</b>
+              <span id="tourFee">請選擇時段</span> </label
+            ><input type="hidden" id="tourPrice" name="price" /><br />
+            <input id="reservationBtn" type="submit" value="開始預訂行程" />
+          </form>
+        </div>
+      </section>
+      <hr id="horizon" />
+      <section id="attranctionInfo">
+        <p id="description"></p>
+        <div id="addressInfo">
+          <p id="addressTittle">景點地址：</p>
+          <p id="address"></p>
+        </div>
+        <div id="transportInfo">
+          <p id="transportTittle">交通方式：</p>
+          <p id="transport"></p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+    <div id="modal">
+      <div id="loginTable" class="modalContent">
+        <div class="authBody" id="loginBody" style="display: block">
+          <p class="modalTableTitle">登入會員帳號</p>
+          <button
+            type="button"
+            class="closeIconBtn"
+            onclick="closeModal()"
+          ></button>
+          <form
+            class="authForm"
+            id="loginForm"
+            action="/api/user"
+            method="PATCH"
+          >
+            <input
+              type="text"
+              id="loginEmail"
+              name="email"
+              placeholder="輸入電子信箱"
+              required
+            />
+            <input
+              type="password"
+              id="loginPassword"
+              name="password"
+              placeholder="輸入密碼"
+              required
+            />
+            <input type="submit" value="登入帳戶" />
+          </form>
+          <p class="showResult"></p>
+          <p id="toSignupText" class="loginOrSignupText">
+            還沒有帳戶？<span onclick="toggleAuthTable()" id="clickToSignup"
+              >點此註冊</span
+            >
+          </p>
+        </div>
       </div>
-    </section>
-    <section id="reservation">
-      <p id="attractionTitle"></p>
-      <p id="attractionCateAndMrt"></p>
-      <div id="reservationTable">
-        <p id="reservationTableTitle">訂購導覽行程</p>
-        <p id="reservationTableSlogan">以此景點為中心的一日行程，帶您探索城市角落故事</p>
-        <form id="reservationFrom" action="/api/booking">
-          <input id="reservationId" type="hidden" name="attractionId">
-          <label for="date"><b>選擇日期：</b>
-            <input type="date" id="inputDate" name="date" />
-          </label><br>
-          <fieldset>
-            <label for="time" id="labelTimeText"><b>選擇時間：</b></label>
-            <label for="morning" class="labelHelfDay">
-              <input type="radio" id="morningHelfBtn" class="inputRadio" onclick="changeTourFee()" name="time"
-                value="morning" />
-              上半天</label>
-            <label for="afternoon" class="labelHelfDay">
-              <input type="radio" id="afternoonHelfBtn" class="inputRadio" onclick="changeTourFee()" name="time"
-                value="afternoon" />
-              下半天</label><br />
-          </fieldset>
-          <label for="price" id="labelFeeText"><b>導覽費用：</b>
-            <span id="tourFee">請選擇時段</sapn>
-          </label><input type="hidden" id="tourPrice" name="price"><br>
-          <input id="reservationBtn" type="submit" value="開始預訂行程" />
-        </form>
-      </div>
-    </section>
-    <hr id="horizon" />
-    <section id="attranctionInfo">
-      <p id="description"></p>
-      <div id="addressInfo">
-        <p id="addressTittle">景點地址：</p>
-        <p id="address"></p>
-      </div>
-      <div id="transportInfo">
-        <p id="transportTittle">交通方式：</p>
-        <p id="transport"></p>
-      </div>
-    </section>
-  </main>
-  <footer>
-    <p>COPYRIGHT © 2021 台北一日遊</p>
-  </footer>
-  <div id="modal">
-    <div id="loginTable" class="modalContent">
-      <div class="authBody" id="loginBody" style="display: block;">
-        <p class="modalTableTitle">登入會員帳號</p>
-        <button type="button" class="closeIconBtn" onclick="closeModal()"></button>
-        <form class="authForm" id="loginForm" action="/api/user" method="PATCH">
-          <input type="text" id="loginEmail" name="email" placeholder="輸入電子信箱" required>
-          <input type="password" id="loginPassword" name="password" placeholder="輸入密碼" required>
-          <input type="submit" value="登入帳戶">
-        </form>
-        <p class="showResult"></p>
-        <p id="toSignupText" class="loginOrSignupText">還沒有帳戶？<span onclick="toggleAuthTable()"
-            id="clickToSignup">點此註冊</span></p>
-      </div>
-    </div>
-    <div id="signupTable" class="modalContent">
-      <div class="authBody" id="signupBody" style="display: none;">
-        <p class="modalTableTitle">註冊會員帳號</p>
-        <button type="button" class="closeIconBtn" onclick="closeModal()"></button>
-        <form class="authForm" id="signupForm" action="/api/user">
-          <input
+      <div id="signupTable" class="modalContent">
+        <div class="authBody" id="signupBody" style="display: none">
+          <p class="modalTableTitle">註冊會員帳號</p>
+          <button
+            type="button"
+            class="closeIconBtn"
+            onclick="closeModal()"
+          ></button>
+          <form class="authForm" id="signupForm" action="/api/user">
+            <input
               type="text"
               id="signupName"
               name="name"
@@ -127,17 +185,19 @@
               oninvalid="this.setCustomValidity('請輸入至少8碼英數字')"
               onchange="this.setCustomValidity('')"
               required
+            />
+            <input type="submit" value="註冊新帳戶" />
+          </form>
+          <p class="showResult"></p>
+          <p id="toLoginText" class="loginOrSignupText">
+            已經有帳戶？<span onclick="toggleAuthTable()" id="clickToLogin"
+              >點此登入</span
             >
-          <input type="submit" value="註冊新帳戶">
-        </form>
-        <p class="showResult"></p>
-        <p id="toLoginText" class="loginOrSignupText">已經有帳戶？<span onclick="toggleAuthTable()"
-            id="clickToLogin">點此登入</span></p>
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <script src="../static/js/attractonScript.js"></script>
-  <script src="../static/js/authentication.js"></script>
-</body>
-
+    <script src="../static/js/attractonScript.js"></script>
+    <script src="../static/js/authentication.js"></script>
+  </body>
 </html>

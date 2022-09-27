@@ -3,6 +3,7 @@ let url = `${windowUrl.protocol}//${windowUrl.host}/api/attractions/${
   windowUrl.pathname.split("/")[2]
 }`;
 let images;
+let index = 0;
 
 const parseAttractionsInfo = (data) => {
   let attraction = data.data;
@@ -17,6 +18,26 @@ const parseAttractionsInfo = (data) => {
   return { caption, mrt, category, address, description, transport };
 };
 
+const setRestrictedDate = () => {
+  let today = new Date();
+  let theDate = new Date();
+  theDate.setDate(today.getDate() + 1);
+  let dd = theDate.getDate();
+  let mm = theDate.getMonth() + 1;
+  let yyyy = theDate.getFullYear();
+
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+
+  theDate = yyyy + "-" + mm + "-" + dd;
+  document.getElementById("inputDate").min = theDate;
+};
+
 const renderInfo = (attraction) => {
   let { caption, mrt, category, address, description, transport } =
     parseAttractionsInfo(attraction);
@@ -27,10 +48,22 @@ const renderInfo = (attraction) => {
   document.getElementById("description").textContent = description;
   document.getElementById("address").textContent = address;
   document.getElementById("transport").textContent = transport;
-  document.getElementById("spotPhoto").src = images[0];
+  for (let i = 0; i < images.length; i++) {
+    const attractionImage = document.createElement("img");
+    const imageContainer = document.createElement("div");
+    document.querySelector(".slideshow-container").appendChild(imageContainer);
+    imageContainer.setAttribute("class", "image-container");
+    imageContainer.style.display = "none";
+    imageContainer.appendChild(attractionImage);
+    attractionImage.setAttribute("class", "spotPhoto");
+
+    attractionImage.src = images[i];
+  }
+  document.querySelector(".image-container").style.display = "block";
   generateDots(images);
   let dots = document.getElementById("pageDots").children;
-  dots[0].checked = true;
+  dots[index].checked = true;
+  setRestrictedDate();
 };
 
 const generateDots = (images) => {
@@ -47,11 +80,10 @@ const addDot = () => {
   dot.addEventListener("click", clickDotChangeImg);
 };
 
-const calIndex = (increment) => {
-  let pic = document.getElementById("spotPhoto");
-  let currentIndex = images.indexOf(pic.src);
-  let arrayLength = images.length;
-  let nextIndex = (currentIndex + increment + arrayLength) % arrayLength;
+const calIndex = (index, increment) => {
+  let imageContainers = document.querySelectorAll(".image-container");
+  let arrayLength = imageContainers.length;
+  let nextIndex = (index + increment + arrayLength) % arrayLength;
   return nextIndex;
 };
 
@@ -60,22 +92,24 @@ const checkedCurrentDot = (nextIndex) => {
   dots[nextIndex].checked = true;
 };
 const replaceImgSrc = (nextIndex) => {
-  let pic = document.getElementById("spotPhoto");
-  pic.src = images[nextIndex];
+  let imageContainers = document.querySelectorAll(".image-container");
+  imageContainers[index].style.display = "none";
+  imageContainers[nextIndex].style.display = "block";
   checkedCurrentDot(nextIndex);
+  index = nextIndex;
 };
 
 const clickDotChangeImg = (e) => {
   let dots = document.getElementById("pageDots").children;
-  let index = Array.prototype.indexOf.call(dots, e.target);
-  replaceImgSrc(index);
+  let dotIndex = Array.prototype.indexOf.call(dots, e.target);
+  replaceImgSrc(dotIndex);
 };
 
 const nextImgBtn = () => {
-  replaceImgSrc(calIndex(1));
+  replaceImgSrc(calIndex(index, 1));
 };
 const preImgBtn = () => {
-  replaceImgSrc(calIndex(-1));
+  replaceImgSrc(calIndex(index, -1));
 };
 
 const slideshow = () => {

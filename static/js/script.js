@@ -3,16 +3,8 @@ import { loading, removeLoading } from "./loadingScript.js";
 let attractionsInfo;
 let nextPage;
 
-const searchKeywordPressEnter = (e) => {
-  if (e.keyCode === 13) {
-    searchKeyword();
-  }
-};
-document
-  .getElementById("keywordInput")
-  .addEventListener("keydown", searchKeywordPressEnter);
-
 const searchKeyword = () => {
+  console.log("clicksearch");
   let keywordValue = document.getElementById("keywordInput").value;
   fetch(`/api/attractions?keyword=${keywordValue}`)
     .then((res) => res.json())
@@ -26,6 +18,18 @@ const searchKeyword = () => {
     .then(getNextPage)
     .catch(console.log);
 };
+document
+  .getElementById("searchKeywordBtn")
+  .addEventListener("click", searchKeyword);
+
+const searchKeywordPressEnter = (e) => {
+  if (e.keyCode === 13) {
+    searchKeyword();
+  }
+};
+document
+  .getElementById("keywordInput")
+  .addEventListener("keydown", searchKeywordPressEnter);
 
 let fetchFlag = true;
 const toggleFetchSwitch = () => {

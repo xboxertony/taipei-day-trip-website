@@ -112,7 +112,7 @@ const showLoginOrSignup = (data) => {
   }
 };
 const loginOrBooking = async () => {
-  const bookinBtn = document.getElementById("bookingTour");
+  const bookingBtn = document.getElementById("bookingTour");
   if (!(await isLogin())) {
     popupModal();
   } else {

@@ -36,11 +36,11 @@ const useContactInfo = async () => {
 const whichRender = async (data) => {
   let result = await isReservation();
   if (result == null) {
-    renderNoneBoonking();
+    renderNoneBooking();
   } else renderBookingPage(data);
 };
 
-const renderNoneBoonking = () => {
+const renderNoneBooking = () => {
   document.getElementById("tourImgAndInfo").style.display = "none";
   document.getElementById("paymentInfo").style.display = "none";
   document.getElementById("underBooking").style.display = "none";
