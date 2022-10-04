@@ -79,13 +79,11 @@ Test account and password: ply@ply.com / 12345678
 - CSS (SCSS)
 - Javascript
 
-## API Doc
-
-[API doc](https://app.swaggerhub.com/apis-docs/padax/taipei-trip/1.0.0)
 
 ## Contact
 
 👩‍💻Yu-ting, Huang
+<br/>
 <br/>
 
 📧Email: ting1236t19@gmail.com
