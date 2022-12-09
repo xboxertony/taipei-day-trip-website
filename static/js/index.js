@@ -2,7 +2,6 @@ function siteDiv(id,picture,spot,station,catagory){
     let a_tag = document.createElement('a')
 //
     a_tag.setAttribute('href', `/attraction/${id}`);
-
 //
     let site = document.createElement('div')
     site.className='site'
@@ -58,27 +57,27 @@ async function getValue(url){
             let data = await res.json()
             return data          
         }        
-    }catch(e){console.log('產生錯誤',e)}
+    }catch(e){console.log('error occur',e)}
 
 } 
 
 async function ajax(url){
 
-    console.log('fetch',url)
     while (true){
     let ajaxBack = await getValue(url)
-    console.log(ajaxBack,'ajaxBack')
-
     let d_list = ajaxBack['data']
     nextPage = ajaxBack['nextPage']
     document.querySelector(".frontPage").style.display = 'none'
 
-    
-
     if (Object.keys(d_list).length > 0) {
         for (let row of d_list ){
             let spotID = row['id'], spoturl = row['images'][0], spotname = row['name'], spotmrt = row['mrt'], spotcate = row['category'];
-            siteDiv(spotID, spoturl, spotname, spotmrt, spotcate)
+            siteDiv(spotID, spoturl, spotname, spotmrt, spotcate)// 製作各地旅遊景點方塊
+
+            let now_a_len = document.querySelectorAll('#ba3_id a').length
+            document.querySelectorAll('#ba3_id a')[now_a_len - 1].addEventListener('click',()=>{
+                document.getElementById("search").value  = ''
+            })
         }
 
         if (document.querySelector(".secondPage")){
@@ -88,27 +87,21 @@ async function ajax(url){
         break
     }
     else if (Object.keys(d_list).length === 0 && nextPage === null){
-        console.log('空值')
         emptyReply()
         break
     }
     else{
-        console.log(`ajax 有誤須重抓, nextPage是${nextPage}, d_list是${d_list}`)
     }
     }
-    console.log('ajaxDone')
 };
 
 
-console.log('- - - START LOADING - - -')
 
 window.addEventListener('scroll',()=>{
     let ajaxHeight = document.documentElement.scrollHeight;
     let deviseHeight= window.innerHeight
     let scrollable = ajaxHeight- deviseHeight
     let scrolled =document.documentElement.scrollTop
-
-    console.log('捲動',ajaxHeight,deviseHeight,scrollable,',',scrolled )
     if (scrolled + 100 >= scrollable){
         if (nextPage){
             
@@ -116,9 +109,7 @@ window.addEventListener('scroll',()=>{
             else{
                 nexturl = `/api/attractions/?keyword=${document.getElementById("search").value}&page=${nextPage}`
             }
-            console.log('go to',nexturl)
             if (record.includes(nextPage)){
-                console.log('已送出連線不再重覆發送',nextPage)
             }
             else{
                 if (nexturl.includes("page=")){// 代表它非首頁ajax
@@ -139,12 +130,11 @@ window.addEventListener('scroll',()=>{
             }
         
         }
-        else{console.log('end')}
+        else{}
     }
 })
 
 function search_func(){
-    console.log('輸入景點名稱',document.getElementById("search").value)
     nexturl = `/api/attractions/?keyword=${document.getElementById("search").value}`
     record = []; /*清空之前搜尋紀錄*/
     ba3_id.innerHTML = '' /*清空之前載入景點*/
@@ -166,3 +156,4 @@ document.getElementById("magnify").addEventListener('click', search_func)
 
 //載入頁面
 setTimeout("ajax('/api/attractions')",700);
+

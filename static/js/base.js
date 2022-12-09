@@ -26,7 +26,6 @@ function logout(){
       .then(response => response.json()) // 輸出成 json
       .catch(error => console.error('Error:', error))
       .then(function(dict){
-        console.log('DELETE /api/user 回傳值',dict)
         window.location.reload()
     });
 }
@@ -38,12 +37,10 @@ function close(){
 
 function hover(i){
     document.querySelectorAll(".another")[i].style.fontWeight = 'bold';
-    console.log(i,'hover')
 }
 
 function hoverout(i){
     document.querySelectorAll(".another")[i].style.fontWeight = 'normal';
-    console.log(i,'hoverout')
 }
 
 function prompt(i){
@@ -78,7 +75,6 @@ function prompt(i){
                 })
             .catch(error => console.error('Error:', error))
             .then(function(dict){
-                console.log('PATCH /api/user 回傳值',dict)
                 if ('ok' in dict){
                     window.location.reload()
                 }
@@ -107,7 +103,6 @@ function prompt(i){
                 })
             .catch(error => console.error('Error:', error))
             .then(function(dict){
-                console.log('POST /api/user 回傳值',dict)
                 document.querySelector(".register").style.height = '364px';
                 prompt_list[i].style.display = 'flex';
                 if ('ok' in dict){
@@ -143,8 +138,6 @@ function RegisterToLogin(){
 function validate(target){
     let ta_name = target.name
     let at_i = parseInt(target.parentNode.getAttribute('data').substring('4'))
-
-    console.log(at_i,`驗證 ${ta_name}`)
     if(ta_name == 'email'){
         if(target.value.match(pat_email)){
             document.querySelectorAll('.valid')[at_i].style.display ='block'
@@ -202,7 +195,6 @@ function focus(){
     for (let j = 0; j < form_list.length; j++) {
         prompt_list[j].style.display = 'none';
     }
-    console.log('聚焦')
 }
 
 
@@ -222,23 +214,21 @@ function fetchGet_in(para){
         console.error('GET token /api/user 錯誤 >>', error)
     })
     .then(function(dict){
-        console.log('GET token /api/user 回傳值',dict)
         if (typeof(dict) === 'object'){
             if (dict['data'] === false || dict['data'] === null){
                document.getElementById("upright").innerHTML ='登入/註冊'  
                document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-               console.log('invalid token, clean cookie',document.cookie.length)
             }
             else if (typeof(dict['data'] === 'object') ){
                 document.getElementById("upright").innerHTML ='登出系統' 
                 userName = dict['data']['name'],  userEmail = dict['data']['email']
             }
             else{
-                console.log('!!!其他不明情況一', dict, typeof(dict))
+                console.log('unknown problem', dict, typeof(dict))
             }
         }
         else{
-            console.log('!!!其他不明情況二',dict, typeof(dict))
+            console.log('unknown problem',dict, typeof(dict))
         }
     });
 }
@@ -254,7 +244,6 @@ function fetchGet_out(){
             console.error('GET /api/user Error:', error)
         })
         .then(function(dict){
-            console.log('GET /api/user 回傳值',dict)
             if (dict['data'] === false || dict['data'] === null){
                document.getElementById("upright").innerHTML ='登入/註冊' 
             }
@@ -312,7 +301,6 @@ if (document.cookie.includes('access_token')){
 
     // take token out
     const myArray = document.cookie.split(";");
-    console.log('Token Array',myArray)
     for (let i = 0 ;i < myArray.length; i++){
         if (myArray[i].includes('access_token')){
             access_token = myArray[i].replace('access_token=','').replace(/\s/g,'')
@@ -324,8 +312,6 @@ if (document.cookie.includes('access_token')){
 else{
     document.getElementById("book").addEventListener('click',login)
     document.getElementById("upright").addEventListener('click',login)
-
-    console.log('no Token Array',document.cookie.split(";"))
     fetchGet_out()
 }
 

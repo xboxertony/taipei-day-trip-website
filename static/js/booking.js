@@ -1,15 +1,9 @@
-//未登入情況
-console.log('正在booking...', userName , userEmail)
-
-
 async function cancel(){
     let dict = await getFetch("/api/booking",'DELETE')
-    console.log('DELETE token /api/booking 回傳值',dict)
     if ('ok' in dict){
         window.location.reload()
     }
     else{
-        console.log('無法取消行程並重整頁面')
     }
 }
 
@@ -20,12 +14,10 @@ async function getFetch(url,method){
                 let data = await res.json() 
                 return data          
             }        
-    }catch(e){console.log('GET token /api/booking 錯誤 >>', e)};
+    }catch(e){console.log('GET token /api/booking error >>', e)};
 }
 
 async function bookGet(){
-    console.log('booking完畢', userName !== undefined, userEmail !== undefined)
-
     //清空form表單內容
     for (let i = 0; i < Bform_list.length; i++){
         Bform_list[i].reset()
@@ -36,40 +28,34 @@ async function bookGet(){
     }
     else if (userName === undefined || userEmail === undefined){
             let dict = await getFetch("/api/user",'GET')
-            console.log('booking 重抓 !!! GET token /api/user 回傳值',dict)
             if (typeof(dict) === 'object'){
                 if (dict['data'] === false || dict['data'] === null){
                    document.getElementById("upright").innerHTML ='登入/註冊'  
                    document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                   console.log('invalid token, clean cookie',document.cookie.length)
                 }
                 else if (typeof(dict['data'] === 'object') ){
                     document.getElementById("upright").innerHTML ='登出系統' 
                     userName = dict['data']['name'],  userEmail = dict['data']['email']
                 }
                 else{
-                    console.log('!!!其他不明情況一', dict, typeof(dict))
+                    console.log('unknown problem', dict, typeof(dict))
                 }
             }
             else{
-                console.log('!!!其他不明情況二',dict, typeof(dict))
+                console.log('unknown problem',dict, typeof(dict))
             }
     }
     ////
     let dict = await getFetch("/api/booking",'GET')
-    console.log('GET token /api/booking 回傳值',dict)
     document.querySelector('.Bheader').innerHTML =`您好，${userName}，待預訂的行程如下：`
 
     if(dict['data'] === false){
-       console.log('Token 已過期，必須回到首頁')
        window.location.href = "/"
     }
 
     else if(dict['data'] === null){
         document.getElementById("load").remove()
         document.querySelector('.whole').style.display = 'block'
-
-        console.log(dict['data'],'無預定紀錄')
         document.querySelector('.noData').style.display = 'block'
         document.querySelector('.Bsection').style.display = 'none'
         document.querySelector('.Bconfirm').style.display = 'none'
@@ -91,9 +77,6 @@ async function bookGet(){
     else if (typeof(dict['data'] === 'Object')){////主要程式碼
         document.getElementById("load").remove()
         document.querySelector('.whole').style.display = 'block'
-
-        console.log(dict['data'],'有預定紀錄')
-
         attId = dict['data']['attraction']['id'], attName = dict['data']['attraction']['name'] 
         attAddress = dict['data']['attraction']['address'], attImage = dict['data']['attraction']['image']
         attDate = dict['data']['date'], attPrice = dict['data']['price'], attTime = dict['data']['time']
@@ -142,8 +125,7 @@ async function bookGet(){
     }////主要程式碼
 
     else{
-        console.log('bookGet有不明情況')
-
+        console.log('bookGet unknown problem')
     }
 };
 
@@ -222,7 +204,6 @@ function clickPay(event) {
         // send prime to your server, to pay with Pay by Prime API .
         // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
 
-        console.log(result.card.prime,'Prime')
         let payDt={
             "prime": result.card.prime,
             "order": {
@@ -263,16 +244,12 @@ function sendPrimetoBack(payDt){
             })
         .catch(error => console.error('Error:', error))
         .then(function(dict){
-            console.log('POST /api/orders 回傳值',dict)
             if ('message' in dict){
                 alert(dict['message'])
             }
-
             else{
                 let number= dict['data']['number'], msg = dict['data']['payment']['message']
-                console.log(number,msg)
                 window.location.href = `/thankyou?number=${number}`;
             }
-
         });   
 }

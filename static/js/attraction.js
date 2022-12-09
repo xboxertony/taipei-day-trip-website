@@ -32,11 +32,10 @@ async function getValue(url){
             let data = await res.json() // res.json() is a promise so we should wait until fullfilled. data is the value we want.
             return data          
         }        
-    }catch(e){console.log('產生錯誤',e)}
+    }catch(e){console.log('error occur',e)}
 } 
 
 async function loadItem(url){
-    console.log('fetch',url)
     let ajaxBack = await getValue(url)
     let data = ajaxBack['data']
     let name = data['name'], cate = data['category'], descp = data['description'], address = data['address'], transport = data['transport']
@@ -44,11 +43,8 @@ async function loadItem(url){
 
     document.title = name
     makeDiv(name, cate, descp, address, transport, mrt,images)
-    console.log(`${name}, ${cate}, ${mrt}`)
-    console.log('loadItem done')
-
-
 };
+
 function first (){
     if (!document.getElementById('A')&& !document.getElementById('B')){
         let _1span = document.createElement('span')
@@ -117,13 +113,8 @@ function setTimer(){
 
 // 輪播函式
 async function animation(){
-    console.log(`Now url is ${window.location.href}`)
     siteId = parseInt(window.location.href.split('/').at(-1))
-
     await loadItem(`/api/attraction/${siteId}`)
-
-
-
     allBoxes = slider_main.children
     dot_list = slider_index.children
     //
@@ -133,28 +124,23 @@ async function animation(){
         //綁定圓點與圖片，點擊時圓點變黑，背景圖也要切換。圓點與背景圖索引序號需相同
         dot_list[i].addEventListener('click',function(){
             num = parseInt(this.getAttribute('data'))
-            console.log('click',num)
             change(num)
         })
     }
     //游標點擊事件: 獲取右箭頭，綁定事件
     next.addEventListener('click',function(){
-        console.log('leave',num)
         num++;
         if (num === allBoxes.length){
             num = 0
         }
-        console.log('to next',num)
         change(num)
     })
     //游標點擊事件: 獲取左箭頭，綁定事件
     prev.addEventListener('click',function(){
-        console.log('leave',num)
         num--;
         if (num === -1){
             num = allBoxes.length-1
         }
-        console.log('to prev',num)
         change(num)
     })
 
@@ -162,21 +148,17 @@ async function animation(){
     //電腦游標
     slider_main.addEventListener('mousemove',function(){
         this.style.cursor = 'grab';
-        console.log('in',num)
         clearInterval(timer);
     })
     slider_main.addEventListener('mouseout',function(){
-        console.log('out',num)
         setTimer()
     })
     //手機觸控
     slider_main.addEventListener('touchstart',function(){
         this.style.cursor = 'grab';
-        console.log('in',num)
         clearInterval(timer);
     })
     slider_main.addEventListener('touchend',function(){
-        console.log('out',num)
         setTimer()
     })
 
@@ -229,7 +211,6 @@ function greenBtn(){
                 })
             .catch(error => console.error('Error:', error))
             .then(function(dict){
-                console.log('POST /api/booking 回傳值',dict)
                 window.location.href ='/booking'
             });
     }
@@ -259,7 +240,6 @@ tomorrow = tomorrow.toISOString().slice(0, 10);
 document.getElementById('date').setAttribute('min',tomorrow)
 
 //選擇上半、下半天方案
-console.log('GO !')
 document.getElementById('_1pick').addEventListener('click',first)
 document.getElementById('_2pick').addEventListener('click',second)
 window.onload = first

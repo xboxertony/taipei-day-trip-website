@@ -1,12 +1,14 @@
 import json, os, mysql.connector
+from dotenv import load_dotenv
+load_dotenv()
 
-## connect to database
+## connect to RDS's database
 connection = mysql.connector.connect(
-    host ='localhost',
+    host =os.getenv('DB_HOST'),
     port ='3306',
-    user = os.environ.get('DB_USER'),
-    password = os.environ.get('DB_PASSWORD'),
-    database = 'TPE_trip'
+    user = os.getenv('DB_USERNAME'),
+    password = os.getenv('DB_PASSWORD'),
+    database = 'tpe_trip'
 )
 cursor = connection.cursor()
 

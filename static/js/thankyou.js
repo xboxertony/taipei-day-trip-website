@@ -1,7 +1,4 @@
 var orderNumber = window.location.href.split('number=').at(-1)
-
-console.log(orderNumber,'access_token:',access_token)
-
 async function getFetch(headers){
     try{
             let res =  await fetch(`/api/orders?number=${orderNumber}`,{'headers': headers})
@@ -9,7 +6,7 @@ async function getFetch(headers){
                 let data = await res.json() 
                 return data          
             }        
-    }catch(e){console.log('GET token /api/booking 錯誤 >>', e)};
+    }catch(e){console.log('GET token /api/booking error >>', e)};
 }
 
 async function thankyou(){
@@ -19,7 +16,6 @@ async function thankyou(){
         'Authorization': `Bearer ${access_token}`
     }
     let dict = await getFetch(headers)
-    console.log('GET /api/orders 回傳值',dict)
     if ('data' in dict){
 
         if (dict['data'] === null){
@@ -29,7 +25,6 @@ async function thankyou(){
             window.location.href = "/";
         }
         else{
-            console.log('感謝頁面有不明原因一',dict['data'])  
         }
     }
     else if('number' in dict){
@@ -51,7 +46,7 @@ async function thankyou(){
 
     }
     else{
-        console.log('感謝頁面有不明原因二',dict)
+        console.log('unknown problem',dict)
         document.querySelector('.message').innerHTML= `${dict['message']}`
     }
     document.querySelector('.load').style.display = 'none'
@@ -73,7 +68,6 @@ else{
             'Accept': 'application/json',
         }
         let dict = await getFetch(headers)
-        console.log('GET /api/orders 回傳值',dict)   
         window.location.href = "/";
     }
     toHome()

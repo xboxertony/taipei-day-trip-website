@@ -15,10 +15,10 @@ api = Blueprint('api',__name__)
 
 load_dotenv()
 dbconfig = {
-"host":'localhost',
+"host":os.getenv('DB_HOST'),
 "port":'3306',
 "database":'tpe_trip',
-"user": os.getenv('DB_USER'),
+"user": os.getenv('DB_USERNAME'),
 "password": os.getenv('DB_PASSWORD')
 }
 pool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "mypool", pool_size = 5, **dbconfig) #create a pool which connect with DB
@@ -283,7 +283,6 @@ def book_post():
         cursor = CN1.cursor()
         if request.method =='POST': #預定行程
             attractionId, date ,time, price = request.get_json()['attractionId'], request.get_json()['date'], request.get_json()['time'], request.get_json()['price']
-
             decrypt = get_jwt_identity()
             if decrypt is None:
                 data = {"error": True,"message": "您尚未登入，無法作業"}
