@@ -250,7 +250,13 @@ function fetchGet_out(){
         });  
 }
 
+//顯示copyright西元年
+function createYear(){
+    let Today=new Date();
+    document.querySelector('#footer span').innerHTML=Today.getFullYear();
+}
 
+createYear()
 let pat_email = /^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
 let pat_password = /^[\w]{4,8}$/
 let pat_name = /^([a-zA-Z0-9_]{3,8}|[\u4e00-\u9fa5]{2,8})$/
