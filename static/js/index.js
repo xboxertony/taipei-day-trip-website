@@ -65,6 +65,7 @@ async function ajax(url){
 
     while (true){
     let ajaxBack = await getValue(url)
+    console.log(ajaxBack,url)
     let d_list = ajaxBack['data']
     nextPage = ajaxBack['nextPage']
     document.querySelector(".frontPage").style.display = 'none'
