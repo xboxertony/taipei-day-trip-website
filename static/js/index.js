@@ -86,7 +86,7 @@ async function ajax(url){
 
         break
     }
-    else if (Object.keys(d_list).length === 0 && nextPage === null){
+    else if (Object.keys(d_list).length === 0 && nextPage === null && document.querySelector('#ba3_id a') === null ){
         emptyReply()
         break
     }

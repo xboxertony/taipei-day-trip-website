@@ -258,7 +258,7 @@ function createYear(){
 
 createYear()
 let pat_email = /^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
-let pat_password = /^[\w]{4,8}$/
+let pat_password = /^[\w]{4,12}$/
 let pat_name = /^([a-zA-Z0-9_]{3,8}|[\u4e00-\u9fa5]{2,8})$/
 
 let form_list = document.querySelector(".window").getElementsByTagName('form')
