@@ -44,7 +44,6 @@ hr{
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
-    line-height: 24px;
     letter-spacing: 0em;
     text-align: left;
 }
@@ -54,7 +53,6 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
 
@@ -78,10 +76,8 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
-
     padding-top: 15px;
 }
 .txt2{
@@ -90,7 +86,6 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
     padding-top: 15px;
@@ -110,10 +105,8 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
-
     margin-right: 5px;
 }
 .txtC{
@@ -122,7 +115,6 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
 }
@@ -161,7 +153,6 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
 }
@@ -194,7 +185,6 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
     margin-left: 5px;
@@ -217,13 +207,10 @@ hr{
 }
 
 #btn span{
-    height: 16px;
     width: 114px;
-
     font-size: 19px;
     font-style: normal;
     font-weight: 400;
-    line-height: 16px;
     letter-spacing: 0em;
     text-align: center;
     color: #FFFFFF;
@@ -250,7 +237,6 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 23px;
     letter-spacing: 0em;
     text-align: left;
 }
@@ -260,16 +246,12 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
     margin-top: 20px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-
-    /* display: table-cell;
-    vertical-align: bottom; */
 }
 
 
@@ -278,7 +260,6 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 23px;
     letter-spacing: 0em;
     text-align: left;
 }
@@ -287,7 +268,6 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 23px;
     letter-spacing: 0em;
     text-align: left;
 }
@@ -308,7 +288,6 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
     color: white;
@@ -457,7 +436,6 @@ hr{
         font-size: 24px;
         font-style: normal;
         font-weight: 700;
-        line-height: 24px;
         letter-spacing: 0em;
         text-align: left;
 
@@ -468,7 +446,6 @@ hr{
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
-        line-height: 13px;
         letter-spacing: 0em;
         text-align: left;
     }
@@ -484,10 +461,8 @@ hr{
         font-size: 16px;
         font-style: normal;
         font-weight: 700;
-        line-height: 13px;
         letter-spacing: 0em;
         text-align: left;
-    
         padding-top: 15px;
     }
 
@@ -497,7 +472,6 @@ hr{
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
-        line-height: 23px;
         letter-spacing: 0em;
         text-align: left;
     }

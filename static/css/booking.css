@@ -32,11 +32,9 @@
     width: 980px;
     margin: 0 auto;
     margin-bottom: 30px;
-
     font-size: 19px;
     font-style: normal;
     font-weight: 700;
-    line-height: 16px;
     letter-spacing: 0em;
     text-align: left;
 }
@@ -44,11 +42,9 @@
     height: 24px;
     width: 980px;
     margin: 0 auto;
-
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
     display: none;
@@ -81,10 +77,8 @@
     height: 30px;
     font-size: 16px;
     font-weight: 700;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
-    
     color: rgba(68, 136, 153, 1);
     padding-bottom: 15px;
 }
@@ -93,10 +87,8 @@
     height: 24px;
     font-size: 16px;
     font-weight: 400;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
-
     color: rgba(102, 102, 102, 1);
     padding-bottom: 10px;
 }
@@ -114,10 +106,8 @@
 
 form div:first-child{
     height: 24px;
-
     font-size: 19px;
     font-weight: 700;
-    line-height: 16px;
     letter-spacing: 0em;
     text-align: left;
     color:rgba(102, 102, 102, 1);
@@ -130,10 +120,8 @@ form div:first-child{
 }
 .Bcontact div:last-child{
     height: 24px;
-
     font-size: 16px;
     font-weight: 700;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
     color:rgba(102, 102, 102, 1);  
@@ -144,7 +132,6 @@ form div {
     height: 38px;
     font-size: 16px;
     font-weight: 400;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
     color:rgba(102, 102, 102, 1);  
@@ -157,15 +144,11 @@ form input{
     border-radius: 5px;
     padding: 10px;
     box-sizing: border-box;
-
-
     font-size: 16px;
     font-weight: 400;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
     color: black;
-    
 }
 
 hr{
@@ -207,7 +190,6 @@ hr{
     height: 24px;
     font-size: 16px;
     font-weight: 400;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
     color: rgba(102, 102, 102, 1);
@@ -237,25 +219,20 @@ hr{
     height: 20px;
     width: 174px;
     margin-right: 0px;
-
     font-size: 16px;
     font-weight: 700;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: right;
-
     color:rgba(102, 102, 102, 1);
 }
 .confirmBtn{
     margin: 22px auto 22px auto;
-
     height: 36px;
     width: 173px;
     border-radius: 5px;
     background-color: rgba(68, 136, 153, 1);
     font-size: 19px;
     font-weight: 400;
-    line-height: 16px;
     letter-spacing: 0em;
     text-align: center;
     color: white;
@@ -287,7 +264,6 @@ hr{
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
-    line-height: 13px;
     letter-spacing: 0em;
     text-align: left;
     color: #FFFFFF;    
@@ -337,7 +313,6 @@ hr{
     }
     .Bcontact div:last-child{
         height: 48px;
-        line-height: 23px;
     }
     .Bpayment{
         width: 340px;
@@ -345,7 +320,4 @@ hr{
     .Bconfirm{
         width: 340px;
     }
-
-
-
 }
