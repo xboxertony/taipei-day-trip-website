@@ -22,10 +22,11 @@ function login() {
 }
 
 function logout() {
-  fetch('/api/user', { method: 'DELETE' })
+  fetch('/api/user', { method: 'DELETE'})
     .then((response) => response.json()) // 輸出成 json
     .catch((error) => console.error('Error:', error))
     .then(function (dict) {
+      document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
       window.location.reload()
     })
 }

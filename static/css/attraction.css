@@ -136,6 +136,7 @@ hr{
     padding-left: 10px;
     padding-right: 10px;
     border: none;
+    background-color: white !important;
 }
 .half{
     height: 22px;
