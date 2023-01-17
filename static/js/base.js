@@ -1,3 +1,6 @@
+var nextPage, nexturl
+var record = []
+
 function clean() {
   for (let i = 0; i < form_list.length; i++) {
     form_list[i].reset()
@@ -255,9 +258,13 @@ function createYear() {
 }
 
 createYear()
-let pat_email = /^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
-let pat_password = /^[\w]{4,12}$/
-let pat_name = /^([a-zA-Z0-9_]{3,8}|[\u4e00-\u9fa5]{2,8})$/
+let pat_email_O = /^([\w]+)@([\w]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
+let pat_password_O = /^[\w]{4,12}$/
+let pat_name_O = /^([a-zA-Z0-9_]{3,8}|[\u4e00-\u9fa5]{2,8})$/
+//
+let pat_email = new RegExp('^([\\w]+)@([\\w]+)\\.([a-z]{2,8})(\\.[a-z]{2,8})?$')
+let pat_password = new RegExp('^[\\w]{4,12}$')
+let pat_name = new RegExp('^([a-zA-Z0-9_]{3,8}|[\u4e00-\u9fa5]{2,8})$')
 
 let form_list = document.querySelector('.window').getElementsByTagName('form')
 let prompt_list = document.querySelectorAll('.prompt')

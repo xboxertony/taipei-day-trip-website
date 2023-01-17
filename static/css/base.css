@@ -185,10 +185,10 @@ label{
 }
 
 .window ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    height: 17px;
+    height: 18px;
     width: 280px;
     padding: 15px;
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
     letter-spacing: 0em;

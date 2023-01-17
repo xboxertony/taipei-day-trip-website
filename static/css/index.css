@@ -80,14 +80,14 @@
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    height: 16px;
+    height: 18px;
     width: 370px;
     padding:15px;
     border: none;
     outline:none;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 700;
     letter-spacing: 0em;

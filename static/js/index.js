@@ -78,11 +78,11 @@ async function ajax(url) {
         siteDiv(spotID, spoturl, spotname, spotmrt, spotcate) // 製作各地旅遊景點方塊
 
         let now_a_len = document.querySelectorAll('#ba3_id a').length
-        document
-          .querySelectorAll('#ba3_id a')
-          [now_a_len - 1].addEventListener('click', () => {
-            document.getElementById('search').value = ''
-          })
+        // document
+        //   .querySelectorAll('#ba3_id a')
+        //   [now_a_len - 1].addEventListener('click', () => {
+        //     document.getElementById('search').value = ''
+        //   })
       }
 
       if (document.querySelector('.secondPage')) {
@@ -140,19 +140,20 @@ window.addEventListener('scroll', () => {
 })
 
 function search_func() {
-  nexturl = `/api/attractions/?keyword=${
-    document.getElementById('search').value
-  }`
-  record = [] /*清空之前搜尋紀錄*/
-  ba3_id.innerHTML = '' /*清空之前載入景點*/
-  //跑出loading gif
-  document.querySelector('.frontPage').style.display = 'flex'
-  //載入頁面
-  setTimeout('ajax(`${nexturl}`)', 700)
+  if (document.querySelector('.frontPage').style.display === 'none' && document.querySelector('.secondPage') === null){ //畫面沒有在loading時才能點擊成功
+    nexturl = `/api/attractions/?keyword=${
+      document.getElementById('search').value
+    }`
+    record = [] /*清空之前搜尋紀錄*/
+    ba3_id.innerHTML = '' /*清空之前載入景點*/
+    //跑出loading gif
+    document.querySelector('.frontPage').style.display = 'flex'
+    //載入頁面
+    setTimeout('ajax(`${nexturl}`)', 700)
+  }
 }
 
-var nextPage, nexturl
-var record = []
+
 var ba3_id = document.getElementById('ba3_id'),
   box3 = document.querySelector('.box3')
 
