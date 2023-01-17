@@ -63,10 +63,15 @@ async function getValue(url) {
 
 async function ajax(url) {
   while (true) {
+    if (url === '/api/attractions'){
+      document.getElementById('search').value = ''
+    }
+    //
     let ajaxBack = await getValue(url)
     let d_list = ajaxBack['data']
     nextPage = ajaxBack['nextPage']
     document.querySelector('.frontPage').style.display = 'none'
+
 
     if (Object.keys(d_list).length > 0) {
       for (let row of d_list) {
